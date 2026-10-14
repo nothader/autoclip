@@ -67,7 +67,7 @@ const CAMS = {
   aerial:      { pos: [0, 26, 14],       look: [0, 0, -14],    fov: 48 },
   far:         { pos: [3, 9, 42],        look: [0, 1.5, 0],    fov: 34 },
   orbit:       { pos: [0, 2.2, 6.5],     look: [0, 1.1, 0],    fov: 46 },
-  establishing:{ pos: [14, 13, 34],      look: [0, 7, -40],    fov: 44 },
+  establishing:{ pos: [3, 13, 34],       look: [0, 7, -40],    fov: 44 },
   pov:         { pos: [0.4, 1.65, 3],    look: [0, 1.5, -10],  fov: 55 },
   top_down:    { pos: [0, 46, 2],        look: [0, 0, -2],     fov: 45 },
   dolly:       { pos: [1.5, 1.9, 9],     look: [0, 1.3, -6],   fov: 48 },
