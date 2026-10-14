@@ -296,6 +296,92 @@ def cmd_mcp(args: argparse.Namespace) -> int:
     return mcp_main()
 
 
+# ---------------------------------------------------------------- whatif ---
+def _whatif_out(args: argparse.Namespace, title: str) -> Path:
+    if getattr(args, "output", None):
+        return Path(args.output).expanduser().resolve()
+    from backend.core.path_utils import get_data_directory
+    from backend.whatif.pipeline import slugify
+    return get_data_directory() / "whatif" / f"{slugify(title)}.mp4"
+
+
+def _whatif_progress(as_json: bool):
+    last = {"k": None}
+
+    def cb(stage: str, done: int, total: int) -> None:
+        if as_json:
+            return
+        key = (stage, done * 20 // max(1, total))
+        if key == last["k"]:
+            return
+        last["k"] = key
+        label = {"audio": "声音", "frames": "画面", "voice": "旁白"}.get(stage, stage)
+        print(_dim(f"  {label} {done}/{total}"), file=sys.stderr)
+    return cb
+
+
+def _whatif_plan(args: argparse.Namespace):
+    from backend.services.local_runner import configure_llm
+    from backend.whatif.planner import plan_storyboard
+    info = configure_llm(_llm_override(args))
+    if not args.json:
+        print(_dim(f"写分镜：{info.get('provider')} · {info.get('model')}"), file=sys.stderr)
+    return plan_storyboard(args.premise, notes=args.notes or "", fmt=getattr(args, "format", None))
+
+
+def cmd_whatif(args: argparse.Namespace) -> int:
+    from backend.whatif.model import PlanError
+    from backend.whatif.pipeline import load_storyboard, make_video, slugify
+
+    try:
+        if args.whatif_cmd == "plan":
+            sb = _whatif_plan(args)
+            out = Path(args.output) if args.output else _whatif_out(args, sb.title).with_suffix(".json")
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(json.dumps(sb.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+            print(json.dumps({"ok": True, "storyboard": str(out), "title": sb.title}, ensure_ascii=False) if args.json
+                  else f"分镜已写入 {out}\n下一步：autoclip whatif render {out}")
+            return 0
+
+        if args.whatif_cmd == "examples":
+            from backend.whatif.planner import EXAMPLE_PATH
+            for p in sorted(EXAMPLE_PATH.parent.glob("*.json")):
+                print(p)
+            return 0
+
+        if args.whatif_cmd == "render":
+            sb = load_storyboard(Path(args.storyboard))
+        else:  # make
+            sb = _whatif_plan(args)
+        out = _whatif_out(args, sb.title)
+        if args.preview and not args.output:
+            out = out.with_name(out.stem + "-preview.mp4")
+        if not args.json:
+            print(_bold(sb.title) + _dim(f"  → {out}"), file=sys.stderr)
+        narr = None
+        if getattr(args, "narrate", False):
+            from backend.whatif.schema import Narration
+            base = sb.narration or Narration()
+            narr = base.model_copy(update={k: v for k, v in (("voice", args.voice), ("engine", args.tts), ("speed", args.speed)) if v})
+            narr.enabled = True
+        res = make_video(sb, out, preview=args.preview, workers=args.workers, narration=narr,
+                         progress=_whatif_progress(args.json))
+    except ImportError as e:
+        _err(f"缺少 what-if 依赖（{e.name}）：pip install -r requirements-whatif.txt && python -m playwright install chromium"
+             + ("（旁白需要 kokoro-onnx）" if e.name == "kokoro_onnx" else ""))
+        return 2
+    except (PlanError, ValueError, RuntimeError) as e:
+        _err(str(e))
+        return 1
+    if args.json:
+        print(json.dumps({"ok": True, **res}, ensure_ascii=False, indent=2))
+    else:
+        print(f"完成：{res['path']}  ({res['duration']:.1f}s, {res['width']}x{res['height']}, 用时 {res['seconds']}s)")
+        if res.get("page_errors"):
+            print(_dim(f"页面警告：{res['page_errors'][:3]}"), file=sys.stderr)
+    return 0
+
+
 # ---------------------------------------------------------------- parser ---
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
@@ -353,6 +439,34 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--list-presets", action="store_true")
     e.add_argument("--json", action="store_true")
     e.set_defaults(func=cmd_export)
+
+    w = sub.add_parser("whatif", help="生成 what-if 科普短视频（3D 模拟 + 数据 HUD + 音效，9:16）")
+    wsub = w.add_subparsers(dest="whatif_cmd", required=True)
+    wp = wsub.add_parser("plan", help="题目 → 分镜 JSON（用 LLM；可手改后再 render）")
+    wp.add_argument("premise", help='题目，如 "What if you got 2x faster every second?"')
+    wp.add_argument("--notes", help="给编剧的额外要求")
+    wp.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival"], help="指定版式（默认让模型按题目选）")
+    wp.add_argument("-o", "--output", help="分镜 JSON 输出路径")
+    wp.add_argument("--json", action="store_true")
+    _add_llm_args(wp)
+    wr = wsub.add_parser("render", help="分镜 JSON → MP4")
+    wr.add_argument("storyboard", help="分镜 JSON 路径（示例见 `autoclip whatif examples`）")
+    wm = wsub.add_parser("make", help="题目 → 分镜 → MP4 一步到位")
+    wm.add_argument("premise")
+    wm.add_argument("--notes")
+    wm.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival"], help="指定版式（默认让模型按题目选）")
+    _add_llm_args(wm)
+    for x in (wr, wm):
+        x.add_argument("-o", "--output", help="MP4 输出路径（默认 数据目录/whatif/<标题>.mp4）")
+        x.add_argument("--preview", action="store_true", help="半分辨率（540x960），快 ~3 倍")
+        x.add_argument("--workers", type=int, default=0, help="并行渲染进程数（默认 = CPU 核数，最多 4）")
+        x.add_argument("--json", action="store_true")
+        x.add_argument("--narrate", action="store_true", help="加旁白（默认念字幕；本地 Kokoro TTS，首次自动下载模型 ~120 MB）")
+        x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
+        x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
+        x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
+    wsub.add_parser("examples", help="列出内置示例分镜")
+    w.set_defaults(func=cmd_whatif)
     return p
 
 

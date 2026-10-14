@@ -13,6 +13,10 @@ license = { text = "MIT" }
 # 开发者按 README：pip install -r requirements.txt && pip install -e .
 dependencies = []
 
+[project.optional-dependencies]
+# `autoclip whatif`：见 docs/WHATIF.md；装完再 `python -m playwright install chromium`
+whatif = ["numpy==2.3.5", "playwright==1.56.0", "kokoro-onnx==0.6.1"]
+
 [project.scripts]
 autoclip = "backend.cli:main"
 autoclip-mcp = "backend.mcp_server:main"
@@ -25,4 +29,4 @@ Issues = "https://github.com/zhouxiaoka/autoclip/issues"
 include = ["backend", "backend.*"]
 
 [tool.setuptools.package-data]
-backend = ["prompt/*.txt", "prompt/**/*.txt"]
+backend = ["prompt/*.txt", "prompt/**/*.txt", "whatif/examples/*.json", "whatif/web/*", "whatif/web/vendor/*", "whatif/web/fonts/*"]

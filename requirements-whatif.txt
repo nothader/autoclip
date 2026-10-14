@@ -1,0 +1,8 @@
+# Optional: `autoclip whatif` (what-if science video generator).
+# Kept out of requirements.txt so the desktop bundle / Docker image don't grow.
+#   pip install -r requirements-whatif.txt
+#   python -m playwright install chromium     # skip if a Playwright Chromium is already present
+numpy==2.3.5
+playwright==1.56.0
+# 旁白（--narrate）：本地 Kokoro TTS，首次使用自动下载模型到 ~/.cache/autoclip/tts
+kokoro-onnx==0.6.1
