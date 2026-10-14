@@ -155,6 +155,7 @@ function frame(i) {
   } else if (currentSubject) {
     scene.remove(currentSubject.root);
     currentSubject = null; currentKey = null;
+    effects.plasma.clear();
   }
 
   // 人群

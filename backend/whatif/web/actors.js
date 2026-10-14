@@ -419,7 +419,7 @@ export class Effects {
     const plasmaOn = fx.has("plasma") || fx.has("heat");
     const strength = fx.has("plasma") ? 0.8 : 0.35;
     if (plasmaOn && subjectMeshes && this.plasma.children.length === 0) {
-      for (const m of subjectMeshes) {
+      for (const m of subjectMeshes || []) {
         const shell = new THREE.Mesh(m.geometry, this.plasmaMat);
         shell.userData.src = m;
         shell.scale.setScalar(1.18);
@@ -439,7 +439,7 @@ export class Effects {
         shell.matrixWorld.copy(shell.matrix);
       }
       // 加热时主体本身也发橙
-      for (const m of subjectMeshes) {
+      for (const m of subjectMeshes || []) {
         if (m.material.emissive) { m.material.emissive.set(0xff6a1a); m.material.emissiveIntensity = 0.18 * strength; }
       }
       this.trail.position.set(pos.x, pos.y + 1.0 * S, pos.z + 1.6 * S);

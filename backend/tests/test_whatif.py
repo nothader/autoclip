@@ -325,3 +325,19 @@ def test_audio_layers_for_new_scenes():
     d["beats"][1]["screen"] = {"kind": "vitals", "rows": [["HR", "80"]]}
     x = synthesize(compile_plan(Storyboard.model_validate(d)))
     assert np.isfinite(x).all() and np.max(np.abs(x)) <= 0.8
+
+
+@pytest.mark.parametrize("name", sorted(p.name for p in EXAMPLES_DIR.glob("*.json")))
+def test_every_example_beat_renders_without_page_errors(name, tmp_path):
+    """每个示例的每一段各渲一帧（缩小尺寸）：页面脚本报错会让 worker 退出 → 这里失败。"""
+    pytest.importorskip("playwright")
+    from backend.whatif.render import render_frames
+    plan = compile_plan(Storyboard.model_validate_json((EXAMPLES_DIR / name).read_text(encoding="utf-8")))
+    frames = [int((b["start"] + b["duration"] * 0.5) * plan["fps"]) for b in plan["beats"]] + [plan["n_frames"] - 1]
+    try:
+        errs = render_frames(plan, tmp_path, width=270, height=480, frames=frames, workers=2, fmt="jpg")
+    except RuntimeError as e:
+        if "Executable doesn't exist" in str(e) or "playwright install" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs
