@@ -33,6 +33,8 @@ function outfitSpec(outfit, color, r) {
     case "soldier": return { top: "#9a2420", bottom: "#9a2420", shoe: "#5a3a22", robe: true, armor: "#9c8a5a", helmet: "#b59a5a" };
     case "ranger": return { top: "#8a7a52", bottom: "#4f5a3f", shoe: "#4a3a2a", hat: "#7a6440" };
     case "police": return { top: "#1f2c48", bottom: "#1f2c48", shoe: "#151515", cap: "#141c30" };
+    case "elder": return { top: pick(["#8a7a68", "#6f7d8a", "#a39882", "#7a6a7a", "#c9bfae"]), bottom: pick(["#5a5a60", "#6b6152", "#3f4650"]),
+      shoe: "#3a2e26", elder: true };
     case "child": return { top: color || pick(CASUAL), bottom: pick(PANTS), shoe: pick(["#f2f2f2", "#d23a3a", "#3b5f8a"]), child: true };
     default: return { top: color || pick(CASUAL), bottom: pick(PANTS), shoe: pick(["#f2f2f2", "#2b2b2b", "#7a5a3a"]) };
   }
@@ -57,7 +59,8 @@ export class Person {
     const top = mat(spec.top, 0.9);
     const bottom = mat(spec.bottom || spec.top, 0.95);
     const skin = mat(SKINS[Math.floor(r() * SKINS.length)], 0.7);
-    const hairM = mat(outfit === "hoodie" ? "#2b2420" : HAIRS[Math.floor(r() * HAIRS.length)], 1);
+    const hairM = mat(outfit === "hoodie" ? "#2b2420" : spec.elder ? ["#e8e6e0", "#c9c7c2", "#b5b3ae"][Math.floor(r() * 3)] : HAIRS[Math.floor(r() * HAIRS.length)], 1);
+    this.elder = !!spec.elder;
     const shoe = mat(spec.shoe, 0.6);
     const longHair = outfit !== "hoodie" && outfit !== "soldier" && r() < 0.45;
 
@@ -242,7 +245,7 @@ export class Person {
     const A = { idle: 0.0, walk: 0.45, run: 0.85, sprint: 1.1, float: 0.25, fly: 0.0 }[action] ?? 0;
     const lean = { idle: 0, walk: 0.03, run: 0.16, sprint: 0.3, float: 0.1, fly: 1.35 }[action] ?? 0;
     this.hips.rotation.set(0, s * 0.12 * A, 0);
-    this.spine.rotation.set(-lean, -s * 0.18 * A, 0);
+    this.spine.rotation.set(-lean - (this.elder ? 0.16 : 0), -s * 0.18 * A, 0);
     this.neck.rotation.set(lean * 0.6, s * 0.1 * A, 0);
     let bob = action === "walk" ? Math.abs(c) * 0.03 : (action === "run" || action === "sprint" ? Math.abs(c) * 0.09 * A : 0);
     if (action === "idle") bob = Math.sin(t * 2) * 0.005;

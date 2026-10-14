@@ -615,7 +615,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             if "flash" in b.effects and lt < 0.5:
                 fr["flash"] = round(1 - lt / 0.5, 3)
             if "darken" in b.effects:
-                fr["darken"] = round(min(1.0, frac * 1.4), 3)
+                fr["darken"] = round(min(1.0, max(0.0, (frac - 0.4) / 0.6)), 3)
             env_d = bo["env"]
             if env_d.get("weather") == "storm":
                 li = lightning(s.index, lt)
