@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "WSerif"; src: url("fonts/SourceSerif4.ttf"); font-style: normal; font-weight: 200 900; }
+@font-face { font-family: "WSerif"; src: url("fonts/SourceSerif4-Italic.ttf"); font-style: italic; font-weight: 200 900; }
+:root {
+  --accent: #f0883e;
+  --cyan: #7fd3ff;
+  --warn: #e5484d;
+  --text: #ffffff;
+  --muted: rgba(255,255,255,0.72);
+  --dim: rgba(255,255,255,0.5);
+}
+html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+#gl { position: absolute; left: 0; top: 0; }
+/* overlay 以 1080 宽设计，按实际宽度缩放 */
+#ov { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0;
+      font-family: "Inter", sans-serif; color: var(--text); font-feature-settings: "tnum" 1; }
+.shadow { text-shadow: 0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6), 0 0 28px rgba(0,0,0,0.25); }
+#hud { position: absolute; left: 0; top: 0; width: 1080px; }
+#hud .l { position: absolute; left: 66px; top: 112px; }
+#hud .head { color: var(--accent); font-size: 26px; font-weight: 600; letter-spacing: 3px; }
+#hud .val { font-size: 58px; font-weight: 500; margin-top: 6px; letter-spacing: -0.5px; }
+#hud .val .u { font-size: 26px; font-weight: 500; margin-left: 10px; letter-spacing: 0; }
+#hud .val.over { color: var(--warn); }
+#hud .sub { font-size: 23px; color: var(--muted); margin-top: 6px; letter-spacing: 0.6px; }
+#hud .r { position: absolute; right: 66px; top: 112px; text-align: right; }
+#hud .r .k { font-size: 20px; letter-spacing: 3px; color: var(--muted); font-weight: 500; }
+#hud .r .v { font-size: 40px; font-weight: 400; margin: 2px 0 12px; letter-spacing: 1px; }
+#hud .tag { font-size: 22px; letter-spacing: 2.5px; font-weight: 600; }
+#hud .tag.slow { color: var(--cyan); }
+#hud .tag.fast { color: var(--accent); }
+#hud .tag.real { color: var(--muted); }
+#hud .bar { position: absolute; left: 66px; top: 330px; width: 560px; }
+#hud .bar .t { height: 6px; background: rgba(255,255,255,0.18); position: relative; }
+#hud .bar .f { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+#hud .bar .lab { font-size: 17px; letter-spacing: 2px; color: var(--dim); margin-top: 8px; }
+#callout { position: absolute; left: 66px; top: 520px; padding-left: 22px; border-left: 6px solid var(--accent); max-width: 760px; }
+#callout .t { font-size: 34px; font-weight: 600; letter-spacing: 2.5px; }
+#callout .s { font-size: 21px; letter-spacing: 2px; color: var(--muted); margin-top: 6px; }
+#callout.note { border-left-color: rgba(255,255,255,0.7); }
+#cap { position: absolute; left: 90px; right: 90px; top: 1090px; text-align: center;
+       font-family: "WSerif", serif; font-style: italic; font-size: 44px; line-height: 1.32; font-weight: 400; }
+#card { position: absolute; left: 140px; right: 140px; top: 760px; padding: 40px 48px; background: rgba(12,6,6,0.72);
+        border: 3px solid rgba(255,255,255,0.6); text-align: center; }
+#card.warning { border-color: var(--warn); background: rgba(40,6,8,0.72); }
+#card .t { font-size: 44px; letter-spacing: 6px; font-weight: 600; }
+#card .rows { margin-top: 26px; font-size: 24px; letter-spacing: 2px; }
+#card .row { display: flex; justify-content: space-between; padding: 6px 0; color: var(--muted); }
+#card .row b { color: var(--text); font-weight: 500; }
+#intro { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-family: "WSerif", serif; }
+#intro .ln { font-size: 46px; letter-spacing: 3px; font-weight: 500; text-transform: uppercase; line-height: 1.25; }
+#intro .ln.acc { color: var(--accent); font-size: 92px; letter-spacing: 2px; font-weight: 500; line-height: 1.1; }
+#intro .ln.small { font-size: 26px; letter-spacing: 8px; color: var(--muted); }
+.logo { display: inline-flex; gap: 7px; align-items: flex-end; height: 46px; margin-bottom: 18px; }
+.logo i { display: block; width: 9px; background: var(--muted); }
+.logo i:last-child { background: var(--accent); }
+#question { position: absolute; left: 80px; right: 80px; top: 840px; text-align: center; font-family: "WSerif", serif; }
+#question .q { font-size: 62px; line-height: 1.2; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+#chart { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="ov">
+  <div id="hud" class="hidden shadow">
+    <div class="l"><div class="head"></div><div class="val"><span class="n"></span><span class="u"></span></div><div class="sub"></div></div>
+    <div class="r"></div>
+    <div class="bar hidden"><div class="t"><div class="f"></div></div><div class="lab"></div></div>
+  </div>
+  <div id="callout" class="hidden shadow"><div class="t"></div><div class="s"></div></div>
+  <div id="card" class="hidden"><div class="t"></div><div class="rows"></div></div>
+  <div id="intro" class="hidden shadow"></div>
+  <svg id="chart" class="hidden" viewBox="0 0 1080 1920"></svg>
+  <div id="question" class="hidden"><div class="logo"><i style="height:12px"></i><i style="height:22px"></i><i style="height:32px"></i><i style="height:46px"></i></div><div class="q"></div></div>
+  <div id="cap" class="hidden shadow"></div>
+  <div id="flash"></div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

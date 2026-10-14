@@ -1,0 +1,341 @@
+{
+  "title": "What if you got 2x faster every second?",
+  "premise": "Your speed doubles every second, starting from a slow 1 m/s walk.",
+  "quantity": {
+    "kind": "speed",
+    "label": "SPEED",
+    "unit": "m/s",
+    "model": {
+      "type": "exponential",
+      "start": 1,
+      "factor": 2,
+      "step": 1,
+      "discrete": true
+    },
+    "limit": {
+      "label": "SPEED OF LIGHT",
+      "detail": "299,792,458 m/s",
+      "value": 299792458,
+      "chart_label": "SPEED OF LIGHT"
+    },
+    "milestones": [
+      {
+        "label": "FASTER THAN USAIN BOLT",
+        "detail": "HIS TOP SPEED: ABOUT 44 km/h",
+        "value": 12.4,
+        "chart": false
+      },
+      {
+        "label": "FASTER THAN A CHEETAH",
+        "detail": "ITS TOP SPEED: ABOUT 100 km/h",
+        "value": 28,
+        "chart": false
+      },
+      {
+        "label": "STRONGER THAN A CAT 5 HURRICANE",
+        "detail": "THE WIND IN YOUR FACE: 252+ km/h",
+        "value": 70,
+        "chart": false
+      },
+      {
+        "label": "THE SOUND BARRIER: BROKEN",
+        "detail": "SPEED OF SOUND: 343 m/s",
+        "value": 343,
+        "chart_label": "SPEED OF SOUND"
+      },
+      {
+        "label": "FASTER THAN A RIFLE BULLET",
+        "detail": "MANY LEAVE THE BARREL AT ~900 m/s",
+        "value": 900,
+        "chart": false
+      },
+      {
+        "label": "FASTER THAN THE ISS",
+        "detail": "ITS ORBITAL SPEED: ABOUT 7.7 km/s",
+        "value": 7700,
+        "chart_label": "ORBITAL SPEED"
+      },
+      {
+        "label": "ESCAPE VELOCITY",
+        "detail": "ENOUGH TO LEAVE EARTH: 11.2 km/s",
+        "value": 11200,
+        "chart": false
+      },
+      {
+        "label": "FASTER THAN EARTH ORBITS THE SUN",
+        "detail": "EARTH'S ORBITAL SPEED: ABOUT 30 km/s",
+        "value": 29780,
+        "chart": false
+      },
+      {
+        "label": "FASTER THAN THE PARKER SOLAR PROBE",
+        "detail": "FASTEST HUMAN-MADE OBJECT: ~192 km/s",
+        "value": 192000,
+        "chart": false
+      },
+      {
+        "label": "1% OF THE SPEED OF LIGHT",
+        "detail": "AROUND 3,000 km EVERY SECOND",
+        "value": 2997925,
+        "chart": false
+      }
+    ]
+  },
+  "intro": {
+    "lines": [
+      "WHAT IF",
+      "YOU GOT",
+      "2× FASTER",
+      "EVERY SECOND?"
+    ],
+    "accent": 2,
+    "duration": 2.4
+  },
+  "beats": [
+    {
+      "duration": 2.6,
+      "sim_end": 0.5,
+      "scene": "city",
+      "camera": "wide",
+      "subject": {
+        "type": "runner",
+        "action": "walk"
+      }
+    },
+    {
+      "duration": 3.0,
+      "sim_end": 1.4,
+      "scene": "city",
+      "camera": "front",
+      "caption": "Imagine your speed doubled every single second."
+    },
+    {
+      "duration": 3.0,
+      "sim_end": 2.4,
+      "scene": "city",
+      "camera": "closeup",
+      "caption": "At first it feels like nothing. Just a brisk walk."
+    },
+    {
+      "duration": 3.6,
+      "sim_end": 3.8,
+      "scene": "city",
+      "camera": "follow",
+      "subject": {
+        "type": "runner",
+        "action": "run"
+      },
+      "caption": "Four seconds in, you're already out-running almost everyone on the street."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 5.6,
+      "scene": "city",
+      "camera": "low_front",
+      "caption": "Now you're moving at {value}. That's {kmh} km/h."
+    },
+    {
+      "duration": 4.2,
+      "sim_end": 7.3,
+      "scene": "city",
+      "camera": "follow",
+      "subject": {
+        "type": "runner",
+        "action": "sprint"
+      },
+      "effects": [
+        "dust"
+      ],
+      "callout": {
+        "title": "THE WIND IN YOUR FACE",
+        "subtitle": "AIR RESISTANCE GROWS WITH THE SQUARE OF SPEED"
+      },
+      "caption": "The air starts hitting you like a storm."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 8.4,
+      "scene": "highway",
+      "camera": "aerial",
+      "effects": [
+        "speedlines",
+        "dust"
+      ],
+      "caption": "Traffic looks parked. You're at {kmh} km/h.",
+      "sfx": [
+        {
+          "type": "riser",
+          "at": 1.6,
+          "gain": 0.9
+        }
+      ]
+    },
+    {
+      "duration": 4.2,
+      "sim_end": 9.4,
+      "scene": "desert",
+      "camera": "side",
+      "effects": [
+        "shockwave",
+        "vapor_cone",
+        "speedlines"
+      ],
+      "caption": "And then you break the sound barrier."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 10.6,
+      "scene": "desert",
+      "camera": "follow",
+      "effects": [
+        "speedlines",
+        "dust",
+        "shake"
+      ],
+      "caption": "Every step now drags a shock wave behind you."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 12.0,
+      "scene": "desert",
+      "camera": "low_front",
+      "effects": [
+        "heat",
+        "speedlines"
+      ],
+      "caption": "Your body was never built for this. The air itself is the obstacle."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 13.6,
+      "scene": "desert",
+      "camera": "side",
+      "effects": [
+        "plasma",
+        "heat",
+        "speedlines",
+        "shake"
+      ],
+      "caption": "At {value}, the air in front of you can't get out of the way. It compresses and heats up."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 15.2,
+      "scene": "sky",
+      "camera": "follow",
+      "effects": [
+        "plasma",
+        "speedlines"
+      ],
+      "callout": {
+        "title": "SIMULATION",
+        "subtitle": "BODY MADE INDESTRUCTIBLE FROM HERE ON"
+      },
+      "caption": "No human could survive this. So from here on, it's a simulation."
+    },
+    {
+      "duration": 4.2,
+      "sim_end": 17.4,
+      "scene": "sky",
+      "camera": "side",
+      "effects": [
+        "plasma",
+        "speedlines"
+      ],
+      "caption": "You're climbing above the clouds at {value}."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 20.4,
+      "scene": "orbit",
+      "camera": "side",
+      "subject": {
+        "type": "runner",
+        "action": "run"
+      },
+      "effects": [
+        "glow"
+      ],
+      "caption": "Twenty seconds in, you pass {value}."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 22.0,
+      "scene": "orbit",
+      "camera": "far",
+      "effects": [
+        "glow"
+      ],
+      "caption": "Earth falls away behind you."
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 25.6,
+      "scene": "deep_space",
+      "camera": "wide",
+      "subject": {
+        "type": "runner",
+        "action": "float"
+      },
+      "effects": [
+        "glow"
+      ],
+      "caption": "You've now covered {distance}.",
+      "sfx": [
+        {
+          "type": "riser",
+          "at": 1.6,
+          "gain": 0.8
+        }
+      ]
+    },
+    {
+      "duration": 4.0,
+      "sim_end": 28.4,
+      "scene": "deep_space",
+      "camera": "follow",
+      "effects": [
+        "glow",
+        "speedlines"
+      ],
+      "caption": "Keep doubling, and the math soon asks for something impossible."
+    },
+    {
+      "duration": 4.6,
+      "sim_end": 29.4,
+      "scene": "deep_space",
+      "camera": "closeup",
+      "effects": [
+        "flash",
+        "glow"
+      ],
+      "card": {
+        "title": "PHYSICS BREAKDOWN",
+        "rows": [
+          [
+            "SPEED REQUIRED",
+            "{value}"
+          ],
+          [
+            "SPEED OF LIGHT",
+            "299,792,458 m/s"
+          ]
+        ],
+        "tone": "warning"
+      },
+      "caption": "Nothing with mass can reach the speed of light."
+    }
+  ],
+  "outro": {
+    "chart": true,
+    "chart_title": "YOUR SPEED, SECOND BY SECOND",
+    "chart_subtitle": "EACH STEP UP: TWICE AS FAST",
+    "chart_captions": [
+      "From a slow walk to the edge of physics in under thirty seconds.",
+      "You wouldn't be the fastest human. You'd be a physics problem."
+    ],
+    "chart_duration": 7.0,
+    "question": "HOW MANY SECONDS WOULD YOU SURVIVE?",
+    "question_duration": 3.0
+  }
+}

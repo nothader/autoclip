@@ -87,6 +87,11 @@ autoclip export <project_id> --clip 2 --clip 5 --preset shorts --no-title
 }
 ```
 
+### what-if 科普短视频
+
+`autoclip whatif plan | render | make`：题目 → 分镜 → 3D 模拟 + 数据 HUD + 音效的 9:16 成片。
+需要额外依赖（`requirements-whatif.txt`），详见 [WHATIF.md](WHATIF.md)。
+
 ---
 
 ## 3. MCP server
