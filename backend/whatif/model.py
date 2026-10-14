@@ -473,6 +473,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "tooltip": b.tooltip.model_dump() if b.tooltip else None,
             "banner": b.banner.model_dump() if b.banner else None,
             "screen": b.screen.model_dump() if b.screen else None,
+            "narration": fill(b.narration, ph) if b.narration is not None else None,
         })
 
     frames: List[Dict[str, Any]] = []
@@ -711,6 +712,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
         "theme": sb.theme.model_dump(), "chapters": chapters,
+        "intro_duration": intro.duration,
+        "end_start": secs[-1].start if secs[-1].kind == "question" else None,
         "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},
         "beats": beats_out, "frames": frames, "audio": sorted(audio_events, key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,

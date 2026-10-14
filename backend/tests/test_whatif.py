@@ -341,3 +341,37 @@ def test_every_example_beat_renders_without_page_errors(name, tmp_path):
             pytest.skip("chromium 不可用")
         raise
     assert not errs, errs
+
+
+# ------------------------------------------------------------------ 旁白 ---
+def test_speech_text_reads_units_and_symbols():
+    from backend.whatif.narration import speech_text
+    assert speech_text("about 1,670 km/h") == "about 1,670 kilometers per hour"
+    assert speech_text("~20% of CO2") == "about 20 percent of C O two"
+    assert speech_text("What if all *women* disappeared?") == "What if all women disappeared?"
+
+
+def test_narration_stretches_beats_and_places_lines(monkeypatch):
+    np = pytest.importorskip("numpy")
+    from backend.whatif import narration as N
+    from backend.whatif.schema import Narration
+    # 假引擎：每个字符 0.08 秒，不需要模型
+    monkeypatch.setattr(N.Speaker, "say", lambda self, text: np.ones(int(len(text) * 0.08 * N.SR), dtype=np.float32) * 0.2)
+    d = _timeline()
+    d["beats"][2]["caption"] = "A much longer line that will not fit inside a two second shot at all."
+    d["beats"][2]["narration"] = None
+    d["beats"][1]["narration"] = ""                      # 这段不念
+    sb = Storyboard.model_validate(d)
+    sb2, lines = N.narrate(sb, Narration())
+    kinds = [(l.kind, l.index) for l in lines]
+    assert ("title", -1) in kinds and ("beat", 2) in kinds and ("beat", 1) not in kinds and ("end", -1) in kinds
+    long_line = next(l for l in lines if l.index == 2)
+    assert sb2.beats[2].duration >= N.LEAD + long_line.seconds + N.TAIL - 1e-6
+    assert sb.beats[2].duration == 2                     # 原分镜不被修改
+    plan = compile_plan(sb2)
+    v = N.voice_track(plan, lines)
+    start = plan["beats"][2]["start"] + N.LEAD
+    assert v[int(start * N.SR) + 10] > 0 and v[int((start - 0.1) * N.SR)] == 0
+    from backend.whatif.audio import synthesize
+    x = synthesize(plan, v)
+    assert np.isfinite(x).all() and np.max(np.abs(x)) <= 0.8

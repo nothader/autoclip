@@ -332,8 +332,8 @@ def _reverb(x: np.ndarray, seconds: float = 2.2, seed: int = 99) -> np.ndarray:
 
 
 # ------------------------------------------------------------ 合成主函数 ---
-def synthesize(plan: Dict[str, Any]) -> np.ndarray:
-    """返回 (n, 2) float32，范围 [-1, 1]。"""
+def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.ndarray:
+    """返回 (n, 2) float32，范围 [-1, 1]。voice：可选旁白人声（单声道 48 kHz），自动压低底噪/音效。"""
     fps = plan["fps"]
     frames = plan["frames"]
     n = int(round(plan["duration"] * SR))
@@ -427,12 +427,25 @@ def synthesize(plan: Dict[str, Any]) -> np.ndarray:
     out *= duck[:, None]
 
     # 5) 母带：淡入淡出 + 软削波 + 响度归一（RMS ≈ -18 dBFS，峰值 ≤ -2 dBFS（给 AAC 编码留余量））
+    #    有旁白时：音效总线压到 -22 dBFS，说话处再闪避 ~9 dB；人声单独一条总线（有声部分 RMS ≈ -16 dBFS）
     fade = int(0.04 * SR)
     out[:fade] *= np.linspace(0, 1, fade)[:, None]
     tail = int(0.6 * SR)
     out[-tail:] *= np.linspace(1, 0, tail)[:, None]
     rms = np.sqrt(np.mean(out ** 2)) or 1.0
-    out *= 10 ** (-18 / 20) / rms
+    has_voice = voice is not None and np.any(voice)
+    out *= 10 ** ((-22 if has_voice else -18) / 20) / rms
+    if has_voice:
+        v = np.zeros(n, dtype=np.float64)
+        v[: min(n, len(voice))] = voice[:n]
+        active = np.abs(v) > 0.01
+        venv = _env_from_frames(active[:: SR // 100].astype(float), 100, n, smooth=0.25)
+        venv = np.clip(venv * 3, 0, 1)
+        out *= (1 - 0.65 * venv)[:, None]
+        vr = np.sqrt(np.mean(v[active] ** 2)) if active.any() else 1.0
+        v *= 10 ** (-16 / 20) / (vr or 1.0)
+        out[:, 0] += v
+        out[:, 1] += v
     out = np.tanh(out * 1.2) / np.tanh(1.2)
     peak = np.max(np.abs(out)) or 1.0
     if peak > 0.79:
@@ -451,5 +464,5 @@ def write_wav(samples: np.ndarray, path: Path) -> Path:
     return path
 
 
-def render_audio(plan: Dict[str, Any], path: Path) -> Path:
-    return write_wav(synthesize(plan), path)
+def render_audio(plan: Dict[str, Any], path: Path, voice: "np.ndarray | None" = None) -> Path:
+    return write_wav(synthesize(plan, voice), path)

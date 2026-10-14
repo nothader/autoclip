@@ -38,6 +38,22 @@ autoclip whatif make "What if Earth stopped spinning?" --provider openai --model
 autoclip whatif make "What if the atmosphere vanished for 5 seconds?" --format countdown
 ```
 
+## 旁白（可选，`--narrate`）
+
+参考账号默认无旁白；需要时加 `--narrate`：
+
+```bash
+autoclip whatif render story.json --narrate                       # 本地 Kokoro TTS（离线，首次下载模型 ~120 MB）
+autoclip whatif render story.json --narrate --voice af_heart      # 换声音：am_michael / af_heart / bf_emma / bm_george …
+autoclip whatif make "What if …" --narrate --tts openai --voice onyx   # OpenAI TTS（需 OPENAI_API_KEY 或 AUTOCLIP_TTS_API_KEY）
+```
+
+- 默认念：片头标题 → 每段字幕 → 结尾问句；某段想换说法用 `beat.narration`，`""` 表示这段不念
+- 画面按语音长度自动拉长（每段至少「0.3 s + 语音 + 0.45 s」），字幕与语音同步
+- 单位/符号转成口语（km/h → kilometers per hour、~ → about、CO2 → C O two …）
+- 混音：音效总线压到 -22 dBFS，说话时再闪避约 9 dB；人声单独一条总线（约 -16 dBFS）
+- 合成结果按文本缓存在 `~/.cache/autoclip/tts`，改画面重渲不重复合成；分镜里也可写 `"narration": {"voice": "...", "speed": 1.0}`
+
 ## 设计原则：文字归 LLM，数字归代码
 
 LLM 只写分镜：增长模型、场景、镜头、文案、里程碑（真实参照值）。画面上出现的每个数字都由 `model.py`
@@ -57,6 +73,7 @@ LLM 只写分镜：增长模型、场景、镜头、文案、里程碑（真实�
 | `backend/whatif/planner.py` | 题目 → 分镜（提示词 + 示例 + 校验修正循环） |
 | `backend/whatif/web/` | three.js 场景（`world.js`/`envs.js` 环境与时段天气、`people.js` 人物与人群、`actors.js` 道具与特效）+ HTML/SVG 叠加层（`overlay.js`、`icons.js`） |
 | `backend/whatif/render.py` | 多个 headless Chromium 子进程并行渲帧 → ffmpeg 合成 |
+| `backend/whatif/narration.py` | 可选旁白：Kokoro / OpenAI TTS、文本口语化、按语音拉长分镜、人声轨对齐与缓存 |
 | `backend/whatif/audio.py` | numpy 程序化音效：场景环境床、随速度变亮的风、tick/whoosh/boom/riser/swell/drop、混响、响度归一 |
 | `backend/whatif/examples/twice_as_fast.json` | 示例：「每秒快一倍」 |
 

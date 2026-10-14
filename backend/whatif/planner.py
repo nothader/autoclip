@@ -83,6 +83,8 @@ SHOTS
 - sfx (optional, auto-added for most events): {', '.join(SFX)} with "at" seconds from beat start.
 - overlays per beat (optional): stat, card (rows), tooltip, banner, screen (phone_call | vitals | board), callout, chip,
   chapter, caption_ref, time, time_sub.
+- narration (optional per beat): when the video is narrated, the caption is read aloud by default. Set "narration" only
+  when the spoken wording should differ (e.g. a fuller sentence), or "" to keep a beat silent. Captions must read well aloud.
 
 WRITING
 - English only. Captions: one sentence, <= 110 characters, plain, genuine, no hype or clickbait.

@@ -213,6 +213,16 @@ class Clock(_Strict):
     intro_from: Optional[float] = None  # 片头倒计时起点（秒）；None = 片头不显示时钟
 
 
+class Narration(_Strict):
+    """可选旁白（参考账号默认无旁白）。开启后每段读字幕或 beat.narration，画面按语音长度自动拉长。"""
+    enabled: bool = True
+    engine: Literal["kokoro", "openai"] = "kokoro"
+    voice: str = "am_michael"        # kokoro: am_michael / af_heart / bf_emma …；openai: alloy / onyx / nova …
+    speed: float = Field(default=1.0, ge=0.6, le=1.6)
+    read_title: bool = True          # 片头念标题
+    read_end: bool = True            # 结尾念问句 / 结尾卡
+
+
 class Theme(_Strict):
     accent: str = "#f0883e"          # 主题强调色（女性=粉、地球=蓝、太阳=黄……）
 
@@ -247,6 +257,7 @@ class Beat(_Strict):
     caption_ref: str = ""            # 字幕下的出处（"LUKE 22:42"）
     banner: Optional[Banner] = None
     screen: Optional[Screen] = None
+    narration: Optional[str] = None  # 旁白文本；None = 读字幕（开启旁白时），"" = 这段不念
     @field_validator("caption")
     @classmethod
     def _caption_len(cls, v: str) -> str:
@@ -291,6 +302,7 @@ class Storyboard(_Strict):
     theme: Theme = Field(default_factory=Theme)
     quantity: Optional[Quantity] = None   # escalation 必填；其它版式可省略
     clock: Optional[Clock] = None
+    narration: Optional[Narration] = None
     intro: Intro = Field(default_factory=Intro)
     beats: List[Beat] = Field(min_length=1)
     outro: Outro = Field(default_factory=Outro)

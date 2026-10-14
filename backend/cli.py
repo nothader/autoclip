@@ -315,7 +315,7 @@ def _whatif_progress(as_json: bool):
         if key == last["k"]:
             return
         last["k"] = key
-        label = {"audio": "声音", "frames": "画面"}.get(stage, stage)
+        label = {"audio": "声音", "frames": "画面", "voice": "旁白"}.get(stage, stage)
         print(_dim(f"  {label} {done}/{total}"), file=sys.stderr)
     return cb
 
@@ -358,10 +358,17 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             out = out.with_name(out.stem + "-preview.mp4")
         if not args.json:
             print(_bold(sb.title) + _dim(f"  → {out}"), file=sys.stderr)
-        res = make_video(sb, out, preview=args.preview, workers=args.workers,
+        narr = None
+        if getattr(args, "narrate", False):
+            from backend.whatif.schema import Narration
+            base = sb.narration or Narration()
+            narr = base.model_copy(update={k: v for k, v in (("voice", args.voice), ("engine", args.tts), ("speed", args.speed)) if v})
+            narr.enabled = True
+        res = make_video(sb, out, preview=args.preview, workers=args.workers, narration=narr,
                          progress=_whatif_progress(args.json))
     except ImportError as e:
-        _err(f"缺少 what-if 依赖（{e.name}）：pip install -r requirements-whatif.txt && python -m playwright install chromium")
+        _err(f"缺少 what-if 依赖（{e.name}）：pip install -r requirements-whatif.txt && python -m playwright install chromium"
+             + ("（旁白需要 kokoro-onnx）" if e.name == "kokoro_onnx" else ""))
         return 2
     except (PlanError, ValueError, RuntimeError) as e:
         _err(str(e))
@@ -454,6 +461,10 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--preview", action="store_true", help="半分辨率（540x960），快 ~3 倍")
         x.add_argument("--workers", type=int, default=0, help="并行渲染进程数（默认 = CPU 核数，最多 4）")
         x.add_argument("--json", action="store_true")
+        x.add_argument("--narrate", action="store_true", help="加旁白（默认念字幕；本地 Kokoro TTS，首次自动下载模型 ~120 MB）")
+        x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
+        x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
+        x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
     wsub.add_parser("examples", help="列出内置示例分镜")
     w.set_defaults(func=cmd_whatif)
     return p
