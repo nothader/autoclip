@@ -273,41 +273,119 @@ def _sections(sb: Storyboard) -> List[Section]:
     if sb.outro.chart:
         out.append(Section("chart", t, sb.outro.chart_duration, sim0=sim, sim1=sim))
         t += sb.outro.chart_duration
-    if sb.outro.question:
+    if sb.outro.question or sb.outro.end:
         out.append(Section("question", t, sb.outro.question_duration, sim0=sim, sim1=sim))
     return out
+
+
+def _no_quantity() -> Quantity:
+    return Quantity(kind="generic", label="", unit="",
+                    model=GrowthModel(type="linear", start=0, rate=0, step=1, discrete=False))
+
+
+FORMAT_CLOCK = {"timeline": "elapsed", "countdown": "countdown", "survival": "stopwatch", "story": "time_of_day"}
 
 
 def validate(sb: Storyboard) -> List[str]:
     """语义检查（结构检查由 pydantic 完成）。返回问题列表，空 = 通过。"""
     problems: List[str] = []
+    q = sb.quantity
     for i, b in enumerate(sb.beats):
         texts = [("caption", b.caption)]
         if b.card:
             texts += [("card", b.card.title)] + [("card", x) for row in b.card.rows for x in row]
         for field, text in texts:
             for ph in placeholders_in(text):
-                if ph not in PLACEHOLDERS:
+                if q is None:
+                    problems.append(f"beats[{i}].{field} 用了占位符 {{{ph}}}，但这个分镜没有 quantity；直接写文字")
+                elif ph not in PLACEHOLDERS:
                     problems.append(f"beats[{i}].{field} 用了未知占位符 {{{ph}}}；可用：{', '.join(PLACEHOLDERS)}")
-        if re.search(r"\d", b.caption) and sb.quantity.kind == "speed":
+        if q is not None and re.search(r"\d", b.caption) and q.kind == "speed":
             # 文案里的计算型数字必须走占位符；允许"seconds"之类的小整数叙述
             nums = [n for n in re.findall(r"\d[\d,\.]*", re.sub(r"\{[^}]*\}", "", b.caption))]
             big = [n for n in nums if float(n.replace(",", "") or 0) >= 100]
             if big:
                 problems.append(f"beats[{i}].caption 里有写死的数字 {big}；请用 {{value}}/{{kmh}}/{{distance}} 等占位符")
+        mode = sb.clock.mode if sb.clock else None
+        if mode in ("countdown", "stopwatch") and b.time is not None and isinstance(b.time, str) is False:
+            a, z = b.time
+            if mode == "countdown" and z > a + 1e-9:
+                problems.append(f"beats[{i}].time 倒计时应递减（{a} → {z}）")
+            if mode == "stopwatch" and z < a - 1e-9:
+                problems.append(f"beats[{i}].time 秒表应递增（{a} → {z}）")
+        if mode in ("elapsed", "time_of_day") and b.time is not None and not isinstance(b.time, str):
+            problems.append(f"beats[{i}].time 在 clock.mode={mode} 下应是文字标签（如 \"+1 HOUR\"）")
+        if b.scene == "globe" and b.env and b.env.map:
+            problems.append(f"beats[{i}] scene=globe 不用 env.map")
+        if b.scene == "map" and not (b.env and b.env.map):
+            problems.append(f"beats[{i}] scene=map 需要 env.map（labels/path/zone）")
+    if sb.format in ("timeline", "countdown", "survival") and (sb.clock is None or sb.clock.mode == "none"):
+        problems.append(f"format={sb.format} 需要 clock（mode 建议 {FORMAT_CLOCK[sb.format]}）")
+    if sb.format in ("timeline", "countdown", "survival") and sb.beats[0].time is None and len(sb.beats) > 1 \
+            and all(b.time is None for b in sb.beats):
+        problems.append("每段都没有 time；时钟会是空的")
+    if sb.format == "story" and not any(b.chapter for b in sb.beats):
+        problems.append("format=story 需要用 chapter 给段落分章")
     total = sum(b.duration for b in sb.beats) + (sb.outro.chart_duration if sb.outro.chart else 0) + (
-        sb.outro.question_duration if sb.outro.question else 0)
+        sb.outro.question_duration if (sb.outro.question or sb.outro.end) else 0)
     if total > 180:
         problems.append(f"总时长 {total:.0f}s 太长（上限 180s）")
-    g = Growth(sb.quantity.model, max(s.sim1 for s in _sections(sb)))
-    for m in sb.quantity.milestones:
-        if g.crossing(m.value) is None:
-            problems.append(f"里程碑「{m.label}」({m.value}) 在模拟时间内不会被越过；删掉它或延长模拟")
+    if q is not None:
+        g = Growth(q.model, max(s.sim1 for s in _sections(sb)))
+        for m in q.milestones:
+            if g.crossing(m.value) is None:
+                problems.append(f"里程碑「{m.label}」({m.value}) 在模拟时间内不会被越过；删掉它或延长模拟")
     return problems
 
 
+_NUM_RE = re.compile(r"^(?P<pre>[^\d]*)(?P<num>\d[\d,]*(?:\.\d+)?)(?P<post>.*)$")
+
+
+def count_up(value: str, k: float) -> str:
+    """"90%" → 在 k∈[0,1] 时显示 "0%"…"90%"；不含数字的原样返回。保留千分位与小数位数。"""
+    m = _NUM_RE.match(value.strip())
+    if not m or k >= 1:
+        return value
+    raw = m.group("num")
+    target = float(raw.replace(",", ""))
+    dec = len(raw.split(".")[1]) if "." in raw else 0
+    cur = target * (1 - (1 - k) ** 3)
+    body = f"{cur:,.{dec}f}" if "," in raw else f"{cur:.{dec}f}"
+    return f"{m.group('pre')}{body}{m.group('post')}"
+
+
+def fmt_clock(sec: float, mode: str) -> str:
+    sec = max(0.0, sec)
+    if mode == "countdown":
+        mm = int(sec // 60)
+        return f"{mm}:{sec - mm * 60:06.3f}"
+    h = int(sec // 3600)
+    mm = int((sec - h * 3600) // 60)
+    ss = int(sec - h * 3600 - mm * 60)
+    return f"{h}:{mm:02d}:{ss:02d}"
+
+
+def lightning_times(beat_index: int, duration: float) -> List[float]:
+    """风暴段内闪电的时刻（确定性：画面闪光与雷声同源）。"""
+    out, t = [], 0.6 + (beat_index * 0.37) % 1.0
+    while t < duration - 0.3:
+        out.append(round(t, 3))
+        t += 1.7 + ((beat_index * 7 + len(out) * 3) % 5) * 0.35
+    return out
+
+
+def lightning(beat_index: int, lt: float) -> float:
+    for t0 in lightning_times(beat_index, lt + 1):
+        d = lt - t0
+        if 0 <= d < 0.25:
+            return (1 - d / 0.25) * (1 if d < 0.06 or 0.1 < d < 0.14 else 0.4)
+    return 0.0
+
+
 def compile_plan(sb: Storyboard) -> Dict[str, Any]:
-    q = sb.quantity
+    from .schema import Env
+    has_q = sb.quantity is not None
+    q = sb.quantity or _no_quantity()
     secs = _sections(sb)
     sim_total = max(s.sim1 for s in secs)
     g = Growth(q.model, sim_total + q.model.step)
@@ -315,6 +393,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     fps = sb.fps
     n_frames = int(round(total * fps))
     beat_secs = [s for s in secs if s.kind == "beat"]
+    clock = sb.clock if (sb.clock and sb.clock.mode != "none") else None
 
     def sim_to_video(sim: float) -> Optional[float]:
         for s in beat_secs:
@@ -340,23 +419,60 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         pops.append({"t0": t0, "t1": t0 + MILESTONE_HOLD, "title": m.label, "sub": m.detail, "sim": c})
         t_free = t0 + MILESTONE_HOLD
 
+    # 章节：按首次出现顺序编号，未写 chapter 的段沿用上一段
+    chapters: List[str] = []
+    beat_chapter: List[Optional[int]] = []
+    cur_ch: Optional[int] = None
+    for s in beat_secs:
+        if s.beat.chapter:
+            if not chapters or chapters[-1] != s.beat.chapter:
+                chapters.append(s.beat.chapter)
+            cur_ch = len(chapters) - 1
+        beat_chapter.append(cur_ch)
+
     beats_out = []
+    env = Env()
+    prev_scene_b = None
+    clock_val: Any = None
+    chip = ""
     for s in beat_secs:
         b = s.beat
-        ph = placeholder_values(q, g, s.sim0, s.sim1)
+        ph = placeholder_values(q, g, s.sim0, s.sim1) if has_q else {}
         try:
             caption = fill(b.caption, ph)
         except (KeyError, IndexError, ValueError) as e:
             raise PlanError(f"beats[{s.index}].caption 占位符错误: {e}") from e
         subj = s.subject or Subject()
+        if b.env is not None:
+            env = b.env
+        elif b.scene != prev_scene_b:
+            env = Env()
+        prev_scene_b = b.scene
+        # 时钟值：没写就沿用上一段的结束值
+        if b.time is not None:
+            clock_val = b.time
+        elif isinstance(clock_val, (list, tuple)):
+            clock_val = (clock_val[1], clock_val[1])
+        ch_i = beat_chapter[s.index]
+        if b.chip:
+            chip = b.chip
+        elif b.chapter:
+            chip = ""
         beats_out.append({
             "i": s.index, "start": s.start, "duration": s.duration,
             "scene": b.scene, "camera": b.camera, "effects": list(b.effects),
-            "subject": subj.model_dump(), "caption": caption,
+            "subject": subj.model_dump(), "caption": caption, "caption_ref": b.caption_ref,
             "callout": b.callout.model_dump() if b.callout else None,
             "card": ({"title": fill(b.card.title, ph), "rows": [[fill(k, ph), fill(v, ph)] for k, v in b.card.rows],
                       "tone": b.card.tone} if b.card else None),
             "hud": b.hud, "sim0": s.sim0, "sim1": s.sim1,
+            "env": env.model_dump(), "cast": [c.model_dump() for c in b.cast],
+            "time": list(clock_val) if isinstance(clock_val, (list, tuple)) else clock_val,
+            "time_sub": b.time_sub, "stat": b.stat.model_dump() if b.stat else None,
+            "chapter": ch_i, "chip": chip,
+            "tooltip": b.tooltip.model_dump() if b.tooltip else None,
+            "banner": b.banner.model_dump() if b.banner else None,
+            "screen": b.screen.model_dump() if b.screen else None,
         })
 
     frames: List[Dict[str, Any]] = []
@@ -365,7 +481,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     phase = 0.0
     prev_scene = None
     prev_step = None
+    prev_clock_int = None
     sec_starts = [s.start for s in secs]
+    intro = sb.intro
     for fi in range(n_frames):
         t = fi / fps
         si = max(0, bisect.bisect_right(sec_starts, t) - 1)
@@ -374,6 +492,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         fr: Dict[str, Any] = {"t": round(t, 4), "sec": s.kind}
         if s.kind == "beat":
             b = s.beat
+            bo = beats_out[s.index]
             subj = s.subject or Subject()
             frac = lt / s.duration
             sim = s.sim0 + (s.sim1 - s.sim0) * frac
@@ -383,28 +502,28 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 prev_scene = b.scene
             if subj.type == "none":
                 vis = 0.0
-            elif q.kind == "speed" and subj.action not in ("idle", "float"):
+            elif has_q and q.kind == "speed" and subj.action not in ("idle", "float"):
                 vv = max(v, 0.0)
                 vis = vv * 1.4 if vv <= 6 else 8.4 + 22 * math.log10(vv / 6)
                 vis = min(vis, 160.0)
             else:
-                vis = ACTION_SPEED[subj.action]
+                vis = ACTION_SPEED.get(subj.action, 0.0)
             z += vis / fps
-            stride = ACTION_STRIDE[subj.action] * (1 + min(2.0, vis / 40))
+            stride = ACTION_STRIDE.get(subj.action, 0.0) * (1 + min(2.0, vis / 40))
             phase += 2 * math.pi * 1.55 * stride / fps
             scale = subj.scale
-            if subj.scale_with_value and q.model.start:
+            if has_q and subj.scale_with_value and q.model.start:
                 scale = subj.scale * (v / 1.75 if q.kind == "length" else v / q.model.start)
-            rate = (s.sim1 - s.sim0) / s.duration
-            tag, tag_style = rate_tag(rate)
-            h = hud_for(q, v, sim)
-            in_intro = t < sb.intro.duration
+            in_intro = t < intro.duration
             fr.update({
                 "b": s.index, "lt": round(lt, 4), "frac": round(frac, 5), "sim": round(sim, 5),
                 "z": round(z, 4), "vis": round(vis, 3), "scale": scale,
                 "stride": round(stride, 4), "ph": round(phase, 4),
             })
-            if b.hud and not in_intro:
+            if has_q and b.hud and not in_intro:
+                rate = (s.sim1 - s.sim0) / s.duration
+                tag, tag_style = rate_tag(rate)
+                h = hud_for(q, v, sim)
                 right = [["TIME", fmt_time(sim)]]
                 if q.kind == "speed":
                     right.append(["DISTANCE", fmt_distance(g.integral(sim))])
@@ -416,8 +535,6 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 if q.limit and v >= q.limit.value * 1e-3:
                     hud["bar"] = {"label": f"{q.limit.label}: {fmt_num(q.limit.value)} {q.unit}",
                                   "frac": min(1.0, v / q.limit.value)}
-                if q.kind == "speed" and q.model.discrete is False:
-                    pass
                 fr["hud"] = hud
                 # 每跨一个增长步，HUD 跳一下 → tick
                 step_no = math.floor(sim / q.model.step + 1e-9)
@@ -426,14 +543,65 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 prev_step = step_no
             fr["intensity"] = round(min(1.0, vis / 120.0), 4)
             fr["scene"] = b.scene
+            fade = max(0.0, min(1.0, lt / FADE, (s.duration - lt) / FADE))
+
+            # 片头
             if in_intro:
-                a = 1.0 if t < sb.intro.duration - 0.4 else max(0.0, (sb.intro.duration - t) / 0.4)
-                fr["intro"] = {"lines": sb.intro.lines, "accent": sb.intro.accent, "a": round(a, 3)}
-            fade = min(1.0, lt / FADE, (s.duration - lt) / FADE)
-            fade = max(0.0, fade)
-            cap = beats_out[s.index]["caption"]
+                a = 1.0 if t < intro.duration - 0.4 else max(0.0, (intro.duration - t) / 0.4)
+                fr["intro"] = {"style": intro.style, "lines": intro.lines, "accent": intro.accent,
+                               "title": intro.title, "kicker": intro.kicker, "subtitle": intro.subtitle,
+                               "icon": intro.icon, "a": round(a, 3)}
+            # 时钟
+            if clock and b.hud:
+                if in_intro and clock.intro_from is not None:
+                    left = clock.intro_from - t
+                    fr["clock"] = {"label": clock.intro_label, "value": fmt_clock(left, "countdown"), "sub": "", "a": 1.0}
+                    ci = int(math.ceil(left))
+                    if prev_clock_int is not None and ci != prev_clock_int:
+                        audio_events.append({"type": "beep", "t": t, "gain": 0.35})
+                    prev_clock_int = ci
+                elif not in_intro and bo["time"] is not None:
+                    tv = bo["time"]
+                    if isinstance(tv, list):
+                        cur = tv[0] + (tv[1] - tv[0]) * frac
+                        val = fmt_clock(cur, clock.mode if clock.mode in ("countdown", "stopwatch") else "stopwatch")
+                        if clock.mode == "countdown":
+                            ci = int(math.ceil(cur - 1e-9))
+                            if prev_clock_int is not None and ci != prev_clock_int:
+                                audio_events.append({"type": "beep", "t": t, "gain": 0.35})
+                            prev_clock_int = ci
+                    else:
+                        val = str(tv)
+                    prev_b = beats_out[s.index - 1] if s.index > 0 else None
+                    changed = prev_b is None or prev_b["time"] != tv or isinstance(tv, list)
+                    ca = 1.0 if not changed or isinstance(tv, list) else min(1.0, lt / 0.3)
+                    fr["clock"] = {"label": clock.label, "value": val, "sub": b.time_sub, "a": round(ca, 3)}
+            # 统计大字
+            if bo["stat"] and not in_intro:
+                st = bo["stat"]
+                k = min(1.0, max(0.0, (lt - 0.15) / 0.9))
+                val = count_up(st["value"], k) if st.get("count_up", True) else st["value"]
+                fr["stat"] = {"value": val, "label": st["label"], "a": round(min(1.0, lt / 0.3, (s.duration - lt) / FADE), 3)}
+            # 章节
+            if chapters and bo["chapter"] is not None and not in_intro:
+                ci = bo["chapter"]
+                fr["chapter"] = {"i": ci, "n": len(chapters), "title": chapters[ci]}
+                if bo["chip"]:
+                    fr["chip"] = bo["chip"]
+            elif bo["chip"] and not in_intro:
+                fr["chip"] = bo["chip"]
+            if bo["tooltip"] and not in_intro:
+                ta = max(0.0, min(1.0, (lt - 0.4) / 0.3, (s.duration - lt) / FADE))
+                fr["tooltip"] = {**bo["tooltip"], "a": round(ta, 3)}
+            if bo["banner"] and not in_intro:
+                fr["banner"] = {**bo["banner"], "a": round(min(1.0, lt / 0.25, (s.duration - lt) / FADE), 3),
+                                "slide": round(min(1.0, lt / 0.35), 3)}
+            if bo["screen"] and not in_intro:
+                fr["screen"] = {**bo["screen"], "a": round(min(1.0, lt / 0.3, (s.duration - lt) / FADE), 3), "lt": round(lt, 3)}
+
+            cap = bo["caption"]
             if cap and not in_intro:
-                fr["cap"] = {"text": cap, "a": round(fade, 3)}
+                fr["cap"] = {"text": cap, "a": round(fade, 3), "ref": bo["caption_ref"]}
             pop = next((p for p in pops if p["t0"] <= t < p["t1"]), None)
             if pop:
                 pa = min(1.0, (t - pop["t0"]) / FADE, (pop["t1"] - t) / FADE)
@@ -441,11 +609,20 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             elif b.callout and not in_intro:
                 fr["callout"] = {"title": b.callout.title, "sub": b.callout.subtitle, "a": round(fade, 3), "kind": "note"}
             if b.card:
-                card = beats_out[s.index]["card"]
+                card = bo["card"]
                 fr["card"] = {**card,
                               "a": round(min(1.0, lt / 0.35, (s.duration - lt) / FADE), 3)}
             if "flash" in b.effects and lt < 0.5:
                 fr["flash"] = round(1 - lt / 0.5, 3)
+            if "darken" in b.effects:
+                fr["darken"] = round(min(1.0, frac * 1.4), 3)
+            env_d = bo["env"]
+            if env_d.get("weather") == "storm":
+                li = lightning(s.index, lt)
+                if li > 0:
+                    fr["lightning"] = round(li, 3)
+            if b.scene == "map" and env_d.get("map"):
+                fr["map"] = {**env_d["map"], "p": round(frac, 4), "t": round(lt, 3)}
         elif s.kind == "chart":
             prog = min(1.0, lt / max(0.1, s.duration * 0.75))
             fr["chart"] = {"p": round(prog, 4), "a": round(min(1.0, lt / 0.4), 3)}
@@ -458,30 +635,59 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             fr["scene"] = "void"
             fr["intensity"] = 0.0
         else:
-            a = min(1.0, lt / 0.5)
-            fr["question"] = {"text": sb.outro.question, "a": round(a, 3)}
+            a = round(min(1.0, lt / 0.5), 3)
+            end = sb.outro.end
+            if end is None:
+                fr["end"] = {"kind": "question", "kicker": "", "lines": [sb.outro.question], "accent_line": -1,
+                             "sub": "", "a": a, "icon": intro.icon}
+            else:
+                fr["end"] = {**end.model_dump(), "a": a, "icon": intro.icon,
+                             "title": intro.title if end.kind == "title" else ""}
             fr["scene"] = "void"
             fr["intensity"] = 0.0
         frames.append(fr)
 
-    # 声音事件：段落 sfx + 效果自动配声 + 里程碑 whoosh
+    # 声音事件：段落 sfx + 效果/界面自动配声 + 里程碑 whoosh
+    prev_ch = None
     for s in beat_secs:
         b = s.beat
+        bo = beats_out[s.index]
         for x in b.sfx:
             audio_events.append({"type": x.type, "t": s.start + x.at, "gain": x.gain})
         if "shockwave" in b.effects or "vapor_cone" in b.effects:
             audio_events.append({"type": "boom", "t": s.start + 0.05, "gain": 1.0})
         if "flash" in b.effects:
             audio_events.append({"type": "impact", "t": s.start, "gain": 0.8})
+        if "earthquake" in b.effects:
+            audio_events.append({"type": "rumble", "t": s.start, "gain": 0.9, "dur": s.duration})
         if b.card:
             audio_events.append({"type": "swell", "t": s.start, "gain": 0.7})
+        if b.stat:
+            audio_events.append({"type": "whoosh", "t": s.start + 0.1, "gain": 0.3})
+        if b.banner:
+            audio_events.append({"type": "impact", "t": s.start, "gain": 0.5})
+        if b.screen and b.screen.kind == "phone_call":
+            for k in range(int(s.duration / 1.6) + 1):
+                audio_events.append({"type": "ring", "t": s.start + 0.2 + k * 1.6, "gain": 0.6})
+        if b.screen and b.screen.kind == "vitals":
+            for k in range(int(s.duration / 0.55)):
+                audio_events.append({"type": "beep", "t": s.start + 0.1 + k * 0.55, "gain": 0.25})
+        if bo["chapter"] is not None and bo["chapter"] != prev_ch and s.index > 0:
+            audio_events.append({"type": "whoosh", "t": s.start, "gain": 0.4})
+        prev_ch = bo["chapter"]
+        if clock and clock.mode == "elapsed" and isinstance(bo["time"], str) and s.index > 0 \
+                and beats_out[s.index - 1]["time"] != bo["time"]:
+            audio_events.append({"type": "tick", "t": s.start, "gain": 0.45})
+        if bo["env"].get("weather") == "storm":
+            for k0 in lightning_times(s.index, s.duration):
+                audio_events.append({"type": "thunder", "t": s.start + k0 + 0.35, "gain": 0.8})
     for p in pops:
         audio_events.append({"type": "whoosh", "t": p["t0"], "gain": 0.55})
-    if sb.outro.question:
+    if sb.outro.question or sb.outro.end:
         audio_events.append({"type": "drop", "t": secs[-1].start, "gain": 0.9})
 
     chart = None
-    if sb.outro.chart:
+    if sb.outro.chart and has_q:
         steps = []
         k = 0
         while k * q.model.step <= sim_total + 1e-9 and k < 400:
@@ -502,8 +708,10 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                  "steps": steps, "refs": refs, "breach": breach, "unit": q.unit}
 
     return {
-        "version": 1, "title": sb.title, "fps": fps, "width": sb.width, "height": sb.height,
-        "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind,
+        "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height,
+        "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
+        "theme": sb.theme.model_dump(), "chapters": chapters,
+        "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},
         "beats": beats_out, "frames": frames, "audio": sorted(audio_events, key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,
     }

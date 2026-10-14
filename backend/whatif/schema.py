@@ -4,27 +4,59 @@ What-if 视频的分镜（storyboard）结构。
 LLM 只负责「写」：选场景、镜头、文案、里程碑；所有数字（速度、距离、倍率、
 里程碑出现的时刻）由 model.py 按增长模型算出来，文案里的数字用占位符引用，
 保证画面上的数据前后一致、不会编造。
+
+支持多种版式（format），与参考账号的几类视频对应：
+- escalation：数值持续增长 + 数据 HUD + 里程碑（"每秒快一倍"）
+- timeline：「+10 SEC → +1 HOUR → +100 YEARS」跳时 + 大号统计数字（"如果所有女性消失"）
+- countdown：倒计时时钟（"摩擦力消失 5 秒"）
+- story：分章节叙事，顶部进度条 + 章节标题 + 时间标签 + 信息框（"TWISTEX"、"月球碎裂"）
+- survival：计时器 + 生命体征等屏幕（"被毒蛇咬了"）
 """
 from __future__ import annotations
 
-from typing import List, Literal, Optional, Tuple
+from typing import List, Literal, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-SceneName = Literal["city", "highway", "desert", "ocean", "sky", "orbit", "deep_space", "lab", "void"]
-CameraName = Literal["follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup"]
-SubjectType = Literal["runner", "ball", "car", "cube", "rocket", "none"]
-Action = Literal["idle", "walk", "run", "sprint", "float", "fly"]
+Format = Literal["escalation", "timeline", "countdown", "story", "survival"]
+SceneName = Literal[
+    "city", "highway", "suburb", "park", "fields", "forest", "desert", "outback", "mountains", "volcano",
+    "coast", "ocean", "sky", "orbit", "deep_space", "globe", "map", "interior", "ancient", "lab", "void",
+]
+CameraName = Literal[
+    "follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup",
+    "establishing", "pov", "top_down", "dolly",
+]
+SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
+Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall"]
+Outfit = Literal["casual", "hoodie", "scrubs", "doctor", "hivis", "suit", "robe", "soldier", "child", "ranger", "police"]
 Effect = Literal[
     "motion_blur", "heat", "plasma", "speedlines", "shake", "shockwave",
     "dust", "vapor_cone", "glow", "flash",
+    "fire", "smoke", "embers", "earthquake", "vanish", "freeze", "darken",
 ]
-SfxType = Literal["whoosh", "boom", "riser", "impact", "tick", "swell", "drop"]
+SfxType = Literal[
+    "whoosh", "boom", "riser", "impact", "tick", "swell", "drop",
+    "rumble", "alarm", "heartbeat", "crack", "ring", "beep", "siren", "thunder",
+]
 QuantityKind = Literal["speed", "length", "mass", "temperature", "count", "generic"]
+TimeOfDay = Literal["day", "golden", "dusk", "night", "dawn"]
+Weather = Literal["clear", "overcast", "rain", "storm", "snow", "ash", "fog", "dust"]
+SkyEvent = Literal["normal", "red", "dark", "meteors", "aurora"]
+Room = Literal["hospital", "operating_room", "classroom", "nursery", "office", "store", "home", "lab", "court", "hall", "bunker"]
+Icon = Literal[
+    "bars", "people", "person", "earth", "sun", "moon", "volcano", "tornado", "wave", "snake", "bolt",
+    "drop", "clock", "flame", "mountain", "building", "heart", "warning", "star", "ice", "rocket", "horse", "none",
+]
 
 SCENES: Tuple[str, ...] = SceneName.__args__  # type: ignore[attr-defined]
 CAMERAS: Tuple[str, ...] = CameraName.__args__  # type: ignore[attr-defined]
 EFFECTS: Tuple[str, ...] = Effect.__args__  # type: ignore[attr-defined]
+OUTFITS: Tuple[str, ...] = Outfit.__args__  # type: ignore[attr-defined]
+ACTIONS: Tuple[str, ...] = Action.__args__  # type: ignore[attr-defined]
+ROOMS: Tuple[str, ...] = Room.__args__  # type: ignore[attr-defined]
+ICONS: Tuple[str, ...] = Icon.__args__  # type: ignore[attr-defined]
+SFX: Tuple[str, ...] = SfxType.__args__  # type: ignore[attr-defined]
 
 
 class _Strict(BaseModel):
@@ -71,10 +103,96 @@ class Quantity(_Strict):
 class Subject(_Strict):
     type: SubjectType = "runner"
     action: Action = "run"
+    outfit: Outfit = "hoodie"        # runner/person 的服装
     scale: float = 1.0
     scale_with_value: bool = False   # length 类：主体尺寸跟着数值变
     color: str = "#c8322b"
 
+
+class CastGroup(_Strict):
+    """场景里的一群人（路人、医护、学生……）。位置由渲染端按 layout 确定性生成。"""
+    outfit: Outfit = "casual"
+    count: int = Field(default=8, ge=1, le=80)
+    action: Action = "idle"
+    layout: Literal["around", "line", "row", "scatter", "seated", "crowd"] = "scatter"
+    distance: float = 6.0            # 离镜头焦点的大致距离（米）
+
+
+class Marker(_Strict):
+    lat: float = Field(ge=-90, le=90)
+    lon: float = Field(ge=-180, le=180)
+    label: str = ""
+    kind: Literal["ring", "dot", "glow", "cloud"] = "ring"
+    radius: float = 6.0              # 度
+
+
+class GlobeOpts(_Strict):
+    night_side: bool = False         # 晨昏线（一半黑夜）
+    markers: List[Marker] = Field(default_factory=list)
+    faults: bool = False             # 板块断层发光
+    ring: bool = False               # 碎片环
+    moon: Literal["none", "whole", "shattered"] = "none"
+    frozen: bool = False             # 冰封地球
+    dry_oceans: bool = False         # 海洋消失
+    spin: float = 0.05               # 自转速度（弧度/秒，视觉）
+    focus: Optional[Tuple[float, float]] = None  # 朝向镜头的经纬度
+
+
+class MapPoint(_Strict):
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    text: str = ""
+
+
+class MapOpts(_Strict):
+    labels: List[MapPoint] = Field(default_factory=list)
+    path: List[MapPoint] = Field(default_factory=list)  # 移动轨迹（按本段进度揭示）
+    zone: Optional[MapPoint] = None                     # 危险区（圆）
+    zone_radius: float = 0.12
+    style: Literal["dark", "satellite", "paper"] = "dark"
+
+
+class Env(_Strict):
+    """场景修饰：时段、天气、天象、人群密度、荒废程度、室内类型、地球/地图选项。"""
+    time: TimeOfDay = "day"
+    weather: Weather = "clear"
+    sky: SkyEvent = "normal"
+    crowd: Optional[float] = Field(default=None, ge=0, le=1)    # 行人密度；None = 场景默认
+    traffic: Optional[float] = Field(default=None, ge=0, le=1)  # 车辆密度；None = 场景默认
+    empty: bool = False              # 人消失了（车、物还在）
+    lights_off: bool = False         # 断电：夜里窗户不亮
+    overgrown: float = Field(default=0.0, ge=0, le=1)  # 荒废 / 植物覆盖
+    damage: float = Field(default=0.0, ge=0, le=1)     # 碎片、倒塌
+    room: Room = "office"            # scene=interior 时的房间类型
+    globe: Optional[GlobeOpts] = None
+    map: Optional[MapOpts] = None
+
+
+class Stat(_Strict):
+    """画面上方的大号数字（"90%" / "OF THE WORLD'S NURSES ARE WOMEN"）。是事实陈述：须可查证。"""
+    value: str
+    label: str = ""
+    count_up: bool = True
+
+
+class Tooltip(_Strict):
+    label: str = "FACT"
+    text: str
+
+
+class Banner(_Strict):
+    kicker: str = "BREAKING NEWS"
+    title: str
+    subtitle: str = ""
+
+
+class Screen(_Strict):
+    """手机来电 / 生命体征监护 / 信息屏。"""
+    kind: Literal["phone_call", "vitals", "board"] = "board"
+    title: str = ""
+    subtitle: str = ""
+    badge: str = ""
+    rows: List[Tuple[str, str]] = Field(default_factory=list)
 
 class Callout(_Strict):
     title: str
@@ -86,6 +204,17 @@ class Card(_Strict):
     rows: List[Tuple[str, str]] = Field(default_factory=list)
     tone: Literal["neutral", "warning"] = "neutral"
 
+
+class Clock(_Strict):
+    """左侧中部的时间块。elapsed: "+10 SEC" 标签；countdown/stopwatch：连续走动的数字时钟；time_of_day："6:03 PM"。"""
+    mode: Literal["elapsed", "countdown", "stopwatch", "time_of_day", "none"] = "elapsed"
+    label: str = ""                  # 例 "WITHOUT WOMEN" / "FRICTION RETURNS IN" / "TIME SINCE BITE"
+    intro_label: str = ""            # 片头倒计时的标签，例 "WOMEN VANISH IN"
+    intro_from: Optional[float] = None  # 片头倒计时起点（秒）；None = 片头不显示时钟
+
+
+class Theme(_Strict):
+    accent: str = "#f0883e"          # 主题强调色（女性=粉、地球=蓝、太阳=黄……）
 
 class Sfx(_Strict):
     type: SfxType
@@ -106,7 +235,18 @@ class Beat(_Strict):
     sfx: List[Sfx] = Field(default_factory=list)
     hud: bool = True
     altitude: Optional[Tuple[float, float]] = None  # 可选：本段起止海拔（米），HUD 显示
-
+    # --- 多版式 ---
+    env: Optional[Env] = None        # 省略=沿用上一段（换场景时重置为默认）
+    cast: List[CastGroup] = Field(default_factory=list)
+    time: Optional[Union[str, Tuple[float, float]]] = None  # "+1 HOUR" 或 [起, 止] 秒（倒计时/秒表）
+    time_sub: str = ""               # 时钟下面的一行小字
+    stat: Optional[Stat] = None
+    chapter: Optional[str] = None    # 章节标题；省略=沿用上一段
+    chip: str = ""                   # 右上角时间标签（"6:20 PM" / "5 DAYS LATER"）
+    tooltip: Optional[Tooltip] = None
+    caption_ref: str = ""            # 字幕下的出处（"LUKE 22:42"）
+    banner: Optional[Banner] = None
+    screen: Optional[Screen] = None
     @field_validator("caption")
     @classmethod
     def _caption_len(cls, v: str) -> str:
@@ -116,10 +256,22 @@ class Beat(_Strict):
 
 
 class Intro(_Strict):
+    style: Literal["stack", "title", "chapter"] = "stack"
     lines: List[str] = Field(default_factory=lambda: ["WHAT IF", "YOU GOT", "2× FASTER", "EVERY SECOND?"])
-    accent: int = 2              # 哪一行用强调色、放大
+    accent: int = 2              # stack：哪一行用强调色、放大
+    title: str = ""              # title/chapter：用 *星号* 标出强调词，例 "What if all *women* disappeared?"
+    kicker: str = ""             # 标题上方小字（"PART 1"）
+    subtitle: str = ""           # 标题下方小字（"A HYPOTHETICAL SIMULATION"）
+    icon: Icon = "bars"
     duration: float = 2.0
 
+
+class EndCard(_Strict):
+    kind: Literal["question", "title", "tagline", "memorial", "continued"] = "question"
+    kicker: str = ""             # 小字（"IN MEMORY OF" / "PART 2"）
+    lines: List[str] = Field(default_factory=list)
+    accent_line: int = -1        # 哪一行用强调色
+    sub: str = ""
 
 class Outro(_Strict):
     chart: bool = True
@@ -129,13 +281,16 @@ class Outro(_Strict):
     chart_duration: float = 7.0
     question: str = "HOW MANY SECONDS WOULD YOU SURVIVE?"
     question_duration: float = 3.0
-
+    end: Optional[EndCard] = None    # 设置后替代 question 的样式
 
 class Storyboard(_Strict):
     version: int = 1
+    format: Format = "escalation"
     title: str
     premise: str
-    quantity: Quantity
+    theme: Theme = Field(default_factory=Theme)
+    quantity: Optional[Quantity] = None   # escalation 必填；其它版式可省略
+    clock: Optional[Clock] = None
     intro: Intro = Field(default_factory=Intro)
     beats: List[Beat] = Field(min_length=1)
     outro: Outro = Field(default_factory=Outro)
@@ -146,7 +301,11 @@ class Storyboard(_Strict):
     @model_validator(mode="after")
     def _check(self) -> "Storyboard":
         if self.beats[0].subject is None:
-            self.beats[0].subject = Subject()
+            self.beats[0].subject = Subject() if self.format == "escalation" else Subject(type="none")
+        if self.format == "escalation" and self.quantity is None:
+            raise ValueError("format=escalation 需要 quantity")
+        if self.quantity is None and self.outro.chart:
+            self.outro.chart = False
         last = 0.0
         sim = 0.0
         for i, b in enumerate(self.beats):

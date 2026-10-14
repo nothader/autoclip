@@ -1,6 +1,6 @@
 // 主体（跑步的人 / 球 / 车 / 方块 / 火箭）与特效（尘土 / 速度线 / 等离子 / 激波 ...）。
 // 全部是帧号的纯函数：同一帧在任何 worker 里渲染出来都一样。
-import * as THREE from "./vendor/three.module.min.js";
+import * as THREE from "three";
 
 const std = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.75, metalness: 0.0, ...o });
 
@@ -349,6 +349,23 @@ export class Effects {
     }));
     this.group.add(this.vapor);
 
+    // 火 / 烟 / 余烬：放在场景焦点（主体或镜头前方）
+    this.fireN = 60;
+    this.fire = [];
+    const fireMat = new THREE.SpriteMaterial({ map: SOFT, color: 0xff7a20, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+    for (let i = 0; i < this.fireN; i++) { const s = new THREE.Sprite(fireMat.clone()); this.group.add(s); this.fire.push(s); }
+    this.smokeN = 70;
+    this.smoke = [];
+    const smokeMat = new THREE.SpriteMaterial({ map: SOFT, color: 0x4a4744, transparent: true, depthWrite: false });
+    for (let i = 0; i < this.smokeN; i++) { const s = new THREE.Sprite(smokeMat.clone()); this.group.add(s); this.smoke.push(s); }
+    const eg = new THREE.BufferGeometry();
+    eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(300 * 3), 3));
+    this.embers = new THREE.Points(eg, new THREE.PointsMaterial({ color: 0xffa040, size: 0.08, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    this.embers.frustumCulled = false;
+    this.group.add(this.embers);
+    this.fireLight = new THREE.PointLight(0xff7a30, 0, 30, 1.6);
+    this.group.add(this.fireLight);
+
     // 冲击波环
     this.ring = new THREE.Mesh(new THREE.RingGeometry(0.85, 1.0, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
     this.group.add(this.ring);
@@ -445,6 +462,49 @@ export class Effects {
       this.vapor.material.uniforms.a.value = a;
       this.vapor.position.set(pos.x, pos.y + 1.0 * S, pos.z + 0.5 * S);
       this.vapor.scale.setScalar(S * (1 + lt * 0.4));
+    }
+
+    // 火 / 烟 / 余烬
+    const focus = subj ? pos.clone() : (cam ? new THREE.Vector3(cam.position.x, 0, cam.position.z - 9) : new THREE.Vector3());
+    if (subj) focus.z -= 3 * S;
+    const fireOn = fx.has("fire");
+    for (let i = 0; i < this.fireN; i++) {
+      const sp = this.fire[i];
+      sp.visible = fireOn;
+      if (!fireOn) continue;
+      const life = 0.9;
+      const age = ((t * 1.3 + rnd(i) * life) % life) / life;
+      const ox = (rnd(i + 1) - 0.5) * 6, oz = (rnd(i + 2) - 0.5) * 3;
+      sp.position.set(focus.x + ox * (1 - age * 0.5), focus.y + age * 3.2, focus.z + oz);
+      const sc = (1.6 - age) * 1.4;
+      sp.scale.set(sc, sc * 1.4, 1);
+      sp.material.opacity = (1 - age) * 0.8;
+      sp.material.color.setHex(age < 0.3 ? 0xffd27a : 0xff6a1a);
+    }
+    this.fireLight.intensity = fireOn ? 40 + 12 * Math.sin(t * 23) : 0;
+    this.fireLight.position.set(focus.x, focus.y + 1.5, focus.z);
+    const smokeOn = fx.has("smoke") || fireOn;
+    for (let i = 0; i < this.smokeN; i++) {
+      const sp = this.smoke[i];
+      sp.visible = smokeOn;
+      if (!smokeOn) continue;
+      const life = 5;
+      const age = ((t + rnd(i + 7) * life) % life) / life;
+      sp.position.set(focus.x + (rnd(i) - 0.5) * 4 + age * 6, focus.y + 2 + age * 22, focus.z + (rnd(i + 3) - 0.5) * 4);
+      const sc = 2 + age * 12;
+      sp.scale.set(sc, sc, 1);
+      sp.material.opacity = (1 - age) * 0.55;
+    }
+    this.embers.visible = fx.has("embers") || fireOn;
+    if (this.embers.visible) {
+      const a = this.embers.geometry.attributes.position.array;
+      for (let i = 0; i < 300; i++) {
+        const age = ((t * 0.5 + rnd(i + 11)) % 1);
+        a[i * 3] = focus.x + (rnd(i) - 0.5) * 10 + Math.sin(t * 2 + i) * 0.5;
+        a[i * 3 + 1] = focus.y + age * 12;
+        a[i * 3 + 2] = focus.z + (rnd(i + 5) - 0.5) * 8;
+      }
+      this.embers.geometry.attributes.position.needsUpdate = true;
     }
 
     this.ring.visible = fx.has("shockwave") && lt < 1.6;

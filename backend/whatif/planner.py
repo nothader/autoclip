@@ -15,63 +15,102 @@ from typing import Any, Callable, Dict, List, Optional
 from pydantic import ValidationError
 
 from .model import PLACEHOLDERS, validate
-from .schema import CAMERAS, EFFECTS, SCENES, Storyboard
+from .schema import ACTIONS, CAMERAS, EFFECTS, ICONS, OUTFITS, ROOMS, SCENES, SFX, Storyboard
 
 logger = logging.getLogger(__name__)
 
-EXAMPLE_PATH = Path(__file__).parent / "examples" / "twice_as_fast.json"
+EXAMPLES_DIR = Path(__file__).parent / "examples"
+EXAMPLE_PATH = EXAMPLES_DIR / "twice_as_fast.json"
+FORMAT_EXAMPLES = {
+    "escalation": "twice_as_fast.json",
+    "timeline": "earth_stopped_spinning.json",
+    "countdown": "friction_disappeared.json",
+    "story": "moon_shattered.json",
+}
 
-RULES = f"""You are the writer-director of a short vertical "what if" science video (TikTok / Reels / Shorts, 60-95 seconds).
-Style: a calm, cinematic 3D simulation. A low-poly character (or object) in a real-world setting, a data HUD at the top,
-milestone call-outs that pop up when a real-world reference value is crossed, one short italic caption per shot,
-no narration, no music (sound effects only), and a step chart + question card at the end.
+FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told otherwise):
+- escalation: a single quantity keeps growing (2x faster / taller / hotter every second). Needs `quantity` (growth model,
+  milestones, optional limit). Data HUD at the top, milestones pop up when crossed, step chart + question at the end.
+- timeline: something happens once, then we jump forward in time ("+10 SEC", "+1 HOUR", "+1 YEAR", "+100 YEARS") to
+  show consequences (what if all X disappeared / the Sun went out / Earth stopped spinning). clock.mode="elapsed",
+  each beat sets `time` to a short label. Use `stat` for big, well-known facts ("90%" / "OF THE WORLD'S NURSES ARE WOMEN").
+- countdown: a short event with a ticking clock (what if friction / the atmosphere / gravity vanished for 5 seconds).
+  clock.mode="countdown", each beat sets `time` to [from_seconds, to_seconds] going DOWN; a final beat can use a word
+  ("BACK"). Video time is much longer than clock time (slow motion).
+- story: a narrative in 4-6 chapters (a real event reconstruction, a disaster unfolding, a hypothetical sequence).
+  Beats set `chapter` when a new chapter starts, `chip` for time/date labels ("6:03 PM", "5 DAYS LATER"), `tooltip`
+  for sourced facts ("REAL EVENT: ..."), `banner` for a news headline, scene="map" with env.map for maps.
+- survival: a personal survival scenario timed from an event ("TIME SINCE BITE"). clock.mode="stopwatch",
+  `time` = [from, to] seconds counting UP; use `screen` (vitals / phone_call) and interiors (hospital)."""
 
-Your job: turn the PREMISE into a storyboard JSON. You write the words and choose the shots.
-The renderer COMPUTES every number from your growth model, so:
+RULES = f"""You are the writer-director of a short vertical "what if" science video (TikTok / Reels / Shorts, 40-95 seconds).
+Style: calm, cinematic low-poly 3D simulation; small caps labels; one short italic caption per shot; NO narration and NO
+music (sound effects only, generated automatically); a title card at the start and an end card.
 
-NUMBERS
-- Pick quantity.kind from: speed (unit m/s), length (m), mass (kg), temperature (°C), count, generic.
-- Describe the growth with quantity.model: exponential (start, factor, step seconds), linear (start, rate), or keyframes [[sim_seconds, value], ...].
-- NEVER hard-code a computed number in a caption. Use placeholders, which are filled from the model at the END of that beat:
-  {', '.join('{' + p + '}' for p in PLACEHOLDERS)}.
-  ({{kmh}}, {{mach}}, {{light_pct}}, {{distance}} only make sense for speed.) Small counting words like "four seconds in" are fine
-  only if they are true for that beat.
-- Milestones are real, well-known reference values (with the value in the same unit as quantity.unit). They pop up automatically at the
-  exact moment the value crosses them, so do NOT repeat them in captions. Only use values you are confident are correct and commonly cited;
-  write the detail line as "ITS TOP SPEED: ABOUT 100 km/h" style, approximate wording ("about", "~") when appropriate.
-  Every milestone must actually be crossed during the simulated time. 6-10 milestones, spread across the video.
-- Use quantity.limit for a hard physical limit if one exists (e.g. speed of light, 299792458 m/s).
+{FORMATS_GUIDE}
+
+YOUR OUTPUT is a storyboard JSON (same shape as the examples). You write the words and choose the shots; the renderer
+draws everything and computes every number that comes from a growth model.
+
+NUMBERS AND FACTS
+- Only state facts that are well established and commonly cited. Prefer "about"/"~" for rounded figures. Never invent
+  statistics, dates, names or quotes. If unsure, leave the number out.
+- Speculative consequences must be framed as hypothetical ("would", "could"); label simulations as simulations.
+- escalation only: NEVER hard-code computed numbers in captions; use placeholders {', '.join('{' + p + '}' for p in PLACEHOLDERS)}
+  (filled at the end of each beat). Milestones are real reference values in quantity.unit; they must be crossed.
+- No political statements or endorsements. For religious or historical narratives, attribute events to their source
+  (use caption_ref such as "LUKE 22:42") rather than presenting them as established fact.
 
 TIMING
-- Each beat has a video duration (2.5-5 s) and sim_end: the simulated time reached at the end of that beat. Simulated time must never go backwards.
-  sim progressing slower than video time shows "SLOW MOTION ×N" in the HUD; faster shows "TIME-LAPSE ×N". Most beats should be slow motion.
-- 14-20 beats. Total beats duration 55-80 s. Outro: chart 6-8 s with 1-2 short chart_captions, question card 3 s.
+- 10-20 beats, each 2.5-5 s. Total 40-90 s plus the end card (3 s). First beat is under the title card (intro.duration
+  ~2.5 s), so keep it captionless and visually strong (establishing / wide).
+- escalation: each beat has sim_end (simulated seconds reached at the end of the beat, never decreasing).
 
 SHOTS
-- scene: one of {', '.join(SCENES)}. Progress through settings that fit the escalation (e.g. city → highway → desert → sky → orbit → deep_space).
-- camera: one of {', '.join(CAMERAS)}. Vary them; start wide, then front/closeup to introduce the subject.
-- subject: {{"type": runner|ball|car|cube|rocket|none, "action": idle|walk|run|sprint|float|fly, "scale": 1, "scale_with_value": false, "color": "#c8322b"}}.
-  Only set it when it changes. For a growing-size premise use kind=length and scale_with_value=true.
-- effects (only when physically motivated): {', '.join(EFFECTS)}.
-- sfx (optional): [{{"type": "riser"|"whoosh"|"boom"|"impact"|"swell"|"tick", "at": seconds_from_beat_start}}]. Booms are added automatically for
-  shockwave / vapor_cone, impacts for flash, swells for cards, whooshes for milestones, ticks for HUD steps. Add a riser ~2.4 s before a big moment.
-- callout (optional, for non-numeric notes such as "SIMULATION — BODY MADE INDESTRUCTIBLE"). card (optional, at most 1-2): a boxed panel such as
-  "PHYSICS BREAKDOWN" with rows [[label, value]]; values may use placeholders; tone "warning" for impossibility.
+- scene: {', '.join(SCENES)}.
+  interior uses env.room: {', '.join(ROOMS)}. globe uses env.globe (night_side, markers [lat, lon, kind ring|dot|glow|cloud,
+  radius], faults, ring, moon none|whole|shattered, frozen, dry_oceans, spin, focus [lat, lon]). map uses env.map
+  (labels/path points with x,y in 0..1 and text, zone + zone_radius, style dark|satellite|paper).
+- env (carries over to the next beats in the same scene; reset when the scene changes): time day|golden|dusk|night|dawn,
+  weather clear|overcast|rain|storm|snow|ash|fog|dust, sky normal|red|dark|meteors|aurora, crowd 0..1, traffic 0..1,
+  empty (people gone), lights_off, overgrown 0..1, damage 0..1.
+- camera: {', '.join(CAMERAS)} (establishing/wide/aerial/top_down for places, pov/dolly to move through a space,
+  front/closeup/side/follow for a subject; on globe: wide/front/closeup/orbit).
+- subject: {{"type": runner|person|ball|car|cube|rocket|none, "action": ..., "outfit": ...}} only when it changes;
+  type none for pure places. cast: groups of people [{{"outfit", "count" (<=40), "action", "layout" around|line|row|scatter|seated|crowd, "distance"}}].
+  outfits: {', '.join(OUTFITS)}. actions: {', '.join(ACTIONS)}.
+- effects (only when motivated): {', '.join(EFFECTS)}. "vanish" makes people disappear during that beat.
+- sfx (optional, auto-added for most events): {', '.join(SFX)} with "at" seconds from beat start.
+- overlays per beat (optional): stat, card (rows), tooltip, banner, screen (phone_call | vitals | board), callout, chip,
+  chapter, caption_ref, time, time_sub.
 
 WRITING
-- English only. Captions: one sentence, <= 110 characters, plain and genuine. No hype, no clickbait, no false claims.
-- If the premise becomes physically impossible or fatal, say so plainly and, if you continue, label it a simulation.
-- Intro card lines: 4 short ALL-CAPS lines like ["WHAT IF", "YOU GOT", "2× FASTER", "EVERY SECOND?"], accent = index of the key line.
-- End question: an engaging, honest question in ALL CAPS (<= 40 chars).
+- English only. Captions: one sentence, <= 110 characters, plain, genuine, no hype or clickbait.
+- intro: style "title" with the key word wrapped in *asterisks* ("What if all *women* disappeared?"), an icon from
+  {', '.join(ICONS)}, optional small subtitle. theme.accent: one restrained color that fits the topic.
+- outro.end: kind question|title|tagline|memorial|continued with short ALL-CAPS lines; set outro.chart false unless escalation.
 
 Return ONLY the JSON object, no prose, no markdown fences."""
 
 
-def build_prompt(premise: str, notes: str = "") -> str:
-    example = EXAMPLE_PATH.read_text(encoding="utf-8")
-    return (f"{RULES}\n\nEXAMPLE (premise: \"What if you got 2x faster every second?\"):\n{example}\n\n"
-            f"PREMISE: {premise.strip()}\n" + (f"EXTRA NOTES: {notes.strip()}\n" if notes.strip() else "")
-            + "\nStoryboard JSON:")
+def _example_text(name: str) -> str:
+    return json.dumps(json.loads((EXAMPLES_DIR / name).read_text(encoding="utf-8")), ensure_ascii=False, separators=(",", ":"))
+
+
+def build_prompt(premise: str, notes: str = "", fmt: Optional[str] = None) -> str:
+    parts = [RULES, ""]
+    names = list(FORMAT_EXAMPLES.items())
+    if fmt in FORMAT_EXAMPLES:  # 指定版式时它的示例放最后（离题目最近）
+        names.sort(key=lambda kv: kv[0] == fmt)
+    for f, name in names:
+        parts.append(f"EXAMPLE ({f}):\n{_example_text(name)}\n")
+    parts.append(f"PREMISE: {premise.strip()}")
+    if fmt:
+        parts.append(f"FORMAT: {fmt} (required)")
+    if notes.strip():
+        parts.append(f"EXTRA NOTES: {notes.strip()}")
+    parts.append("\nStoryboard JSON:")
+    return "\n".join(parts)
 
 
 def extract_json(text: str) -> Dict[str, Any]:
@@ -97,7 +136,7 @@ def check(data: Dict[str, Any]) -> tuple[Optional[Storyboard], List[str]]:
     return sb, validate(sb)
 
 
-def plan_storyboard(premise: str, *, notes: str = "", max_repairs: int = 2,
+def plan_storyboard(premise: str, *, notes: str = "", fmt: Optional[str] = None, max_repairs: int = 2,
                     call: Optional[Callable[[str], str]] = None) -> Storyboard:
     """call(prompt) -> 文本；默认用 AutoClip 当前配置的 LLM。"""
     if call is None:
@@ -105,7 +144,7 @@ def plan_storyboard(premise: str, *, notes: str = "", max_repairs: int = 2,
         mgr = get_llm_manager()
         call = lambda p: mgr.call_with_retry(p)  # noqa: E731
 
-    prompt = build_prompt(premise, notes)
+    prompt = build_prompt(premise, notes, fmt)
     reply = call(prompt)
     for attempt in range(max_repairs + 1):
         try:
@@ -115,6 +154,8 @@ def plan_storyboard(premise: str, *, notes: str = "", max_repairs: int = 2,
             data = None
         else:
             sb, problems = check(data)
+            if sb is not None and fmt and sb.format != fmt:
+                problems.append(f"format must be {fmt}, got {sb.format}")
             if sb is not None and not problems:
                 return sb
         if attempt == max_repairs:

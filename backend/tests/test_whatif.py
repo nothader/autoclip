@@ -192,3 +192,136 @@ def test_whatif_render_smoke(tmp_path):
     except Exception as e:  # 没装浏览器的环境
         pytest.skip(f"chromium 不可用: {e}")
     assert all(p.exists() and p.stat().st_size > 10_000 for p in paths)
+
+
+# ---------------------------------------------------------- 多版式（v2） ---
+from backend.whatif.model import count_up, fmt_clock, lightning, lightning_times  # noqa: E402
+from backend.whatif.planner import EXAMPLES_DIR, FORMAT_EXAMPLES, build_prompt  # noqa: E402
+
+
+def _timeline(**over) -> dict:
+    d = {
+        "format": "timeline", "title": "t", "premise": "p",
+        "clock": {"mode": "elapsed", "label": "WITHOUT X", "intro_label": "X VANISHES IN", "intro_from": 5},
+        "intro": {"style": "title", "title": "What if all *x* disappeared?", "duration": 1.0},
+        "beats": [
+            {"duration": 2, "scene": "city", "camera": "wide"},
+            {"duration": 2, "scene": "interior", "env": {"room": "hospital"}, "time": "+10 SEC",
+             "stat": {"value": "90%", "label": "OF NURSES"}, "caption": "Hospitals lose most nurses."},
+            {"duration": 2, "scene": "city", "time": "+1 HOUR", "chapter": "After"},
+        ],
+        "outro": {"question_duration": 1, "end": {"kind": "tagline", "lines": ["A", "B"], "accent_line": 1}},
+    }
+    d.update(over)
+    return d
+
+
+@pytest.mark.parametrize("name", sorted(p.name for p in EXAMPLES_DIR.glob("*.json")))
+def test_every_example_validates_and_compiles(name):
+    sb = Storyboard.model_validate_json((EXAMPLES_DIR / name).read_text(encoding="utf-8"))
+    assert validate(sb) == []
+    plan = compile_plan(sb)
+    assert len(plan["frames"]) == plan["n_frames"] > 0
+    assert plan["frames"][-1].get("end") or plan["frames"][-1].get("chart")
+
+
+def test_examples_cover_every_prompted_format():
+    for fmt, name in FORMAT_EXAMPLES.items():
+        sb = Storyboard.model_validate_json((EXAMPLES_DIR / name).read_text(encoding="utf-8"))
+        assert sb.format == fmt
+
+
+def test_count_up_and_clock_format():
+    assert count_up("90%", 1) == "90%"
+    assert count_up("90%", 0) == "0%"
+    assert count_up("~100,000", 0.5).startswith("~") and "," in count_up("~100,000", 0.5)
+    assert count_up("~2/3", 0.3) == "~0/3" or count_up("~2/3", 0.3).startswith("~")
+    assert count_up("BACK", 0.2) == "BACK"
+    assert fmt_clock(4.821, "countdown") == "0:04.821"
+    assert fmt_clock(3725, "stopwatch") == "1:02:05"
+
+
+def test_timeline_frames_have_clock_stat_and_intro_countdown():
+    plan = compile_plan(Storyboard.model_validate(_timeline()))
+    f_intro = plan["frames"][5]
+    assert f_intro["intro"]["style"] == "title"
+    assert f_intro["clock"]["label"] == "X VANISHES IN" and f_intro["clock"]["value"].startswith("0:04")
+    f_stat = plan["frames"][int(3.5 * plan["fps"])]
+    assert f_stat["clock"]["value"] == "+10 SEC" and f_stat["stat"]["value"] == "90%"
+    assert plan["beats"][1]["env"]["room"] == "hospital"
+    assert plan["frames"][-1]["end"]["kind"] == "tagline"
+    assert plan["chapters"] == ["After"]
+    assert "hud" not in f_stat                                   # 没有 quantity 就没有数据 HUD
+
+
+def test_countdown_runs_down_and_beeps_each_second():
+    d = _timeline(format="countdown", clock={"mode": "countdown", "label": "BACK IN"})
+    d["beats"][1]["time"] = [3.0, 1.0]
+    d["beats"][2]["time"] = "BACK"
+    plan = compile_plan(Storyboard.model_validate(d))
+    vals = [f["clock"]["value"] for f in plan["frames"] if f.get("b") == 1 and "clock" in f]
+    assert vals[0] == "0:03.000" and vals[-1] < vals[0]
+    assert sum(1 for e in plan["audio"] if e["type"] == "beep") >= 1   # 跨整秒（3→2）时响一声
+
+
+def test_semantic_checks_for_formats():
+    d = _timeline(format="countdown", clock={"mode": "countdown"})
+    d["beats"][1]["time"] = [1.0, 3.0]                             # 倒计时却在增加
+    assert any("递减" in p for p in validate(Storyboard.model_validate(d)))
+    d2 = _timeline(format="story", clock=None)
+    for b in d2["beats"]:
+        b.pop("chapter", None)
+    assert any("chapter" in p for p in validate(Storyboard.model_validate(d2)))
+    d3 = _timeline()
+    d3["beats"][1]["caption"] = "At {value}."                   # 无 quantity 不能用占位符
+    assert any("占位符" in p for p in validate(Storyboard.model_validate(d3)))
+
+
+def test_env_carries_over_within_scene_and_resets_on_change():
+    d = _timeline()
+    d["beats"][0]["env"] = {"time": "night"}
+    d["beats"].insert(1, {"duration": 2, "scene": "city", "time": "+1 SEC"})
+    plan = compile_plan(Storyboard.model_validate(d))
+    assert plan["beats"][1]["env"]["time"] == "night"            # 同场景沿用
+    assert plan["beats"][2]["env"]["time"] == "day"              # 换场景重置
+
+
+def test_storm_lightning_is_deterministic_and_has_thunder():
+    assert lightning_times(3, 10) == lightning_times(3, 10)
+    t0 = lightning_times(3, 10)[0]
+    assert lightning(3, t0 + 0.01) > 0 and lightning(3, t0 + 0.5) == 0
+    d = _timeline()
+    d["beats"][0]["env"] = {"weather": "storm"}
+    d["beats"][0]["duration"] = 6
+    plan = compile_plan(Storyboard.model_validate(d))
+    assert any(e["type"] == "thunder" for e in plan["audio"])
+    assert any(f.get("lightning") for f in plan["frames"])
+
+
+def test_prompt_contains_all_format_examples_and_forced_format():
+    p = build_prompt("What if the ice melted?", fmt="timeline")
+    for fmt in FORMAT_EXAMPLES:
+        assert f"EXAMPLE ({fmt})" in p
+    assert p.rindex("EXAMPLE (timeline)") > p.rindex("EXAMPLE (story)")
+    assert "FORMAT: timeline (required)" in p
+
+
+def test_planner_enforces_requested_format():
+    good = _timeline()
+    wrong = json.loads(json.dumps(good))
+    wrong["format"] = "story"
+    wrong["beats"][2]["chapter"] = "X"
+    replies = [json.dumps(wrong), json.dumps(good)]
+    sb = plan_storyboard("x", fmt="timeline", call=lambda p: replies.pop(0))
+    assert sb.format == "timeline"
+
+
+def test_audio_layers_for_new_scenes():
+    np = pytest.importorskip("numpy")
+    from backend.whatif.audio import synthesize
+    d = _timeline()
+    d["beats"][0]["env"] = {"weather": "rain", "crowd": 0.8}
+    d["beats"][2]["effects"] = ["fire", "earthquake"]
+    d["beats"][1]["screen"] = {"kind": "vitals", "rows": [["HR", "80"]]}
+    x = synthesize(compile_plan(Storyboard.model_validate(d)))
+    assert np.isfinite(x).all() and np.max(np.abs(x)) <= 0.8

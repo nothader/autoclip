@@ -44,7 +44,10 @@ def _open_page(pw, plan_path: Path, width: int, height: int):
 
     page.route(f"{ORIGIN}**", route)
     page.goto(f"{ORIGIN}index.html?w={width}&h={height}")
-    page.wait_for_function("window.WHATIF_READY || window.WHATIF_ERROR", timeout=120_000)
+    try:
+        page.wait_for_function("window.WHATIF_READY || window.WHATIF_ERROR", timeout=120_000)
+    except Exception as e:  # noqa: BLE001
+        raise RuntimeError(f"页面加载超时；页面报错: {errors[:5]}") from e
     err = page.evaluate("window.WHATIF_ERROR || null")
     if err:
         raise RuntimeError(f"页面加载失败: {err}")

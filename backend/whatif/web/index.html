@@ -61,12 +61,89 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #question .q { font-size: 62px; line-height: 1.2; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
 #chart { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+#darken { position: absolute; inset: 0; background: #000; opacity: 0; }
+.caps { font-family: "Inter", sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
+/* 标题卡（title / chapter 样式） */
+#title { position: absolute; left: 60px; right: 60px; top: 260px; text-align: center; font-family: "WSerif", serif; }
+#title .icon { width: 120px; height: 120px; margin: 0 auto 26px; color: #fff; }
+#title .kick { font-size: 22px; color: var(--muted); margin-bottom: 18px; }
+#title .t { font-size: 66px; line-height: 1.22; font-weight: 400; }
+#title .t em { font-style: normal; color: var(--accent); font-size: 1.32em; display: block; line-height: 1.12; }
+#title.chapter .t em { display: inline; font-size: 1em; }
+#title.chapter .t { font-size: 74px; text-transform: uppercase; letter-spacing: 3px; font-weight: 500; }
+#title .sub { font-size: 17px; color: var(--dim); margin-top: 24px; }
+/* 左中部时钟 */
+#clock { position: absolute; left: 66px; top: 900px; }
+#clock .lab { font-size: 19px; color: var(--accent); }
+#clock .v { font-family: "WSerif", serif; font-size: 72px; font-weight: 400; margin-top: 4px; font-feature-settings: "tnum" 1, "lnum" 1; }
+#clock .s { font-size: 15px; color: var(--muted); margin-top: 8px; max-width: 760px; }
+/* 统计大字 */
+#stat { position: absolute; left: 60px; right: 60px; top: 300px; text-align: center; }
+#stat .v { font-family: "WSerif", serif; font-size: 132px; color: var(--accent); line-height: 1; font-feature-settings: "lnum" 1; }
+#stat .l { font-size: 20px; margin-top: 18px; color: var(--text); }
+/* 章节条 */
+#chapter { position: absolute; left: 66px; right: 66px; top: 96px; }
+#chapter .bar { display: flex; gap: 14px; }
+#chapter .seg { flex: 1; }
+#chapter .seg i { display: block; height: 5px; background: rgba(255,255,255,0.22); }
+#chapter .seg.done i { background: rgba(255,255,255,0.75); }
+#chapter .seg.cur i { background: var(--accent); }
+#chapter .seg b { display: block; text-align: center; font: 600 13px "Inter"; color: var(--dim); margin-top: 8px; }
+#chapter .k { font-size: 17px; color: var(--muted); margin-top: 34px; }
+#chapter .t { font-family: "WSerif", serif; font-size: 50px; text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; }
+#chip { position: absolute; right: 66px; top: 196px; padding: 7px 14px; border: 2px solid rgba(255,255,255,0.75);
+        border-radius: 8px; font-size: 18px; background: rgba(0,0,0,0.25); }
+#chip.alone { top: 110px; }
+#tip { position: absolute; left: 230px; top: 330px; max-width: 600px; padding: 16px 20px; border: 1.5px solid rgba(255,255,255,0.55);
+       border-radius: 8px; background: rgba(12,14,18,0.78); }
+#tip .l { font-size: 15px; color: var(--muted); }
+#tip .x { font-size: 21px; line-height: 1.35; margin-top: 6px; }
+/* 新闻横幅 */
+#banner { position: absolute; left: 70px; right: 70px; top: 560px; }
+#banner .k { display: inline-block; background: #fff; color: #b3121b; font: 800 30px "Inter"; padding: 8px 18px; letter-spacing: 2px; }
+#banner .t { background: #c8141e; color: #fff; font: 800 76px/1.02 "Inter"; padding: 16px 22px 18px; text-transform: uppercase; letter-spacing: -0.5px; }
+#banner .s { background: #fff; color: #8a0f16; font: 700 26px "Inter"; padding: 8px 22px; text-transform: uppercase; }
+/* 手机 / 监护屏 / 信息屏 */
+#screen { position: absolute; left: 50%; top: 560px; transform: translateX(-50%); }
+.phone { width: 520px; height: 900px; border-radius: 64px; background: linear-gradient(#0e1a3a, #0a1430 60%, #070d22);
+         border: 14px solid #15171c; box-shadow: 0 30px 80px rgba(0,0,0,0.55); text-align: center; position: relative; }
+.phone .clk { font: 600 22px "Inter"; margin-top: 46px; color: rgba(255,255,255,0.85); }
+.phone .av { width: 150px; height: 150px; border-radius: 50%; background: #5571c9; margin: 120px auto 0; font: 600 74px/150px "Inter";
+             box-shadow: 0 0 0 18px rgba(85,113,201,0.18), 0 0 0 40px rgba(85,113,201,0.08); }
+.phone .nm { font: 700 64px "Inter"; margin-top: 52px; }
+.phone .st { font: 500 26px "Inter"; color: rgba(255,255,255,0.75); margin-top: 6px; }
+.phone .bd { display: inline-block; background: #d23a3a; font: 700 24px "Inter"; padding: 8px 22px; border-radius: 22px; margin-top: 34px; }
+.phone .btns { position: absolute; left: 0; right: 0; bottom: 90px; display: flex; justify-content: space-around; }
+.phone .btns i { width: 112px; height: 112px; border-radius: 50%; display: block; }
+.vitals { width: 860px; background: #06090c; border: 10px solid #1d2228; border-radius: 22px; padding: 24px 30px; font-family: "Inter"; }
+.vitals .row { display: flex; justify-content: space-between; align-items: center; height: 120px; border-bottom: 1px solid #1b232b; }
+.vitals .row:last-child { border: 0; }
+.vitals .row b { font-size: 76px; font-weight: 600; }
+.vitals .row span { font-size: 22px; letter-spacing: 3px; color: #8aa; }
+.vitals svg { width: 520px; height: 90px; }
+.board { width: 860px; background: rgba(10,12,16,0.9); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; padding: 26px 30px; }
+.board .t { font: 700 30px "Inter"; letter-spacing: 3px; text-transform: uppercase; }
+.board .s { font: 500 20px "Inter"; color: var(--muted); margin-top: 6px; }
+.board .row { display: flex; justify-content: space-between; font: 500 26px "Inter"; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.12); }
+.board .row b { color: var(--accent); font-weight: 600; }
+/* 结尾卡 */
+#end { position: absolute; left: 70px; right: 70px; top: 760px; text-align: center; }
+#end .k { font-size: 18px; color: var(--muted); margin-bottom: 26px; }
+#end .ln { font-family: "WSerif", serif; font-size: 56px; line-height: 1.25; }
+#end.question .ln, #end.tagline .ln { text-transform: uppercase; letter-spacing: 3px; font-size: 54px; font-weight: 500; }
+#end .ln.acc { color: var(--accent); }
+#end.continued .ln { font-style: italic; font-size: 46px; }
+#end .sub { font-size: 16px; color: var(--dim); margin-top: 30px; line-height: 1.7; }
+#end .t { font-family: "WSerif", serif; font-size: 56px; line-height: 1.25; }
+#end .t em { font-style: normal; color: var(--accent); }
+#cap .ref { display: block; font: 600 15px "Inter"; font-style: normal; letter-spacing: 3px; color: var(--dim); margin-top: 12px; }
 .hidden { display: none !important; }
 </style>
 </head>
 <body>
 <canvas id="gl"></canvas>
 <div id="ov">
+  <svg id="map" class="hidden" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0;width:1080px;height:1920px"></svg>
   <div id="hud" class="hidden shadow">
     <div class="l"><div class="head"></div><div class="val"><span class="n"></span><span class="u"></span></div><div class="sub"></div></div>
     <div class="r"></div>
@@ -77,9 +154,20 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
   <div id="intro" class="hidden shadow"></div>
   <svg id="chart" class="hidden" viewBox="0 0 1080 1920"></svg>
   <div id="question" class="hidden"><div class="logo"><i style="height:12px"></i><i style="height:22px"></i><i style="height:32px"></i><i style="height:46px"></i></div><div class="q"></div></div>
+  <div id="chapter" class="hidden shadow"><div class="bar"></div><div class="k caps"></div><div class="t"></div></div>
+  <div id="chip" class="hidden caps"></div>
+  <div id="title" class="hidden shadow"></div>
+  <div id="stat" class="hidden shadow"><div class="v"></div><div class="l caps"></div></div>
+  <div id="clock" class="hidden shadow"><div class="lab caps"></div><div class="v"></div><div class="s caps"></div></div>
+  <div id="tip" class="hidden"><div class="l caps"></div><div class="x"></div></div>
+  <div id="banner" class="hidden"><div class="k"></div><div class="t"></div><div class="s"></div></div>
+  <div id="screen" class="hidden"></div>
+  <div id="end" class="hidden shadow"></div>
   <div id="cap" class="hidden shadow"></div>
+  <div id="darken"></div>
   <div id="flash"></div>
 </div>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 <script type="module" src="app.js"></script>
 </body>
 </html>

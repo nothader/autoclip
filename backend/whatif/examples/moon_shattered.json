@@ -1,0 +1,21 @@
+{
+  "format": "story",
+  "title": "What if the Moon shattered?",
+  "premise": "The Moon suddenly breaks into pieces. A hypothetical scenario, told in chapters.",
+  "theme": {"accent": "#e5484d"},
+  "intro": {"style": "title", "title": "What if the *Moon* shattered?", "icon": "moon", "subtitle": "A HYPOTHETICAL SCENARIO · NOT A FORECAST", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "coast", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night"}},
+    {"duration": 3.6, "scene": "globe", "camera": "wide", "env": {"globe": {"moon": "whole", "focus": [20, -60]}}, "chapter": "The Night It Broke", "chip": "9:47 PM", "caption": "A calm night. The Moon hangs where it always has."},
+    {"duration": 3.8, "scene": "globe", "camera": "wide", "env": {"globe": {"moon": "shattered", "focus": [20, -60]}}, "chip": "9:47 PM", "tooltip": {"label": "FACT", "text": "Sound can't travel through space. It would break apart in total silence."}, "sfx": [{"type": "crack", "at": 0.2}], "caption": "Then, without any warning, it breaks apart."},
+    {"duration": 3.6, "scene": "city", "camera": "dolly", "env": {"time": "night", "crowd": 0.2}, "cast": [{"outfit": "casual", "count": 14, "action": "point", "layout": "crowd", "distance": 7}], "chapter": "The Broken Sky", "chip": "1 HOUR LATER", "caption": "Billions of people look up at the same impossible sight."},
+    {"duration": 3.6, "scene": "city", "camera": "wide", "env": {"time": "night", "crowd": 0.5}, "banner": {"title": "THE MOON HAS BROKEN APART", "subtitle": "Giant fragments visible from Earth"}, "caption": "Scientists race to track every fragment."},
+    {"duration": 4.0, "scene": "fields", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night", "sky": "meteors"}, "chapter": "The First Rain", "chip": "DAYS LATER", "tooltip": {"label": "REAL EVENT", "text": "Chelyabinsk, 2013: a ~20 m space rock exploded over Russia and injured about 1,500 people."}, "caption": "Small fragments start falling as shooting stars."},
+    {"duration": 4.0, "scene": "city", "camera": "wide", "env": {"time": "night", "sky": "meteors", "damage": 0.5, "lights_off": true}, "effects": ["fire", "shake"], "sfx": [{"type": "boom", "at": 0.6}], "caption": "Bigger ones survive the fall."},
+    {"duration": 4.0, "scene": "globe", "camera": "wide", "env": {"globe": {"ring": true, "night_side": true, "focus": [10, -40]}}, "chapter": "The Ring", "chip": "MONTHS LATER", "caption": "The debris slowly spreads into a ring around Earth."},
+    {"duration": 4.0, "scene": "coast", "camera": "establishing", "env": {"time": "night"}, "stat": {"value": "~2/3", "label": "OF EARTH'S TIDES ARE DRIVEN BY THE MOON", "count_up": false}, "caption": "Spread into a ring, its pull no longer raises tides the same way."},
+    {"duration": 4.0, "scene": "fields", "camera": "dolly", "env": {"time": "night"}, "cast": [{"outfit": "casual", "count": 3, "action": "idle", "layout": "row", "distance": 6}], "chapter": "Life Without The Moon", "chip": "YEARS LATER", "caption": "For 4.5 billion years, the Moon lit our nights."},
+    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"ring": true, "focus": [10, -40]}}, "caption": "Now it's gone, and Earth would never be the same."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.2, "end": {"kind": "question", "lines": ["WOULD YOU SURVIVE", "WITHOUT THE MOON?"]}}
+}

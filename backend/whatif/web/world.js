@@ -1,173 +1,8 @@
 // 环境：city / highway / desert / ocean / sky / orbit / deep_space / lab / void。
 // 主体沿 -z 前进；地面内容按块（chunk）循环生成，块 k 的内容只由 k 决定（确定性）。
-import * as THREE from "./vendor/three.module.min.js";
-import { makeCar } from "./actors.js";
-
-const std = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, metalness: 0, ...o });
-
-function hash(n) {
-  let x = (n | 0) * 374761393 + 668265263;
-  x = (x ^ (x >>> 13)) * 1274126177;
-  return ((x ^ (x >>> 16)) >>> 0) / 4294967296;
-}
-function rng(seed) {
-  let s = seed >>> 0 || 1;
-  return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
-}
-
-// ------------------------------------------------------------- 天空球 ---
-function skyDome(top, mid, bottom, radius = 4000) {
-  const g = new THREE.SphereGeometry(radius, 32, 16);
-  const m = new THREE.ShaderMaterial({
-    uniforms: { top: { value: new THREE.Color(top) }, mid: { value: new THREE.Color(mid) }, bottom: { value: new THREE.Color(bottom) } },
-    vertexShader: `varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
-    fragmentShader: `uniform vec3 top; uniform vec3 mid; uniform vec3 bottom; varying vec3 vP;
-      void main(){ float h=vP.y; vec3 c = h>0.0 ? mix(mid, top, pow(smoothstep(0.0,0.6,h),0.8)) : mix(mid, bottom, smoothstep(0.0,-0.25,h)); gl_FragColor=vec4(c,1.0); }`,
-    side: THREE.BackSide, depthWrite: false, fog: false,
-  });
-  const s = new THREE.Mesh(g, m);
-  s.renderOrder = -10;
-  return s;
-}
-
-function stars(n = 4000, radius = 3000, seed = 7) {
-  const r = rng(seed);
-  const p = new Float32Array(n * 3), c = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) {
-    const u = r() * 2 - 1, th = r() * Math.PI * 2, s = Math.sqrt(1 - u * u);
-    p[i * 3] = s * Math.cos(th) * radius; p[i * 3 + 1] = u * radius; p[i * 3 + 2] = s * Math.sin(th) * radius;
-    const b = 0.35 + Math.pow(r(), 3) * 0.65;
-    c[i * 3] = b; c[i * 3 + 1] = b; c[i * 3 + 2] = b * (0.9 + r() * 0.2);
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.BufferAttribute(p, 3));
-  g.setAttribute("color", new THREE.BufferAttribute(c, 3));
-  const pts = new THREE.Points(g, new THREE.PointsMaterial({ size: 2.2, sizeAttenuation: false, vertexColors: true, fog: false, depthWrite: false }));
-  pts.renderOrder = -9;
-  return pts;
-}
-
-// ----------------------------------------------------------- 纹理工具 ---
-function canvasTex(w, h, draw, repeat = true) {
-  const c = document.createElement("canvas");
-  c.width = w; c.height = h;
-  draw(c.getContext("2d"), w, h);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; }
-  t.anisotropy = 4;
-  return t;
-}
-
-function facadeTexture(base, win, seed, storefront) {
-  const r = rng(seed);
-  return canvasTex(256, 512, (x, w, h) => {
-    x.fillStyle = base; x.fillRect(0, 0, w, h);
-    // 轻微噪声
-    for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(0,0,0,${r() * 0.05})`; x.fillRect(r() * w, r() * h, 3, 3); }
-    const cols = 4, rows = 8;
-    const cw = w / cols, rh = h / rows;
-    for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
-      const lit = r();
-      x.fillStyle = lit > 0.85 ? "#e8d9a8" : win;
-      x.fillRect(i * cw + cw * 0.18, j * rh + rh * 0.22, cw * 0.64, rh * 0.5);
-      x.fillStyle = "rgba(255,255,255,0.10)";
-      x.fillRect(i * cw + cw * 0.18, j * rh + rh * 0.22, cw * 0.64, rh * 0.08);
-    }
-    if (storefront) {
-      x.fillStyle = "#26292e"; x.fillRect(0, h - rh * 1.1, w, rh * 1.1);
-      x.fillStyle = storefront; x.fillRect(0, h - rh * 1.25, w, rh * 0.18);
-      x.fillStyle = "rgba(180,200,220,0.35)";
-      for (let i = 0; i < 3; i++) x.fillRect(10 + i * 82, h - rh * 0.95, 66, rh * 0.8);
-    }
-  });
-}
-
-// ----------------------------------------------------------- 块循环器 ---
-class Chunks {
-  constructor(L, make, nVariants, back, ahead) {
-    this.L = L; this.back = back; this.ahead = ahead;
-    this.group = new THREE.Group();
-    this.variants = [];
-    for (let i = 0; i < nVariants; i++) this.variants.push(make(i));
-    this.slots = new Map();
-  }
-  update(dist) {
-    const k = Math.floor(dist / this.L);
-    const lo = k - this.back, hi = k + this.ahead;
-    for (const [kk, obj] of this.slots) {
-      if (kk < lo || kk > hi) { this.group.remove(obj); this.slots.delete(kk); }
-    }
-    for (let kk = lo; kk <= hi; kk++) {
-      if (!this.slots.has(kk)) {
-        const v = this.variants[Math.floor(hash(kk + 1000) * this.variants.length)];
-        const o = v.clone();
-        o.position.z = -kk * this.L;
-        this.group.add(o);
-        this.slots.set(kk, o);
-      }
-    }
-  }
-}
-
-// ----------------------------------------------------------------- 道具 ---
-const palmTrunk = new THREE.CylinderGeometry(0.16, 0.26, 9, 7);
-palmTrunk.translate(0, 4.5, 0);
-const frondG = new THREE.PlaneGeometry(0.7, 3.4, 1, 4);
-{ // 弯曲的叶片
-  const p = frondG.attributes.position;
-  for (let i = 0; i < p.count; i++) { const y = p.getY(i) + 1.7; p.setZ(i, -0.12 * y * y); p.setY(i, y); }
-  frondG.computeVertexNormals();
-}
-const palmMats = { trunk: std("#7a6450"), frond: std("#4f6b3a", { side: THREE.DoubleSide }) };
-function palm(h = 1) {
-  const g = new THREE.Group();
-  const t = new THREE.Mesh(palmTrunk, palmMats.trunk);
-  t.castShadow = true;
-  g.add(t);
-  for (let i = 0; i < 9; i++) {
-    const f = new THREE.Mesh(frondG, palmMats.frond);
-    f.position.y = 9;
-    f.rotation.set(-1.05 - (i % 2) * 0.25, (i / 9) * Math.PI * 2, 0, "YXZ");
-    f.castShadow = true;
-    g.add(f);
-  }
-  g.scale.setScalar(h);
-  return g;
-}
-
-const lampMat = std("#3a3d42", { metalness: 0.4, roughness: 0.5 });
-function lamp() {
-  const g = new THREE.Group();
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 7, 6), lampMat);
-  pole.position.y = 3.5;
-  const arm = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 0.08), lampMat);
-  arm.position.set(-0.75, 6.95, 0);
-  const head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.12, 0.25), std("#e9e6dc", { emissive: 0x333322 }));
-  head.position.set(-1.45, 6.88, 0);
-  g.add(pole, arm, head);
-  pole.castShadow = true;
-  return g;
-}
-
-const personMats = ["#d9c27a", "#f2f2f2", "#3b5f8a", "#6b6b6b", "#8a3b3b", "#2f5e4c"].map((c) => std(c));
-const skinMats = ["#d6a07a", "#a8714f", "#f0c9a8", "#7a4e33"].map((c) => std(c));
-function pedestrian(r) {
-  const g = new THREE.Group();
-  const shirt = personMats[Math.floor(r() * personMats.length)];
-  const skin = skinMats[Math.floor(r() * skinMats.length)];
-  const legs = new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.7, 3, 8), std(r() > 0.5 ? "#2c3440" : "#5a6070"));
-  legs.position.y = 0.5;
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.45, 3, 8), shirt);
-  body.position.y = 1.2;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 8), skin);
-  head.position.y = 1.65;
-  g.add(legs, body, head);
-  g.traverse((o) => { if (o.isMesh) o.castShadow = true; });
-  return g;
-}
-
-const CAR_COLORS = ["#e8b923", "#f0f0f0", "#b8bcc2", "#2f4f7f", "#8c1f1f", "#2b2b2b", "#e8b923", "#5f7f5f", "#c9c3b5"];
+import * as THREE from "three";
+import { makeCar, std, hash, rng, skyDome, stars, canvasTex, facadeTexture, Chunks, palm, lamp, pedestrian,
+  CAR_COLORS, cloudTex, earthTextures, makeEarth, addOvergrowth, addDebris } from "./common.js";
 
 // ------------------------------------------------------------- city ---
 function cityEnv(opts = {}) {
@@ -194,6 +29,7 @@ function cityEnv(opts = {}) {
     facadeMats.push(facadeTexture(b, w, 100 + i, i % 2 === 0 ? awnings[i % awnings.length] : null));
   }
 
+  const windowMats = [];
   const make = (vi) => {
     const r = rng(9000 + vi * 77);
     const g = new THREE.Group();
@@ -251,7 +87,11 @@ function cityEnv(opts = {}) {
         const tex = facadeMats[fi].clone();
         tex.needsUpdate = true;
         tex.repeat.set(Math.max(1, Math.round(w / 6)), Math.max(1, Math.round(h / 12)));
-        const mat = std("#ffffff", { map: tex });
+        const glow = facadeMats[fi].userData.glow.clone();
+        glow.needsUpdate = true;
+        glow.repeat.copy(tex.repeat);
+        const mat = std("#ffffff", { map: tex, emissiveMap: glow, emissive: 0xffffff, emissiveIntensity: 0 });
+        windowMats.push(mat);
         const top = std(facadeCols[fi][0]);
         const b = new THREE.Mesh(new THREE.BoxGeometry(d, h, Math.min(w, L - z)), [mat, mat, top, top, mat, mat]);
         b.position.set(xEdge + side * (d / 2 + 0.5), h / 2, -z - Math.min(w, L - z) / 2);
@@ -277,8 +117,10 @@ function cityEnv(opts = {}) {
       l.rotation.y = side > 0 ? 0 : Math.PI;
       g.add(l);
     }
+    addOvergrowth(g, r, roadL - 6, roadR + 6, L);
+    addDebris(g, r, roadL, roadR, L);
     // 行人
-    if (!highway) for (let i = 0; i < 7; i++) {
+    if (!highway) for (let i = 0; i < 14; i++) {
       const p = pedestrian(r);
       const side = r() < 0.5 ? 1 : -1;
       p.position.set(side > 0 ? roadR + 1.5 + r() * 3 : roadL - 1.5 - r() * 3, 0.18, -r() * L);
@@ -295,6 +137,7 @@ function cityEnv(opts = {}) {
           const car = makeCar(CAR_COLORS[Math.floor(r() * CAR_COLORS.length)]);
           car.position.set(lx + (r() - 0.5) * 0.4, 0, -z - 2.5);
           if (lx < 0) car.rotation.y = Math.PI;
+          car.userData = { tag: "car", rank: r() };
           g.add(car);
         }
       }
@@ -313,7 +156,7 @@ function cityEnv(opts = {}) {
   const sky = skyDome("#7f97b3", "#c9d3dc", "#a9adb0");
   root.add(sky);
   return {
-    root,
+    root, sky, windowMats, outdoor: true, defaults: { crowd: highway ? 0 : 0.45, traffic: highway ? 0.9 : 0.7 },
     fog: new THREE.Fog(highway ? 0xc6ccd0 : 0xbfc8d0, 60, highway ? 420 : 300),
     light: { sun: 2.4, hemi: 1.1, sunDir: [-0.5, 1, 0.35], sky: 0xdfe8f2, ground: 0x6d6a63 },
     update(fr, subjPos) { chunks.update(fr.z || 0); ground.position.x = subjPos.x; ground.position.z = subjPos.z; sky.position.copy(subjPos); },
@@ -396,7 +239,7 @@ function desertEnv() {
   const sky = skyDome("#6f9fd0", "#d9e3e8", "#d6c3a3");
   root.add(sky);
   return {
-    root,
+    root, sky, outdoor: true,
     fog: new THREE.Fog(0xdcd6c8, 120, 1100),
     light: { sun: 3.0, hemi: 1.0, sunDir: [0.6, 1, 0.2], sky: 0xeaf2ff, ground: 0xb89a70 },
     update(fr, p) {
@@ -422,7 +265,7 @@ function oceanEnv() {
   const sky = skyDome("#5b8fc7", "#cfe0ea", "#2b5d78");
   root.add(sky);
   return {
-    root,
+    root, sky, outdoor: true,
     fog: new THREE.Fog(0xbfd3de, 80, 700),
     light: { sun: 2.6, hemi: 1.0, sunDir: [-0.4, 0.8, -0.6], sky: 0xdcecff, ground: 0x1d4256 },
     update(fr, p) {
@@ -440,17 +283,6 @@ function oceanEnv() {
 }
 
 // ---------------------------------------------------------- 云海 / sky ---
-function cloudTex() {
-  return canvasTex(256, 256, (x, w, h) => {
-    const r = rng(3);
-    for (let i = 0; i < 40; i++) {
-      const cx = w / 2 + (r() - 0.5) * w * 0.5, cy = h / 2 + (r() - 0.5) * h * 0.3, rad = 30 + r() * 60;
-      const g = x.createRadialGradient(cx, cy, 0, cx, cy, rad);
-      g.addColorStop(0, "rgba(255,255,255,0.55)"); g.addColorStop(1, "rgba(255,255,255,0)");
-      x.fillStyle = g; x.fillRect(0, 0, w, h);
-    }
-  }, false);
-}
 function skyEnv() {
   const L = 400;
   const tex = cloudTex();
@@ -478,75 +310,11 @@ function skyEnv() {
   const sky = skyDome("#2c5f9e", "#a9c6e0", "#9fb2bf");
   root.add(sky);
   return {
-    root,
+    root, sky, outdoor: true,
     fog: new THREE.Fog(0xb7cadb, 400, 2600),
     light: { sun: 2.8, hemi: 1.0, sunDir: [0.3, 1, -0.4], sky: 0xe8f1ff, ground: 0x8899aa },
     update(fr, p) { chunks.update(fr.z || 0); ground.position.x = p.x; ground.position.z = p.z; sky.position.copy(p); },
   };
-}
-
-// -------------------------------------------------------------- 地球 ---
-let earthTexCache = null;
-function earthTextures() {
-  if (earthTexCache) return earthTexCache;
-  const W = 2048, H = 1024;
-  // 值噪声 → 大陆
-  const r = rng(2024);
-  const G = 64, grid = [];
-  for (let i = 0; i < G * G; i++) grid.push(r());
-  const noise = (x, y) => {
-    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-    const g = (a, b) => grid[((b % G + G) % G) * G + ((a % G + G) % G)];
-    const s = (t) => t * t * (3 - 2 * t);
-    const a = g(xi, yi), b = g(xi + 1, yi), c = g(xi, yi + 1), d = g(xi + 1, yi + 1);
-    return a + (b - a) * s(xf) + (c - a) * s(yf) + (a - b - c + d) * s(xf) * s(yf);
-  };
-  const fbm = (x, y) => { let v = 0, amp = 0.5, f = 1; for (let o = 0; o < 5; o++) { v += amp * noise(x * f, y * f); amp *= 0.5; f *= 2; } return v; };
-  const color = canvasTex(W, H, (x) => {
-    const img = x.createImageData(W, H);
-    for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-      const u = i / W * 8, v = j / H * 4;
-      const n = fbm(u, v);
-      const lat = Math.abs(j / H - 0.5) * 2;
-      let R, Gc, B;
-      if (lat > 0.88) { R = 235; Gc = 240; B = 245; }
-      else if (n > 0.53) {
-        const dry = fbm(u * 2 + 9, v * 2) > 0.5 && lat < 0.5;
-        R = dry ? 176 : 86; Gc = dry ? 150 : 118; B = dry ? 104 : 66;
-      } else { const deep = Math.min(1, (0.53 - n) * 5); R = 18 + 20 * (1 - deep); Gc = 52 + 40 * (1 - deep); B = 110 + 40 * (1 - deep); }
-      const k = (j * W + i) * 4;
-      img.data[k] = R; img.data[k + 1] = Gc; img.data[k + 2] = B; img.data[k + 3] = 255;
-    }
-    x.putImageData(img, 0, 0);
-  });
-  const clouds = canvasTex(W, H, (x) => {
-    const img = x.createImageData(W, H);
-    for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-      const n = fbm(i / W * 12 + 50, j / H * 6 + 20);
-      const a = Math.max(0, Math.min(1, (n - 0.5) * 3.2));
-      const k = (j * W + i) * 4;
-      img.data[k] = img.data[k + 1] = img.data[k + 2] = 255; img.data[k + 3] = a * 235;
-    }
-    x.putImageData(img, 0, 0);
-  });
-  earthTexCache = { color, clouds };
-  return earthTexCache;
-}
-
-function makeEarth(R) {
-  const { color, clouds } = earthTextures();
-  const g = new THREE.Group();
-  const e = new THREE.Mesh(new THREE.SphereGeometry(R, 96, 64), std("#ffffff", { map: color, roughness: 0.9 }));
-  const c = new THREE.Mesh(new THREE.SphereGeometry(R * 1.008, 96, 64), new THREE.MeshStandardMaterial({ map: clouds, transparent: true, depthWrite: false, roughness: 1 }));
-  const atm = new THREE.Mesh(new THREE.SphereGeometry(R * 1.06, 64, 48), new THREE.ShaderMaterial({
-    vertexShader: `varying vec3 vN; varying vec3 vV; void main(){ vN=normalize(normalMatrix*normal); vec4 mv=modelViewMatrix*vec4(position,1.0); vV=normalize(-mv.xyz); gl_Position=projectionMatrix*mv; }`,
-    fragmentShader: `varying vec3 vN; varying vec3 vV; void main(){ float f=pow(1.0-abs(dot(vN,vV)),2.5); gl_FragColor=vec4(0.35,0.62,1.0,f*1.1); }`,
-    side: THREE.BackSide, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false,
-  }));
-  e.material.fog = false; c.material.fog = false;
-  g.add(e, c, atm);
-  g.userData.clouds = c;
-  return g;
 }
 
 function orbitEnv() {
@@ -626,10 +394,113 @@ function voidEnv() {
   return { root, fog: null, background: 0x000000, light: { sun: 0.5, hemi: 0.3, sunDir: [0, 1, 0], sky: 0x222222, ground: 0 }, update() {} };
 }
 
+import {
+  suburbEnv, parkEnv, fieldsEnv, forestEnv, mountainsEnv, volcanoEnv, coastEnv, outbackEnv, ancientEnv,
+  interiorEnv, globeEnv, mapEnv,
+} from "./envs.js";
+
 const BUILDERS = {
   city: () => cityEnv(), highway: () => cityEnv({ highway: true }), desert: desertEnv, ocean: oceanEnv,
   sky: skyEnv, orbit: orbitEnv, deep_space: deepSpaceEnv, lab: labEnv, void: voidEnv,
+  suburb: suburbEnv, park: parkEnv, fields: fieldsEnv, forest: forestEnv, mountains: mountainsEnv,
+  volcano: volcanoEnv, coast: coastEnv, outback: outbackEnv, ancient: ancientEnv,
+  interior: (e) => interiorEnv(e.room), globe: (e) => globeEnv(e.globe || {}), map: mapEnv,
 };
+
+// 时段 / 天象调色：天空三段色、太阳色/强度/高度、半球光、雾色、窗户亮度、星星
+const PALETTES = {
+  golden: { top: "#8a9ec0", mid: "#f0c89a", bottom: "#c9a27a", sun: "#ffc98a", sunI: 2.3, sunY: 0.32, hemiI: 0.8, hemiSky: "#ffe2c0", fog: "#e8c9a6", win: 0.15 },
+  dusk: { top: "#25304f", mid: "#d98a6a", bottom: "#5a4a50", sun: "#ff9a6a", sunI: 1.2, sunY: 0.1, hemiI: 0.6, hemiSky: "#8a7aa0", fog: "#7a6070", win: 0.7, stars: 0.3 },
+  night: { top: "#040814", mid: "#16223c", bottom: "#0c1018", sun: "#8fa6d8", sunI: 0.6, sunY: 0.6, hemiI: 0.42, hemiSky: "#4a5a88", fog: "#111a2e", win: 1.0, stars: 1 },
+  dawn: { top: "#3d4a74", mid: "#f2b9a0", bottom: "#8a7a80", sun: "#ffd1b0", sunI: 1.3, sunY: 0.15, hemiI: 0.6, hemiSky: "#c8b8d0", fog: "#d8b8b0", win: 0.4, stars: 0.15 },
+};
+const SKY_EVENTS = {
+  red: { top: "#2a0806", mid: "#c2381e", bottom: "#4a140c", sun: "#ff5a2a", sunI: 1.6, hemiI: 0.6, hemiSky: "#ff8060", fog: "#7a2414" },
+  dark: { top: "#000000", mid: "#07080a", bottom: "#000000", sun: "#556070", sunI: 0.08, hemiI: 0.08, hemiSky: "#202530", fog: "#030405", win: 0.6, stars: 0.6 },
+  meteors: { stars: 1 },
+  aurora: { stars: 1 },
+};
+const WEATHER = {
+  overcast: { top: "#8a939b", mid: "#c3c8cc", sunI: 0.9, hemiI: 1.0, fog: "#b9bfc4", fogK: 0.7 },
+  rain: { top: "#5a636b", mid: "#8d969d", sunI: 0.5, hemiI: 0.8, fog: "#7d868d", fogK: 0.45 },
+  storm: { top: "#272d35", mid: "#4a525a", sunI: 0.25, hemiI: 0.5, fog: "#3a4148", fogK: 0.35 },
+  snow: { top: "#aab3bb", mid: "#dfe4e8", sunI: 0.9, hemiI: 1.2, fog: "#dfe4e8", fogK: 0.4 },
+  ash: { top: "#4a4540", mid: "#7a726a", sunI: 0.4, hemiI: 0.6, fog: "#6d665e", fogK: 0.25 },
+  fog: { top: "#b9c0c5", mid: "#cfd4d8", sunI: 0.9, hemiI: 1.1, fog: "#c9ced2", fogK: 0.12 },
+  dust: { top: "#a07a50", mid: "#d0a46a", sunI: 1.2, hemiI: 0.9, fog: "#c49a68", fogK: 0.3 },
+};
+
+function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+class Atmosphere {
+  // 天气粒子（雨/雪/灰/尘）、流星、夜空星星；全部是 t 的函数
+  constructor(scene) {
+    const N = 2400;
+    this.N = N;
+    const lg = new THREE.BufferGeometry();
+    lg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(N * 6), 3));
+    this.rain = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: 0xc8d4e0, transparent: true, opacity: 0.45, depthWrite: false }));
+    this.rain.frustumCulled = false;
+    const pg = new THREE.BufferGeometry();
+    pg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(N * 3), 3));
+    this.flakes = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0xffffff, size: 0.12, transparent: true, opacity: 0.9, depthWrite: false }));
+    this.flakes.frustumCulled = false;
+    const M = 40;
+    this.M = M;
+    const mg = new THREE.BufferGeometry();
+    mg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(M * 6), 3));
+    this.meteors = new THREE.LineSegments(mg, new THREE.LineBasicMaterial({ color: 0xffe2b0, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+    this.meteors.frustumCulled = false;
+    this.nightStars = stars(3000, 2500, 21);
+    this.nightStars.material.transparent = true;
+    scene.add(this.rain, this.flakes, this.meteors, this.nightStars);
+  }
+  update(spec, fr, cam, outdoor, starsLevel) {
+    const w = outdoor ? spec.weather : "clear";
+    const t = fr.t, N = this.N;
+    this.rain.visible = w === "rain" || w === "storm";
+    if (this.rain.visible) {
+      const a = this.rain.geometry.attributes.position.array;
+      for (let i = 0; i < N; i++) {
+        const x = cam.x + (rnd(i) - 0.5) * 60, z = cam.z + (rnd(i + 9) - 0.5) * 60;
+        const y = cam.y + 20 - ((t * 28 + rnd(i + 3) * 40) % 40);
+        a[i * 6] = x; a[i * 6 + 1] = y; a[i * 6 + 2] = z;
+        a[i * 6 + 3] = x + 0.08; a[i * 6 + 4] = y - 0.9; a[i * 6 + 5] = z;
+      }
+      this.rain.geometry.attributes.position.needsUpdate = true;
+    }
+    const flaky = { snow: [0xffffff, 1.6, 0.12], ash: [0x8a837b, 1.0, 0.16], dust: [0xc49a68, 0.6, 0.08] }[w];
+    this.flakes.visible = !!flaky;
+    if (flaky) {
+      const a = this.flakes.geometry.attributes.position.array;
+      for (let i = 0; i < N; i++) {
+        a[i * 3] = cam.x + ((rnd(i) - 0.5) * 50 + Math.sin(t * 0.7 + i) * 0.8);
+        a[i * 3 + 1] = cam.y + 15 - ((t * flaky[1] + rnd(i + 3) * 30) % 30);
+        a[i * 3 + 2] = cam.z + (rnd(i + 9) - 0.5) * 50 + (w === "dust" ? ((t * 6 + rnd(i) * 50) % 50) - 25 : 0);
+      }
+      this.flakes.geometry.attributes.position.needsUpdate = true;
+      this.flakes.material.color.setHex(flaky[0]);
+      this.flakes.material.size = flaky[2];
+    }
+    this.meteors.visible = spec.sky === "meteors";
+    if (this.meteors.visible) {
+      const a = this.meteors.geometry.attributes.position.array;
+      for (let i = 0; i < this.M; i++) {
+        const life = 1.4 + rnd(i) * 1.2;
+        const k = ((t + rnd(i + 5) * 10) % life) / life;
+        const sx = cam.x + (rnd(i + 1) - 0.3) * 600, sy = cam.y + 180 + rnd(i + 2) * 200, sz = cam.z - 400 - rnd(i + 4) * 300;
+        const dx = -260, dy = -320;
+        const x = sx + dx * k, y = sy + dy * k;
+        a[i * 6] = x; a[i * 6 + 1] = y; a[i * 6 + 2] = sz;
+        a[i * 6 + 3] = x - dx * 0.12; a[i * 6 + 4] = y - dy * 0.12; a[i * 6 + 5] = sz;
+      }
+      this.meteors.geometry.attributes.position.needsUpdate = true;
+    }
+    this.nightStars.visible = outdoor && starsLevel > 0;
+    this.nightStars.material.opacity = starsLevel;
+    this.nightStars.position.copy(cam);
+  }
+}
 
 export class World {
   constructor(scene) {
@@ -643,25 +514,109 @@ export class World {
     this.sun.shadow.bias = -0.0004;
     this.sun.shadow.normalBias = 0.02;
     scene.add(this.hemi, this.sun, this.sun.target);
+    this.atmo = new Atmosphere(scene);
+    this.spec = {};
   }
-  use(name) {
-    if (this.active === name) return this.envs[name];
+  key(name, spec) {
+    if (name === "interior") return `interior:${spec.room || "office"}`;
+    if (name === "globe") return `globe:${JSON.stringify(spec.globe || {})}`;
+    return name;
+  }
+  use(name, spec = {}) {
+    const key = this.key(name, spec);
+    this.spec = spec;
+    if (this.active === key) return this.envs[key];
     if (this.active) this.scene.remove(this.envs[this.active].root);
-    if (!this.envs[name]) this.envs[name] = (BUILDERS[name] || BUILDERS.void)();
-    const env = this.envs[name];
+    if (!this.envs[key]) {
+      const b = BUILDERS[name] || BUILDERS.void;
+      this.envs[key] = b(spec);
+      const e = this.envs[key];
+      if (e.sky) e.skyBase = ["top", "mid", "bottom"].map((k) => e.sky.material.uniforms[k].value.clone());
+      if (e.fog) e.fogBase = { color: e.fog.color.clone(), near: e.fog.near, far: e.fog.far };
+    }
+    const env = this.envs[key];
     this.scene.add(env.root);
     this.scene.fog = env.fog;
     this.scene.background = env.background !== undefined ? new THREE.Color(env.background) : null;
-    const L = env.light;
-    this.hemi.color.set(L.sky); this.hemi.groundColor.set(L.ground); this.hemi.intensity = L.hemi;
-    this.sun.intensity = L.sun;
-    this.sunDir = new THREE.Vector3(...L.sunDir).normalize();
-    this.active = name;
+    this.active = key;
     return env;
   }
-  update(fr, subjPos, scale = 1) {
+  // 每帧：时段/天气/天象 → 灯光、天空、雾；人群/车辆/荒废/损毁 → 显隐
+  applyMods(env, spec, fr, beat, cam) {
+    const L = env.light;
+    let sunColor = new THREE.Color(0xffffff), sunI = L.sun, hemiI = L.hemi, hemiSky = new THREE.Color(L.sky);
+    let sunDir = new THREE.Vector3(...L.sunDir);
+    let win = 0, starsLevel = 0;
+    this.exposure = 1.0;
+    if (env.sky) {
+      const [t0, m0, b0] = env.skyBase;
+      env.sky.material.uniforms.top.value.copy(t0);
+      env.sky.material.uniforms.mid.value.copy(m0);
+      env.sky.material.uniforms.bottom.value.copy(b0);
+    }
+    if (env.fog) { env.fog.color.copy(env.fogBase.color); env.fog.near = env.fogBase.near; env.fog.far = env.fogBase.far; }
+    const apply = (p) => {
+      if (!p) return;
+      if (env.sky) {
+        const u = env.sky.material.uniforms;
+        if (p.top) u.top.value.set(p.top);
+        if (p.mid) u.mid.value.set(p.mid);
+        if (p.bottom) u.bottom.value.set(p.bottom);
+      }
+      if (p.sun) sunColor.set(p.sun);
+      if (p.sunI !== undefined) sunI = Math.min(sunI, p.sunI * (L.sun / 2.5));
+      if (p.sunY !== undefined) sunDir.y = p.sunY;
+      if (p.hemiI !== undefined) hemiI = p.hemiI * (L.hemi / 1.0);
+      if (p.hemiSky) hemiSky.set(p.hemiSky);
+      if (p.fog && env.fog) env.fog.color.set(p.fog);
+      if (p.fogK && env.fog) { env.fog.near *= p.fogK; env.fog.far = Math.max(env.fog.far * p.fogK, env.minFogFar || 0); }
+      if (p.win !== undefined) win = Math.max(win, p.win);
+      if (p.stars !== undefined) starsLevel = Math.max(starsLevel, p.stars);
+    };
+    if (env.outdoor) {
+      this.exposure = { night: 1.7, dusk: 1.25, dawn: 1.1 }[spec.time] || 1.0;
+      if (spec.sky === "dark") this.exposure = 1.4;
+      apply(PALETTES[spec.time]);
+      apply(WEATHER[spec.weather]);
+      apply(SKY_EVENTS[spec.sky]);
+    } else if (env.interior) {
+      const night = spec.time === "night" || spec.time === "dusk";
+      env.winM.color.set(night ? 0x101828 : (spec.time === "golden" ? 0xf2c89a : 0xcfe3f2));
+      env.panelM.emissiveIntensity = spec.lights_off ? 0.04 : 0.9;
+      hemiI = spec.lights_off ? 0.25 : L.hemi;
+      if (spec.sky === "red") hemiSky.set(0xff8060);
+    }
+    if (spec.weather === "storm" && env.outdoor && fr.lightning) { hemiI += 2.5 * fr.lightning; if (env.sky) env.sky.material.uniforms.mid.value.lerp(new THREE.Color(0xdfe6ff), fr.lightning); }
+    if (spec.lights_off) win = 0;
+    for (const m of env.windowMats || []) m.emissiveIntensity = win * 1.2;
+    this.sun.color.copy(sunColor);
+    this.sun.intensity = sunI;
+    this.hemi.intensity = hemiI;
+    this.hemi.color.copy(hemiSky);
+    this.hemi.groundColor.set(L.ground);
+    this.sunDir = sunDir.normalize();
+    if (this.scene.fog !== env.fog) this.scene.fog = env.fog;
+    // 显隐：行人 / 车 / 植被 / 碎片 / 路灯
+    const dflt = env.defaults || {};
+    const crowd = spec.empty ? 0 : (spec.crowd ?? dflt.crowd ?? 0.3);
+    const traffic = spec.traffic ?? dflt.traffic ?? 0.5;
+    const vanish = beat && beat.effects.includes("vanish") ? Math.min(1, (fr.frac || 0) * 1.25) : 0;
+    const over = spec.overgrown || 0, dmg = spec.damage || 0;
+    env.root.traverse((o) => {
+      const u = o.userData;
+      if (!u || !u.tag) return;
+      if (u.tag === "ped") o.visible = u.rank < crowd && !(vanish > 0 && u.rank / crowd < vanish);
+      else if (u.tag === "car") o.visible = u.rank < traffic;
+      else if (u.tag === "green") o.visible = u.rank < over;
+      else if (u.tag === "debris") o.visible = u.rank < dmg;
+      else if (u.tag === "lamp" && o.material) { o.material.emissive.set(0xffd9a0); o.material.emissiveIntensity = win * 2; }
+    });
+    this.atmo.update(spec, fr, cam, !!env.outdoor, starsLevel);
+  }
+  update(fr, subjPos, scale = 1, beat = null, camPos = null) {
     const env = this.envs[this.active];
-    env.update(fr, subjPos);
+    env.update(fr, subjPos, beat);
+    this.applyMods(env, this.spec || {}, fr, beat, camPos || subjPos);
     // 阴影相机跟随主体
     const ext = 30 * Math.max(1, scale);
     const sc = this.sun.shadow.camera;
@@ -670,4 +625,5 @@ export class World {
     this.sun.position.copy(subjPos).addScaledVector(this.sunDir, 150 * Math.max(1, scale));
     this.sun.target.position.copy(subjPos);
   }
+  get current() { return this.envs[this.active]; }
 }

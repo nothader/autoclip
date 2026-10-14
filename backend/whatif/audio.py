@@ -17,7 +17,13 @@ from typing import Any, Dict, List
 import numpy as np
 
 SR = 48_000
-ATMOSPHERIC = {"city", "highway", "desert", "ocean", "sky"}
+ATMOSPHERIC = {"city", "highway", "desert", "ocean", "sky", "suburb", "park", "fields", "forest", "mountains",
+               "volcano", "coast", "outback", "ancient"}
+# 新场景复用哪种环境床
+BED_ALIAS = {"suburb": "calm", "park": "calm", "fields": "calm", "forest": "forest", "mountains": "sky",
+             "volcano": "volcano", "coast": "ocean", "outback": "desert", "ancient": "desert", "globe": "orbit",
+             "map": "void", "interior": "room"}
+SCENE_CROWD = {"city": 0.45, "suburb": 0.3, "park": 0.35, "ancient": 0.2, "highway": 0.0}
 
 
 def _rng(seed: int) -> np.random.Generator:
@@ -89,7 +95,74 @@ def _bed(scene: str, n: int, seed: int) -> np.ndarray:
         return (drone / 2.1 + air) * lvl
     if scene == "lab":
         return _norm(_band(_noise(n, seed), 80, 1200, slope=-6)) * 0.03
+    if scene == "calm":
+        air = _norm(_band(_noise(n, seed), 150, 2500, slope=-5)) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.08 * t))
+        return air * 0.06 + _birds(n, seed) * 0.05
+    if scene == "forest":
+        leaves = _norm(_band(_noise(n, seed), 1500, 7000, slope=-3)) * (0.5 + 0.5 * np.sin(2 * np.pi * 0.13 * t) ** 2)
+        return leaves * 0.05 + _birds(n, seed + 1, density=1.6) * 0.07
+    if scene == "volcano":
+        rumble = _norm(_band(_noise(n, seed), 20, 140)) * (0.7 + 0.3 * np.sin(2 * np.pi * 0.05 * t))
+        return rumble * 0.22 + _norm(_band(_noise(n, seed + 1), 200, 1500, slope=-5)) * 0.05
+    if scene == "room":
+        hum = np.sin(2 * np.pi * 60 * t) * 0.3 + np.sin(2 * np.pi * 120 * t) * 0.15
+        tone = _norm(_band(_noise(n, seed), 60, 900, slope=-6))
+        return (tone * 0.04 + hum * 0.02)
     return np.zeros(n)
+
+
+def _birds(n: int, seed: int, density: float = 1.0) -> np.ndarray:
+    """稀疏的鸟鸣：短促的高频调频音。"""
+    r = _rng(seed)
+    out = np.zeros(n)
+    k = int(n / SR * 0.7 * density)
+    for _ in range(k):
+        start = int(r.uniform(0, n - SR // 2))
+        m = int(r.uniform(0.05, 0.16) * SR)
+        tt = np.arange(m) / SR
+        f0 = r.uniform(2200, 4200)
+        f = f0 * (1 + 0.25 * np.sin(2 * np.pi * r.uniform(15, 35) * tt))
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        out[start:start + m] += np.sin(ph) * np.sin(np.pi * tt / tt[-1]) * r.uniform(0.3, 1)
+    return out
+
+
+def _babble(n: int, seed: int) -> np.ndarray:
+    """人群嘈杂：多条带通噪声以音节速率调幅。"""
+    t = np.arange(n) / SR
+    r = _rng(seed)
+    out = np.zeros(n)
+    for i in range(6):
+        b = _norm(_band(_noise(n, seed + i), 250 + 80 * i, 1100 + 150 * i, slope=-3))
+        am = 0.5 + 0.5 * np.sin(2 * np.pi * r.uniform(3, 6) * t + r.uniform(0, 6)) * np.sin(2 * np.pi * r.uniform(0.2, 0.6) * t)
+        out += b * np.clip(am, 0, 1)
+    return _norm(out)
+
+
+def _rain(n: int, seed: int) -> np.ndarray:
+    hiss = _norm(_band(_noise(n, seed), 400, 9000, slope=-2))
+    r = _rng(seed + 1)
+    drops = np.zeros(n)
+    idx = r.integers(0, n, size=int(n / SR * 120))
+    drops[idx] = r.uniform(0.3, 1, size=idx.size)
+    drops = _band(drops, 1500, 8000)
+    return hiss * 0.7 + _norm(drops) * 0.3
+
+
+def _crackle(n: int, seed: int) -> np.ndarray:
+    r = _rng(seed)
+    pops = np.zeros(n)
+    idx = r.integers(0, n, size=int(n / SR * 25))
+    pops[idx] = r.uniform(0.2, 1, size=idx.size) * r.choice([-1, 1], size=idx.size)
+    roar = _norm(_band(_noise(n, seed + 3), 80, 900, slope=-4))
+    return _norm(_band(pops, 800, 6000)) * 0.6 + roar * 0.4
+
+
+def _crickets(n: int, seed: int) -> np.ndarray:
+    t = np.arange(n) / SR
+    chirp = np.sin(2 * np.pi * 4300 * t) * (np.sin(2 * np.pi * 28 * t) > 0.3) * (np.sin(2 * np.pi * 0.9 * t) > -0.2)
+    chirp2 = np.sin(2 * np.pi * 3900 * t + 1) * (np.sin(2 * np.pi * 31 * t + 2) > 0.4) * (np.sin(2 * np.pi * 0.7 * t + 1) > 0)
+    return chirp * 0.5 + chirp2 * 0.4
 
 
 # -------------------------------------------------------------- events ---
@@ -172,7 +245,78 @@ def _drop(seed: int) -> np.ndarray:
     return np.sin(ph) * np.exp(-t / 1.1) * 0.7
 
 
+def _rumble(seed: int, dur: float = 3.0) -> np.ndarray:
+    n = int(max(0.5, dur) * SR)
+    t = np.arange(n) / SR
+    env = np.minimum(1, t / 0.4) * np.minimum(1, (dur - t) / 0.8)
+    body = _norm(_band(_noise(n, seed), 18, 160)) * (0.75 + 0.25 * np.sin(2 * np.pi * 7 * t))
+    rattle = _norm(_band(_noise(n, seed + 1), 300, 2500)) * (np.abs(np.sin(2 * np.pi * 11 * t)) ** 4) * 0.3
+    return (body + rattle) * env * 0.7
+
+
+def _alarm(seed: int, dur: float = 2.0) -> np.ndarray:
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    f = np.where((t * 2.5) % 1 < 0.5, 880, 660)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    sq = np.tanh(3 * np.sin(ph))
+    return sq * np.minimum(1, (dur - t) / 0.1) * 0.18
+
+
+def _heartbeat(seed: int, dur: float = 2.4) -> np.ndarray:
+    n = int(dur * SR)
+    out = np.zeros(n)
+    for beat in np.arange(0, dur - 0.3, 0.85):
+        for off, g in ((0.0, 1.0), (0.18, 0.7)):
+            i = int((beat + off) * SR)
+            m = int(0.16 * SR)
+            tt = np.arange(m) / SR
+            thump = np.sin(2 * np.pi * (55 - 60 * tt) * tt) * np.exp(-tt / 0.045) * g
+            out[i:i + m] += thump[: max(0, min(m, n - i))]
+    return out * 0.8
+
+
+def _crack(seed: int) -> np.ndarray:
+    n = int(1.2 * SR)
+    t = np.arange(n) / SR
+    snap = _band(_noise(n, seed), 1000, 12000) * np.exp(-t / 0.012)
+    tail = _norm(_band(_noise(n, seed + 1), 60, 600)) * np.exp(-t / 0.35) * 0.4
+    return (snap * 1.2 + tail) * 0.6
+
+
+def _ring(seed: int) -> np.ndarray:
+    n = int(1.1 * SR)
+    t = np.arange(n) / SR
+    gate = ((t % 0.1) < 0.05) * (t < 0.9)
+    tone = np.sin(2 * np.pi * 1400 * t) * 0.6 + np.sin(2 * np.pi * 1750 * t) * 0.4
+    return tone * gate * 0.2
+
+
+def _beep(seed: int) -> np.ndarray:
+    n = int(0.12 * SR)
+    t = np.arange(n) / SR
+    return np.sin(2 * np.pi * 1000 * t) * _adsr(n, 0.004, 0.05) * 0.25
+
+
+def _siren(seed: int, dur: float = 3.0) -> np.ndarray:
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    f = 700 + 400 * (0.5 + 0.5 * np.sin(2 * np.pi * 0.6 * t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    return np.sin(ph) * np.minimum(1, t / 0.3) * np.minimum(1, (dur - t) / 0.5) * 0.15
+
+
+def _thunder(seed: int) -> np.ndarray:
+    n = int(4.0 * SR)
+    t = np.arange(n) / SR
+    crack = _band(_noise(n, seed), 600, 8000) * np.exp(-t / 0.05) * 0.7
+    roll = _norm(_band(_noise(n, seed + 1), 25, 300)) * np.exp(-t / 1.2) * (0.6 + 0.4 * np.sin(2 * np.pi * 1.7 * t) ** 2)
+    return (crack + roll) * 0.8
+
+
 EVENT_FUNCS = {"tick": _tick, "whoosh": _whoosh, "boom": _boom, "impact": _impact,
+               "rumble": _rumble, "alarm": _alarm, "heartbeat": _heartbeat, "crack": _crack, "ring": _ring,
+               "beep": _beep, "siren": _siren, "thunder": _thunder,
                "riser": _riser, "swell": _swell, "drop": _drop}
 
 
@@ -195,7 +339,8 @@ def synthesize(plan: Dict[str, Any]) -> np.ndarray:
     n = int(round(plan["duration"] * SR))
     out = np.zeros((n, 2))
 
-    scenes = [f.get("scene", "void") for f in frames]
+    beats = plan.get("beats", [])
+    scenes = [BED_ALIAS.get(f.get("scene", "void"), f.get("scene", "void")) for f in frames]
     # 1) 环境床：每个场景一条，按逐帧"是否当前场景"做交叉淡化
     for k, name in enumerate(sorted(set(scenes))):
         mask = np.array([1.0 if s == name else 0.0 for s in scenes])
@@ -205,6 +350,40 @@ def synthesize(plan: Dict[str, Any]) -> np.ndarray:
         bed = _bed(name, n, seed=100 + k)
         out[:, 0] += bed * env
         out[:, 1] += np.roll(bed, 211) * env
+
+    # 1b) 场景层：人群嘈杂、雨、火、夜虫（由每段的 env / cast / effects 决定）
+    def beat_of(f):
+        return beats[f["b"]] if "b" in f and f["b"] < len(beats) else None
+
+    crowd_l, rain_l, fire_l, night_l = [], [], [], []
+    for f in frames:
+        b = beat_of(f)
+        envd = (b or {}).get("env") or {}
+        scene = f.get("scene", "void")
+        crowd = 0.0
+        if b is not None:
+            base = envd.get("crowd")
+            crowd = SCENE_CROWD.get(scene, 0.0) if base is None else base
+            if envd.get("empty"):
+                crowd = 0.0
+            cast_n = sum(c.get("count", 0) for c in b.get("cast", []))
+            crowd = max(crowd, min(1.0, cast_n / 25))
+            if "vanish" in b.get("effects", []):
+                crowd *= max(0.0, 1 - (f.get("frac", 0) * 1.4))
+        crowd_l.append(crowd)
+        w = envd.get("weather")
+        rain_l.append(1.0 if w == "storm" else 0.7 if w == "rain" else 0.0)
+        fire_l.append(1.0 if b is not None and "fire" in b.get("effects", []) else 0.0)
+        night_l.append(1.0 if envd.get("time") == "night" and scene in ATMOSPHERIC and scene != "city" else 0.0)
+    for k, (vals, fn, gain) in enumerate(((crowd_l, _babble, 0.09), (rain_l, _rain, 0.14),
+                                          (fire_l, _crackle, 0.16), (night_l, _crickets, 0.025))):
+        arr = np.array(vals)
+        if arr.max() <= 0:
+            continue
+        envl = _env_from_frames(arr, fps, n, smooth=0.3)
+        layer = fn(n, 500 + k)
+        out[:, 0] += layer * envl * gain
+        out[:, 1] += np.roll(layer, 331) * envl * gain
 
     # 2) 风：强度驱动的滤波器组，只在有空气的场景
     inten = np.array([f.get("intensity", 0.0) if f.get("scene") in ATMOSPHERIC else 0.0 for f in frames])
@@ -230,13 +409,13 @@ def synthesize(plan: Dict[str, Any]) -> np.ndarray:
         fn = EVENT_FUNCS.get(ev["type"])
         if not fn:
             continue
-        s = fn(1000 + i)
+        s = fn(1000 + i, ev["dur"]) if "dur" in ev and ev["type"] in ("rumble", "alarm", "siren", "heartbeat") else fn(1000 + i)
         start = int(ev["t"] * SR)
         if start >= n:
             continue
         end = min(n, start + len(s))
         seg = s[: end - start] * ev.get("gain", 1.0)
-        pan = 0.0 if ev["type"] != "whoosh" else (0.35 if i % 2 else -0.35)
+        pan = 0.0 if ev["type"] not in ("whoosh", "thunder") else (0.35 if i % 2 else -0.35)
         fx[start:end, 0] += seg * (1 - pan) / 1.0
         fx[start:end, 1] += seg * (1 + pan) / 1.0
     wet = np.stack([_reverb(fx[:, 0], seed=5), _reverb(fx[:, 1], seed=6)], axis=1)
