@@ -579,6 +579,8 @@ export class World {
       apply(PALETTES[spec.time]);
       apply(WEATHER[spec.weather]);
       apply(SKY_EVENTS[spec.sky]);
+    } else if (env.globe) {
+      this.exposure = 1.35;
     } else if (env.interior) {
       const night = spec.time === "night" || spec.time === "dusk";
       env.winM.color.set(night ? 0x101828 : (spec.time === "golden" ? 0xf2c89a : 0xcfe3f2));

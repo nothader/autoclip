@@ -194,8 +194,16 @@ export function cloudTex() {
 
 // -------------------------------------------------------------- 地球 ---
 const earthTexCache = new Map();
+let realEarth = null;
+// 真实地球贴图（NASA Blue Marble，公有领域）；app 在第一帧前预加载
+export function setEarthImage(tex) { realEarth = tex; }
 export function earthTextures(variant = "normal") {
   if (earthTexCache.has(variant)) return earthTexCache.get(variant);
+  if (variant === "normal" && realEarth && earthTexCache.has("_clouds")) {
+    const res = { color: realEarth, clouds: earthTexCache.get("_clouds") };
+    earthTexCache.set(variant, res);
+    return res;
+  }
   const W = 2048, H = 1024;
   // 值噪声 → 大陆
   const r = rng(2024);
@@ -239,6 +247,8 @@ export function earthTextures(variant = "normal") {
     x.putImageData(img, 0, 0);
   });
   const res = { color, clouds };
+  earthTexCache.set("_clouds", clouds);
+  if (variant === "normal" && realEarth) { res.color = realEarth; }
   earthTexCache.set(variant, res);
   return res;
 }
@@ -254,6 +264,7 @@ export function makeEarth(R, variant = "normal") {
     side: THREE.BackSide, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false,
   }));
   e.material.fog = false; c.material.fog = false;
+  if (realEarth && color === realEarth) c.material.opacity = 0.28;  // 真实贴图自带云，程序云层只做淡淡一层
   g.add(e, c, atm);
   g.userData.clouds = c;
   return g;

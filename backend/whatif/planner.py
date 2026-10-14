@@ -69,8 +69,9 @@ TIMING
 SHOTS
 - scene: {', '.join(SCENES)}.
   interior uses env.room: {', '.join(ROOMS)}. globe uses env.globe (night_side, markers [lat, lon, kind ring|dot|glow|cloud,
-  radius], faults, ring, moon none|whole|shattered, frozen, dry_oceans, spin, focus [lat, lon]). map uses env.map
-  (labels/path points with x,y in 0..1 and text, zone + zone_radius, style dark|satellite|paper).
+  radius], faults, ring, moon none|whole|shattered, frozen, dry_oceans, spin, focus [lat, lon]; the globe uses a real
+  Earth image, so focus on the region the story is about). map uses env.map (labels/path points with x,y in 0..1 and
+  text, keep y between 0.05 and 0.65 so captions stay clear; zone + zone_radius; style dark|satellite|paper).
 - env (carries over to the next beats in the same scene; reset when the scene changes): time day|golden|dusk|night|dawn,
   weather clear|overcast|rain|storm|snow|ash|fog|dust, sky normal|red|dark|meteors|aurora, crowd 0..1, traffic 0..1,
   empty (people gone), lights_off, overgrown 0..1, damage 0..1.

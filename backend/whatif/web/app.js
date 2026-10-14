@@ -4,6 +4,7 @@ import { World } from "./world.js";
 import { Prop, Effects } from "./actors.js";
 import { Person, makeCrowd, updateCrowd } from "./people.js";
 import { drawOverlay, layout } from "./overlay.js";
+import { setEarthImage } from "./common.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -124,6 +125,12 @@ let plan = null;
 async function load() {
   plan = await (await fetch("plan.json")).json();
   layout(W, plan);
+  try {
+    const tex = await new THREE.TextureLoader().loadAsync("textures/earth.jpg");
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    setEarthImage(tex);
+  } catch (e) { /* 没有贴图时退回程序生成的地球 */ }
   await document.fonts.ready;
   // 预热字体：让 Source Serif 在第一帧前就可用
   await Promise.all([document.fonts.load("italic 44px WSerif"), document.fonts.load("500 46px WSerif"), document.fonts.load("500 40px Inter")]);

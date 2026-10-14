@@ -24,7 +24,7 @@ ORIGIN = "http://whatif.local/"
 CHROMIUM_ARGS = ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist",
                  "--disable-background-timer-throttling", "--disable-renderer-backgrounding"]
 _MIME = {".html": "text/html", ".js": "text/javascript", ".json": "application/json",
-         ".ttf": "font/ttf", ".css": "text/css"}
+         ".ttf": "font/ttf", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png"}
 
 
 def _open_page(pw, plan_path: Path, width: int, height: int):
