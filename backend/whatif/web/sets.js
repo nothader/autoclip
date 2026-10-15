@@ -426,7 +426,7 @@ export function setEnv(spec) {
       plane.rotation.x = -Math.PI / 2; plane.receiveShadow = true;
       if (spec.ground === "water") plane.userData.water = plane.geometry.attributes.position.array.slice();
       root.add(plane);
-      items.push({ obj: plane, o: { animate: [] }, water: spec.ground === "water" });
+      if (spec.ground === "water") items.push({ obj: plane, o: { animate: [] }, water: true });
     }
   }
   // 物体

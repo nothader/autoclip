@@ -394,3 +394,31 @@ def test_custom_scene_requires_a_set_and_limits_objects():
 def test_prompt_pushes_bespoke_sets():
     p = build_prompt("What if trees could walk?")
     assert "DESIGN YOUR OWN FOR EVERY VIDEO" in p and "molecule" in p and '"scene":"custom"' in p
+
+
+def test_custom_set_grounds_and_props_render(tmp_path):
+    """每种地面 + 一批道具各渲一帧，防止某个组合让页面脚本崩溃。"""
+    pytest.importorskip("playwright")
+    from backend.whatif.render import render_frames
+    from backend.whatif.schema import SET_KINDS
+    kinds = [k for k in SET_KINDS if k not in ("particles",)]
+    beats = []
+    for gi, ground in enumerate(("none", "plane", "grid", "water", "mirror")):
+        objs = [{"kind": k, "at": [(j % 5 - 2) * 2.2, 1, -(j // 5) * 2.2], "scale": 0.6, "formula": "CO2", "values": [1, 2],
+                 "animate": [{"type": "spin"}, {"type": "grow"}]} for j, k in enumerate(kinds[gi::5])]
+        objs.append({"kind": "particles", "count": 10})
+        beats.append({"duration": 1.0, "scene": "custom", "camera": "wide", "subject": {"type": "none"},
+                      "env": {"set": {"ground": ground, "objects": objs}}})
+    sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed"},
+                                    "intro": {"style": "title", "title": "x", "duration": 0.4},
+                                    "beats": [dict(b, time=f"+{i}") for i, b in enumerate(beats)],
+                                    "outro": {"question_duration": 0.5}})
+    plan = compile_plan(sb)
+    try:
+        errs = render_frames(plan, tmp_path, width=180, height=320,
+                             frames=[int((b["start"] + 0.5) * plan["fps"]) for b in plan["beats"]], workers=2)
+    except RuntimeError as e:
+        if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs
