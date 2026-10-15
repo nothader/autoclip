@@ -18,6 +18,14 @@
 地球（globe）可设标记（ring/dot/glow/cloud）、晨昏线、断层发光、碎片环、完整/碎裂的月球、冰封、海洋干涸、朝向经纬度；
 地图（map）用 SVG 画标签、轨迹（按进度揭示）、危险区。
 
+**自定义布景（`scene: "custom"` + `env.set`，推荐）**：每个题目自己搭场景，而不是套城市/公路/地球模板。
+背景（渐变 / 星空 / 纯色）、地面（无 / 平面 / 网格 / 水面 / 镜面）、雾、灯光、镜头焦点与距离，加最多 40 组物体：
+基本体（sphere box cylinder cone torus capsule ring plane icosahedron octahedron）和科普道具
+（molecule〔按分子式，CPK 配色与单/双/三键〕 atom dna cell blood_cell virus neuron lungs heart hourglass clock gear flame
+crystal bubble planet sun moon earth tree rock building arrow bars person particles），每个可设材质
+（matte glossy metal glass glow toon）、散布数量、动画（spin bob orbit pulse grow shrink fade_in fade_out move drift wobble）。
+示例：`examples/nitrogen_custom_sets.json`。planner 默认按题目设计自定义布景，只有剧情确实发生在城市/室内等地方时才用通用场景。
+
 环境修饰（`env`，同场景内沿用）：时段 `day golden dusk night dawn`、天气 `rain storm snow ash fog dust overcast`、
 天象 `red dark meteors`、人群/车流密度、`empty`（人消失）、`lights_off`、`overgrown`（荒废长草）、`damage`（碎片）。
 人物：`person`/`cast` 支持服装 `casual hoodie scrubs doctor hivis suit robe soldier child elder ranger police` 与姿势
@@ -71,7 +79,7 @@ LLM 只写分镜：增长模型、场景、镜头、文案、里程碑（真实�
 | `backend/whatif/schema.py` | 分镜结构（pydantic，`extra=forbid`） |
 | `backend/whatif/model.py` | 增长模型、积分、里程碑时刻、格式化 → 逐帧渲染计划 `plan` |
 | `backend/whatif/planner.py` | 题目 → 分镜（提示词 + 示例 + 校验修正循环） |
-| `backend/whatif/web/` | three.js 场景（`world.js`/`envs.js` 环境与时段天气、`people.js` 人物与人群、`actors.js` 道具与特效）+ HTML/SVG 叠加层（`overlay.js`、`icons.js`） |
+| `backend/whatif/web/` | three.js 场景（`sets.js` 自定义布景与道具库、`world.js`/`envs.js` 通用环境与时段天气、`people.js` 人物与人群、`actors.js` 道具与特效）+ HTML/SVG 叠加层（`overlay.js`、`icons.js`） |
 | `backend/whatif/render.py` | 多个 headless Chromium 子进程并行渲帧 → ffmpeg 合成 |
 | `backend/whatif/narration.py` | 可选旁白：Kokoro / OpenAI TTS、文本口语化、按语音拉长分镜、人声轨对齐与缓存 |
 | `backend/whatif/audio.py` | numpy 程序化音效：场景环境床、随速度变亮的风、tick/whoosh/boom/riser/swell/drop、混响、响度归一 |

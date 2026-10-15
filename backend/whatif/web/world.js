@@ -398,6 +398,7 @@ import {
   suburbEnv, parkEnv, fieldsEnv, forestEnv, mountainsEnv, volcanoEnv, coastEnv, outbackEnv, ancientEnv,
   interiorEnv, globeEnv, mapEnv,
 } from "./envs.js";
+import { setEnv } from "./sets.js";
 
 const BUILDERS = {
   city: () => cityEnv(), highway: () => cityEnv({ highway: true }), desert: desertEnv, ocean: oceanEnv,
@@ -405,6 +406,8 @@ const BUILDERS = {
   suburb: suburbEnv, park: parkEnv, fields: fieldsEnv, forest: forestEnv, mountains: mountainsEnv,
   volcano: volcanoEnv, coast: coastEnv, outback: outbackEnv, ancient: ancientEnv,
   interior: (e) => interiorEnv(e.room), globe: (e) => globeEnv(e.globe || {}), map: mapEnv,
+  custom: (e) => setEnv(e.set || { background: ["#0d1622", "#2a3b52"], ground: "none", ground_color: "#1a2230", light: "#ffffff",
+    light_intensity: 2.2, ambient: 0.8, focus: [0, 1, 0], zoom: 1, objects: [], fog: null }),
 };
 
 // 时段 / 天象调色：天空三段色、太阳色/强度/高度、半球光、雾色、窗户亮度、星星
@@ -520,6 +523,7 @@ export class World {
   key(name, spec) {
     if (name === "interior") return `interior:${spec.room || "office"}`;
     if (name === "globe") return `globe:${JSON.stringify(spec.globe || {})}`;
+    if (name === "custom") return `custom:${JSON.stringify(spec.set || {})}`;
     return name;
   }
   use(name, spec = {}) {

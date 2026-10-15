@@ -375,3 +375,22 @@ def test_narration_stretches_beats_and_places_lines(monkeypatch):
     from backend.whatif.audio import synthesize
     x = synthesize(plan, v)
     assert np.isfinite(x).all() and np.max(np.abs(x)) <= 0.8
+
+
+# ------------------------------------------------------------- 自定义布景 ---
+def test_custom_scene_requires_a_set_and_limits_objects():
+    d = _timeline()
+    d["beats"][1] = {"duration": 2, "scene": "custom", "time": "+1 SEC"}
+    assert any("env.set" in p for p in validate(Storyboard.model_validate(d)))
+    d["beats"][1]["env"] = {"set": {"objects": [{"kind": "molecule", "formula": "N2", "count": 200},
+                                                {"kind": "cell", "count": 100}]}}
+    assert any("太多" in p for p in validate(Storyboard.model_validate(d)))
+    d["beats"][1]["env"] = {"set": {"background": "stars", "objects": [{"kind": "hourglass", "animate": [{"type": "spin"}]}]}}
+    sb = Storyboard.model_validate(d)
+    assert validate(sb) == []
+    assert compile_plan(sb)["beats"][1]["env"]["set"]["objects"][0]["kind"] == "hourglass"
+
+
+def test_prompt_pushes_bespoke_sets():
+    p = build_prompt("What if trees could walk?")
+    assert "DESIGN YOUR OWN FOR EVERY VIDEO" in p and "molecule" in p and '"scene":"custom"' in p

@@ -143,8 +143,11 @@ function frame(i) {
   const sceneName = fr.scene || "void";
   const env = world.use(sceneName, beat ? beat.env : {});
 
-  const S = fr.scale || 1;
+  let S = fr.scale || 1;
   const p = new THREE.Vector3(0, 0, env.static ? 0 : -(fr.z || 0));
+  // 自定义布景：镜头围绕 set.focus，距离乘 set.zoom
+  const camPivot = env.custom ? new THREE.Vector3(...env.focus).add(new THREE.Vector3(0, -1.1 * env.zoom, 0)) : p;
+  const camScale = env.custom ? env.zoom : S;
   if (beat && beat.subject && beat.subject.type !== "none" && !env.globe && sceneName !== "map") {
     const [key, subj] = getSubject(beat.subject);
     if (key !== currentKey) {
@@ -178,7 +181,7 @@ function frame(i) {
     for (const g of cg.children) updateCrowd(g, fr.lt || 0, vanish);
   }
 
-  if (beat) placeCamera(beat.camera, p, S, fr, beat, env);
+  if (beat) placeCamera(beat.camera, camPivot, camScale, fr, beat, env);
   else { camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0); }
   world.update(fr, p, S, beat, camera.position);
   renderer.toneMappingExposure = world.exposure || 1.0;

@@ -21,7 +21,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 Format = Literal["escalation", "timeline", "countdown", "story", "survival"]
 SceneName = Literal[
     "city", "highway", "suburb", "park", "fields", "forest", "desert", "outback", "mountains", "volcano",
-    "coast", "ocean", "sky", "orbit", "deep_space", "globe", "map", "interior", "ancient", "lab", "void",
+    "coast", "ocean", "sky", "orbit", "deep_space", "globe", "map", "interior", "ancient", "lab", "void", "custom",
 ]
 CameraName = Literal[
     "follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup",
@@ -152,6 +152,60 @@ class MapOpts(_Strict):
     style: Literal["dark", "satellite", "paper"] = "dark"
 
 
+SetKind = Literal[
+    # 基本体
+    "sphere", "box", "cylinder", "cone", "torus", "capsule", "ring", "plane", "icosahedron", "octahedron",
+    # 科普道具
+    "molecule", "atom", "dna", "cell", "blood_cell", "virus", "neuron", "lungs", "heart", "hourglass", "clock",
+    "gear", "flame", "crystal", "bubble", "planet", "sun", "moon", "earth", "tree", "rock", "building", "arrow",
+    "bars", "person", "particles",
+]
+SET_KINDS: Tuple[str, ...] = SetKind.__args__  # type: ignore[attr-defined]
+
+
+class Anim(_Strict):
+    type: Literal["spin", "bob", "orbit", "pulse", "grow", "shrink", "fade_in", "fade_out", "move", "drift", "wobble"]
+    axis: Literal["x", "y", "z"] = "y"
+    speed: float = 1.0               # 每秒（弧度 / 周期 / 米，视类型而定）
+    amount: float = 0.3              # 幅度（bob / pulse / wobble / orbit 半径）
+    to: Optional[Tuple[float, float, float]] = None  # move：本段内从 at 移动到 to
+
+
+class SetObject(_Strict):
+    """自定义布景里的一个物体（或一组：count > 1 时在 spread 范围内随机散布）。"""
+    kind: SetKind
+    at: Tuple[float, float, float] = (0, 0, 0)
+    scale: Union[float, Tuple[float, float, float]] = 1.0
+    rotate: Tuple[float, float, float] = (0, 0, 0)   # 度
+    color: str = "#d8d8d8"
+    color2: Optional[str] = None     # 次要颜色（细胞核、沙子、钟面、DNA 第二条链 ……）
+    material: Literal["matte", "glossy", "metal", "glass", "glow", "toon"] = "matte"
+    opacity: float = Field(default=1.0, ge=0.05, le=1)
+    count: int = Field(default=1, ge=1, le=200)
+    spread: Tuple[float, float, float] = (0, 0, 0)
+    seed: int = 1
+    formula: str = ""                # molecule："N2" "O2" "CO2" "H2O" "CH4" "NH3" ……
+    values: List[float] = Field(default_factory=list)   # bars：柱高
+    outfit: Outfit = "casual"        # person
+    action: Action = "idle"
+    animate: List[Anim] = Field(default_factory=list)
+
+
+class SetSpec(_Strict):
+    """完全自定义的布景：按题目设计，而不是套用城市 / 公路 / 地球模板。"""
+    background: Union[Literal["stars", "black", "white"], Tuple[str, str]] = ("#0d1622", "#2a3b52")  # (顶, 底) 渐变
+    ground: Literal["none", "plane", "grid", "water", "mirror"] = "none"
+    ground_color: str = "#1a2230"
+    fog: Optional[Tuple[str, float, float]] = None   # (颜色, 近, 远)
+    light: str = "#ffffff"
+    light_intensity: float = 2.2
+    ambient: float = 0.8
+    focus: Tuple[float, float, float] = (0, 1, 0)    # 镜头围绕的点
+    zoom: float = 1.0                                 # 镜头距离倍数
+    ambience: Literal["none", "space", "room", "calm", "forest", "ocean", "wind", "lab", "rumble"] = "space"
+    objects: List[SetObject] = Field(default_factory=list, max_length=40)
+
+
 class Env(_Strict):
     """场景修饰：时段、天气、天象、人群密度、荒废程度、室内类型、地球/地图选项。"""
     time: TimeOfDay = "day"
@@ -166,6 +220,7 @@ class Env(_Strict):
     room: Room = "office"            # scene=interior 时的房间类型
     globe: Optional[GlobeOpts] = None
     map: Optional[MapOpts] = None
+    set: Optional[SetSpec] = None    # scene=custom 时的布景
 
 
 class Stat(_Strict):

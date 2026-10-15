@@ -340,7 +340,17 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
     out = np.zeros((n, 2))
 
     beats = plan.get("beats", [])
-    scenes = [BED_ALIAS.get(f.get("scene", "void"), f.get("scene", "void")) for f in frames]
+    AMB = {"space": "orbit", "room": "room", "calm": "calm", "forest": "forest", "ocean": "ocean", "wind": "sky",
+           "lab": "room", "rumble": "volcano", "none": "none"}
+
+    def bed_name(f):
+        sc = f.get("scene", "void")
+        if sc == "custom" and "b" in f and f["b"] < len(beats):
+            st = (beats[f["b"]].get("env") or {}).get("set") or {}
+            return AMB.get(st.get("ambience", "space"), "orbit")
+        return BED_ALIAS.get(sc, sc)
+
+    scenes = [bed_name(f) for f in frames]
     # 1) 环境床：每个场景一条，按逐帧"是否当前场景"做交叉淡化
     for k, name in enumerate(sorted(set(scenes))):
         mask = np.array([1.0 if s == name else 0.0 for s in scenes])

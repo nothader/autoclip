@@ -15,7 +15,7 @@ from typing import Any, Callable, Dict, List, Optional
 from pydantic import ValidationError
 
 from .model import PLACEHOLDERS, validate
-from .schema import ACTIONS, CAMERAS, EFFECTS, ICONS, OUTFITS, ROOMS, SCENES, SFX, Storyboard
+from .schema import ACTIONS, CAMERAS, EFFECTS, ICONS, OUTFITS, ROOMS, SCENES, SET_KINDS, SFX, Storyboard
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ EXAMPLES_DIR = Path(__file__).parent / "examples"
 EXAMPLE_PATH = EXAMPLES_DIR / "twice_as_fast.json"
 FORMAT_EXAMPLES = {
     "escalation": "twice_as_fast.json",
-    "timeline": "earth_stopped_spinning.json",
+    "timeline": "nitrogen_custom_sets.json",
     "countdown": "friction_disappeared.json",
     "story": "moon_shattered.json",
 }
@@ -65,6 +65,23 @@ TIMING
 - 10-20 beats, each 2.5-5 s. Total 40-90 s plus the end card (3 s). First beat is under the title card (intro.duration
   ~2.5 s), so keep it captionless and visually strong (establishing / wide).
 - escalation: each beat has sim_end (simulated seconds reached at the end of the beat, never decreasing).
+
+SETS: DESIGN YOUR OWN FOR EVERY VIDEO (MOST IMPORTANT VISUAL RULE)
+- Prefer scene="custom" with a bespoke env.set built for THIS topic, so every video has its own visual world
+  (molecules and lungs for a breathing video, hourglasses and clocks for aging, cells for biology, planets for space).
+  Use the generic places (city, suburb, globe, interior ...) only when the story literally happens there.
+  Vary sets shot to shot: different background colors, object arrangements, materials and camera moves.
+- env.set = {{"background": ["#top", "#bottom"] | "stars" | "black" | "white", "ground": none|plane|grid|water|mirror,
+  "ground_color", "fog": [color, near, far] (optional), "light": "#color", "light_intensity" (~2), "ambient" (~0.8),
+  "focus": [x, y, z] (what the camera looks at), "zoom" (camera distance multiplier, 0.5-2.5),
+  "ambience": none|space|room|calm|forest|ocean|wind|lab|rumble, "objects": [...] (<= 40 entries)}}
+- object = {{"kind", "at": [x,y,z], "scale": number | [x,y,z], "rotate": [deg,deg,deg], "color", "color2",
+  "material": matte|glossy|metal|glass|glow|toon, "opacity", "count" (scatter copies within "spread": [x,y,z]), "seed",
+  "animate": [{{"type": spin|bob|orbit|pulse|grow|shrink|fade_in|fade_out|move|drift|wobble, "axis", "speed", "amount", "to"}}]}}
+  kinds: {', '.join(SET_KINDS)}.
+  molecule uses "formula" (N2 O2 H2 CO2 H2O CH4 NH3 O3 NaCl CO, real CPK colors); bars uses "values"; person uses
+  "outfit"/"action"; particles = a drifting point cloud (count x 20 points). Units are meters; keep objects within ~8 m
+  of focus. Use grow/fade/move/shrink to make each beat's set change while its caption plays.
 
 SHOTS
 - scene: {', '.join(SCENES)}.

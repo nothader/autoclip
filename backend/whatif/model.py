@@ -317,6 +317,12 @@ def validate(sb: Storyboard) -> List[str]:
             problems.append(f"beats[{i}].time 在 clock.mode={mode} 下应是文字标签（如 \"+1 HOUR\"）")
         if b.scene == "globe" and b.env and b.env.map:
             problems.append(f"beats[{i}] scene=globe 不用 env.map")
+        if b.scene == "custom" and not (b.env and b.env.set):
+            problems.append(f"beats[{i}] scene=custom 需要 env.set（背景 / 地面 / objects）")
+        if b.env and b.env.set:
+            n_obj = sum(o.count for o in b.env.set.objects if o.kind != "particles")
+            if n_obj > 260:
+                problems.append(f"beats[{i}] 自定义布景物体太多（{n_obj} > 260），会拖慢渲染")
         if b.scene == "map" and not (b.env and b.env.map):
             problems.append(f"beats[{i}] scene=map 需要 env.map（labels/path/zone）")
     if sb.format in ("timeline", "countdown", "survival") and (sb.clock is None or sb.clock.mode == "none"):

@@ -1,0 +1,931 @@
+{
+  "format": "timeline",
+  "title": "What if we breathed nitrogen instead of oxygen?",
+  "premise": "Every breath suddenly contains pure nitrogen and no oxygen. Built entirely from custom sets.",
+  "theme": {
+    "accent": "#4fa3d1"
+  },
+  "clock": {
+    "mode": "elapsed",
+    "label": "BREATHING ONLY NITROGEN",
+    "intro_label": "OXYGEN DISAPPEARS IN",
+    "intro_from": 5
+  },
+  "intro": {
+    "style": "title",
+    "title": "What if we breathed *nitrogen* instead of oxygen?",
+    "icon": "drop",
+    "subtitle": "A HYPOTHETICAL SIMULATION",
+    "duration": 2.6
+  },
+  "beats": [
+    {
+      "duration": 2.8,
+      "scene": "custom",
+      "camera": "orbit",
+      "subject": {
+        "type": "none"
+      },
+      "env": {
+        "set": {
+          "background": [
+            "#0a1a2e",
+            "#1f3a5c"
+          ],
+          "zoom": 2.0,
+          "focus": [
+            0,
+            1.5,
+            -2
+          ],
+          "ambience": "wind",
+          "objects": [
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "count": 16,
+              "at": [
+                0,
+                1.5,
+                -2
+              ],
+              "spread": [
+                9,
+                6,
+                7
+              ],
+              "scale": 0.7,
+              "animate": [
+                {
+                  "type": "spin",
+                  "axis": "y",
+                  "speed": 0.8
+                },
+                {
+                  "type": "bob",
+                  "amount": 0.3,
+                  "speed": 0.6
+                }
+              ]
+            },
+            {
+              "kind": "molecule",
+              "formula": "O2",
+              "count": 4,
+              "at": [
+                0,
+                1.5,
+                -2
+              ],
+              "spread": [
+                9,
+                6,
+                7
+              ],
+              "scale": 0.7,
+              "seed": 2,
+              "animate": [
+                {
+                  "type": "spin",
+                  "axis": "x",
+                  "speed": 0.9
+                },
+                {
+                  "type": "bob",
+                  "amount": 0.3,
+                  "speed": 0.7
+                }
+              ]
+            },
+            {
+              "kind": "particles",
+              "color": "#9ec5ff",
+              "count": 60,
+              "at": [
+                0,
+                1.5,
+                -2
+              ],
+              "spread": [
+                16,
+                10,
+                12
+              ],
+              "scale": 1.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "duration": 3.8,
+      "scene": "custom",
+      "camera": "orbit",
+      "env": {
+        "set": {
+          "background": [
+            "#0f2236",
+            "#2b4a6b"
+          ],
+          "zoom": 1.75,
+          "focus": [
+            0,
+            1.4,
+            0
+          ],
+          "ambience": "wind",
+          "objects": [
+            {
+              "kind": "lungs",
+              "at": [
+                0,
+                1.2,
+                0
+              ],
+              "scale": 1.1,
+              "color": "#f28fae"
+            },
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "count": 10,
+              "at": [
+                0,
+                2.5,
+                0
+              ],
+              "spread": [
+                5,
+                3,
+                4
+              ],
+              "scale": 0.45,
+              "animate": [
+                {
+                  "type": "spin",
+                  "speed": 1.2
+                },
+                {
+                  "type": "drift",
+                  "axis": "y",
+                  "speed": 0.6,
+                  "amount": -0.25
+                }
+              ]
+            },
+            {
+              "kind": "molecule",
+              "formula": "O2",
+              "count": 3,
+              "at": [
+                0,
+                2.5,
+                0
+              ],
+              "spread": [
+                5,
+                3,
+                4
+              ],
+              "scale": 0.45,
+              "seed": 3,
+              "animate": [
+                {
+                  "type": "spin",
+                  "speed": 1.2
+                },
+                {
+                  "type": "drift",
+                  "axis": "y",
+                  "speed": 0.6,
+                  "amount": -0.25
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "time": "+0 SEC",
+      "stat": {
+        "value": "78%",
+        "label": "OF EVERY BREATH YOU TAKE IS ALREADY NITROGEN"
+      },
+      "caption": "Every breath you take is already mostly nitrogen. Your body simply ignores it."
+    },
+    {
+      "duration": 3.6,
+      "scene": "custom",
+      "camera": "orbit",
+      "env": {
+        "set": {
+          "background": [
+            "#081624",
+            "#1a2f47"
+          ],
+          "zoom": 1.75,
+          "focus": [
+            0,
+            1.4,
+            0
+          ],
+          "ambience": "wind",
+          "objects": [
+            {
+              "kind": "lungs",
+              "at": [
+                0,
+                1.2,
+                0
+              ],
+              "scale": 1.1,
+              "color": "#f28fae"
+            },
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "count": 26,
+              "at": [
+                0,
+                1.6,
+                0
+              ],
+              "spread": [
+                7,
+                5,
+                5
+              ],
+              "scale": 0.45,
+              "animate": [
+                {
+                  "type": "spin",
+                  "speed": 1
+                },
+                {
+                  "type": "bob",
+                  "amount": 0.25
+                }
+              ]
+            },
+            {
+              "kind": "molecule",
+              "formula": "O2",
+              "count": 6,
+              "at": [
+                0,
+                1.6,
+                0
+              ],
+              "spread": [
+                7,
+                5,
+                5
+              ],
+              "scale": 0.45,
+              "seed": 4,
+              "animate": [
+                {
+                  "type": "fade_out"
+                },
+                {
+                  "type": "shrink"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "time": "+1 SEC",
+      "caption": "Now imagine every breath is pure nitrogen, with no oxygen at all."
+    },
+    {
+      "duration": 4.0,
+      "scene": "custom",
+      "camera": "orbit",
+      "env": {
+        "set": {
+          "background": [
+            "#101b29",
+            "#26384d"
+          ],
+          "zoom": 1.75,
+          "focus": [
+            0,
+            1.8,
+            0
+          ],
+          "ambience": "wind",
+          "objects": [
+            {
+              "kind": "lungs",
+              "at": [
+                0,
+                1.2,
+                0
+              ],
+              "scale": 1.0,
+              "color": "#f28fae"
+            },
+            {
+              "kind": "molecule",
+              "formula": "CO2",
+              "count": 8,
+              "at": [
+                0,
+                3.2,
+                0
+              ],
+              "spread": [
+                3,
+                1,
+                3
+              ],
+              "scale": 0.4,
+              "seed": 5,
+              "animate": [
+                {
+                  "type": "drift",
+                  "axis": "y",
+                  "speed": 0.8,
+                  "amount": 0.35
+                },
+                {
+                  "type": "spin",
+                  "speed": 0.7
+                }
+              ]
+            },
+            {
+              "kind": "arrow",
+              "at": [
+                2.2,
+                1.5,
+                0
+              ],
+              "scale": 0.8,
+              "color": "#ffd43b",
+              "animate": [
+                {
+                  "type": "bob",
+                  "amount": 0.15,
+                  "speed": 1.2
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "time": "+5 SEC",
+      "tooltip": {
+        "label": "WHY YOU WOULDN'T NOTICE",
+        "text": "The urge to breathe is triggered by carbon dioxide building up, not by missing oxygen."
+      },
+      "caption": "Strangely, nobody panics. You still breathe out CO2, so breathing feels normal."
+    },
+    {
+      "duration": 3.8,
+      "scene": "custom",
+      "camera": "closeup",
+      "env": {
+        "set": {
+          "background": [
+            "#120f24",
+            "#2a1f45"
+          ],
+          "zoom": 1.6,
+          "focus": [
+            0,
+            1.4,
+            0
+          ],
+          "ambience": "space",
+          "objects": [
+            {
+              "kind": "neuron",
+              "at": [
+                -1.2,
+                1.4,
+                0
+              ],
+              "scale": 0.7,
+              "color": "#ffd43b",
+              "animate": [
+                {
+                  "type": "pulse",
+                  "amount": 0.08,
+                  "speed": 1.5
+                }
+              ]
+            },
+            {
+              "kind": "neuron",
+              "at": [
+                1.6,
+                2.2,
+                -1.5
+              ],
+              "scale": 0.55,
+              "color": "#ffa94d",
+              "seed": 2,
+              "rotate": [
+                0,
+                140,
+                30
+              ],
+              "animate": [
+                {
+                  "type": "pulse",
+                  "amount": 0.08,
+                  "speed": 1.2
+                }
+              ]
+            },
+            {
+              "kind": "particles",
+              "color": "#ffe066",
+              "count": 40,
+              "at": [
+                0,
+                1.4,
+                0
+              ],
+              "spread": [
+                8,
+                6,
+                6
+              ],
+              "animate": []
+            }
+          ]
+        }
+      },
+      "time": "+15 SEC",
+      "stat": {
+        "value": "~20%",
+        "label": "OF YOUR BODY'S OXYGEN IS USED BY YOUR BRAIN"
+      },
+      "caption": "But your brain runs on oxygen. Thoughts start to blur."
+    },
+    {
+      "duration": 3.8,
+      "scene": "custom",
+      "camera": "side",
+      "env": {
+        "set": {
+          "background": [
+            "#05070b",
+            "#141a24"
+          ],
+          "ground": "grid",
+          "ground_color": "#11161e",
+          "zoom": 0.75,
+          "focus": [
+            0,
+            0.9,
+            0
+          ],
+          "light": "#9fb3d1",
+          "light_intensity": 2.8,
+          "ambient": 1.1,
+          "ambience": "space",
+          "objects": [
+            {
+              "kind": "person",
+              "outfit": "casual",
+              "action": "lie",
+              "at": [
+                0,
+                0,
+                -1
+              ],
+              "rotate": [
+                0,
+                30,
+                0
+              ]
+            },
+            {
+              "kind": "heart",
+              "at": [
+                0,
+                2.6,
+                -1
+              ],
+              "scale": 0.35,
+              "color": "#e03131",
+              "material": "glossy",
+              "animate": [
+                {
+                  "type": "shrink"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "time": "+30 SEC",
+      "sfx": [
+        {
+          "type": "drop",
+          "at": 0.2,
+          "gain": 0.6
+        }
+      ],
+      "caption": "Within moments, people pass out without ever feeling short of breath."
+    },
+    {
+      "duration": 3.6,
+      "scene": "custom",
+      "camera": "closeup",
+      "env": {
+        "set": {
+          "background": [
+            "#0b0b0f",
+            "#1d1a24"
+          ],
+          "zoom": 0.7,
+          "focus": [
+            0,
+            1.4,
+            0
+          ],
+          "ambience": "room",
+          "objects": [
+            {
+              "kind": "cylinder",
+              "at": [
+                0,
+                0.6,
+                0
+              ],
+              "scale": [
+                0.35,
+                1.2,
+                0.35
+              ],
+              "color": "#f1f3f5",
+              "material": "glossy"
+            },
+            {
+              "kind": "flame",
+              "at": [
+                0,
+                1.25,
+                0
+              ],
+              "scale": 0.5,
+              "color": "#ff922b",
+              "animate": [
+                {
+                  "type": "shrink"
+                }
+              ]
+            },
+            {
+              "kind": "box",
+              "at": [
+                0,
+                -0.05,
+                0
+              ],
+              "scale": [
+                6,
+                0.1,
+                6
+              ],
+              "color": "#3d2b1f",
+              "material": "glossy"
+            }
+          ]
+        }
+      },
+      "time": "+1 MIN",
+      "caption": "And no fire could burn anywhere on Earth. Combustion needs oxygen too."
+    },
+    {
+      "duration": 4.0,
+      "scene": "custom",
+      "camera": "orbit",
+      "hud": false,
+      "env": {
+        "set": {
+          "background": [
+            "#14102a",
+            "#352a5c"
+          ],
+          "zoom": 1.2,
+          "focus": [
+            0,
+            2.6,
+            0
+          ],
+          "ambience": "lab",
+          "objects": [
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "at": [
+                0,
+                3.4,
+                0
+              ],
+              "scale": 1.8,
+              "material": "glossy",
+              "animate": [
+                {
+                  "type": "spin",
+                  "axis": "y",
+                  "speed": 0.6
+                }
+              ]
+            },
+            {
+              "kind": "ring",
+              "at": [
+                0,
+                3.4,
+                0
+              ],
+              "scale": 2.6,
+              "color": "#9775fa",
+              "material": "glow",
+              "opacity": 0.5,
+              "rotate": [
+                90,
+                0,
+                0
+              ],
+              "animate": [
+                {
+                  "type": "pulse",
+                  "amount": 0.1
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "card": {
+        "title": "WHY NITROGEN IS HARD TO USE",
+        "rows": [
+          [
+            "N≡N BOND",
+            "TRIPLE BOND"
+          ],
+          [
+            "ENERGY TO BREAK IT",
+            "~945 kJ/mol"
+          ],
+          [
+            "O=O BOND",
+            "~498 kJ/mol"
+          ]
+        ],
+        "tone": "neutral"
+      },
+      "caption": "Nitrogen atoms are locked together by one of the strongest bonds in nature."
+    },
+    {
+      "duration": 3.8,
+      "scene": "custom",
+      "camera": "orbit",
+      "hud": false,
+      "env": {
+        "set": {
+          "background": [
+            "#0b2117",
+            "#1f4a33"
+          ],
+          "zoom": 1.2,
+          "focus": [
+            0,
+            1.6,
+            0
+          ],
+          "ambience": "calm",
+          "objects": [
+            {
+              "kind": "cell",
+              "count": 4,
+              "at": [
+                0,
+                1.6,
+                0
+              ],
+              "spread": [
+                5,
+                2.5,
+                4
+              ],
+              "scale": 0.8,
+              "color": "#8ce99a",
+              "color2": "#2f9e44",
+              "animate": [
+                {
+                  "type": "wobble",
+                  "amount": 0.2
+                },
+                {
+                  "type": "bob",
+                  "amount": 0.15
+                }
+              ]
+            },
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "count": 10,
+              "at": [
+                0,
+                1.6,
+                0
+              ],
+              "spread": [
+                7,
+                4,
+                6
+              ],
+              "scale": 0.35,
+              "seed": 6,
+              "animate": [
+                {
+                  "type": "orbit",
+                  "amount": 0.8,
+                  "speed": 0.7
+                },
+                {
+                  "type": "spin",
+                  "speed": 1.5
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tooltip": {
+        "label": "FACT",
+        "text": "Nitrogen-fixing bacteria spend about 16 ATP molecules to split a single N2 molecule."
+      },
+      "caption": "Only some bacteria can break that bond, and it costs them a lot of energy."
+    },
+    {
+      "duration": 3.8,
+      "scene": "custom",
+      "camera": "wide",
+      "hud": false,
+      "env": {
+        "set": {
+          "background": "stars",
+          "zoom": 1.5,
+          "focus": [
+            0,
+            2,
+            0
+          ],
+          "light": "#ffe8cc",
+          "ambient": 0.3,
+          "ambience": "space",
+          "objects": [
+            {
+              "kind": "planet",
+              "at": [
+                0,
+                2,
+                -2
+              ],
+              "scale": 3,
+              "color": "#7b5fb3",
+              "color2": "#c0a8f0",
+              "material": "glossy",
+              "animate": [
+                {
+                  "type": "spin",
+                  "speed": 0.15
+                }
+              ]
+            },
+            {
+              "kind": "moon",
+              "at": [
+                4.5,
+                5,
+                -6
+              ],
+              "scale": 0.6,
+              "color": "#cfc6e8"
+            },
+            {
+              "kind": "sun",
+              "at": [
+                -14,
+                9,
+                -30
+              ],
+              "scale": 1.5,
+              "color": "#ffd8a8"
+            }
+          ]
+        }
+      },
+      "caption": "To breathe nitrogen, life on Earth would have had to evolve completely differently."
+    },
+    {
+      "duration": 3.6,
+      "scene": "custom",
+      "camera": "orbit",
+      "env": {
+        "set": {
+          "background": [
+            "#3a2a12",
+            "#d9a05b"
+          ],
+          "zoom": 1.75,
+          "focus": [
+            0,
+            1.4,
+            0
+          ],
+          "light": "#ffe3b3",
+          "ambience": "calm",
+          "objects": [
+            {
+              "kind": "lungs",
+              "at": [
+                0,
+                1.2,
+                0
+              ],
+              "scale": 1.1,
+              "color": "#f28fae"
+            },
+            {
+              "kind": "molecule",
+              "formula": "O2",
+              "count": 8,
+              "at": [
+                0,
+                2.6,
+                0
+              ],
+              "spread": [
+                5,
+                3,
+                4
+              ],
+              "scale": 0.45,
+              "animate": [
+                {
+                  "type": "drift",
+                  "axis": "y",
+                  "speed": 0.6,
+                  "amount": -0.25
+                },
+                {
+                  "type": "spin"
+                }
+              ]
+            },
+            {
+              "kind": "molecule",
+              "formula": "N2",
+              "count": 14,
+              "at": [
+                0,
+                2.6,
+                0
+              ],
+              "spread": [
+                6,
+                4,
+                5
+              ],
+              "scale": 0.45,
+              "seed": 9,
+              "animate": [
+                {
+                  "type": "bob",
+                  "amount": 0.2
+                },
+                {
+                  "type": "spin"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "time": "BACK TO REALITY",
+      "caption": "So take a breath. Oxygen is only about 21% of it, and it does all the work."
+    }
+  ],
+  "outro": {
+    "chart": false,
+    "question_duration": 3.0,
+    "end": {
+      "kind": "question",
+      "lines": [
+        "WOULD YOU NOTICE",
+        "IN TIME?"
+      ]
+    }
+  }
+}
