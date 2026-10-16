@@ -429,7 +429,9 @@ export function setEnv(spec) {
       if (spec.ground === "water") items.push({ obj: plane, o: { animate: [] }, water: true });
     }
   }
-  // 物体
+  // 物体（散布时只有漂浮类会随机翻滚；人、楼、树、车身等只绕竖轴转）
+  const TUMBLE = new Set(["sphere", "icosahedron", "octahedron", "torus", "capsule", "ring", "molecule", "atom", "dna", "cell",
+    "blood_cell", "virus", "neuron", "crystal", "bubble", "gear", "rock", "planet", "moon"]);
   for (const o of spec.objects) {
     const r = rng(o.seed * 7919 + o.kind.length);
     const n = o.kind === "particles" ? 1 : o.count;
@@ -442,7 +444,8 @@ export function setEnv(spec) {
       const vary = n > 1 ? 0.75 + r() * 0.5 : 1;
       obj.scale.set(sc[0] * vary, sc[1] * vary, sc[2] * vary);
       const rot = o.rotate.map((d) => d * Math.PI / 180);
-      obj.rotation.set(rot[0] + (n > 1 ? r() * 6 : 0), rot[1] + (n > 1 ? r() * 6 : 0), rot[2]);
+      const tilt = n > 1 ? r() * 6 : 0, yaw = n > 1 ? r() * 6 : 0;  // 先取两次随机数，保持各 seed 的散布位置不变
+      obj.rotation.set(rot[0] + (TUMBLE.has(o.kind) ? tilt : 0), rot[1] + yaw, rot[2]);
       if (o.material === "glow" && o.kind !== "flame" && o.kind !== "particles" && o.kind !== "sun") obj.add(halo(o.color, 3.2, 0.45));
       root.add(obj);
       items.push({ obj, o, base, baseScale: obj.scale.clone(), baseRot: obj.rotation.clone(), phase: r() * Math.PI * 2 });
