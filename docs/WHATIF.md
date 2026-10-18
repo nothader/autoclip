@@ -46,6 +46,17 @@ autoclip whatif make "What if Earth stopped spinning?" --provider openai --model
 autoclip whatif make "What if the atmosphere vanished for 5 seconds?" --format countdown
 ```
 
+## 横屏长视频（YouTube）
+
+分镜顶层写 `"width": 1920, "height": 1080` 即为 16:9 横屏：叠加层换成横屏版式（字幕贴底、章节条在上、统计数字居中、
+信息框靠右），总时长上限从 180 s 放宽到 900 s（15 分钟），适合 5–6 分钟的长视频（约 60–80 个分镜、8–10 章，`story` 版式最合适）。
+示例：渲 6 分钟 1920x1080 30fps 在 4 核软件渲染下约 1 小时，建议后台跑：
+
+```bash
+autoclip whatif render long.json -o long.mp4      # 1920x1080
+autoclip whatif render long.json --preview        # 960x540 预览
+```
+
 ## 旁白（可选，`--narrate`）
 
 参考账号默认无旁白；需要时加 `--narrate`：

@@ -137,6 +137,28 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #end .t { font-family: "WSerif", serif; font-size: 56px; line-height: 1.25; }
 #end .t em { font-style: normal; color: var(--accent); }
 #cap .ref { display: block; font: 600 15px "Inter"; font-style: normal; letter-spacing: 3px; color: var(--dim); margin-top: 12px; }
+/* 横屏 16:9（YouTube 长视频）：overlay 以 1920x1080 设计 */
+.land #ov { width: 1920px; height: 1080px; }
+.land #hud, .land #chart { width: 1920px; }
+.land #hud .l { left: 90px; top: 70px; } .land #hud .r { right: 90px; top: 70px; } .land #hud .bar { left: 90px; top: 270px; }
+.land #map { width: 1920px !important; height: 1080px !important; }
+.land #cap { left: 300px; right: 300px; top: auto; bottom: 96px; font-size: 40px; }
+.land #title { left: 300px; right: 300px; top: 250px; }
+.land #intro { top: 240px; }
+.land #stat { left: 300px; right: 300px; top: 110px; }
+.land #stat .v { font-size: 112px; }
+.land #clock { left: 90px; top: auto; bottom: 120px; }
+.land #clock .v { font-size: 60px; }
+.land #chapter { left: 90px; right: 90px; top: 60px; }
+.land #chapter .t { font-size: 44px; }
+.land #chip { right: 90px; top: 150px; } .land #chip.alone { top: 70px; }
+.land #tip { left: auto; right: 90px; top: 230px; max-width: 520px; }
+.land #card { left: auto; right: 90px; width: 640px; top: 260px; }
+.land #callout { left: 90px; top: 300px; }
+.land #banner { left: 360px; right: 360px; top: 120px; }
+.land #screen { top: 90px; transform: translateX(-50%) scale(0.85); transform-origin: 50% 0; }
+.land #question { left: 300px; right: 300px; top: 400px; }
+.land #end { left: 300px; right: 300px; top: 400px; }
 .hidden { display: none !important; }
 </style>
 </head>

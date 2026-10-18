@@ -502,7 +502,8 @@ export function setEnv(spec) {
           obj.geometry.attributes.position.needsUpdate = true;
         }
         if (alpha < 1 || o.animate.some((a) => a.type === "fade_in" || a.type === "fade_out")) {
-          obj.traverse((m) => { if (m.material) { m.material.transparent = true; m.material.opacity = (m.userData.op0 ??= m.material.opacity) * alpha; } });
+          obj.traverse((m) => { if (m.material) { m.material.transparent = true; m.material.opacity = (m.userData.op0 ??= m.material.opacity) * alpha; }
+            if (m.isMesh) m.castShadow = alpha > 0.5; });   // 淡出的物体不再留影子
           obj.visible = alpha > 0.01;
         }
       }

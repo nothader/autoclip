@@ -334,8 +334,9 @@ def validate(sb: Storyboard) -> List[str]:
         problems.append("format=story 需要用 chapter 给段落分章")
     total = sum(b.duration for b in sb.beats) + (sb.outro.chart_duration if sb.outro.chart else 0) + (
         sb.outro.question_duration if (sb.outro.question or sb.outro.end) else 0)
-    if total > 180:
-        problems.append(f"总时长 {total:.0f}s 太长（上限 180s）")
+    limit = 900 if sb.width > sb.height else 180   # 横屏 = YouTube 长视频
+    if total > limit:
+        problems.append(f"总时长 {total:.0f}s 太长（上限 {limit}s）")
     if q is not None:
         g = Growth(q.model, max(s.sim1 for s in _sections(sb)))
         for m in q.milestones:

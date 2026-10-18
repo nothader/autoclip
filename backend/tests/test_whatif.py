@@ -422,3 +422,15 @@ def test_custom_set_grounds_and_props_render(tmp_path):
             pytest.skip("chromium 不可用")
         raise
     assert not errs, errs
+
+
+def test_landscape_allows_long_form_but_portrait_does_not():
+    """横屏 1920x1080 = YouTube 长视频，总时长上限 900s；竖屏仍是 180s。"""
+    beats = [{"duration": 5.0, "scene": "custom", "camera": "wide", "subject": {"type": "none"}, "chapter": "c" if i == 0 else None,
+              "env": {"set": {"objects": [{"kind": "tree"}]}}} for i in range(60)]
+    base = {"format": "story", "title": "t", "premise": "p", "beats": beats}
+    land = Storyboard.model_validate(dict(base, width=1920, height=1080))
+    assert not [p for p in validate(land) if "总时长" in p]
+    assert compile_plan(land)["width"] == 1920
+    port = Storyboard.model_validate(base)
+    assert [p for p in validate(port) if "总时长" in p]

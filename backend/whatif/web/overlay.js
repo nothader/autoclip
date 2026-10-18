@@ -15,7 +15,10 @@ function setText(el, key, text) {
 }
 
 export function layout(width, plan) {
-  const s = width / 1080;
+  const land = !!(plan && plan.width > plan.height);
+  document.body.classList.toggle("land", land);
+  if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
+  const s = width / (land ? 1920 : 1080);
   $("#ov").style.transform = `scale(${s})`;
   if (plan && plan.theme && plan.theme.accent) document.documentElement.style.setProperty("--accent", plan.theme.accent);
 }
@@ -63,7 +66,8 @@ export function drawOverlay(fr, plan) {
   if (fr.cap) {
     setHTML(cap, "cap", esc(fr.cap.text) + (fr.cap.ref ? `<span class="ref">${esc(fr.cap.ref)}</span>` : ""));
     cap.style.opacity = fr.cap.a;
-    cap.style.top = fr.sec === "chart" ? "1560px" : `${(plan.layout && plan.layout.cap_top) || 1090}px`;
+    cap.style.top = plan.width > plan.height ? "" :   // 横屏：CSS 贴底
+      fr.sec === "chart" ? "1560px" : `${(plan.layout && plan.layout.cap_top) || 1090}px`;
   }
 
   // 卡片
@@ -193,7 +197,7 @@ export function drawOverlay(fr, plan) {
     }
     setHTML(sc, "screen", html);
     sc.style.opacity = x.a;
-    sc.style.top = x.kind === "phone_call" ? "430px" : "620px";
+    sc.style.top = plan.width > plan.height ? "" : x.kind === "phone_call" ? "430px" : "620px";
   }
 
   // 结尾卡

@@ -64,6 +64,8 @@ NUMBERS AND FACTS
 TIMING
 - 10-20 beats, each 2.5-5 s. Total 40-90 s plus the end card (3 s). First beat is under the title card (intro.duration
   ~2.5 s), so keep it captionless and visually strong (establishing / wide).
+- Long-form landscape (YouTube): only when asked for a long or landscape/16:9 video, set "width": 1920, "height": 1080 and
+  write 60-80 beats (5-6 minutes, up to 15 minutes) in 8-10 chapters, usually the story format.
 - escalation: each beat has sim_end (simulated seconds reached at the end of the beat, never decreasing).
 
 SETS: DESIGN YOUR OWN FOR EVERY VIDEO (MOST IMPORTANT VISUAL RULE)
