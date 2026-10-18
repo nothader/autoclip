@@ -36,6 +36,8 @@ function outfitSpec(outfit, color, r) {
     case "elder": return { top: pick(["#8a7a68", "#6f7d8a", "#a39882", "#7a6a7a", "#c9bfae"]), bottom: pick(["#5a5a60", "#6b6152", "#3f4650"]),
       shoe: "#3a2e26", elder: true };
     case "child": return { top: color || pick(CASUAL), bottom: pick(PANTS), shoe: pick(["#f2f2f2", "#d23a3a", "#3b5f8a"]), child: true };
+    // 人体模型：全身一个中性色、无头发无五官（抽象表现"没有衣服"，不画任何身体细节）
+    case "mannequin": { const c = color || pick(["#d8cfc4", "#c9b8a6", "#b59a82", "#8f6f58", "#e2d6c8", "#a88a72"]); return { top: c, bottom: c, shoe: c, mann: true }; }
     default: return { top: color || pick(CASUAL), bottom: pick(PANTS), shoe: pick(["#f2f2f2", "#2b2b2b", "#7a5a3a"]) };
   }
 }
@@ -58,7 +60,8 @@ export class Person {
     this.root.add(this.body);
     const top = mat(spec.top, 0.9);
     const bottom = mat(spec.bottom || spec.top, 0.95);
-    const skin = mat(SKINS[Math.floor(r() * SKINS.length)], 0.7);
+    const skin0 = SKINS[Math.floor(r() * SKINS.length)];
+    const skin = mat(spec.mann ? spec.top : skin0, spec.mann ? 0.55 : 0.7);
     const hairM = mat(outfit === "hoodie" ? "#2b2420" : spec.elder ? ["#e8e6e0", "#c9c7c2", "#b5b3ae"][Math.floor(r() * 3)] : HAIRS[Math.floor(r() * HAIRS.length)], 1);
     this.elder = !!spec.elder;
     const shoe = mat(spec.shoe, 0.6);
@@ -142,8 +145,8 @@ export class Person {
     hairMesh.scale.set(0.94, 1.08, 1.02);
     hairMesh.position.set(0, 0.165, 0.03);
     hairMesh.rotation.x = 0.55;
-    if (!spec.helmet && !spec.cap && !spec.hat && !spec.headcloth) this.neck.add(hairMesh);
-    if (longHair && !spec.headcloth && !spec.helmet) {
+    if (!spec.helmet && !spec.cap && !spec.hat && !spec.headcloth && !spec.mann) this.neck.add(hairMesh);
+    if (longHair && !spec.headcloth && !spec.helmet && !spec.mann) {
       const back = new THREE.Mesh(new THREE.CapsuleGeometry(0.1, 0.16, 3, 8), hairM);
       back.scale.set(1.15, 1, 0.55); back.position.set(0, 0.05, 0.07);
       this.neck.add(back);
@@ -154,7 +157,7 @@ export class Person {
       this.neck.add(beard);
     }
     const eyeM = mat("#1d1a18", 0.4);
-    for (const ex of [-0.04, 0.04]) {
+    for (const ex of spec.mann ? [] : [-0.04, 0.04]) {
       const eye = new THREE.Mesh(new THREE.SphereGeometry(0.014, 8, 6), eyeM);
       eye.position.set(ex, 0.155, -headR + 0.013);
       this.neck.add(eye);

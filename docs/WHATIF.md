@@ -28,7 +28,7 @@ crystal bubble planet sun moon earth tree rock building arrow bars person partic
 
 环境修饰（`env`，同场景内沿用）：时段 `day golden dusk night dawn`、天气 `rain storm snow ash fog dust overcast`、
 天象 `red dark meteors`、人群/车流密度、`empty`（人消失）、`lights_off`、`overgrown`（荒废长草）、`damage`（碎片）。
-人物：`person`/`cast` 支持服装 `casual hoodie scrubs doctor hivis suit robe soldier child elder ranger police` 与姿势
+人物：`person`/`cast` 支持服装 `casual hoodie scrubs doctor hivis suit robe soldier child elder ranger police mannequin`（mannequin = 单色无细节人体模型，用于抽象表现） 与姿势
 `idle walk run sprint sit kneel lie point phone pray fall float fly`；`vanish` 效果让人逐个消失。
 
 ```bash
