@@ -387,7 +387,7 @@ function build(o, r) {
     case "building": return building(c, r);
     case "arrow": return arrow(c);
     case "bars": return bars(o.values.length ? o.values : [1, 2, 3], c, c2);
-    case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed); p.pose(o.action, 0, 0); return p.root; }
+    case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
     case "particles": return particles(c, Math.min(4000, o.count * 20), o.spread.map((v) => v || 10), Array.isArray(o.scale) ? o.scale[0] : o.scale, o.seed);
     default: return mesh(new THREE.SphereGeometry(1, 16, 12), material(mk, c));
   }
@@ -489,6 +489,10 @@ export function setEnv(spec) {
         obj.scale.copy(it.baseScale).multiplyScalar(s);
         // 道具自带动画
         const u = obj.userData;
+        if (u.person && /walk|run|sprint|handwalk|footeat|float|idle/.test(o.action)) {   // 布景里的人也走起来（步频随动作）
+          const rate = { run: 9, sprint: 12, handwalk: 4.5 }[o.action] ?? 6;
+          u.person.pose(o.action, t * rate + it.phase, t + it.phase);
+        }
         if (u.breathe) obj.scale.multiplyScalar(1 + Math.sin(t * 2.2) * 0.05);
         if (u.beat) { const b = Math.max(0, Math.sin(t * 7)) ** 8; obj.scale.multiplyScalar(1 + b * 0.08); }
         if (u.electrons) obj.children.forEach((ch, idx) => { if (ch.userData.electron) { const a2 = t * (2 + idx * 0.7); ch.userData.electron.position.set(Math.cos(a2) * 1.6, Math.sin(a2) * 1.6, 0); } });

@@ -245,7 +245,7 @@ export class Person {
     this.body.position.set(0, 0, 0);
     this.phone.visible = false;
     const s = Math.sin(ph), c = Math.cos(ph);
-    const A = { idle: 0.0, walk: 0.45, run: 0.85, sprint: 1.1, float: 0.25, fly: 0.0 }[action] ?? 0;
+    const A = { idle: 0.0, handwalk: 0.0, footeat: 0.0, walk: 0.45, run: 0.85, sprint: 1.1, float: 0.25, fly: 0.0 }[action] ?? 0;
     const lean = { idle: 0, walk: 0.03, run: 0.16, sprint: 0.3, float: 0.1, fly: 1.35 }[action] ?? 0;
     this.hips.rotation.set(0, s * 0.12 * A, 0);
     this.spine.rotation.set(-lean - (this.elder ? 0.16 : 0), -s * 0.18 * A, 0);
@@ -323,6 +323,31 @@ export class Person {
         for (const g of [L, R]) { g.hp.rotation.x = 0; g.kn.rotation.x = 0.02; }
         aL.sh.rotation.set(0.05, 0, -0.12); aL.el.rotation.x = -0.15;
         aR.sh.rotation.set(-1.45, 0.3, 0.1); aR.el.rotation.x = -0.1;
+        break;
+      case "handwalk": {  // 倒立用手走：整体绕 z 翻转，双臂举过头顶当腿，腿朝天
+        const hs = Math.sin(ph);
+        this.body.rotation.z = Math.PI;
+        this.body.position.y = 2.24 + Math.abs(Math.cos(ph)) * 0.03;
+        this.hips.position.y = 0.98; this.hips.rotation.set(0, 0, hs * 0.05);
+        this.spine.rotation.set(-0.08, 0, 0); this.neck.rotation.set(-0.7, 0, 0);
+        aL.sh.rotation.set(Math.PI + hs * 0.28, 0, 0.08); aR.sh.rotation.set(Math.PI - hs * 0.28, 0, -0.08);
+        aL.el.rotation.x = -Math.max(0, hs) * 0.35; aR.el.rotation.x = -Math.max(0, -hs) * 0.35;
+        L.hp.rotation.set(0.25 + hs * 0.12, 0, -0.12); R.hp.rotation.set(0.25 - hs * 0.12, 0, 0.12);
+        L.kn.rotation.x = 0.55; R.kn.rotation.x = 0.55;
+        for (const g of [L, R]) g.ft.rotation.x = 0.4;
+        break;
+      }
+      case "footeat":  // 坐在地上，用脚把食物送到嘴边
+        this.hips.position.y = 0.2;
+        this.spine.rotation.x = -0.12; this.neck.rotation.x = 0.15;
+        L.hp.rotation.set(-1.45, 0, -0.15); L.kn.rotation.x = 0.25; L.ft.rotation.x = 0;
+        { // 右腿几乎伸直，从髋关节直指嘴边（局部坐标：-z 朝前）
+          const dir = new THREE.Vector3(-0.12, 0.85 + Math.sin(t * 1.6) * 0.03, -0.36).normalize();
+          R.hp.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
+          R.kn.rotation.x = 0.2; R.ft.rotation.x = -1.2;
+        }
+        aL.sh.rotation.set(0.7, 0, -0.35); aR.sh.rotation.set(0.7, 0, 0.35);
+        aL.el.rotation.x = 0; aR.el.rotation.x = 0;
         break;
       case "phone":
         for (const g of [L, R]) { g.hp.rotation.x = 0; g.kn.rotation.x = 0.02; }

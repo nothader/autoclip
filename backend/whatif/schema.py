@@ -28,7 +28,7 @@ CameraName = Literal[
     "establishing", "pov", "top_down", "dolly",
 ]
 SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
-Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall"]
+Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat"]
 Outfit = Literal["casual", "hoodie", "scrubs", "doctor", "hivis", "suit", "robe", "soldier", "child", "elder", "ranger", "police", "mannequin"]
 Effect = Literal[
     "motion_blur", "heat", "plasma", "speedlines", "shake", "shockwave",
