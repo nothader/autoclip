@@ -159,7 +159,7 @@ def test_planner_repairs_invalid_storyboard():
         calls.append(prompt)
         return json.dumps(bad if len(calls) == 1 else good)
 
-    sb = plan_storyboard("What if?", call=fake_llm)
+    sb = plan_storyboard("What if?", call=fake_llm, hooks=False)
     assert sb.beats[0].caption == "Now at {value}."
     assert len(calls) == 2 and "{speed}" in calls[1]   # 第二轮把错误回传给了模型
 
@@ -312,7 +312,7 @@ def test_planner_enforces_requested_format():
     wrong["format"] = "story"
     wrong["beats"][2]["chapter"] = "X"
     replies = [json.dumps(wrong), json.dumps(good)]
-    sb = plan_storyboard("x", fmt="timeline", call=lambda p: replies.pop(0))
+    sb = plan_storyboard("x", fmt="timeline", call=lambda p: replies.pop(0), hooks=False)
     assert sb.format == "timeline"
 
 
@@ -434,3 +434,37 @@ def test_landscape_allows_long_form_but_portrait_does_not():
     assert compile_plan(land)["width"] == 1920
     port = Storyboard.model_validate(base)
     assert [p for p in validate(port) if "总时长" in p]
+
+
+def test_hook_rules_flag_hard_vague_and_loopless_storyboards():
+    from backend.whatif.hooks import hook_report, hook_score, reading_grade
+    assert reading_grade("Every baby can talk.") + 5 < reading_grade(
+        "Sexual reproduction fundamentally transformed evolutionary diversification across populations.")
+    beats = [{"duration": 3, "scene": "custom", "camera": "wide", "subject": {"type": "none"}, "time": f"+{i}",
+              "env": {"set": {"objects": [{"kind": "tree"}]}}, "caption": c} for i, c in enumerate([
+                  "Basically, the situation would gradually become considerably more complicated for populations.",
+                  "In conclusion, things change.",
+                  "Interestingly, scientists would investigate the consequences."])]
+    bad = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed"},
+                                     "intro": {"style": "title", "title": "What if things changed?"}, "beats": beats})
+    rules = {x.rule for x in hook_report(bad) if x.level == "fix"}
+    assert {"specific", "reading", "fluff", "open_loop", "payoff", "first3s"} <= rules
+    good_caps = ["Every baby on Earth can talk. 130 million of them.", "But that is not the strangest part.",
+                 "They remember being born.", "And they want answers."]
+    good = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed"},
+                                      "intro": {"style": "title", "title": "What if every baby could talk?"},
+                                      "outro": {"end": {"kind": "question", "lines": ["WHAT WOULD YOU SAY?"]}},
+                                      "beats": [dict(b, caption=c) for b, c in zip(beats + beats[:1], good_caps)]})
+    assert not [x for x in hook_report(good) if x.level == "fix"]
+    assert hook_score(good) > hook_score(bad)
+
+
+def test_planner_sends_hook_problems_back_but_never_fails_on_them():
+    good = json.loads(EXAMPLE_PATH.read_text(encoding="utf-8"))
+    good["beats"][1]["caption"] = "Basically, the velocity increases considerably."   # 废话 + 难词
+    calls = []
+    def fake(p):
+        calls.append(p)
+        return json.dumps(good)
+    sb = plan_storyboard("x", call=fake, max_repairs=1)
+    assert sb.title and len(calls) == 2 and "hook rule" in calls[1]

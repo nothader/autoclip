@@ -106,6 +106,16 @@ SHOTS
 - narration (optional per beat): when the video is narrated, the caption is read aloud by default. Set "narration" only
   when the spoken wording should differ (e.g. a fuller sentence), or "" to keep a beat silent. Captions must read well aloud.
 
+HOOKS AND RETENTION (checked automatically; violations are sent back to you)
+- Be specific and direct: use names, numbers or emotional triggers the viewer relates to ("8 billion people",
+  "every", "never", "gone", "Elon Musk"), not vague wording. Put one in the title.
+- 3rd-grade reading level: short everyday words, one idea per caption, about 6-12 words. Avoid long words
+  (no "reproduction", "disoriented", "populations"; say "make babies", "lost", "groups").
+- The most interesting detail goes in the first 3 seconds: the title card and the first caption.
+- Cut fluff ("basically", "actually", "in this video", "fun fact", "in conclusion").
+- Open a loop early and don't give away the payoff: within the first 3 captions ask a question or tease what's coming
+  ("But that's not the worst part.", "Until day 3...") and only answer it near the end. End on a question card.
+
 WRITING
 - English only. Captions: one sentence, <= 110 characters, plain, genuine, no hype or clickbait.
 - intro: style "title" with the key word wrapped in *asterisks* ("What if all *women* disappeared?"), an icon from
@@ -159,7 +169,7 @@ def check(data: Dict[str, Any]) -> tuple[Optional[Storyboard], List[str]]:
 
 
 def plan_storyboard(premise: str, *, notes: str = "", fmt: Optional[str] = None, max_repairs: int = 2,
-                    call: Optional[Callable[[str], str]] = None) -> Storyboard:
+                    call: Optional[Callable[[str], str]] = None, hooks: bool = True) -> Storyboard:
     """call(prompt) -> 文本；默认用 AutoClip 当前配置的 LLM。"""
     if call is None:
         from backend.core.llm_manager import get_llm_manager
@@ -178,6 +188,12 @@ def plan_storyboard(premise: str, *, notes: str = "", fmt: Optional[str] = None,
             sb, problems = check(data)
             if sb is not None and fmt and sb.format != fmt:
                 problems.append(f"format must be {fmt}, got {sb.format}")
+            if sb is not None and not problems and hooks:
+                from .hooks import hook_problems
+                problems = hook_problems(sb)
+                if problems and attempt == max_repairs:   # 钩子规则只是建议性的：修不完也不报错
+                    logger.info("钩子规则仍有 %d 条未满足：%s", len(problems), problems[:3])
+                    return sb
             if sb is not None and not problems:
                 return sb
         if attempt == max_repairs:

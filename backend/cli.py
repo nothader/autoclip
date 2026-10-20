@@ -343,6 +343,24 @@ def cmd_whatif(args: argparse.Namespace) -> int:
                   else f"分镜已写入 {out}\n下一步：autoclip whatif render {out}")
             return 0
 
+        if args.whatif_cmd == "check":
+            from backend.whatif.hooks import hook_report, hook_score
+            from backend.whatif.model import validate
+            sb = load_storyboard(Path(args.storyboard))
+            rep = hook_report(sb)
+            if args.json:
+                print(json.dumps({"ok": True, "score": hook_score(sb, rep), "problems": validate(sb),
+                                  "hooks": [x.__dict__ for x in rep]}, ensure_ascii=False, indent=2))
+            else:
+                print(_bold(sb.title) + f"  hook score {hook_score(sb, rep)}/100")
+                for p in validate(sb):
+                    print(f"  [error] {p}")
+                for x in rep:
+                    print(f"  {x}")
+                if not rep:
+                    print("  All hook rules pass.")
+            return 0
+
         if args.whatif_cmd == "examples":
             from backend.whatif.planner import EXAMPLE_PATH
             for p in sorted(EXAMPLE_PATH.parent.glob("*.json")):
@@ -358,6 +376,10 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             out = out.with_name(out.stem + "-preview.mp4")
         if not args.json:
             print(_bold(sb.title) + _dim(f"  → {out}"), file=sys.stderr)
+            from backend.whatif.hooks import hook_report, hook_score
+            rep = hook_report(sb)
+            fixes = [x for x in rep if x.level == "fix"]
+            print(_dim(f"hook score {hook_score(sb, rep)}/100" + (f" · {len(fixes)} to fix (autoclip whatif check for details)" if fixes else "")), file=sys.stderr)
         narr = None
         if getattr(args, "narrate", False):
             from backend.whatif.schema import Narration
@@ -465,6 +487,9 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
         x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
         x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
+    wc = wsub.add_parser("check", help="Check a storyboard against the hook/retention rules (specific, grade-3 reading level, 3-second hook, open loop, no fluff)")
+    wc.add_argument("storyboard")
+    wc.add_argument("--json", action="store_true")
     wsub.add_parser("examples", help="列出内置示例分镜")
     w.set_defaults(func=cmd_whatif)
     return p

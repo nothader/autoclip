@@ -73,6 +73,22 @@ autoclip whatif make "What if …" --narrate --tts openai --voice onyx   # OpenA
 - 混音：音效总线压到 -22 dBFS，说话时再闪避约 9 dB；人声单独一条总线（约 -16 dBFS）
 - 合成结果按文本缓存在 `~/.cache/autoclip/tts`，改画面重渲不重复合成；分镜里也可写 `"narration": {"voice": "...", "speed": 1.0}`
 
+## 开头钩子与留存规则（`autoclip whatif check`）
+
+`backend/whatif/hooks.py` 按以下规则给分镜打分（0–100），planner 写分镜时会把不合格项回传给模型修（修不完不报错），
+`render` 开始时打印分数：
+
+1. **具体、直接**：标题和第一句字幕要有数字、名字或情绪词（every / never / 8 billion / gone）
+2. **三年级阅读水平**：短词短句，每条字幕约 6–12 词；整片 Flesch-Kincaid 年级 > 6.5 必须改，> 4.5 给建议
+3. **最抓人的细节在前 3 秒**：标题卡 ≤ 3 s，第一句字幕放全片最有意思的点
+4. **删废话**：basically / actually / in this video / fun fact / in conclusion …
+5. **不提前揭晓 + 开放式悬念**：前 3 句里要有问句或 "But… / Here's the worst part…"，结论留到最后，结尾卡用问句
+
+```bash
+autoclip whatif check story.json          # 打印分数和逐条问题
+autoclip whatif check story.json --json
+```
+
 ## 设计原则：文字归 LLM，数字归代码
 
 LLM 只写分镜：增长模型、场景、镜头、文案、里程碑（真实参照值）。画面上出现的每个数字都由 `model.py`
