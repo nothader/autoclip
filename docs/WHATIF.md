@@ -73,6 +73,12 @@ autoclip whatif make "What if …" --narrate --tts openai --voice onyx   # OpenA
 - 混音：音效总线压到 -22 dBFS，说话时再闪避约 9 dB；人声单独一条总线（约 -16 dBFS）
 - 合成结果按文本缓存在 `~/.cache/autoclip/tts`，改画面重渲不重复合成；分镜里也可写 `"narration": {"voice": "...", "speed": 1.0}`
 
+## 节奏（`--pace`，默认 1.8）
+
+渲染默认 1.8 倍节奏：每个镜头时长 ÷ 1.8（但不短于字幕可读下限 0.8 s + 0.028 s/字符），画面里的动作（自转、走路、抖动）
+同步快 1.8 倍；模拟数字和里程碑不变；有旁白时改为加快语速（上限 1.6）。分镜里写 `"pace": 1.0` 可恢复原速，
+或 `autoclip whatif render story.json --pace 1.0`。
+
 ## 开头钩子与留存规则（`autoclip whatif check`）
 
 `backend/whatif/hooks.py` 按以下规则给分镜打分（0–100），planner 写分镜时会把不合格项回传给模型修（修不完不报错），

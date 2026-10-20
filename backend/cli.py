@@ -371,6 +371,8 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             sb = load_storyboard(Path(args.storyboard))
         else:  # make
             sb = _whatif_plan(args)
+        if sb.pace is None:
+            sb = sb.model_copy(update={"pace": args.pace})
         out = _whatif_out(args, sb.title)
         if args.preview and not args.output:
             out = out.with_name(out.stem + "-preview.mp4")
@@ -487,6 +489,9 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
         x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
         x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
+        x.add_argument("--pace", type=float, default=1.8,
+                       help="Edit pace multiplier (default 1.8): shots 1.8x shorter, motion 1.8x faster; captions stay readable. "
+                            "A storyboard's own \"pace\" wins. Use 1.0 for the original timing.")
     wc = wsub.add_parser("check", help="Check a storyboard against the hook/retention rules (specific, grade-3 reading level, 3-second hook, open loop, no fluff)")
     wc.add_argument("storyboard")
     wc.add_argument("--json", action="store_true")

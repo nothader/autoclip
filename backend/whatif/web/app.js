@@ -138,7 +138,9 @@ async function load() {
 }
 
 function frame(i) {
-  const fr = plan.frames[Math.min(i, plan.frames.length - 1)];
+  const raw = plan.frames[Math.min(i, plan.frames.length - 1)];
+  const P = plan.pace || 1;   // 节奏倍数：画面里的动作（自转、走路、抖动…）同步加快
+  const fr = P === 1 ? raw : { ...raw, t: (raw.t || 0) * P, lt: (raw.lt || 0) * P, ph: (raw.ph || 0) * P };
   const beat = fr.b !== undefined ? plan.beats[fr.b] : null;
   const sceneName = fr.scene || "void";
   const env = world.use(sceneName, beat ? beat.env : {});

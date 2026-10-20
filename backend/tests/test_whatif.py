@@ -468,3 +468,15 @@ def test_planner_sends_hook_problems_back_but_never_fails_on_them():
         return json.dumps(good)
     sb = plan_storyboard("x", call=fake, max_repairs=1)
     assert sb.title and len(calls) == 2 and "hook rule" in calls[1]
+
+
+def test_pace_shortens_shots_keeps_sim_and_readability():
+    from backend.whatif.model import readable_seconds
+    sb = Storyboard.model_validate(json.loads(EXAMPLE_PATH.read_text(encoding="utf-8")))
+    base = compile_plan(sb)
+    fast = compile_plan(sb.model_copy(update={"pace": 1.8}))
+    assert fast["pace"] == 1.8 and fast["duration"] < base["duration"] * 0.8
+    for b0, b1, src in zip(base["beats"], fast["beats"], sb.beats):
+        assert b1["duration"] >= readable_seconds(src.caption) - 1e-6
+        assert abs(b1["sim1"] - b0["sim1"]) < 1e-6            # 模拟时间不变
+    assert [m["title"] for m in fast["milestones"]] == [m["title"] for m in base["milestones"]]

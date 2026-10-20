@@ -62,6 +62,8 @@ NUMBERS AND FACTS
   (use caption_ref such as "LUKE 22:42") rather than presenting them as established fact.
 
 TIMING
+- Videos render at 1.8x pace by default (shots are shortened, never below caption reading time), so write MORE, shorter
+  beats with short captions: ~20-28 beats for a 1-minute video. Prefer lively places, crowds and motion over abstract props.
 - 10-20 beats, each 2.5-5 s. Total 40-90 s plus the end card (3 s). First beat is under the title card (intro.duration
   ~2.5 s), so keep it captionless and visually strong (establishing / wide).
 - Long-form landscape (YouTube): only when asked for a long or landscape/16:9 video, set "width": 1920, "height": 1080 and

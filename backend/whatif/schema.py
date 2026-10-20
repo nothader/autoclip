@@ -364,6 +364,7 @@ class Storyboard(_Strict):
     fps: int = 30
     width: int = 1080
     height: int = 1920
+    pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.8 = 镜头短 1.8 倍、画面动作快 1.8 倍；None = 用渲染参数（默认 1.8）
 
     @model_validator(mode="after")
     def _check(self) -> "Storyboard":

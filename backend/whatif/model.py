@@ -389,8 +389,31 @@ def lightning(beat_index: int, lt: float) -> float:
     return 0.0
 
 
+def readable_seconds(caption: Optional[str]) -> float:
+    """字幕至少要停留这么久才读得完（快节奏下的下限）。"""
+    return 1.2 if not caption else 0.8 + 0.028 * len(caption)
+
+
+def apply_pace(sb: Storyboard) -> Storyboard:
+    """按 sb.pace 压缩时长：每镜 ÷ pace，但不短于字幕可读下限；片头 ÷ pace（≥1.6s），结尾卡保持可读。"""
+    pace = sb.pace or 1.0
+    if abs(pace - 1.0) < 1e-6:
+        return sb
+    out = sb.model_copy(deep=True)
+    sim = 0.0
+    for b in out.beats:
+        sim = b.sim_end if b.sim_end is not None else sim + b.duration
+        b.sim_end = sim          # 模拟时间不随节奏变（数字、里程碑保持原样），只是放得更快
+        b.duration = round(max(b.duration / pace, readable_seconds(b.caption), 0.8), 3)
+    out.intro.duration = round(max(1.6, out.intro.duration / pace), 3)
+    out.outro.question_duration = round(max(2.2, out.outro.question_duration / max(1.0, pace * 0.75)), 3)
+    return out
+
+
 def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     from .schema import Env
+    pace = sb.pace or 1.0
+    sb = apply_pace(sb)
     has_q = sb.quantity is not None
     q = sb.quantity or _no_quantity()
     secs = _sections(sb)
@@ -716,7 +739,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                  "steps": steps, "refs": refs, "breach": breach, "unit": q.unit}
 
     return {
-        "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height,
+        "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
         "theme": sb.theme.model_dump(), "chapters": chapters,
         "intro_duration": intro.duration,
