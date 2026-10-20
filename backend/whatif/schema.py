@@ -178,7 +178,7 @@ class SetObject(_Strict):
     scale: Union[float, Tuple[float, float, float]] = 1.0
     rotate: Tuple[float, float, float] = (0, 0, 0)   # 度
     color: str = "#d8d8d8"
-    color2: Optional[str] = None     # 次要颜色（细胞核、沙子、钟面、DNA 第二条链 ……）
+    color2: Optional[str] = None     # 次要颜色（细胞核、沙子、钟面、DNA 第二条链 …；person = 肤色）
     material: Literal["matte", "glossy", "metal", "glass", "glow", "toon"] = "matte"
     opacity: float = Field(default=1.0, ge=0.05, le=1)
     count: int = Field(default=1, ge=1, le=200)

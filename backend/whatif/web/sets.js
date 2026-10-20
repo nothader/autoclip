@@ -387,7 +387,8 @@ function build(o, r) {
     case "building": return building(c, r);
     case "arrow": return arrow(c);
     case "bars": return bars(o.values.length ? o.values : [1, 2, 3], c, c2);
-    case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
+    // person：color = 衣服颜色，color2 = 肤色
+    case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed, o.color2 || null); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
     case "particles": return particles(c, Math.min(4000, o.count * 20), o.spread.map((v) => v || 10), Array.isArray(o.scale) ? o.scale[0] : o.scale, o.seed);
     default: return mesh(new THREE.SphereGeometry(1, 16, 12), material(mk, c));
   }

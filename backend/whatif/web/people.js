@@ -51,7 +51,7 @@ function limb(radius, length, m) {
 }
 
 export class Person {
-  constructor(outfit = "casual", color = null, seed = 1) {
+  constructor(outfit = "casual", color = null, seed = 1, skinColor = null) {
     const r = rng(seed * 7919 + 13);
     const spec = outfitSpec(outfit, color, r);
     this.spec = spec;
@@ -61,7 +61,7 @@ export class Person {
     const top = mat(spec.top, 0.9);
     const bottom = mat(spec.bottom || spec.top, 0.95);
     const skin0 = SKINS[Math.floor(r() * SKINS.length)];
-    const skin = mat(spec.mann ? spec.top : skin0, spec.mann ? 0.55 : 0.7);
+    const skin = mat(spec.mann ? spec.top : (skinColor || skin0), spec.mann ? 0.55 : 0.7);
     const hairM = mat(outfit === "hoodie" ? "#2b2420" : spec.elder ? ["#e8e6e0", "#c9c7c2", "#b5b3ae"][Math.floor(r() * 3)] : HAIRS[Math.floor(r() * HAIRS.length)], 1);
     this.elder = !!spec.elder;
     const shoe = mat(spec.shoe, 0.6);
