@@ -43,8 +43,9 @@ def make_video(sb: Storyboard, out: Path, *, preview: bool = False, workers: int
             progress("voice", 0, 1)
         pace = sb.pace or 1.0
         if pace != 1.0:   # 有旁白时：节奏体现在语速上（上限 1.6），镜头按语音长度排，不再压缩
+            from .model import apply_pace
             cfg = cfg.model_copy(update={"speed": round(min(1.6, max(cfg.speed, cfg.speed * pace ** 0.5)), 2)})
-            sb = sb.model_copy(update={"pace": 1.0})
+            sb = apply_pace(sb).model_copy(update={"pace": 1.0})   # 先按节奏压缩镜头，再按语音长度拉长
         sb, lines = narrate(sb, cfg)
         if progress:
             progress("voice", 1, 1)

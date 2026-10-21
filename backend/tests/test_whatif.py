@@ -480,3 +480,19 @@ def test_pace_shortens_shots_keeps_sim_and_readability():
         assert b1["duration"] >= readable_seconds(src.caption) - 1e-6
         assert abs(b1["sim1"] - b0["sim1"]) < 1e-6            # 模拟时间不变
     assert [m["title"] for m in fast["milestones"]] == [m["title"] for m in base["milestones"]]
+
+
+def test_narrated_pace_compresses_shots_before_voice_stretch(monkeypatch):
+    """有旁白时：先按 pace 压缩镜头（语速加快），再由语音拉长——不能退回原始长度。"""
+    import backend.whatif.pipeline as pl
+    from backend.whatif.schema import Narration
+    sb = Storyboard.model_validate(json.loads(EXAMPLE_PATH.read_text(encoding="utf-8"))).model_copy(update={"pace": 1.8})
+    seen = {}
+    def fake_narrate(s, cfg):
+        seen["dur"] = sum(b.duration for b in s.beats); seen["speed"] = cfg.speed; seen["pace"] = s.pace
+        raise RuntimeError("stop")
+    monkeypatch.setattr("backend.whatif.narration.narrate", fake_narrate)
+    with pytest.raises(RuntimeError):
+        pl.make_video(sb, Path("/tmp/x.mp4"), narration=Narration(enabled=True))
+    assert seen["pace"] == 1.0 and seen["speed"] > 1.0
+    assert seen["dur"] < sum(b.duration for b in sb.beats) * 0.8
