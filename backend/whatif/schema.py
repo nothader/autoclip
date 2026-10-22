@@ -278,8 +278,18 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro"]
+CaptionMode = Literal["line", "words", "box"]
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words"}
+
+
 class Theme(_Strict):
     accent: str = "#f0883e"          # 主题强调色（女性=粉、地球=蓝、太阳=黄……）
+    # 画面风格：calm 安静高级（默认）/ bold 爆款快剪（逐词大字幕、推镜、闪切）/ cinematic 纪录片（黑边、颗粒、调色）
+    #          / toon 卡通（描边、平涂、贴纸字幕）/ retro 8-bit 像素（低分辨率、扫描线）
+    style: VideoStyle = "calm"
+    captions: Optional[CaptionMode] = None   # None = 跟随风格
+    layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
 
 class Sfx(_Strict):
     type: SfxType

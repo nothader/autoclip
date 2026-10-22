@@ -496,3 +496,24 @@ def test_narrated_pace_compresses_shots_before_voice_stretch(monkeypatch):
         pl.make_video(sb, Path("/tmp/x.mp4"), narration=Narration(enabled=True))
     assert seen["pace"] == 1.0 and seen["speed"] > 1.0
     assert seen["dur"] < sum(b.duration for b in sb.beats) * 0.8
+
+
+def test_every_style_and_split_layout_render(tmp_path):
+    """每种风格（含分屏）各渲一帧，防止风格代码让页面脚本出错。"""
+    pytest.importorskip("playwright")
+    from backend.whatif.render import render_frames
+    beats = [{"duration": 1.2, "scene": "custom", "camera": "wide", "subject": {"type": "none"}, "time": "+1", "caption": "Every word pops in here.",
+              "env": {"set": {"ground": "plane", "objects": [{"kind": "person", "action": "walk"}, {"kind": "tree", "at": [2, 0, -2]}]}}}]
+    for st, lay in [("calm", "full"), ("bold", "split"), ("cinematic", "full"), ("toon", "split"), ("retro", "full")]:
+        sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed"},
+                                        "theme": {"style": st, "layout": lay}, "intro": {"style": "title", "title": "x", "duration": 0.4},
+                                        "beats": beats, "outro": {"question_duration": 0.5}})
+        plan = compile_plan(sb)
+        assert plan["theme"]["captions"] == {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words"}[st]
+        try:
+            errs = render_frames(plan, tmp_path / st, width=180, height=320, frames=[int(1.0 * plan["fps"])], workers=1)
+        except RuntimeError as e:
+            if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+                pytest.skip("chromium 不可用")
+            raise
+        assert not errs, (st, errs)

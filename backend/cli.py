@@ -373,6 +373,9 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             sb = _whatif_plan(args)
         if sb.pace is None:
             sb = sb.model_copy(update={"pace": args.pace})
+        theme_up = {k: v for k, v in (("style", args.style), ("layout", args.layout), ("captions", args.captions)) if v}
+        if theme_up:
+            sb = sb.model_copy(update={"theme": sb.theme.model_copy(update=theme_up)})
         out = _whatif_out(args, sb.title)
         if args.preview and not args.output:
             out = out.with_name(out.stem + "-preview.mp4")
@@ -489,6 +492,11 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
         x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
         x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
+        x.add_argument("--style", choices=["calm", "bold", "cinematic", "toon", "retro"],
+                       help="Visual style: calm (quiet, premium) / bold (viral word-by-word captions, punch zooms) / "
+                            "cinematic (letterbox, grain, grade) / toon (cel-shaded, outlines, sticker captions) / retro (8-bit pixels, scanlines)")
+        x.add_argument("--layout", choices=["full", "split"], help="split = story on top, satisfying loop below (vertical only)")
+        x.add_argument("--captions", choices=["line", "words", "box"], help="Caption mode (default follows the style)")
         x.add_argument("--pace", type=float, default=1.8,
                        help="Edit pace multiplier (default 1.8): shots 1.8x shorter, motion 1.8x faster; captions stay readable. "
                             "A storyboard's own \"pace\" wins. Use 1.0 for the original timing.")

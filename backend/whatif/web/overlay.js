@@ -19,6 +19,9 @@ export function layout(width, plan) {
   document.body.classList.toggle("land", land);
   if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
   const s = width / (land ? 1920 : 1080);
+  const th = (plan && plan.theme) || {};
+  for (const st of ["calm", "bold", "cinematic", "toon", "retro"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
+  document.body.classList.toggle("split", th.layout === "split" && !land);
   $("#ov").style.transform = `scale(${s})`;
   if (plan && plan.theme && plan.theme.accent) document.documentElement.style.setProperty("--accent", plan.theme.accent);
 }
@@ -64,9 +67,28 @@ export function drawOverlay(fr, plan) {
   const cap = $("#cap");
   show(cap, !!fr.cap);
   if (fr.cap) {
-    setHTML(cap, "cap", esc(fr.cap.text) + (fr.cap.ref ? `<span class="ref">${esc(fr.cap.ref)}</span>` : ""));
+    const mode = (plan.theme && plan.theme.captions) || "line";
+    cap.classList.toggle("words", mode === "words");
+    cap.classList.toggle("box", mode === "box");
+    if (mode === "words") {
+      // 逐词弹出：已出现的词常亮，最新的词高亮 + 弹跳
+      const ws = fr.cap.text.split(/\s+/).filter(Boolean);
+      const shown = Math.min(ws.length, Math.floor((fr.cap.k ?? 1) * ws.length) + 1);
+      const sub = (fr.cap.k ?? 1) * ws.length - (shown - 1);   // 当前词出现了多久（0..1）
+      const pop = 1 + 0.22 * Math.max(0, 1 - sub * 2.5);
+      setHTML(cap, "cap", ws.map((w, i) => {
+        const cls = i < shown - 1 ? "w" : i === shown - 1 ? "w on" : "w off";
+        const tf = i === shown - 1 ? ` style="transform:scale(${pop.toFixed(3)})"` : "";
+        return `<span class="${cls}"${tf}>${esc(w)}</span>`;
+      }).join(" "));
+    } else if (mode === "box") {
+      setHTML(cap, "cap", `<span class="bx">${esc(fr.cap.text)}</span>`);
+    } else {
+      setHTML(cap, "cap", esc(fr.cap.text) + (fr.cap.ref ? `<span class="ref">${esc(fr.cap.ref)}</span>` : ""));
+    }
     cap.style.opacity = fr.cap.a;
     cap.style.top = plan.width > plan.height ? "" :   // 横屏：CSS 贴底
+      document.body.classList.contains("split") ? "870px" :   // 分屏：压在接缝上方
       fr.sec === "chart" ? "1560px" : `${(plan.layout && plan.layout.cap_top) || 1090}px`;
   }
 
@@ -231,6 +253,10 @@ export function drawOverlay(fr, plan) {
   }
 
   $("#flash").style.opacity = fr.flash || 0;
+  // 进度条（bold / retro）与胶片颗粒抖动（cinematic）
+  if (plan.duration) $("#prog").style.width = `${Math.min(100, (fr.t || 0) / plan.duration * 100).toFixed(2)}%`;
+  const gi = Math.floor((fr.t || 0) * 24) % 7;
+  $("#grain").style.transform = `translate(${(gi * 13) % 40 - 20}px, ${(gi * 29) % 40 - 20}px)`;
 }
 
 function fmtAxis(v) {

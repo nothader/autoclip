@@ -5,6 +5,7 @@ import { Prop, Effects } from "./actors.js";
 import { Person, makeCrowd, updateCrowd } from "./people.js";
 import { drawOverlay, layout } from "./overlay.js";
 import { setEarthImage } from "./common.js";
+import { Satisfying } from "./satisfying.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -121,10 +122,62 @@ function placeCamera(name, p, S, fr, beat, env) {
 }
 
 let plan = null;
+let STYLE = "calm";
+let satisfying = null;
+
+// ---------- 风格：调色 / 推镜 / 卡通 / 像素 ----------
+const GRADE = {
+  calm: "", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
+  toon: "saturate(1.5) brightness(1.06)", retro: "saturate(1.4) contrast(1.18)",
+};
+const TOON_GRAD = (() => {
+  const t = new THREE.DataTexture(new Uint8Array([70, 70, 70, 255, 160, 160, 160, 255, 255, 255, 255, 255]), 3, 1, THREE.RGBAFormat);
+  t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true; return t;
+})();
+const OUTLINE = new THREE.MeshBasicMaterial({ color: 0x15151a, side: THREE.BackSide });
+OUTLINE.onBeforeCompile = (sh) => {
+  sh.vertexShader = sh.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\n  transformed += normalize(normal) * 0.035;");
+};
+const toonCache = new Map();
+function toonMat(m) {
+  if (!m || m.isMeshToonMaterial || m.isMeshBasicMaterial || m.isPointsMaterial || m.isSpriteMaterial || m.transparent) return m;
+  const key = m.uuid;
+  if (!toonCache.has(key)) toonCache.set(key, new THREE.MeshToonMaterial({ color: m.color ? m.color.clone() : 0xffffff, map: m.map || null, gradientMap: TOON_GRAD }));
+  return toonCache.get(key);
+}
+function toonify(root) {   // 卡通：平涂三阶光照 + 反向外壳描边（每个网格只处理一次）
+  const todo = [];
+  root.traverse((o) => { if (o.isMesh && !o.userData.toon && !o.userData.outline) todo.push(o); });
+  for (const o of todo) {
+    o.userData.toon = true;
+    const solid = !(o.material && o.material.transparent) && !(o.material && o.material.blending === THREE.AdditiveBlending);
+    o.material = Array.isArray(o.material) ? o.material.map(toonMat) : toonMat(o.material);
+    if (solid && o.geometry && o.geometry.attributes.normal && !o.isInstancedMesh) {
+      const ol = new THREE.Mesh(o.geometry, OUTLINE);
+      ol.userData.outline = true; ol.castShadow = false; ol.receiveShadow = false;
+      o.add(ol);
+    }
+  }
+}
+function styleCamera(fr, beat) {
+  const lt = fr.lt || 0;
+  let k = 1;
+  if (STYLE === "bold" || STYLE === "retro") k = 1 + 0.16 * Math.max(0, 1 - lt / 0.35) ** 2;    // 每次切镜的推镜冲击
+  else if (STYLE === "cinematic") k = 1 + 0.07 * Math.min(1, (fr.frac || 0));                  // 缓慢推近
+  if (k !== 1) { camera.fov = camera.fov / k; camera.updateProjectionMatrix(); }
+}
 
 async function load() {
   plan = await (await fetch("plan.json")).json();
   layout(W, plan);
+  STYLE = (plan.theme && plan.theme.style) || "calm";
+  if (STYLE === "retro") {   // 8-bit：低分辨率渲染，CSS 最近邻放大
+    renderer.setSize(Math.max(64, Math.round(W / 5)), Math.max(64, Math.round(H / 5)), false);
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.imageRendering = "pixelated";
+    renderer.shadowMap.type = THREE.BasicShadowMap;
+  }
+  if (STYLE === "toon") renderer.toneMapping = THREE.NoToneMapping;
   try {
     const tex = await new THREE.TextureLoader().loadAsync("textures/earth.jpg");
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -183,14 +236,33 @@ function frame(i) {
     for (const g of cg.children) updateCrowd(g, fr.lt || 0, vanish);
   }
 
-  if (beat) placeCamera(beat.camera, camPivot, camScale, fr, beat, env);
+  if (beat) { placeCamera(beat.camera, camPivot, camScale, fr, beat, env); styleCamera(raw, beat); }
   else { camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0); }
   world.update(fr, p, S, beat, camera.position);
   renderer.toneMappingExposure = world.exposure || 1.0;
   effects.update(currentSubject, currentSubject ? currentSubject.meshes : null, fr, beat, camera);
-  canvas.style.filter = beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg)" : "none";
-  renderer.render(scene, camera);
-  drawOverlay(fr, plan);
+  if (STYLE === "toon") toonify(scene);
+  const grade = GRADE[STYLE] || "";
+  canvas.style.filter = (beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg) " : "") + grade || "none";
+  const split = plan.theme && plan.theme.layout === "split" && H > W;
+  if (split) {
+    // 分屏：上半故事、下半解压循环（各自一个视口）
+    const sz = renderer.getSize(new THREE.Vector2()), w = sz.x, h = sz.y, hh = Math.round(h / 2);
+    camera.aspect = w / hh; camera.updateProjectionMatrix();
+    renderer.setScissorTest(true);
+    renderer.setViewport(0, h - hh, w, hh); renderer.setScissor(0, h - hh, w, hh);
+    renderer.render(scene, camera);
+    satisfying ??= new Satisfying();
+    satisfying.update(raw.t || 0, w / (h - hh), (plan.theme && plan.theme.accent) || "#ffffff");
+    if (STYLE === "toon") toonify(satisfying.scene);
+    renderer.setViewport(0, 0, w, h - hh); renderer.setScissor(0, 0, w, h - hh);
+    renderer.render(satisfying.scene, satisfying.camera);
+    renderer.setScissorTest(false);
+  } else {
+    if (camera.aspect !== W / H) { camera.aspect = W / H; camera.updateProjectionMatrix(); }
+    renderer.render(scene, camera);
+  }
+  drawOverlay(raw, plan);
   return true;
 }
 

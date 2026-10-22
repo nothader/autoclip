@@ -17,7 +17,7 @@ import string
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple
 
-from .schema import Beat, GrowthModel, Milestone, Quantity, Storyboard, Subject
+from .schema import STYLE_CAPTIONS, Beat, GrowthModel, Milestone, Quantity, Storyboard, Subject
 
 SPEED_OF_SOUND = 343.0          # m/s，海平面 20°C
 SPEED_OF_LIGHT = 299_792_458.0  # m/s
@@ -389,6 +389,14 @@ def lightning(beat_index: int, lt: float) -> float:
     return 0.0
 
 
+def _style_sfx(sb: Storyboard, secs) -> List[Dict[str, Any]]:
+    """风格附带的转场音效：bold / retro 每次切镜一个 whoosh。"""
+    if sb.theme.style not in ("bold", "retro"):
+        return []
+    gain = 0.45 if sb.theme.style == "bold" else 0.3
+    return [{"type": "whoosh", "t": s.start, "gain": gain} for s in secs if s.kind == "beat" and s.start > 0.5]
+
+
 def readable_seconds(caption: Optional[str]) -> float:
     """字幕至少要停留这么久才读得完（快节奏下的下限）。"""
     return 1.2 if not caption else 0.8 + 0.028 * len(caption)
@@ -632,7 +640,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
 
             cap = bo["caption"]
             if cap and not in_intro:
-                fr["cap"] = {"text": cap, "a": round(fade, 3), "ref": bo["caption_ref"]}
+                # k：逐词字幕的显示进度（前 ~65% 时间里逐词出现，之后整句停留）
+                fr["cap"] = {"text": cap, "a": round(fade, 3), "ref": bo["caption_ref"],
+                             "k": round(min(1.0, lt / max(0.6, s.duration * 0.65)), 4)}
             pop = next((p for p in pops if p["t0"] <= t < p["t1"]), None)
             if pop:
                 pa = min(1.0, (t - pop["t0"]) / FADE, (pop["t1"] - t) / FADE)
@@ -741,10 +751,10 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     return {
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
-        "theme": sb.theme.model_dump(), "chapters": chapters,
+        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or STYLE_CAPTIONS[sb.theme.style]}, "chapters": chapters,
         "intro_duration": intro.duration,
         "end_start": secs[-1].start if secs[-1].kind == "question" else None,
         "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},
-        "beats": beats_out, "frames": frames, "audio": sorted(audio_events, key=lambda e: e["t"]),
+        "beats": beats_out, "frames": frames, "audio": sorted(audio_events + _style_sfx(sb, secs), key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,
     }

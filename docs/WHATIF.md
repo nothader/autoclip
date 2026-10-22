@@ -73,6 +73,24 @@ autoclip whatif make "What if …" --narrate --tts openai --voice onyx   # OpenA
 - 混音：音效总线压到 -22 dBFS，说话时再闪避约 9 dB；人声单独一条总线（约 -16 dBFS）
 - 合成结果按文本缓存在 `~/.cache/autoclip/tts`，改画面重渲不重复合成；分镜里也可写 `"narration": {"voice": "...", "speed": 1.0}`
 
+## 画面风格（`theme.style` / `--style`）与分屏（`--layout split`）
+
+| 风格 | 画面 | 字幕 | 适合 |
+|---|---|---|---|
+| `calm`（默认） | 安静高级、柔和调色 | 斜体衬线一行 | 科普、太空、严肃历史 |
+| `bold` | 高饱和、每次切镜推镜冲击 + whoosh、顶部进度条 | 逐词弹出大写粗体，当前词高亮 | 猎奇、身体/金钱类 what-if、快节奏 |
+| `cinematic` | 上下黑边、胶片颗粒、暗角、暖调、缓慢推近 | 纪录片式下三分之一 | 历史、灾难、人物 |
+| `toon` | 卡通三阶光照 + 黑色描边、平涂高饱和 | 白底黑字贴纸 | 搞笑/荒诞、儿童、动物、食物 |
+| `retro` | 8-bit 低分辨率像素 + 扫描线 | 等宽字逐词、绿色高亮 | 游戏、科技、互联网、"模拟世界" |
+
+`theme.captions`（`line`/`words`/`box`）可单独覆盖字幕样式。`theme.layout: "split"`（仅竖屏）：上半故事、下半解压循环
+（小球在彩虹台阶上弹跳），字幕压在接缝上。
+
+```bash
+autoclip whatif render story.json --style bold --layout split
+autoclip whatif render story.json --style cinematic
+```
+
 ## 节奏（`--pace`，默认 1.8）
 
 渲染默认 1.8 倍节奏：每个镜头时长 ÷ 1.8（但不短于字幕可读下限 0.8 s + 0.028 s/字符），画面里的动作（自转、走路、抖动）

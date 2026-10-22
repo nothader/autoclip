@@ -108,6 +108,16 @@ SHOTS
 - narration (optional per beat): when the video is narrated, the caption is read aloud by default. Set "narration" only
   when the spoken wording should differ (e.g. a fuller sentence), or "" to keep a beat silent. Captions must read well aloud.
 
+VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between videos, never default to the same look)
+- calm: quiet, premium, serif captions. Science explainers, space, serious history.
+- bold: viral TikTok look: huge word-by-word captions with a highlighted word, punch-in zoom and whoosh on every cut,
+  progress bar. Shock/curiosity topics, body and money "what ifs", fast lists.
+- cinematic: documentary: letterbox bars, film grain, warm grade, slow push-ins. History, disasters, people's stories.
+- toon: cartoon: cel shading, black outlines, white sticker captions. Funny/absurd premises, kids, animals, food.
+- retro: 8-bit pixels and scanlines, green word highlights. Games, tech, internet, "simulation" topics.
+- theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
+  bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
+
 HOOKS AND RETENTION (checked automatically; violations are sent back to you)
 - Be specific and direct: use names, numbers or emotional triggers the viewer relates to ("8 billion people",
   "every", "never", "gone", "Elon Musk"), not vague wording. Put one in the title.

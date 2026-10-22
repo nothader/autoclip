@@ -159,6 +159,45 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 .land #screen { top: 90px; transform: translateX(-50%) scale(0.85); transform-origin: 50% 0; }
 .land #question { left: 300px; right: 300px; top: 400px; }
 .land #end { left: 300px; right: 300px; top: 400px; }
+/* ---------- 风格（theme.style）---------- */
+#prog, #lbox, #grain, #vig, #scan { position: absolute; pointer-events: none; display: none; }
+#prog { left: 0; top: 0; height: 12px; width: 0; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+#lbox { inset: 0; }
+#lbox::before, #lbox::after { content: ""; position: absolute; left: 0; right: 0; height: 150px; background: #000; }
+#lbox::before { top: 0; } #lbox::after { bottom: 0; }
+#vig { inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.62) 100%); }
+#grain { inset: -40px; opacity: 0.16; mix-blend-mode: overlay;
+         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+#scan { inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.28) 0 3px, rgba(0,0,0,0) 3px 7px); }
+.st-bold #prog, .st-retro #prog { display: block; }
+.st-cinematic #lbox, .st-cinematic #grain, .st-cinematic #vig { display: block; }
+.st-retro #scan, .st-retro #vig { display: block; }
+.st-toon #vig { display: none; }
+/* 字幕：逐词（words） */
+#cap.words { font-family: "Inter", sans-serif; font-style: normal; font-weight: 900; font-size: 74px; line-height: 1.12;
+             text-transform: uppercase; letter-spacing: -1px; top: 1120px; left: 70px; right: 70px;
+             -webkit-text-stroke: 10px #000; paint-order: stroke fill; text-shadow: 0 8px 18px rgba(0,0,0,0.55); }
+#cap.words .w { display: inline-block; margin: 0 8px; transform-origin: 50% 70%; }
+#cap.words .w.on { color: var(--hl, #ffd43b); }
+#cap.words .w.off { opacity: 0; }
+/* 字幕：白底黑字贴纸（box） */
+#cap.box { font-family: "Inter", sans-serif; font-style: normal; font-weight: 800; font-size: 50px; line-height: 1.55; top: 1110px; }
+#cap.box .bx { background: #fff; color: #111; padding: 6px 18px; border-radius: 14px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.st-retro #cap.words { font-family: "DejaVu Sans Mono", "Courier New", monospace; font-weight: 700; font-size: 62px; letter-spacing: 0;
+                       -webkit-text-stroke: 0; text-shadow: 6px 6px 0 #000; --hl: #69db7c; }
+.st-cinematic #cap { font-size: 40px; top: 1300px; letter-spacing: 0.5px; }
+.st-cinematic #chapter { top: 180px; } .st-cinematic #chip { top: 280px; } .st-cinematic #chip.alone { top: 190px; }
+.land #cap.words { font-size: 60px; left: 220px; right: 220px; top: auto; bottom: 110px; }
+.land #cap.box { font-size: 40px; top: auto; bottom: 100px; }
+.land.st-cinematic #lbox::before, .land.st-cinematic #lbox::after { height: 110px; }
+.land.st-cinematic #cap { bottom: 150px; }
+/* 分屏：字幕压在接缝上 */
+#seam { position: absolute; left: 0; right: 0; top: 957px; height: 6px; background: var(--accent); display: none; box-shadow: 0 0 16px var(--accent); }
+.split #seam { display: block; }
+.split #cap, .split #cap.words, .split #cap.box { top: 850px; }
+.split #clock { top: 660px; }
+.split #card { top: 380px; }
+.split #lbox::after { display: none; }
 .hidden { display: none !important; }
 </style>
 </head>
@@ -185,9 +224,15 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
   <div id="banner" class="hidden"><div class="k"></div><div class="t"></div><div class="s"></div></div>
   <div id="screen" class="hidden"></div>
   <div id="end" class="hidden shadow"></div>
-  <div id="cap" class="hidden shadow"></div>
+  <div id="vig"></div>
+  <div id="grain"></div>
+  <div id="scan"></div>
+  <div id="lbox"></div>
+  <div id="prog"></div>
+  <div id="seam"></div>
   <div id="darken"></div>
   <div id="flash"></div>
+  <div id="cap" class="hidden shadow"></div>
 </div>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 <script type="module" src="app.js"></script>
