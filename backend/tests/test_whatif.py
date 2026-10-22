@@ -534,3 +534,78 @@ def test_witness_pieces_compile():
     ends = [f["end"] for f in plan["frames"] if f.get("end")]
     assert ends and ends[-1]["kind"] == "fact" and ends[-1]["title"] == "What if *x*?"
     assert any(f.get("intro", {}).get("style") == "overlay" for f in plan["frames"])
+
+
+# ---------------------------------------------------------------- visual QA + publish pack
+def _set_sb(objs, n=4, cam="wide", **kw):
+    beat = {"duration": 3, "scene": "custom", "camera": cam, "subject": {"type": "none"}, "caption": "Every person is gone.",
+            "env": {"set": {"ground": "plane", "objects": objs}}}
+    d = {"format": "timeline", "title": "What if every *cat* vanished?", "premise": "p", "clock": {"mode": "elapsed"},
+         "intro": {"style": "title", "title": "What if every *cat* vanished?"}, "beats": [dict(beat) for _ in range(n)],
+         "outro": {"chart": False, "question_duration": 3}}
+    d.update(kw)
+    return Storyboard.model_validate(d)
+
+
+def test_quality_flags_clones_monotony_and_short_length():
+    from backend.whatif.quality import quality_report
+    twins = [{"kind": "person", "at": [0, 0, 0]}, {"kind": "person", "at": [1, 0, 0]}]
+    rules = {(x.level, x.rule) for x in quality_report(_set_sb(twins))}
+    assert ("fix", "clones") in rules and ("fix", "monotony") in rules and ("fix", "length") in rules
+    varied = [{"kind": "person", "at": [0, 0, 0], "seed": 1, "action": "walk"}, {"kind": "person", "at": [1, 0, 0], "seed": 2}]
+    sb = _set_sb(varied, n=1)
+    assert not any(x.rule in ("clones", "static") for x in quality_report(sb))
+
+
+def test_auto_style_picks_by_topic():
+    from backend.whatif.quality import auto_style
+    assert auto_style("What if a hurricane hit London?") == "witness"
+    assert auto_style("What if video games were real?") == "retro"
+    assert auto_style("What if Rome never fell? An empire story") == "cinematic"
+    assert auto_style("What if everyone was rich?") == "bold"
+    assert auto_style("What if dogs could talk?") == "toon"
+    assert auto_style("What if the Moon was closer?") == "calm"
+
+
+def test_planner_prompt_suggests_style_and_repairs_visual_problems():
+    from backend.whatif.planner import build_prompt
+    assert "SUGGESTED STYLE: witness" in build_prompt("What if a volcano erupted in Naples?")
+    good = json.loads(EXAMPLE_PATH.read_text(encoding="utf-8"))
+    calls = []
+
+    def fake(prompt):
+        calls.append(prompt)
+        return json.dumps(good)
+    plan_storyboard("x", call=fake, max_repairs=1)   # 示例本身不够 1 分钟 → 会被要求修一次，最后一次照样返回
+    assert len(calls) == 2 and "visual rule (length)" in calls[1]
+
+
+def test_thumb_text_metadata_and_short():
+    from backend.whatif import publish
+    sb = _set_sb([{"kind": "person", "seed": 3, "action": "walk"}], n=3)
+    assert publish.thumb_text(sb) == "EVERY *CAT* VANISHED?"
+    assert publish.thumb_text(sb.model_copy(update={"thumbnail": "no more *cats*?"})) == "NO MORE *CATS*?"
+    m = publish.metadata(sb)
+    assert m["title"] == "What if every cat vanished?" and "#shorts" in m["hashtags"] and "#cat" in m["hashtags"]
+    assert "TITLE" in publish.metadata_text(m)
+    beats = [{"duration": 4, "scene": "city", "camera": c, "subject": {"type": "none"}, "caption": f"Line {i}.", "chapter": f"C{i // 10}"}
+             for i, c in zip(range(60), ["wide", "aerial", "establishing", "dolly"] * 15)]
+    long = Storyboard.model_validate({"format": "story", "title": "t", "premise": "p", "width": 1920, "height": 1080,
+                                      "beats": beats, "outro": {"chart": False}, "narration": {"enabled": True}})
+    assert [c["title"] for c in publish.metadata(long)["chapters"]] == [f"C{i}" for i in range(6)]
+    short = publish.make_short(long)
+    assert (short.width, short.height) == (1080, 1920) and short.narration is None
+    assert 10 <= len(short.beats) < 60 and short.beats[0].caption == ""
+    assert compile_plan(short)["duration"] >= publish.SHORT_TARGET
+
+
+def test_compose_thumbnail(tmp_path):
+    from PIL import Image
+    from backend.whatif.publish import compose_thumbnail
+    still = tmp_path / "s.png"
+    Image.new("RGB", (1920, 1080), (90, 120, 160)).save(still)
+    out = compose_thumbnail(still, tmp_path / "t.jpg", "SNOW IN *DUBAI*?", arrow=True)
+    im = Image.open(out)
+    assert im.size == (1280, 720)
+    px = [im.getpixel((x, y)) for x in range(0, 700, 7) for y in range(200, 520, 7)]
+    assert any(r > 230 and g > 190 and b < 120 for r, g, b in px)   # 黄色高亮词画上去了

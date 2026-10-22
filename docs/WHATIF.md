@@ -120,6 +120,39 @@ autoclip whatif check story.json          # 打印分数和逐条问题
 autoclip whatif check story.json --json
 ```
 
+## 画面质量检查（同样在 `autoclip whatif check` 里）
+
+`backend/whatif/quality.py` 把之前每支视频踩过的坑写成规则，fix 级问题和钩子问题一起回传给 planner：
+
+- **克隆人**：同一布景里两个人 outfit + seed + 颜色完全一样
+- **单调**：连续 3 段同场景同机位（witness 除外）、连续 2 段完全相同的自定义布景 + 机位；某个机位占比 > 55% 给建议
+- **静止 / 空镜**：自定义布景里什么都不动、或者什么都没有
+- **时长**：竖屏按 1.8x 节奏压完后 < 58 s（短视频要 1 分钟以上）；横屏长视频 < 4 分钟给建议
+- **风格配套**：witness 风格必须有递增指标（clock + time）
+
+planner 还会拿到一个按题目关键词推荐的风格（`SUGGESTED STYLE`：灾难 / 天气 → witness，游戏 / 科技 → retro，
+动物 / 食物 / 荒诞 → toon，历史 / 人物 → cinematic，金钱 / 身体 / 社会 → bold，其余 calm）。
+
+## 发布包（`--pack`，`make` 默认开）
+
+成片之外一起产出：
+
+| 文件 | 内容 |
+|---|---|
+| `<名字>_thumb.jpg` | 封面：自动挑最有冲击力的一段（特效、天象、损毁、人多、靠近高潮），去掉字幕 / HUD 单独渲一帧，压上 2–5 个词的大字（`*星号*` 词黄色高亮）。横屏 1280×720，竖屏 1080×1920 |
+| `<名字>_youtube.txt` | 标题、简介（钩子句 + 悬念句 + 免责声明）、横屏的章节时间戳、标签、hashtag、置顶评论（结尾问题） |
+| `<名字>_short.mp4` | 仅横屏长视频：自动剪的 ~1 分钟竖屏短版（保留开头结尾，中间按信息量挑段，去旁白），附自己的封面和 `_tiktok.txt` |
+
+分镜里可写 `"thumbnail": "SNOW IN *DUBAI*?"`、`"thumbnail_beat": 12` 指定封面字和画面。也可以单独跑：
+
+```bash
+autoclip whatif make "What if it snowed in Dubai and never stopped?"       # 成片 + 封面 + 文案
+autoclip whatif render story.json --pack                                   # 已有分镜
+autoclip whatif thumb story.json --text "SNOW IN *DUBAI*?" --arrow         # 只做封面
+autoclip whatif meta story.json                                            # 只出标题 / 简介 / 标签
+autoclip whatif short long.json && autoclip whatif render long_short.json  # 长视频 → 1 分钟竖屏短版
+```
+
 ## 设计原则：文字归 LLM，数字归代码
 
 LLM 只写分镜：增长模型、场景、镜头、文案、里程碑（真实参照值）。画面上出现的每个数字都由 `model.py`

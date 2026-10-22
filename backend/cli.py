@@ -329,6 +329,31 @@ def _whatif_plan(args: argparse.Namespace):
     return plan_storyboard(args.premise, notes=args.notes or "", fmt=getattr(args, "format", None))
 
 
+def _whatif_pack(args: argparse.Namespace, out: Path) -> dict:
+    """成片之外：封面、标题/简介/标签、横屏长视频再自动剪一支 1 分钟竖屏短版（含它自己的封面和文案）。"""
+    from backend.whatif import publish
+    from backend.whatif.pipeline import make_video
+    from backend.whatif.schema import Storyboard
+    final = Storyboard.model_validate_json(out.with_suffix(".storyboard.json").read_text(encoding="utf-8"))
+    pack = {}
+    if not args.json:
+        print(_dim("发布包：封面 + 文案" + (" + 竖屏短版" if final.width > final.height else "")), file=sys.stderr)
+    pack["thumbnail"] = str(publish.thumbnail(final, out.with_name(out.stem + "_thumb.jpg")))
+    meta_path = out.with_name(out.stem + "_youtube.txt")
+    meta_path.write_text(publish.metadata_text(publish.metadata(final)), encoding="utf-8")
+    pack["metadata"] = str(meta_path)
+    if final.width > final.height and not getattr(args, "no_short", False):
+        short = publish.make_short(final)
+        s_out = out.with_name(out.stem + "_short.mp4")
+        make_video(short, s_out, preview=args.preview, workers=args.workers, progress=_whatif_progress(args.json))
+        pack["short"] = str(s_out)
+        pack["short_thumbnail"] = str(publish.thumbnail(short, s_out.with_name(s_out.stem + "_thumb.jpg")))
+        s_meta = s_out.with_name(s_out.stem + "_tiktok.txt")
+        s_meta.write_text(publish.metadata_text(publish.metadata(short)), encoding="utf-8")
+        pack["short_metadata"] = str(s_meta)
+    return pack
+
+
 def cmd_whatif(args: argparse.Namespace) -> int:
     from backend.whatif.model import PlanError
     from backend.whatif.pipeline import load_storyboard, make_video, slugify
@@ -346,19 +371,45 @@ def cmd_whatif(args: argparse.Namespace) -> int:
         if args.whatif_cmd == "check":
             from backend.whatif.hooks import hook_report, hook_score
             from backend.whatif.model import validate
+            from backend.whatif.quality import quality_report
             sb = load_storyboard(Path(args.storyboard))
-            rep = hook_report(sb)
+            rep = hook_report(sb) + quality_report(sb)
             if args.json:
                 print(json.dumps({"ok": True, "score": hook_score(sb, rep), "problems": validate(sb),
-                                  "hooks": [x.__dict__ for x in rep]}, ensure_ascii=False, indent=2))
+                                  "findings": [x.__dict__ for x in rep]}, ensure_ascii=False, indent=2))
             else:
-                print(_bold(sb.title) + f"  hook score {hook_score(sb, rep)}/100")
+                print(_bold(sb.title) + f"  score {hook_score(sb, rep)}/100 (hooks + visuals)")
                 for p in validate(sb):
                     print(f"  [error] {p}")
                 for x in rep:
                     print(f"  {x}")
                 if not rep:
-                    print("  All hook rules pass.")
+                    print("  All hook and visual rules pass.")
+            return 0
+
+        if args.whatif_cmd in ("thumb", "meta", "short"):
+            from backend.whatif import publish
+            sb = load_storyboard(Path(args.storyboard))
+            stem = Path(args.storyboard).with_suffix("")
+            stem = stem.with_name(stem.name.replace(".storyboard", ""))
+            if args.whatif_cmd == "thumb":
+                land = True if args.landscape else (False if args.vertical else None)
+                out = Path(args.output) if args.output else stem.with_name(stem.name + "_thumb.jpg")
+                publish.thumbnail(sb, out, text=args.text, landscape=land, arrow=args.arrow, beat=args.beat)
+                print(json.dumps({"ok": True, "thumbnail": str(out)}) if args.json else f"封面：{out}")
+                return 0
+            if args.whatif_cmd == "meta":
+                meta = publish.metadata(sb)
+                out = Path(args.output) if args.output else stem.with_name(stem.name + "_youtube.txt")
+                out.write_text(publish.metadata_text(meta), encoding="utf-8")
+                print(json.dumps({"ok": True, "path": str(out), **meta}, ensure_ascii=False, indent=2) if args.json
+                      else publish.metadata_text(meta) + _dim(f"\n已写入 {out}"))
+                return 0
+            short = publish.make_short(sb, target=args.target)
+            out = Path(args.output) if args.output else stem.with_name(stem.name + "_short.json")
+            out.write_text(json.dumps(short.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+            print(json.dumps({"ok": True, "storyboard": str(out), "beats": len(short.beats)}) if args.json
+                  else f"短版分镜（{len(short.beats)} 段）：{out}\n下一步：autoclip whatif render {out} --pack")
             return 0
 
         if args.whatif_cmd == "examples":
@@ -382,9 +433,10 @@ def cmd_whatif(args: argparse.Namespace) -> int:
         if not args.json:
             print(_bold(sb.title) + _dim(f"  → {out}"), file=sys.stderr)
             from backend.whatif.hooks import hook_report, hook_score
-            rep = hook_report(sb)
+            from backend.whatif.quality import quality_report
+            rep = hook_report(sb) + quality_report(sb)
             fixes = [x for x in rep if x.level == "fix"]
-            print(_dim(f"hook score {hook_score(sb, rep)}/100" + (f" · {len(fixes)} to fix (autoclip whatif check for details)" if fixes else "")), file=sys.stderr)
+            print(_dim(f"score {hook_score(sb, rep)}/100 (hooks + visuals)" + (f" · {len(fixes)} to fix (autoclip whatif check for details)" if fixes else "")), file=sys.stderr)
         narr = None
         if getattr(args, "narrate", False):
             from backend.whatif.schema import Narration
@@ -400,9 +452,16 @@ def cmd_whatif(args: argparse.Namespace) -> int:
     except (PlanError, ValueError, RuntimeError) as e:
         _err(str(e))
         return 1
+    if getattr(args, "pack", False):
+        try:
+            res["pack"] = _whatif_pack(args, out)
+        except Exception as e:  # noqa: BLE001  发布包失败不影响成片
+            _err(f"发布包没做完：{e}")
     if args.json:
         print(json.dumps({"ok": True, **res}, ensure_ascii=False, indent=2))
     else:
+        for k, v in (res.get("pack") or {}).items():
+            print(_dim(f"  {k}: {v}"))
         print(f"完成：{res['path']}  ({res['duration']:.1f}s, {res['width']}x{res['height']}, 用时 {res['seconds']}s)")
         if res.get("page_errors"):
             print(_dim(f"页面警告：{res['page_errors'][:3]}"), file=sys.stderr)
@@ -497,12 +556,35 @@ def build_parser() -> argparse.ArgumentParser:
                             "cinematic (letterbox, grain, grade) / toon (cel-shaded, outlines, sticker captions) / retro (8-bit pixels, scanlines) / witness (fixed eyewitness view, coffee-cup anchor, escalating metric)")
         x.add_argument("--layout", choices=["full", "split"], help="split = story on top, satisfying loop below (vertical only)")
         x.add_argument("--captions", choices=["line", "words", "box"], help="Caption mode (default follows the style)")
+        x.add_argument("--pack", action=argparse.BooleanOptionalAction, default=(x is wm),
+                       help="Also write a thumbnail, title/description/tags text and (for landscape long-form) a 1-minute "
+                            "vertical short with its own thumbnail. On by default for make.")
+        x.add_argument("--no-short", action="store_true", help="With --pack: skip the automatic vertical short")
         x.add_argument("--pace", type=float, default=1.8,
                        help="Edit pace multiplier (default 1.8): shots 1.8x shorter, motion 1.8x faster; captions stay readable. "
                             "A storyboard's own \"pace\" wins. Use 1.0 for the original timing.")
     wc = wsub.add_parser("check", help="Check a storyboard against the hook/retention rules (specific, grade-3 reading level, 3-second hook, open loop, no fluff)")
     wc.add_argument("storyboard")
     wc.add_argument("--json", action="store_true")
+    wt = wsub.add_parser("thumb", help="Thumbnail: renders the most dramatic shot and adds big bait text")
+    wt.add_argument("storyboard")
+    wt.add_argument("-o", "--output", help="JPG path (default <storyboard>_thumb.jpg)")
+    wt.add_argument("--text", help='Big text, *word* = yellow highlight (default: storyboard.thumbnail or from the title)')
+    wt.add_argument("--beat", type=int, help="Use this beat's shot (default: auto-pick)")
+    wt.add_argument("--arrow", action="store_true", help="Add a red arrow")
+    g = wt.add_mutually_exclusive_group()
+    g.add_argument("--landscape", action="store_true", help="1280x720 (default follows the video)")
+    g.add_argument("--vertical", action="store_true", help="1080x1920")
+    wt.add_argument("--json", action="store_true")
+    wmeta = wsub.add_parser("meta", help="Title, description, chapters, tags and a pinned comment for YouTube/TikTok")
+    wmeta.add_argument("storyboard")
+    wmeta.add_argument("-o", "--output", help="TXT path (default <storyboard>_youtube.txt)")
+    wmeta.add_argument("--json", action="store_true")
+    wsh = wsub.add_parser("short", help="Cut a long-form storyboard into a ~1-minute vertical short storyboard")
+    wsh.add_argument("storyboard")
+    wsh.add_argument("-o", "--output", help="JSON path (default <storyboard>_short.json)")
+    wsh.add_argument("--target", type=float, default=62.0, help="Target length in seconds after pacing (default 62)")
+    wsh.add_argument("--json", action="store_true")
     wsub.add_parser("examples", help="列出内置示例分镜")
     w.set_defaults(func=cmd_whatif)
     return p

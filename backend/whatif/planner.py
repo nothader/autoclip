@@ -44,8 +44,9 @@ FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told
   `time` = [from, to] seconds counting UP; use `screen` (vitals / phone_call) and interiors (hospital)."""
 
 RULES = f"""You are the writer-director of a short vertical "what if" science video (TikTok / Reels / Shorts, 40-95 seconds).
-Style: calm, cinematic low-poly 3D simulation; small caps labels; one short italic caption per shot; NO narration and NO
-music (sound effects only, generated automatically); a title card at the start and an end card.
+Look: low-poly 3D simulation in one of several visual styles (below); one short caption per shot; NO narration and NO
+music unless asked (sound effects only, generated automatically); a title card at the start and an end card.
+Default deliverable: a vertical short of 1 minute or more at 1.8x pace.
 
 {FORMATS_GUIDE}
 
@@ -64,8 +65,8 @@ NUMBERS AND FACTS
 TIMING
 - Videos render at 1.8x pace by default (shots are shortened, never below caption reading time), so write MORE, shorter
   beats with short captions: ~20-28 beats for a 1-minute video. Prefer lively places, crowds and motion over abstract props.
-- 10-20 beats, each 2.5-5 s. Total 40-90 s plus the end card (3 s). First beat is under the title card (intro.duration
-  ~2.5 s), so keep it captionless and visually strong (establishing / wide).
+- Each beat 2.5-5 s before pacing; the paced video must run 60-95 s (checked automatically). First beat is under the
+  title card (intro.duration ~2.5 s), so keep it captionless and visually strong (establishing / wide).
 - Long-form landscape (YouTube): only when asked for a long or landscape/16:9 video, set "width": 1920, "height": 1080 and
   write 60-80 beats (5-6 minutes, up to 15 minutes) in 8-10 chapters, usually the story format.
 - escalation: each beat has sim_end (simulated seconds reached at the end of the beat, never decreasing).
@@ -126,6 +127,23 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
 - theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
   bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
 
+PRODUCTION LESSONS (learned from earlier videos; visual rules are checked automatically and sent back to you)
+- Never boring: every cut must look clearly different (new place, camera, time of day, weather or set). No more than
+  2 shots in a row with the same scene and camera (witness style excepted). Something must move in every shot
+  (walking people, animate, particles, effects, an orbit/dolly camera).
+- Real places and lively scenes beat abstract props: streets, homes, crowds, kitchens, beaches, offices with people
+  doing the thing the premise changes. Show the consequence on people, not a text card about it.
+- People in custom sets: give every person a different seed and/or outfit/color, or they look like identical clones.
+  person color2 = skin color; vary skin tones in crowds unless the premise says otherwise. Use cast for big crowds.
+- Faces: with camera "wide" or "closeup", rotate y 0 faces the camera; camera "front" looks from the other side, so
+  use rotate y ~180 there when faces matter.
+  Do not stand people behind houses, trees or big props; keep the subject inside ~4 m of env.set.focus.
+- Higher env.set.focus.y moves objects LOWER in frame; zoom 1.3-1.8 for vertical, ~1.0 for landscape.
+- Avoid crossfading two similar silhouettes (young/old versions of a person): put them side by side instead.
+- Use time / time_label / chip to show progress ("+1 DAY", "DAY 30") so viewers feel the story move forward.
+- thumbnail: 2-5 punchy ALL-CAPS words for the cover with one *highlight* word ("SNOW IN *DUBAI*?",
+  "NO MORE *ANIMALS*?"); thumbnail_beat: index of the most dramatic shot (optional).
+
 HOOKS AND RETENTION (checked automatically; violations are sent back to you)
 - Be specific and direct: use names, numbers or emotional triggers the viewer relates to ("8 billion people",
   "every", "never", "gone", "Elon Musk"), not vague wording. Put one in the title.
@@ -157,6 +175,8 @@ def build_prompt(premise: str, notes: str = "", fmt: Optional[str] = None) -> st
     for f, name in names:
         parts.append(f"EXAMPLE ({f}):\n{_example_text(name)}\n")
     parts.append(f"PREMISE: {premise.strip()}")
+    from .quality import auto_style
+    parts.append(f"SUGGESTED STYLE: {auto_style(premise)} (use it unless another style clearly fits this premise better)")
     if fmt:
         parts.append(f"FORMAT: {fmt} (required)")
     if notes.strip():
@@ -210,7 +230,8 @@ def plan_storyboard(premise: str, *, notes: str = "", fmt: Optional[str] = None,
                 problems.append(f"format must be {fmt}, got {sb.format}")
             if sb is not None and not problems and hooks:
                 from .hooks import hook_problems
-                problems = hook_problems(sb)
+                from .quality import quality_problems
+                problems = hook_problems(sb) + quality_problems(sb)
                 if problems and attempt == max_repairs:   # 钩子规则只是建议性的：修不完也不报错
                     logger.info("钩子规则仍有 %d 条未满足：%s", len(problems), problems[:3])
                     return sb
