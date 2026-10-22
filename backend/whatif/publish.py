@@ -21,6 +21,7 @@ FONT_DIR = Path(__file__).parent / "web" / "fonts"
 THUMB_FONT = FONT_DIR / "InterDisplay-Black.otf"
 HIGHLIGHT = (255, 212, 59)       # 封面高亮词（平台封面惯例的亮黄，只用于封面，不用于 App UI）
 SHORT_TARGET = 62.0              # 短版目标时长（秒，按节奏压缩后）
+SHORT_PACE = 1.8                 # 短版总是 1.8x（长视频可能是 1x，短视频不跟着慢）
 LEAD_WORDS = {"it", "the", "a", "an", "we", "you", "there", "our", "your", "i"}
 TRAIL_WORDS = {"and", "or", "of", "in", "the", "a", "an", "to", "with", "for", "on", "at", "instead"}
 STOP = LEAD_WORDS | TRAIL_WORDS | {"what", "if", "was", "were", "is", "are", "be", "been", "had", "has", "have", "could",
@@ -283,7 +284,7 @@ def metadata_text(meta: Dict[str, Any]) -> str:
 def make_short(sb: Storyboard, *, target: float = SHORT_TARGET) -> Storyboard:
     """横屏长视频 → 竖屏短版：保留开头和结尾，中间按信息量挑段，按节奏压缩后凑够 target 秒。"""
     from .model import compile_plan
-    pace = sb.pace or 1.8
+    pace = max(sb.pace or SHORT_PACE, SHORT_PACE)
     n = len(sb.beats)
     must = {0, max(i for i, b in enumerate(sb.beats) if b.caption) if any(b.caption for b in sb.beats) else n - 1}
     order = sorted((i for i in range(n) if i not in must), key=lambda i: -beat_score(sb, i))

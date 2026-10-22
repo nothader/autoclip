@@ -590,11 +590,12 @@ def test_thumb_text_metadata_and_short():
     assert "TITLE" in publish.metadata_text(m)
     beats = [{"duration": 4, "scene": "city", "camera": c, "subject": {"type": "none"}, "caption": f"Line {i}.", "chapter": f"C{i // 10}"}
              for i, c in zip(range(60), ["wide", "aerial", "establishing", "dolly"] * 15)]
-    long = Storyboard.model_validate({"format": "story", "title": "t", "premise": "p", "width": 1920, "height": 1080,
+    long = Storyboard.model_validate({"format": "story", "title": "t", "premise": "p", "width": 1920, "height": 1080, "pace": 1.0,
                                       "beats": beats, "outro": {"chart": False}, "narration": {"enabled": True}})
     assert [c["title"] for c in publish.metadata(long)["chapters"]] == [f"C{i}" for i in range(6)]
     short = publish.make_short(long)
     assert (short.width, short.height) == (1080, 1920) and short.narration is None
+    assert short.pace == publish.SHORT_PACE   # 长视频是 1x 也一样：短版按 1.8x
     assert 10 <= len(short.beats) < 60 and short.beats[0].caption == ""
     assert compile_plan(short)["duration"] >= publish.SHORT_TARGET
 
