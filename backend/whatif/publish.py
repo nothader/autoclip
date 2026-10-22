@@ -25,7 +25,8 @@ LEAD_WORDS = {"it", "the", "a", "an", "we", "you", "there", "our", "your", "i"}
 TRAIL_WORDS = {"and", "or", "of", "in", "the", "a", "an", "to", "with", "for", "on", "at", "instead"}
 STOP = LEAD_WORDS | TRAIL_WORDS | {"what", "if", "was", "were", "is", "are", "be", "been", "had", "has", "have", "could",
                                   "would", "did", "do", "does", "never", "every", "all", "only", "no", "not", "suddenly",
-                                  "became", "become", "started", "start", "from", "into", "than", "this", "that", "its"}
+                                  "became", "become", "started", "start", "from", "into", "than", "this", "that", "its", "ever",
+                                  "existed", "exist", "exists", "happened", "happen", "instead", "really"}
 
 
 # ------------------------------------------------------------------ 选段
@@ -170,7 +171,9 @@ def thumbnail_storyboard(sb: Storyboard, i: int, *, landscape: bool) -> Storyboa
         b.env = env.model_copy(update={"set": env.set.model_copy(update={"zoom": round(zm, 2)})})
     fmt = "timeline" if sb.format in ("escalation", "story") else sb.format
     return Storyboard.model_validate({
-        "format": fmt, "title": sb.title, "premise": sb.premise, "theme": {**sb.theme.model_dump(), "anchor": "none"},
+        "format": fmt, "title": sb.title, "premise": sb.premise, "theme": {**sb.theme.model_dump(), "anchor": "none",
+                  # 封面不要黑边 / 进度条 / 颗粒：只保留改变画面本身的风格（卡通描边、像素）
+                  "style": sb.theme.style if sb.theme.style in ("toon", "retro") else "calm"},
         "clock": {"mode": "none"}, "intro": {"style": "title", "title": "x", "duration": 0.4},
         "outro": {"chart": False, "question_duration": 0.5}, "beats": [b.model_dump()], "pace": 1.0,
         "width": 1920 if landscape else 1080, "height": 1080 if landscape else 1920})
