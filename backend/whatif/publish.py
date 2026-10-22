@@ -217,6 +217,16 @@ def tags_for(sb: Storyboard, n: int = 10) -> List[str]:
     return (out + base)[:n]
 
 
+def _sentence(text: str, sb: Storyboard) -> str:
+    """ALL-CAPS 结尾问题 → 句子大小写，标题里大写的词（USA / Dubai）保持原样。"""
+    if not text:
+        return ""
+    keep = {w.lower(): w for w in re.findall(r"[A-Za-z][A-Za-z'-]*", clean(sb.title)) if w[0].isupper()}
+    words = [keep.get(w.lower(), w.lower()) for w in text.split()]
+    out = " ".join(words)
+    return out[0].upper() + out[1:]
+
+
 def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     from .model import compile_plan
     plan = plan or compile_plan(sb)
@@ -252,7 +262,7 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
         desc += ["", "CHAPTERS"] + [f"{_ts(t)} {c}" for t, c in chapters]
     desc += ["", " ".join(dict.fromkeys(hashtags))]
     return {"title": title[:100], "description": "\n".join(desc).strip(), "tags": tags, "hashtags": list(dict.fromkeys(hashtags)),
-            "chapters": [{"t": round(t, 1), "title": c} for t, c in chapters], "pinned_comment": question.capitalize() if question else "",
+            "chapters": [{"t": round(t, 1), "title": c} for t, c in chapters], "pinned_comment": _sentence(question, sb),
             "duration": round(plan["duration"], 1)}
 
 
