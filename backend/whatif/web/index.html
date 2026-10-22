@@ -196,7 +196,7 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 .land #cap.words { font-size: 60px; left: 220px; right: 220px; top: auto; bottom: 110px; }
 .land #cap.box { font-size: 40px; top: auto; bottom: 100px; }
 .land.st-cinematic #lbox::before, .land.st-cinematic #lbox::after { height: 110px; }
-.land.st-cinematic #cap { bottom: 150px; }
+.land.st-cinematic #cap { top: auto; bottom: 150px; }   /* 竖屏的 top: 1300px 在横屏会把字幕推出画面 */
 /* 分屏：字幕压在接缝上 */
 #seam { position: absolute; left: 0; right: 0; top: 957px; height: 6px; background: var(--accent); display: none; box-shadow: 0 0 16px var(--accent); }
 .split #seam { display: block; }

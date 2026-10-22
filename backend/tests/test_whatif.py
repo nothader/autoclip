@@ -609,3 +609,33 @@ def test_compose_thumbnail(tmp_path):
     assert im.size == (1280, 720)
     px = [im.getpixel((x, y)) for x in range(0, 700, 7) for y in range(200, 520, 7)]
     assert any(r > 230 and g > 190 and b < 120 for r, g, b in px)   # 黄色高亮词画上去了
+
+
+def test_captions_stay_on_screen_in_every_style_and_orientation(tmp_path):
+    """横屏 cinematic 曾经把字幕推到 top:1300px（画面外）；每种风格 × 横竖屏都检查字幕框在画面内。"""
+    pytest.importorskip("playwright")
+    from playwright.sync_api import sync_playwright
+    from backend.whatif.render import _open_page
+    beat = {"duration": 2.0, "scene": "void", "camera": "wide", "subject": {"type": "none"}, "caption": "Every caption must be seen."}
+    with sync_playwright() as pw:
+        for st in ("calm", "bold", "cinematic", "toon", "retro", "witness"):
+            for w, h in ((1080, 1920), (1920, 1080)):
+                sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "none"}, "width": w, "height": h,
+                                                "theme": {"style": st}, "intro": {"style": "title", "title": "x", "duration": 0.3},
+                                                "beats": [beat], "outro": {"chart": False, "question_duration": 0.5}, "pace": 1.0})
+                p = tmp_path / f"{st}{w}.json"
+                p.write_text(json.dumps(compile_plan(sb)))
+                try:
+                    browser, page, _ = _open_page(pw, p, w // 4, h // 4)
+                except Exception as e:  # noqa: BLE001
+                    if "Executable doesn't exist" in str(e) or "playwright install" in str(e):
+                        pytest.skip("chromium 不可用")
+                    raise
+                try:
+                    page.evaluate("WHATIF.frame(36)")
+                    r = page.evaluate("(() => { const c = document.querySelector('#cap'), b = c.getBoundingClientRect(), o = document.querySelector('#ov').getBoundingClientRect();"
+                                      " return {top: b.top - o.top, bottom: b.bottom - o.top, h: o.height, text: c.textContent, shown: getComputedStyle(c).display !== 'none'}; })()")
+                finally:
+                    browser.close()
+                assert r["shown"] and "caption" in r["text"], (st, w, r)
+                assert 0 <= r["top"] and r["bottom"] <= r["h"] + 1, (st, w, r)
