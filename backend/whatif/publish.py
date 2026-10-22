@@ -222,7 +222,10 @@ def _sentence(text: str, sb: Storyboard) -> str:
     if not text:
         return ""
     keep = {w.lower(): w for w in re.findall(r"[A-Za-z][A-Za-z'-]*", clean(sb.title)) if w[0].isupper()}
-    words = [keep.get(w.lower(), w.lower()) for w in text.split()]
+    words = []
+    for w in text.split():
+        core = w.strip("?!.,").lower()
+        words.append(w.lower().replace(core, keep.get(core, core), 1))
     out = " ".join(words)
     return out[0].upper() + out[1:]
 
