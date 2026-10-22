@@ -43,6 +43,18 @@ def effective(sb: Storyboard, i: int):
     return env or Env(), subj or Subject(type="none")
 
 
+CONTINUATION = re.compile(r"^(it|its|it's|that|this|they|them|so|and|then|here|there|but it|which)\b", re.I)
+
+
+def carried(sb: Storyboard, i: int):
+    """第 i 段实际显示的年份 / 时钟值和章节（省略 = 沿用前面的）。"""
+    time, chapter = None, None
+    for b in sb.beats[: i + 1]:
+        time = b.time if b.time is not None else time
+        chapter = b.chapter or chapter
+    return time, chapter
+
+
 def beat_score(sb: Storyboard, i: int) -> float:
     b = sb.beats[i]
     env, _ = effective(sb, i)
@@ -54,6 +66,8 @@ def beat_score(sb: Storyboard, i: int) -> float:
         objs = env.set.objects
         s += min(2.0, len(objs) / 8) + min(2.0, sum(o.kind == "person" for o in objs) / 3)
     s += 1.0 * len(b.cast)
+    if b.caption and CONTINUATION.match(b.caption.strip()):
+        s -= 4.0   # "It works, but..." 脱离上一句就看不懂，短版尽量不挑
     n = len(sb.beats)
     s += 1.5 - abs(i / max(1, n - 1) - 0.72) * 3   # 越靠近高潮（~72% 处）越好
     return s
@@ -302,7 +316,9 @@ def make_short(sb: Storyboard, *, target: float = SHORT_TARGET) -> Storyboard:
         beats = []
         for i in sorted(ids):
             env, subj = effective(sb, i)
-            b = sb.beats[i].model_copy(update={"env": env, "subject": subj, "narration": None, "sim_end": None})
+            time, chapter = carried(sb, i)   # 跳过的段可能改过年份 / 章节，这里补齐，不让标签串场
+            b = sb.beats[i].model_copy(update={"env": env, "subject": subj, "narration": None, "sim_end": None,
+                                               "time": time, "chapter": chapter})
             if b.scene == "custom" and env.set and sb.width > sb.height:
                 b.env = env.model_copy(update={"set": env.set.model_copy(update={"zoom": round(env.set.zoom * 1.35, 2)})})
             beats.append(b.model_dump())

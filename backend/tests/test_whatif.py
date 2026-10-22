@@ -596,6 +596,9 @@ def test_thumb_text_metadata_and_short():
     short = publish.make_short(long)
     assert (short.width, short.height) == (1080, 1920) and short.narration is None
     assert short.pace == publish.SHORT_PACE   # 长视频是 1x 也一样：短版按 1.8x
+    for b in short.beats:   # 年份 / 章节按原片补齐
+        k = next(i for i, x in enumerate(long.beats) if x.caption == b.caption) if b.caption else 0
+        assert b.chapter == f"C{k // 10}"
     assert 10 <= len(short.beats) < 60 and short.beats[0].caption == ""
     assert compile_plan(short)["duration"] >= publish.SHORT_TARGET
 
