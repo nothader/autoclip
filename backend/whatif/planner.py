@@ -138,7 +138,10 @@ PRODUCTION LESSONS (learned from earlier videos; visual rules are checked automa
 - Faces: with camera "wide" or "closeup", rotate y 0 faces the camera; camera "front" looks from the other side, so
   use rotate y ~180 there when faces matter.
   Do not stand people behind houses, trees or big props; keep the subject inside ~4 m of env.set.focus.
-- Higher env.set.focus.y moves objects LOWER in frame; zoom 1.3-1.8 for vertical, ~1.0 for landscape.
+- Higher env.set.focus.y moves objects LOWER in frame. Vertical frames are narrow: keep the action within about
+  x = -3..3 m and z = -8..1 m of focus, and use zoom 1.6-1.8 (zoom 1.0 is too close in vertical; ~1.0 suits landscape).
+  "dolly" pushes forward about 1 m per second, so nothing should stand between the camera and focus (z > 1).
+  Good default for custom sets: camera "dolly" (people at rotate 0 face it), or "wide" for an elevated overview.
 - Avoid crossfading two similar silhouettes (young/old versions of a person): put them side by side instead.
 - Use time / time_label / chip to show progress ("+1 DAY", "DAY 30") so viewers feel the story move forward.
 - thumbnail: 2-5 punchy ALL-CAPS words for the cover with one *highlight* word ("SNOW IN *DUBAI*?",
