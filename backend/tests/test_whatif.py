@@ -643,3 +643,26 @@ def test_captions_stay_on_screen_in_every_style_and_orientation(tmp_path):
                     browser.close()
                 assert r["shown"] and "caption" in r["text"], (st, w, r)
                 assert 0 <= r["top"] and r["bottom"] <= r["h"] + 1, (st, w, r)
+
+
+def test_toon_keeps_shader_skies_and_survives_scene_switch(tmp_path):
+    """toon 曾把天空的 ShaderMaterial 换成卡通材质：自定义天空变暗，之后切到城市场景时报错。"""
+    pytest.importorskip("playwright")
+    from backend.whatif.render import render_frames
+    beats = [{"duration": 1.0, "scene": "custom", "camera": "wide", "subject": {"type": "none"},
+              "env": {"set": {"background": ["#5d86ad", "#c9d8e2"], "ground": "plane", "objects": [{"kind": "box"}]}}},
+             {"duration": 1.0, "scene": "city", "camera": "aerial", "subject": {"type": "none"}}]
+    sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "none"}, "pace": 1.0,
+                                    "theme": {"style": "toon"}, "intro": {"style": "title", "title": "x", "duration": 0.3},
+                                    "beats": beats, "outro": {"chart": False, "question_duration": 0.5}})
+    plan = compile_plan(sb)
+    try:
+        errs = render_frames(plan, tmp_path / "f", width=180, height=320, frames=[15, 45], workers=1, fmt="png")
+    except RuntimeError as e:
+        if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs
+    from PIL import Image
+    top = Image.open(tmp_path / "f" / "000015.png").convert("RGB").getpixel((90, 8))
+    assert sum(top) > 300, top   # 天空保持浅蓝渐变，而不是被卡通材质染暗

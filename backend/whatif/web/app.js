@@ -212,14 +212,15 @@ OUTLINE.onBeforeCompile = (sh) => {
 };
 const toonCache = new Map();
 function toonMat(m) {
-  if (!m || m.isMeshToonMaterial || m.isMeshBasicMaterial || m.isPointsMaterial || m.isSpriteMaterial || m.transparent) return m;
+  // 天空球 / 地球等自定义着色器不能换成卡通材质（换了会丢 uniforms：天空变暗，切到城市场景时报错）
+  if (!m || m.isShaderMaterial || m.isMeshToonMaterial || m.isMeshBasicMaterial || m.isPointsMaterial || m.isSpriteMaterial || m.transparent) return m;
   const key = m.uuid;
   if (!toonCache.has(key)) toonCache.set(key, new THREE.MeshToonMaterial({ color: m.color ? m.color.clone() : 0xffffff, map: m.map || null, gradientMap: TOON_GRAD }));
   return toonCache.get(key);
 }
 function toonify(root) {   // 卡通：平涂三阶光照 + 反向外壳描边（每个网格只处理一次）
   const todo = [];
-  root.traverse((o) => { if (o.isMesh && !o.userData.toon && !o.userData.outline) todo.push(o); });
+  root.traverse((o) => { if (o.isMesh && !o.userData.toon && !o.userData.outline && !(o.material && o.material.isShaderMaterial)) todo.push(o); });
   for (const o of todo) {
     o.userData.toon = true;
     const solid = !(o.material && o.material.transparent) && !(o.material && o.material.blending === THREE.AdditiveBlending);
