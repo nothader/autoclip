@@ -287,6 +287,14 @@ def make_short(sb: Storyboard, *, target: float = SHORT_TARGET) -> Storyboard:
     pace = max(sb.pace or SHORT_PACE, SHORT_PACE)
     n = len(sb.beats)
     must = {0, max(i for i, b in enumerate(sb.beats) if b.caption) if any(b.caption for b in sb.beats) else n - 1}
+    # 钩子要留住：长视频的第一句字幕和第一个悬念句（开放式循环）都进短版
+    from .hooks import has_loop
+    capped = [i for i, b in enumerate(sb.beats) if b.caption and i > 0]
+    if capped:
+        must.add(capped[0])
+        loop = next((i for i in capped[: max(3, n // 4)] if has_loop(sb.beats[i].caption)), None)
+        if loop is not None:
+            must.add(loop)
     order = sorted((i for i in range(n) if i not in must), key=lambda i: -beat_score(sb, i))
     chosen = set(must)
 
