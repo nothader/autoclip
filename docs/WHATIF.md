@@ -82,6 +82,13 @@ autoclip whatif make "What if …" --narrate --tts openai --voice onyx   # OpenA
 | `cinematic` | 上下黑边、胶片颗粒、暗角、暖调、缓慢推近 | 纪录片式下三分之一 | 历史、灾难、人物 |
 | `toon` | 卡通三阶光照 + 黑色描边、平涂高饱和 | 白底黑字贴纸 | 搞笑/荒诞、儿童、动物、食物 |
 | `retro` | 8-bit 低分辨率像素 + 扫描线 | 等宽字逐词、绿色高亮 | 游戏、科技、互联网、"模拟世界" |
+| `witness` | 固定"目击者"视角（高处阳台，镜头 `witness` 手持微晃）+ 前景咖啡杯 | 带阴影的小号斜体 | 灾难 / 天气 / 城市巨变，在一个真实地点看事情一步步升级 |
+
+`witness` 的几个配套件：
+- `theme.anchor`：`coffee`（默认）/ `drink` / `none`——镜头前景的杯子：热时冒气，下雪 / 落灰的段数越多杯口积得越厚，`storm` / `earthquake` / `shake` 时会抖。
+- 递增指标：`clock` + 每段 `time_label`（覆盖时钟标签，如 "SNOW DEPTH" → "POWER"）、`time`（大号数字）、`time_sub`（一行等宽参照小字）。
+- `intro.style: "overlay"`：标题直接压在第一个镜头上；`outro.end.kind: "fact"`：纯黑底，标题 + 等宽大写史实一行。
+- `env.cover`（0..1 或 `[起, 止]`，任何风格都能用）：积雪覆盖，朝上的面（路面、车顶、屋顶、树冠）逐渐变白；`weather: "ash"` 时为灰。自定义布景也会下雪 / 落灰。
 
 `theme.captions`（`line`/`words`/`box`）可单独覆盖字幕样式。`theme.layout: "split"`（仅竖屏）：上半故事、下半解压循环
 （小球在彩虹台阶上弹跳），字幕压在接缝上。

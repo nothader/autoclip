@@ -25,7 +25,7 @@ SceneName = Literal[
 ]
 CameraName = Literal[
     "follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup",
-    "establishing", "pov", "top_down", "dolly",
+    "establishing", "pov", "top_down", "dolly", "witness",
 ]
 SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
 Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat"]
@@ -217,6 +217,7 @@ class Env(_Strict):
     lights_off: bool = False         # 断电：夜里窗户不亮
     overgrown: float = Field(default=0.0, ge=0, le=1)  # 荒废 / 植物覆盖
     damage: float = Field(default=0.0, ge=0, le=1)     # 碎片、倒塌
+    cover: Union[float, Tuple[float, float]] = 0.0     # 积雪 / 落灰（weather=ash 时为灰）覆盖程度 0..1；[起, 止] = 本段内逐渐盖上
     room: Room = "office"            # scene=interior 时的房间类型
     globe: Optional[GlobeOpts] = None
     map: Optional[MapOpts] = None
@@ -278,9 +279,9 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro"]
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness"]
 CaptionMode = Literal["line", "words", "box"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words"}
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line"}
 
 
 class Theme(_Strict):
@@ -290,6 +291,8 @@ class Theme(_Strict):
     style: VideoStyle = "calm"
     captions: Optional[CaptionMode] = None   # None = 跟随风格
     layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
+    # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
+    anchor: Optional[Literal["none", "coffee", "drink"]] = None
 
 class Sfx(_Strict):
     type: SfxType
@@ -315,6 +318,7 @@ class Beat(_Strict):
     cast: List[CastGroup] = Field(default_factory=list)
     time: Optional[Union[str, Tuple[float, float]]] = None  # "+1 HOUR" 或 [起, 止] 秒（倒计时/秒表）
     time_sub: str = ""               # 时钟下面的一行小字
+    time_label: str = ""             # 本段时钟上方的标签（覆盖 clock.label，如 "COLUMN HEIGHT" / "WIND" / "THE FLOW"）
     stat: Optional[Stat] = None
     chapter: Optional[str] = None    # 章节标题；省略=沿用上一段
     chip: str = ""                   # 右上角时间标签（"6:20 PM" / "5 DAYS LATER"）
@@ -332,7 +336,7 @@ class Beat(_Strict):
 
 
 class Intro(_Strict):
-    style: Literal["stack", "title", "chapter"] = "stack"
+    style: Literal["stack", "title", "chapter", "overlay"] = "stack"   # overlay = 标题直接压在第一个镜头上（无图标、小号衬线）
     lines: List[str] = Field(default_factory=lambda: ["WHAT IF", "YOU GOT", "2× FASTER", "EVERY SECOND?"])
     accent: int = 2              # stack：哪一行用强调色、放大
     title: str = ""              # title/chapter：用 *星号* 标出强调词，例 "What if all *women* disappeared?"
@@ -343,7 +347,7 @@ class Intro(_Strict):
 
 
 class EndCard(_Strict):
-    kind: Literal["question", "title", "tagline", "memorial", "continued"] = "question"
+    kind: Literal["question", "title", "tagline", "memorial", "continued", "fact"] = "question"   # fact = 标题 + 一行等宽小字史实
     kicker: str = ""             # 小字（"IN MEMORY OF" / "PART 2"）
     lines: List[str] = Field(default_factory=list)
     accent_line: int = -1        # 哪一行用强调色

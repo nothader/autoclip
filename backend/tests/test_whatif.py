@@ -504,12 +504,12 @@ def test_every_style_and_split_layout_render(tmp_path):
     from backend.whatif.render import render_frames
     beats = [{"duration": 1.2, "scene": "custom", "camera": "wide", "subject": {"type": "none"}, "time": "+1", "caption": "Every word pops in here.",
               "env": {"set": {"ground": "plane", "objects": [{"kind": "person", "action": "walk"}, {"kind": "tree", "at": [2, 0, -2]}]}}}]
-    for st, lay in [("calm", "full"), ("bold", "split"), ("cinematic", "full"), ("toon", "split"), ("retro", "full")]:
+    for st, lay in [("calm", "full"), ("bold", "split"), ("cinematic", "full"), ("toon", "split"), ("retro", "full"), ("witness", "full")]:
         sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed"},
                                         "theme": {"style": st, "layout": lay}, "intro": {"style": "title", "title": "x", "duration": 0.4},
                                         "beats": beats, "outro": {"question_duration": 0.5}})
         plan = compile_plan(sb)
-        assert plan["theme"]["captions"] == {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words"}[st]
+        assert plan["theme"]["captions"] == {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line"}[st]
         try:
             errs = render_frames(plan, tmp_path / st, width=180, height=320, frames=[int(1.0 * plan["fps"])], workers=1)
         except RuntimeError as e:
@@ -517,3 +517,20 @@ def test_every_style_and_split_layout_render(tmp_path):
                 pytest.skip("chromium 不可用")
             raise
         assert not errs, (st, errs)
+
+
+def test_witness_pieces_compile():
+    """witness：time_label 覆盖时钟标签、默认咖啡杯、overlay 片头、fact 结尾带标题、env.cover 透传。"""
+    sb = Storyboard.model_validate({"format": "timeline", "title": "t", "premise": "p", "clock": {"mode": "elapsed", "label": "DEPTH"},
+                                    "theme": {"style": "witness"}, "intro": {"style": "overlay", "title": "What if *x*?", "duration": 1.0},
+                                    "beats": [{"duration": 2, "scene": "city", "camera": "witness", "subject": {"type": "none"}, "time": "5 CM",
+                                               "time_label": "SNOW DEPTH", "caption": "Snow.", "env": {"weather": "snow", "cover": [0.1, 0.4]}}],
+                                    "outro": {"chart": False, "question_duration": 2, "end": {"kind": "fact", "lines": ["A FACT."]}}})
+    plan = compile_plan(sb)
+    assert plan["theme"]["anchor"] == "coffee"
+    assert plan["beats"][0]["env"]["cover"] == (0.1, 0.4) or plan["beats"][0]["env"]["cover"] == [0.1, 0.4]
+    labels = {f["clock"]["label"] for f in plan["frames"] if f.get("clock")}
+    assert "SNOW DEPTH" in labels
+    ends = [f["end"] for f in plan["frames"] if f.get("end")]
+    assert ends and ends[-1]["kind"] == "fact" and ends[-1]["title"] == "What if *x*?"
+    assert any(f.get("intro", {}).get("style") == "overlay" for f in plan["frames"])

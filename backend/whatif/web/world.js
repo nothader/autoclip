@@ -433,6 +433,26 @@ const WEATHER = {
   dust: { top: "#a07a50", mid: "#d0a46a", sunI: 1.2, hemiI: 0.9, fog: "#c49a68", fogK: 0.3 },
 };
 
+// 积雪 / 落灰覆盖：朝上的面（屋顶、路面、车顶）按 env.cover 变白 / 变灰；全部材质共用一个 uniform
+const COVER = { amount: { value: 0 }, color: { value: new THREE.Color(0xf4f7fb) } };
+function coverMaterial(m) {
+  if (!m || m.userData.cover || !(m.isMeshStandardMaterial || m.isMeshLambertMaterial || m.isMeshPhongMaterial || (m.isMeshBasicMaterial && !m.transparent))) return;
+  m.userData.cover = true;
+  const prev = m.onBeforeCompile;
+  m.onBeforeCompile = (sh, r) => {
+    if (prev) prev(sh, r);
+    sh.uniforms.uCover = COVER.amount; sh.uniforms.uCoverCol = COVER.color;
+    sh.vertexShader = "varying float vUp;\n" + sh.vertexShader.replace("#include <beginnormal_vertex>",
+      "#include <beginnormal_vertex>\n  vUp = normalize(mat3(modelMatrix) * objectNormal).y;");
+    sh.fragmentShader = "uniform float uCover; uniform vec3 uCoverCol; varying float vUp;\n" + sh.fragmentShader.replace("#include <color_fragment>",
+      "#include <color_fragment>\n  float coverK = clamp(uCover * smoothstep(0.3, 0.75, vUp) * 1.15 + uCover * uCover * 0.22, 0.0, 1.0);\n  diffuseColor.rgb = mix(diffuseColor.rgb, uCoverCol, coverK);")
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\n  totalEmissiveRadiance += uCoverCol * coverK * 0.22;");   // 雪自己亮一点，暗天也读得出来
+  };
+  const key = "cover:" + (prev ? prev.toString() : "");
+  m.customProgramCacheKey = () => key;
+  m.needsUpdate = true;
+}
+
 function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
 
 class Atmosphere {
@@ -608,7 +628,10 @@ export class World {
     const traffic = spec.traffic ?? dflt.traffic ?? 0.5;
     const vanish = beat && beat.effects.includes("vanish") ? Math.min(1, (fr.frac || 0) * 1.25) : 0;
     const over = spec.overgrown || 0, dmg = spec.damage || 0;
+    const cv = Array.isArray(spec.cover) ? spec.cover[0] + (spec.cover[1] - spec.cover[0]) * (fr.frac || 0) : (spec.cover || 0);
     env.root.traverse((o) => {
+      // 地块是逐帧按需生成的，所以在这里（而不是建场景时）给新出现的材质打上积雪补丁
+      if (cv > 0 && o.isMesh) (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => coverMaterial(m));
       const u = o.userData;
       if (!u || !u.tag) return;
       if (u.tag === "ped") o.visible = u.rank < crowd && !(vanish > 0 && u.rank / crowd < vanish);
@@ -617,7 +640,9 @@ export class World {
       else if (u.tag === "debris") o.visible = u.rank < dmg;
       else if (u.tag === "lamp" && o.material) { o.material.emissive.set(0xffd9a0); o.material.emissiveIntensity = win * 2; }
     });
-    this.atmo.update(spec, fr, cam, !!env.outdoor, starsLevel);
+    COVER.amount.value = cv;
+    COVER.color.value.set(spec.weather === "ash" ? 0x77716a : 0xf4f7fb);
+    this.atmo.update(spec, fr, cam, !!env.outdoor || (!!env.custom && (spec.weather || "clear") !== "clear"), starsLevel);   // 自定义布景也能下雪 / 落灰
   }
   update(fr, subjPos, scale = 1, beat = null, camPos = null) {
     const env = this.envs[this.active];

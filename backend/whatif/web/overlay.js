@@ -20,7 +20,7 @@ export function layout(width, plan) {
   if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
   const s = width / (land ? 1920 : 1080);
   const th = (plan && plan.theme) || {};
-  for (const st of ["calm", "bold", "cinematic", "toon", "retro"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
+  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
   document.body.classList.toggle("split", th.layout === "split" && !land);
   $("#ov").style.transform = `scale(${s})`;
   if (plan && plan.theme && plan.theme.accent) document.documentElement.style.setProperty("--accent", plan.theme.accent);
@@ -107,14 +107,16 @@ export function drawOverlay(fr, plan) {
   // 片头：stack（逐行大字）或 title / chapter（图标 + 一句话标题）
   const ti = $("#title");
   const titleStyle = fr.intro && fr.intro.style !== "stack";
+  // overlay：不带图标的小号衬线标题，直接压在第一个镜头上（witness 风格）
   show(ti, !!titleStyle);
   if (titleStyle) {
     const it = fr.intro;
-    setHTML(ti, "title", `${it.icon && it.icon !== "none" ? `<div class="icon">${icon(it.icon)}</div>` : ""}`
+    setHTML(ti, "title", `${it.icon && it.icon !== "none" && it.style !== "overlay" ? `<div class="icon">${icon(it.icon)}</div>` : ""}`
       + (it.kicker ? `<div class="kick caps">${esc(it.kicker)}</div>` : "")
       + `<div class="t">${accentize(it.title || it.lines.join(" "))}</div>`
       + (it.subtitle ? `<div class="sub caps">${esc(it.subtitle)}</div>` : ""));
     ti.classList.toggle("chapter", it.style === "chapter");
+    ti.classList.toggle("overlay", it.style === "overlay");
     ti.style.opacity = it.a;
   }
   const intro = $("#intro");
@@ -232,14 +234,15 @@ export function drawOverlay(fr, plan) {
       html += `<div class="icon" style="width:70px;height:70px;margin:0 auto 24px">${icon(e.icon === "none" ? "" : "bars")}</div>`;
     }
     if (e.kicker) html += `<div class="k caps">${esc(e.kicker)}</div>`;
-    if (e.kind === "title" && e.title) html += `<div class="t">${accentize(e.title)}</div>`;
+    if ((e.kind === "title" || e.kind === "fact") && e.title) html += `<div class="t">${accentize(e.title)}</div>`;
     html += (e.lines || []).map((l, i) => `<div class="ln ${i === e.accent_line ? "acc" : ""}">${esc(l)}</div>`).join("");
     if (e.sub) html += `<div class="sub caps">${esc(e.sub)}</div>`;
     setHTML(en, "end", html);
     en.className = `shadow ${e.kind}`;
     en.style.opacity = e.a;
   }
-  $("#darken").style.opacity = fr.darken || 0;
+  // fact 结尾卡压在纯黑上
+  $("#darken").style.opacity = Math.max(fr.darken || 0, fr.end && fr.end.kind === "fact" ? fr.end.a : 0);
   const mp = $("#map");
   show(mp, !!fr.map);
   if (fr.map) drawMap(mp, fr.map);

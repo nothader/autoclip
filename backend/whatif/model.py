@@ -614,7 +614,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                     prev_b = beats_out[s.index - 1] if s.index > 0 else None
                     changed = prev_b is None or prev_b["time"] != tv or isinstance(tv, list)
                     ca = 1.0 if not changed or isinstance(tv, list) else min(1.0, lt / 0.3)
-                    fr["clock"] = {"label": clock.label, "value": val, "sub": b.time_sub, "a": round(ca, 3)}
+                    fr["clock"] = {"label": b.time_label or clock.label, "value": val, "sub": b.time_sub, "a": round(ca, 3)}
             # 统计大字
             if bo["stat"] and not in_intro:
                 st = bo["stat"]
@@ -683,7 +683,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                              "sub": "", "a": a, "icon": intro.icon}
             else:
                 fr["end"] = {**end.model_dump(), "a": a, "icon": intro.icon,
-                             "title": intro.title if end.kind == "title" else ""}
+                             "title": intro.title if end.kind in ("title", "fact") else ""}
             fr["scene"] = "void"
             fr["intensity"] = 0.0
         frames.append(fr)
@@ -751,7 +751,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     return {
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
-        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or STYLE_CAPTIONS[sb.theme.style]}, "chapters": chapters,
+        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or STYLE_CAPTIONS[sb.theme.style],
+                  "anchor": sb.theme.anchor or ("coffee" if sb.theme.style == "witness" else "none")}, "chapters": chapters,
         "intro_duration": intro.duration,
         "end_start": secs[-1].start if secs[-1].kind == "question" else None,
         "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},

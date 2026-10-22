@@ -71,6 +71,9 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #title .t em { font-style: normal; color: var(--accent); font-size: 1.32em; display: block; line-height: 1.12; }
 #title.chapter .t em { display: inline; font-size: 1em; }
 #title.chapter .t { font-size: 74px; text-transform: uppercase; letter-spacing: 3px; font-weight: 500; }
+#title.overlay { top: 380px; }
+#title.overlay .t { font-size: 50px; line-height: 1.25; text-shadow: 0 2px 18px rgba(0,0,0,.55); }
+#title.overlay .t em { display: inline; font-size: 1em; color: inherit; font-style: italic; }
 #title .sub { font-size: 17px; color: var(--dim); margin-top: 24px; }
 /* 左中部时钟 */
 #clock { position: absolute; left: 66px; top: 900px; }
@@ -136,6 +139,9 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #end .sub { font-size: 16px; color: var(--dim); margin-top: 30px; line-height: 1.7; }
 #end .t { font-family: "WSerif", serif; font-size: 56px; line-height: 1.25; }
 #end .t em { font-style: normal; color: var(--accent); }
+#end.fact .t { font-size: 52px; margin-bottom: 34px; }
+#end.fact .ln { font-family: ui-monospace, "DejaVu Sans Mono", monospace; font-size: 22px; line-height: 1.6; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+#end.fact .ln.acc { color: var(--fg, #fff); }
 #cap .ref { display: block; font: 600 15px "Inter"; font-style: normal; letter-spacing: 3px; color: var(--dim); margin-top: 12px; }
 /* 横屏 16:9（YouTube 长视频）：overlay 以 1920x1080 设计 */
 .land #ov { width: 1920px; height: 1080px; }
@@ -196,6 +202,13 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 .split #seam { display: block; }
 .split #cap, .split #cap.words, .split #cap.box { top: 850px; }
 .split #clock { top: 660px; }
+/* witness：固定目击视角——左上角的递增指标 + 带阴影的小号斜体字幕（雪地 / 白天也读得清） */
+.st-witness #clock { top: 200px; }
+.st-witness #clock .lab { color: #fff; font-size: 17px; letter-spacing: 3px; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.st-witness #clock .v { font-size: 92px; text-shadow: 0 2px 22px rgba(0,0,0,.45); }
+.st-witness #clock .s { font-family: ui-monospace, "DejaVu Sans Mono", monospace; font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,.85); text-shadow: 0 1px 6px rgba(0,0,0,.7); }
+.st-witness #cap { font-style: italic; text-shadow: 0 1px 3px rgba(0,0,0,.75), 0 0 24px rgba(0,0,0,.55); }
+.land.st-witness #clock { top: 110px; bottom: auto; }
 .split #card { top: 380px; }
 .split #lbox::after { display: none; }
 .hidden { display: none !important; }

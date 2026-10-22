@@ -115,6 +115,14 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
 - cinematic: documentary: letterbox bars, film grain, warm grade, slow push-ins. History, disasters, people's stories.
 - toon: cartoon: cel shading, black outlines, white sticker captions. Funny/absurd premises, kids, animals, food.
 - retro: 8-bit pixels and scanlines, green word highlights. Games, tech, internet, "simulation" topics.
+- witness: one fixed eyewitness view of a REAL named place (a balcony over a city, a harbour, a café terrace) that
+  watches a disaster or change escalate. Use camera "witness" on most beats (it drifts like a handheld shot), set
+  theme.anchor ("coffee" default / "drink" / "none") for a cup in the foreground that reacts (steam, frost/ash cap,
+  shaking). Drive tension with ONE escalating metric: clock + beat.time_label (small caps label that changes per
+  section, e.g. "WIND SPEED" → "STORM SURGE"), beat.time (big number) and beat.time_sub (tiny reference line, e.g.
+  "A CAT 5 IS 157 MPH"). Use intro.style "overlay" (title over the first shot, no icon) and end kind "fact"
+  (title + one short monospace caps fact line). Small italic-feel captions, few words. Weather/sky/lighting
+  changes carry the story; aim for 80-95s.
 - theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
   bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
 

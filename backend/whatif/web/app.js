@@ -73,6 +73,7 @@ const CAMS = {
   pov:         { pos: [0.4, 1.65, 3],    look: [0, 1.5, -10],  fov: 55 },
   top_down:    { pos: [0, 46, 2],        look: [0, 0, -2],     fov: 45 },
   dolly:       { pos: [1.5, 1.9, 9],     look: [0, 1.3, -6],   fov: 48 },
+  witness:     { pos: [0, 21, 26],       look: [0, 5, -80],    fov: 52 },   // 固定视角：高处阳台俯看整座城
 };
 
 function placeCamera(name, p, S, fr, beat, env) {
@@ -96,6 +97,7 @@ function placeCamera(name, p, S, fr, beat, env) {
   const dur = Math.max(1, beat ? beat.duration : 4);
   // 缓慢推拉，避免画面死板
   if (name === "dolly" || name === "pov") off.z -= Math.min(lt, dur) * (name === "pov" ? 1.3 : 1.0) * S;
+  else if (name === "witness") { off.x += Math.sin(lt * 0.45) * 0.08 * S; off.y += Math.sin(lt * 0.31 + 1) * 0.05 * S; }
   else if (name === "establishing") off.multiplyScalar(1 - 0.12 * Math.min(1, lt / dur));
   else off.multiplyScalar(1 - 0.06 * Math.min(1, lt / dur));
   camera.position.copy(p).add(off);
@@ -124,10 +126,80 @@ function placeCamera(name, p, S, fr, beat, env) {
 let plan = null;
 let STYLE = "calm";
 let satisfying = null;
+let anchor = null;
+
+// ---------- 前景锚点：镜头下方的小桌 + 咖啡杯 / 饮料，随天气变化 ----------
+function buildAnchor(kind) {
+  const g = new THREE.Group();
+  const m = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.55, ...o });
+  const ledge = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.08, 3.2), m("#d9d2c5", { roughness: 0.9 }));
+  ledge.position.set(0, -0.04, 1.25);   // 向镜头方向延伸，铺满画面底部
+  g.add(ledge);
+  const parts = { ledge, ledgeBase: ledge.material.color.clone() };
+  if (kind === "drink") {
+    const glass = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.065, 0.2, 28, 1, true), m("#e7f5ff", { transparent: true, opacity: 0.35, roughness: 0.05 }));
+    glass.position.y = 0.1; g.add(glass);
+    const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.06, 0.14, 24), m("#f08c00", { transparent: true, opacity: 0.75, roughness: 0.1 }));
+    liquid.position.y = 0.075; g.add(liquid); parts.top = liquid;
+  } else {
+    const saucer = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.13, 0.015, 36), m("#f8f9fa", { roughness: 0.25 }));
+    saucer.position.y = 0.008; g.add(saucer);
+    const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.06, 0.085, 32), m("#f8f9fa", { roughness: 0.25 }));
+    cup.position.y = 0.058; g.add(cup);
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.03, 0.009, 8, 16, Math.PI * 1.3), m("#f8f9fa", { roughness: 0.25 }));
+    handle.position.set(0.085, 0.06, 0); handle.rotation.z = -Math.PI / 2 + 0.3; g.add(handle);
+    const coffee = new THREE.Mesh(new THREE.CircleGeometry(0.068, 28), m("#3b2314", { roughness: 0.2 }));
+    coffee.rotation.x = -Math.PI / 2; coffee.position.y = 0.098; g.add(coffee); parts.top = coffee;
+    const spoon = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.005, 0.014), m("#adb5bd", { metalness: 0.8, roughness: 0.2 }));
+    spoon.position.set(-0.03, 0.018, 0.1); spoon.rotation.y = 0.5; g.add(spoon);
+  }
+  // 热气（3 团柔光）、霜 / 雪盖、灰堆
+  parts.steam = [0, 1, 2].map(() => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ color: "#ffffff", transparent: true, opacity: 0, depthWrite: false })); sp.scale.setScalar(0.08); g.add(sp); return sp; });
+  parts.cap = new THREE.Mesh(new THREE.SphereGeometry(0.1, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), m("#ffffff", { roughness: 0.95 }));
+  parts.cap.position.y = 0.1; parts.cap.scale.set(1, 0.001, 1); g.add(parts.cap);
+  parts.heap = new THREE.Mesh(new THREE.ConeGeometry(1.2, 0.25, 24), m("#6b6560", { roughness: 1 }));
+  parts.heap.position.set(0, 0.006, 0.1); parts.heap.scale.set(1, 0.001, 0.4); g.add(parts.heap);
+  g.traverse((o) => { if (o.isMesh) { o.castShadow = false; o.receiveShadow = false; } });
+  g.userData.parts = parts;
+  return g;
+}
+function updateAnchor(fr, beat) {
+  const kind = (plan.theme && plan.theme.anchor) || "none";
+  if (kind === "none" || !beat) { if (anchor) anchor.visible = false; return; }
+  if (!anchor) { anchor = buildAnchor(kind); camera.add(anchor); if (!camera.parent) scene.add(camera); }
+  anchor.visible = true;
+  // 放在镜头前下方（镜头坐标系），竖屏 / 横屏各自取景
+  const land = W > H;
+  anchor.position.set(land ? 0.95 : 0.24, land ? -0.78 : -0.86, land ? -2.0 : -2.2);
+  anchor.rotation.set(0.06, -0.25, 0);
+  const env = beat.env || {}, w = env.weather || "clear";
+  const idx = beat.i ?? 0;
+  const count = (pred) => plan.beats.slice(0, idx).filter(pred).length + (pred(beat) ? (fr.frac || 0) : 0);
+  const cold = (b) => (b.env && (b.env.weather === "snow" || (b.env.globe && b.env.globe.frozen)));
+  const ash = (b) => (b.env && b.env.weather === "ash");
+  const p = anchor.userData.parts;
+  const snowK = Math.min(1, count(cold) / 3), ashK = Math.min(1, count(ash) / 4);
+  p.cap.scale.set(1, 0.001 + 0.45 * Math.max(snowK, ashK), 1);
+  p.cap.material.color.set(ashK > snowK ? "#7a736c" : "#f8fbff");
+  p.heap.visible = ashK > 0.01;   // 压扁的灰堆会和台面 z-fighting，没灰时直接隐藏
+  p.heap.scale.set(1, 0.001 + ashK * 0.9, 0.4);
+  p.ledge.material.color.copy(p.ledgeBase).lerp(new THREE.Color(ashK > snowK ? "#7a736c" : "#f4f7fb"), Math.max(snowK, ashK) * 0.9);
+  const hot = w !== "snow" && !cold(beat) && ashK < 0.3;
+  p.steam.forEach((sp, j) => {
+    const ph = ((fr.t || 0) * 0.35 + j / 3) % 1;
+    sp.position.set(Math.sin(ph * 6 + j) * 0.02, 0.12 + ph * 0.28, 0);
+    sp.material.opacity = hot ? 0.18 * Math.sin(ph * Math.PI) : 0;
+    sp.scale.setScalar(0.05 + ph * 0.12);
+  });
+  // 风暴 / 地震：杯子跟着抖
+  const fx = beat.effects || [];
+  const shake = (w === "storm" ? 0.012 : 0) + (fx.includes("earthquake") || fx.includes("shake") ? 0.02 : 0);
+  anchor.rotation.z = shake ? Math.sin((fr.t || 0) * 37) * shake : 0;
+}
 
 // ---------- 风格：调色 / 推镜 / 卡通 / 像素 ----------
 const GRADE = {
-  calm: "", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
+  calm: "", witness: "saturate(1.08) contrast(1.04)", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
   toon: "saturate(1.5) brightness(1.06)", retro: "saturate(1.4) contrast(1.18)",
 };
 const TOON_GRAD = (() => {
@@ -236,7 +308,7 @@ function frame(i) {
     for (const g of cg.children) updateCrowd(g, fr.lt || 0, vanish);
   }
 
-  if (beat) { placeCamera(beat.camera, camPivot, camScale, fr, beat, env); styleCamera(raw, beat); }
+  if (beat) { placeCamera(beat.camera, camPivot, camScale, fr, beat, env); styleCamera(raw, beat); updateAnchor(raw, beat); }
   else { camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0); }
   world.update(fr, p, S, beat, camera.position);
   renderer.toneMappingExposure = world.exposure || 1.0;
