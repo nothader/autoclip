@@ -2,21 +2,209 @@
   "format": "countdown",
   "title": "What if friction disappeared for 5 seconds?",
   "premise": "All friction on Earth vanishes for exactly five seconds.",
-  "theme": {"accent": "#6cc4e8"},
-  "clock": {"mode": "countdown", "label": "FRICTION RETURNS IN", "intro_label": "FRICTION DISAPPEARS IN", "intro_from": 3},
-  "intro": {"style": "title", "title": "What if *friction* disappeared for 5 seconds?", "icon": "ice", "duration": 2.4},
+  "theme": {
+    "accent": "#6cc4e8"
+  },
+  "clock": {
+    "mode": "countdown",
+    "label": "FRICTION RETURNS IN",
+    "intro_label": "FRICTION DISAPPEARS IN",
+    "intro_from": 3
+  },
+  "intro": {
+    "style": "title",
+    "title": "What if *friction* disappeared for 5 seconds?",
+    "icon": "ice",
+    "duration": 2.4
+  },
   "beats": [
-    {"duration": 2.6, "scene": "suburb", "camera": "establishing", "subject": {"type": "none"}, "env": {"crowd": 0.5}},
-    {"duration": 3.4, "scene": "suburb", "camera": "pov", "env": {"crowd": 0.5}, "time": [5.0, 4.7], "caption": "Every surface on Earth just became perfectly slippery."},
-    {"duration": 3.4, "scene": "suburb", "camera": "wide", "env": {"crowd": 0}, "cast": [{"outfit": "casual", "count": 9, "action": "fall", "layout": "scatter", "distance": 6}], "time": [4.7, 4.4], "caption": "Nobody can walk. Walking only works because your shoes grip the ground."},
-    {"duration": 3.4, "scene": "highway", "camera": "aerial", "env": {"traffic": 0.9}, "effects": ["speedlines"], "time": [4.4, 4.1], "caption": "Brakes stop nothing. Every moving car just keeps sliding."},
-    {"duration": 3.4, "scene": "interior", "camera": "pov", "env": {"room": "home"}, "time": [4.1, 3.8], "caption": "Nails and screws are held in place by friction, too."},
-    {"duration": 3.4, "scene": "city", "camera": "wide", "env": {"damage": 0.5, "crowd": 0.3}, "effects": ["shake", "dust"], "time": [3.8, 3.3], "caption": "Bolted joints start to slip, and buildings begin to shift."},
-    {"duration": 3.4, "scene": "mountains", "camera": "wide", "effects": ["shake", "dust"], "time": [3.3, 2.8], "caption": "Every slope on Earth stays put because of friction."},
-    {"duration": 3.8, "scene": "globe", "camera": "front", "env": {"globe": {"faults": true, "focus": [20, -110]}}, "time": [2.8, 2.0], "caption": "Fault lines are locked by friction as well."},
-    {"duration": 3.8, "scene": "globe", "camera": "wide", "env": {"globe": {"faults": true, "focus": [0, 150]}}, "time": [2.0, 1.0], "tooltip": {"label": "WHY IT MATTERS", "text": "Earthquakes happen when stress overcomes the friction holding faults together."}, "caption": "Release that grip everywhere at once..."},
-    {"duration": 3.4, "scene": "city", "camera": "wide", "env": {"damage": 0.9, "weather": "dust", "empty": true}, "effects": ["earthquake", "dust"], "time": [1.0, 0.0], "caption": "...and the whole planet starts to shake."},
-    {"duration": 3.6, "scene": "suburb", "camera": "wide", "env": {"damage": 0.6}, "time": "BACK", "sfx": [{"type": "crack", "at": 0.1}], "caption": "Friction returns. Everything grabs at once."}
+    {
+      "duration": 2.6,
+      "scene": "suburb",
+      "camera": "establishing",
+      "subject": {
+        "type": "none"
+      },
+      "env": {
+        "crowd": 0.5
+      }
+    },
+    {
+      "duration": 3.4,
+      "scene": "suburb",
+      "camera": "pov",
+      "env": {
+        "crowd": 0.5
+      },
+      "time": [
+        5.0,
+        4.7
+      ],
+      "caption": "Every surface on Earth just became perfectly slippery."
+    },
+    {
+      "duration": 3.4,
+      "scene": "suburb",
+      "camera": "wide",
+      "env": {
+        "crowd": 0
+      },
+      "cast": [
+        {
+          "outfit": "casual",
+          "count": 9,
+          "action": "fall",
+          "layout": "scatter",
+          "distance": 6
+        }
+      ],
+      "time": [
+        4.7,
+        4.4
+      ],
+      "caption": "Nobody can walk. Walking only works because your shoes grip the ground."
+    },
+    {
+      "duration": 3.4,
+      "scene": "highway",
+      "camera": "aerial",
+      "env": {
+        "traffic": 0.9
+      },
+      "effects": [
+        "speedlines"
+      ],
+      "time": [
+        4.4,
+        4.1
+      ],
+      "caption": "Brakes stop nothing. Every moving car just keeps sliding."
+    },
+    {
+      "duration": 3.4,
+      "scene": "interior",
+      "camera": "pov",
+      "env": {
+        "room": "home"
+      },
+      "time": [
+        4.1,
+        3.8
+      ],
+      "caption": "Nails and screws are held in place by friction, too."
+    },
+    {
+      "duration": 3.4,
+      "scene": "city",
+      "camera": "wide",
+      "env": {
+        "damage": 0.5,
+        "crowd": 0.3
+      },
+      "effects": [
+        "shake",
+        "dust"
+      ],
+      "time": [
+        3.8,
+        3.3
+      ],
+      "caption": "Bolted joints start to slip, and buildings begin to shift."
+    },
+    {
+      "duration": 3.4,
+      "scene": "mountains",
+      "camera": "wide",
+      "effects": [
+        "shake",
+        "dust"
+      ],
+      "time": [
+        3.3,
+        2.8
+      ],
+      "caption": "Every slope on Earth stays put because of friction."
+    },
+    {
+      "duration": 3.8,
+      "scene": "mountains",
+      "camera": "establishing",
+      "env": {
+        "time": "dusk"
+      },
+      "time": [
+        2.8,
+        2.0
+      ],
+      "caption": "Fault lines are locked by friction as well.",
+      "effects": [
+        "earthquake"
+      ]
+    },
+    {
+      "duration": 3.8,
+      "scene": "mountains",
+      "camera": "wide",
+      "env": {
+        "time": "dusk",
+        "damage": 0.4
+      },
+      "time": [
+        2.0,
+        1.0
+      ],
+      "tooltip": {
+        "label": "WHY IT MATTERS",
+        "text": "Earthquakes happen when stress overcomes the friction holding faults together."
+      },
+      "caption": "Release that grip everywhere at once...",
+      "effects": [
+        "earthquake",
+        "dust"
+      ]
+    },
+    {
+      "duration": 3.4,
+      "scene": "city",
+      "camera": "wide",
+      "env": {
+        "damage": 0.9,
+        "weather": "dust",
+        "empty": true
+      },
+      "effects": [
+        "earthquake",
+        "dust"
+      ],
+      "time": [
+        1.0,
+        0.0
+      ],
+      "caption": "...and the whole planet starts to shake."
+    },
+    {
+      "duration": 3.6,
+      "scene": "suburb",
+      "camera": "wide",
+      "env": {
+        "damage": 0.6
+      },
+      "time": "BACK",
+      "sfx": [
+        {
+          "type": "crack",
+          "at": 0.1
+        }
+      ],
+      "caption": "Friction returns. Everything grabs at once."
+    }
   ],
-  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "title", "sub": "WITHOUT FRICTION, YOU COULDN'T EVEN HOLD THIS PHONE."}}
+  "outro": {
+    "chart": false,
+    "question_duration": 3.0,
+    "end": {
+      "kind": "title",
+      "sub": "WITHOUT FRICTION, YOU COULDN'T EVEN HOLD THIS PHONE."
+    }
+  }
 }

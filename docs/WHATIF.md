@@ -141,6 +141,9 @@ autoclip whatif check story.json --json
 
 ## 画面质量检查（同样在 `autoclip whatif check` 里）
 
+- **不要地球**：`globe` / `orbit` 场景和自定义布景里的 `earth` 物体一律算 fix（用户明确不要地球仪镜头）；
+  planner 提示里也不再提供这些选项，`deep_space` 背景里不再画地球。讲地理就用 `map` 或者直接拍那个地方。
+
 `backend/whatif/quality.py` 把之前每支视频踩过的坑写成规则，fix 级问题和钩子问题一起回传给 planner：
 
 - **克隆人**：同一布景里两个人 outfit + seed + 颜色完全一样

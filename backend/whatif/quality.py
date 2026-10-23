@@ -25,6 +25,8 @@ LONG_MIN_SECONDS = 240.0       # 横屏长视频
 SAME_SHOT_RUN = 3              # 连续多少段同场景同机位算单调（witness 风格除外）
 SAME_SET_RUN = 2               # 连续多少段完全相同的自定义布景算单调
 CAMERA_SHARE_TIP = 0.55        # 某个机位占比超过这个给建议
+NO_EARTH_SCENES = ("globe", "orbit")   # 用户要求：视频里不要地球仪 / 太空里的地球（deep_space 已不画地球）
+NO_EARTH_KINDS = ("earth",)
 MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "handwalk", "footeat"}
 
 # 题目关键词 → 推荐风格（planner 没明确选风格时用；也写进提示里当建议）
@@ -63,6 +65,13 @@ def quality_report(sb: Storyboard) -> List[Finding]:
     f: List[Finding] = []
     style = sb.theme.style
     beats = sb.beats
+
+    # 不要地球（用户明确要求）：globe / orbit / deep_space 场景、自定义布景里的 earth 物体
+    for i, b in enumerate(beats):
+        kinds = {o.kind for o in b.env.set.objects} if (b.scene == "custom" and b.env and b.env.set) else set()
+        if b.scene in NO_EARTH_SCENES or kinds & set(NO_EARTH_KINDS):
+            f.append(Finding("fix", "no_globe", f"beats[{i}]", "No globes or Earth-from-space shots. Show the place itself instead "
+                             "(a city, street, desert, coast, map, or a custom set)."))
 
     # 克隆人
     for i, b in enumerate(beats):

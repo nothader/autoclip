@@ -2,26 +2,208 @@
   "format": "timeline",
   "title": "What if Earth stopped spinning?",
   "premise": "Earth's rotation suddenly stops, but everything on and around it keeps moving.",
-  "theme": {"accent": "#5aa9e6"},
-  "clock": {"mode": "elapsed", "label": "SINCE EARTH STOPPED", "intro_label": "EARTH STOPS IN", "intro_from": 6},
-  "intro": {"style": "title", "title": "What if *Earth* stopped spinning?", "icon": "earth", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "theme": {
+    "accent": "#5aa9e6"
+  },
+  "clock": {
+    "mode": "elapsed",
+    "label": "SINCE EARTH STOPPED",
+    "intro_label": "EARTH STOPS IN",
+    "intro_from": 6
+  },
+  "intro": {
+    "style": "title",
+    "title": "What if *Earth* stopped spinning?",
+    "icon": "earth",
+    "subtitle": "A HYPOTHETICAL SIMULATION",
+    "duration": 2.6
+  },
   "beats": [
-    {"duration": 2.8, "scene": "city", "camera": "establishing", "subject": {"type": "none"}, "env": {"crowd": 0.6}},
-    {"duration": 3.6, "scene": "city", "camera": "pov", "env": {"crowd": 0.6}, "time": "+0 SEC", "stat": {"value": "1,670", "label": "KM/H — HOW FAST THE GROUND MOVES AT THE EQUATOR"}, "caption": "It's a normal morning on the equator. You don't feel the spin at all."},
-    {"duration": 3.6, "scene": "city", "camera": "wide", "env": {"crowd": 0.6, "damage": 0.4}, "effects": ["earthquake", "dust"], "time": "+0.1 SEC", "caption": "Earth stops. Everything not anchored to bedrock keeps going east."},
-    {"duration": 3.6, "scene": "city", "camera": "aerial", "env": {"weather": "dust", "empty": true, "damage": 0.9, "traffic": 0.3}, "effects": ["speedlines", "dust", "shake"], "time": "+1 SEC", "time_sub": "THE AIR IS STILL MOVING AT ~1,670 km/h", "caption": "The atmosphere keeps moving too: winds far beyond any storm on record."},
-    {"duration": 3.6, "scene": "coast", "camera": "establishing", "env": {"weather": "storm"}, "time": "+1 MIN", "caption": "The oceans keep moving as well, slamming into every eastern coast."},
-    {"duration": 3.6, "scene": "globe", "camera": "wide", "env": {"globe": {"spin": 0.0, "focus": [10, -20]}}, "time": "+1 HOUR", "caption": "The planet itself is no longer turning."},
-    {"duration": 4.0, "scene": "outback", "camera": "wide", "subject": {"type": "none"}, "env": {"time": "day", "weather": "dust"}, "time": "+1 DAY", "card": {"title": "ONE DAY = ONE YEAR", "rows": [["SUNRISES PER YEAR", "1"], ["DAYLIGHT", "~6 MONTHS"], ["NIGHT", "~6 MONTHS"]], "tone": "neutral"}, "caption": "The Sun now crawls across the sky. A single day lasts a whole year."},
-    {"duration": 4.0, "scene": "outback", "camera": "low_front", "env": {"weather": "dust"}, "effects": ["heat"], "time": "+1 WEEK", "caption": "Half the planet bakes in months of unbroken daylight."},
-    {"duration": 4.0, "scene": "mountains", "camera": "wide", "env": {"time": "night", "weather": "snow"}, "effects": ["freeze"], "time": "+1 MONTH", "caption": "The other half falls into a night that lasts for months."},
-    {"duration": 4.0, "scene": "fields", "camera": "dolly", "env": {"time": "dusk"}, "cast": [{"outfit": "casual", "count": 10, "action": "walk", "layout": "crowd", "distance": 7}], "time": "+6 MONTHS", "caption": "Survivors would follow the twilight: not too hot, not too cold."},
-    {"duration": 4.0, "scene": "globe", "camera": "front", "env": {"globe": {"spin": 0.02, "dry_oceans": true, "focus": [0, 20]}}, "time": "+THOUSANDS OF YEARS", "caption": "Without the spin, oceans slowly drain toward the poles, exposing land around the equator."},
-    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"spin": 0.08, "focus": [20, 0]}}, "time": "+THOUSANDS OF YEARS", "caption": "Earth's spin is the only reason you have days at all."}
+    {
+      "duration": 2.8,
+      "scene": "city",
+      "camera": "establishing",
+      "subject": {
+        "type": "none"
+      },
+      "env": {
+        "crowd": 0.6
+      }
+    },
+    {
+      "duration": 3.6,
+      "scene": "city",
+      "camera": "pov",
+      "env": {
+        "crowd": 0.6
+      },
+      "time": "+0 SEC",
+      "stat": {
+        "value": "1,670",
+        "label": "KM/H — HOW FAST THE GROUND MOVES AT THE EQUATOR"
+      },
+      "caption": "It's a normal morning on the equator. You don't feel the spin at all."
+    },
+    {
+      "duration": 3.6,
+      "scene": "city",
+      "camera": "wide",
+      "env": {
+        "crowd": 0.6,
+        "damage": 0.4
+      },
+      "effects": [
+        "earthquake",
+        "dust"
+      ],
+      "time": "+0.1 SEC",
+      "caption": "Earth stops. Everything not anchored to bedrock keeps going east."
+    },
+    {
+      "duration": 3.6,
+      "scene": "city",
+      "camera": "aerial",
+      "env": {
+        "weather": "dust",
+        "empty": true,
+        "damage": 0.9,
+        "traffic": 0.3
+      },
+      "effects": [
+        "speedlines",
+        "dust",
+        "shake"
+      ],
+      "time": "+1 SEC",
+      "time_sub": "THE AIR IS STILL MOVING AT ~1,670 km/h",
+      "caption": "The atmosphere keeps moving too: winds far beyond any storm on record."
+    },
+    {
+      "duration": 3.6,
+      "scene": "coast",
+      "camera": "establishing",
+      "env": {
+        "weather": "storm"
+      },
+      "time": "+1 MIN",
+      "caption": "The oceans keep moving as well, slamming into every eastern coast."
+    },
+    {
+      "duration": 3.6,
+      "scene": "desert",
+      "camera": "establishing",
+      "env": {
+        "time": "golden"
+      },
+      "time": "+1 HOUR",
+      "caption": "The planet itself is no longer turning."
+    },
+    {
+      "duration": 4.0,
+      "scene": "outback",
+      "camera": "wide",
+      "subject": {
+        "type": "none"
+      },
+      "env": {
+        "time": "day",
+        "weather": "dust"
+      },
+      "time": "+1 DAY",
+      "card": {
+        "title": "ONE DAY = ONE YEAR",
+        "rows": [
+          [
+            "SUNRISES PER YEAR",
+            "1"
+          ],
+          [
+            "DAYLIGHT",
+            "~6 MONTHS"
+          ],
+          [
+            "NIGHT",
+            "~6 MONTHS"
+          ]
+        ],
+        "tone": "neutral"
+      },
+      "caption": "The Sun now crawls across the sky. A single day lasts a whole year."
+    },
+    {
+      "duration": 4.0,
+      "scene": "outback",
+      "camera": "low_front",
+      "env": {
+        "weather": "dust"
+      },
+      "effects": [
+        "heat"
+      ],
+      "time": "+1 WEEK",
+      "caption": "Half the planet bakes in months of unbroken daylight."
+    },
+    {
+      "duration": 4.0,
+      "scene": "mountains",
+      "camera": "wide",
+      "env": {
+        "time": "night",
+        "weather": "snow"
+      },
+      "effects": [
+        "freeze"
+      ],
+      "time": "+1 MONTH",
+      "caption": "The other half falls into a night that lasts for months."
+    },
+    {
+      "duration": 4.0,
+      "scene": "fields",
+      "camera": "dolly",
+      "env": {
+        "time": "dusk"
+      },
+      "cast": [
+        {
+          "outfit": "casual",
+          "count": 10,
+          "action": "walk",
+          "layout": "crowd",
+          "distance": 7
+        }
+      ],
+      "time": "+6 MONTHS",
+      "caption": "Survivors would follow the twilight: not too hot, not too cold."
+    },
+    {
+      "duration": 4.0,
+      "scene": "ocean",
+      "camera": "wide",
+      "env": {
+        "time": "day",
+        "weather": "overcast"
+      },
+      "time": "+THOUSANDS OF YEARS",
+      "caption": "Without the spin, oceans slowly drain toward the poles, exposing land around the equator."
+    },
+    {
+      "duration": 4.0,
+      "scene": "fields",
+      "camera": "establishing",
+      "env": {
+        "time": "dusk"
+      },
+      "time": "+THOUSANDS OF YEARS",
+      "caption": "Earth's spin is the only reason you have days at all."
+    }
   ],
   "outro": {
     "chart": false,
     "question_duration": 3.2,
-    "end": {"kind": "title", "sub": "EARTH IS SLOWING DOWN — BY ABOUT 2 MILLISECONDS PER CENTURY."}
+    "end": {
+      "kind": "title",
+      "sub": "EARTH IS SLOWING DOWN — BY ABOUT 2 MILLISECONDS PER CENTURY."
+    }
   }
 }

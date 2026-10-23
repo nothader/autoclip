@@ -247,7 +247,7 @@
     {
       "duration": 4.0,
       "sim_end": 20.4,
-      "scene": "orbit",
+      "scene": "sky",
       "camera": "side",
       "subject": {
         "type": "runner",
@@ -261,12 +261,12 @@
     {
       "duration": 4.0,
       "sim_end": 22.0,
-      "scene": "orbit",
+      "scene": "sky",
       "camera": "far",
       "effects": [
         "glow"
       ],
-      "caption": "Earth falls away behind you."
+      "caption": "The ground falls away far below you."
     },
     {
       "duration": 4.0,

@@ -752,3 +752,18 @@ def test_cinema_effects_and_moves_render(tmp_path):
             pytest.skip("chromium 不可用")
         raise
     assert not errs, errs
+
+
+def test_no_globes_rule_and_prompt():
+    """用户要求：视频里不要地球仪 / 太空地球。检查器拦下，planner 提示里也不再提供。"""
+    from backend.whatif.quality import quality_report
+    from backend.whatif.planner import build_prompt
+    sb = _cine_sb(3)
+    for scene, env in (("globe", None), ("orbit", None)):
+        bad = sb.model_copy(update={"beats": [sb.beats[0].model_copy(update={"scene": scene, "env": env})] + sb.beats[1:]})
+        assert any(x.rule == "no_globe" and x.level == "fix" for x in quality_report(bad)), scene
+    earth = sb.beats[0].model_copy(update={"env": {"set": {"ground": "plane", "objects": [{"kind": "earth"}]}}})
+    assert any(x.rule == "no_globe" for x in quality_report(sb.model_copy(update={"beats": [earth] + sb.beats[1:]})))
+    assert not any(x.rule == "no_globe" for x in quality_report(sb))
+    p = build_prompt("What if the oceans dried up?")
+    assert "NEVER use globes" in p and '"scene": "globe"' not in p and "globe uses env.globe" not in p

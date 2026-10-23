@@ -345,7 +345,7 @@ function deepSpaceEnv() {
   const root = new THREE.Group();
   const st = stars(6000, 3000, 11);
   root.add(st);
-  const earth = makeEarth(60);
+  const earth = new THREE.Group();   // 不画地球（用户不要地球仪 / 太空地球镜头）；保留空组，update 里的引用不用改
   root.add(earth);
   const moon = new THREE.Mesh(new THREE.SphereGeometry(16, 48, 32), std("#9a9a96", { roughness: 1, fog: false }));
   root.add(moon);

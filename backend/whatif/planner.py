@@ -74,7 +74,9 @@ TIMING
 SETS: DESIGN YOUR OWN FOR EVERY VIDEO (MOST IMPORTANT VISUAL RULE)
 - Prefer scene="custom" with a bespoke env.set built for THIS topic, so every video has its own visual world
   (molecules and lungs for a breathing video, hourglasses and clocks for aging, cells for biology, planets for space).
-  Use the generic places (city, suburb, globe, interior ...) only when the story literally happens there.
+  Use the generic places (city, suburb, interior ...) only when the story literally happens there.
+- NEVER use globes or Earth seen from space: no scene "globe" or "orbit", and no "earth" object in sets.
+  For geography use scene "map" or show the actual place (a city, coast, desert, street).
   Vary sets shot to shot: different background colors, object arrangements, materials and camera moves.
 - env.set = {{"background": ["#top", "#bottom"] | "stars" | "black" | "white", "ground": none|plane|grid|water|mirror,
   "ground_color", "fog": [color, near, far] (optional), "light": "#color", "light_intensity" (~2), "ambient" (~0.8),
@@ -83,22 +85,20 @@ SETS: DESIGN YOUR OWN FOR EVERY VIDEO (MOST IMPORTANT VISUAL RULE)
 - object = {{"kind", "at": [x,y,z], "scale": number | [x,y,z], "rotate": [deg,deg,deg], "color", "color2",
   "material": matte|glossy|metal|glass|glow|toon, "opacity", "count" (scatter copies within "spread": [x,y,z]), "seed",
   "animate": [{{"type": spin|bob|orbit|pulse|grow|shrink|fade_in|fade_out|move|drift|wobble, "axis", "speed", "amount", "to"}}]}}
-  kinds: {', '.join(SET_KINDS)}.
+  kinds: {', '.join(k for k in SET_KINDS if k != "earth")}.
   molecule uses "formula" (N2 O2 H2 CO2 H2O CH4 NH3 O3 NaCl CO, real CPK colors); bars uses "values"; person uses
   "outfit"/"action"; particles = a drifting point cloud (count x 20 points). Units are meters; keep objects within ~8 m
   of focus. Use grow/fade/move/shrink to make each beat's set change while its caption plays.
 
 SHOTS
-- scene: {', '.join(SCENES)}.
-  interior uses env.room: {', '.join(ROOMS)}. globe uses env.globe (night_side, markers [lat, lon, kind ring|dot|glow|cloud,
-  radius], faults, ring, moon none|whole|shattered, frozen, dry_oceans, spin, focus [lat, lon]; the globe uses a real
-  Earth image, so focus on the region the story is about). map uses env.map (labels/path points with x,y in 0..1 and
+- scene: {', '.join(x for x in SCENES if x not in ("globe", "orbit"))}.
+  interior uses env.room: {', '.join(ROOMS)}. map uses env.map (labels/path points with x,y in 0..1 and
   text, keep y between 0.05 and 0.65 so captions stay clear; zone + zone_radius; style dark|satellite|paper).
 - env (carries over to the next beats in the same scene; reset when the scene changes): time day|golden|dusk|night|dawn,
   weather clear|overcast|rain|storm|snow|ash|fog|dust, sky normal|red|dark|meteors|aurora, crowd 0..1, traffic 0..1,
   empty (people gone), lights_off, overgrown 0..1, damage 0..1.
 - camera: {', '.join(CAMERAS)} (establishing/wide/aerial/top_down for places, pov/dolly to move through a space,
-  front/closeup/side/follow for a subject; on globe: wide/front/closeup/orbit).
+  front/closeup/side/follow for a subject).
 - subject: {{"type": runner|person|ball|car|cube|rocket|none, "action": ..., "outfit": ...}} only when it changes;
   type none for pure places. cast: groups of people [{{"outfit", "count" (<=40), "action", "layout" around|line|row|scatter|seated|crowd, "distance"}}].
   outfits: {', '.join(OUTFITS)}. actions: {', '.join(ACTIONS)}.
