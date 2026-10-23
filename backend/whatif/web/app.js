@@ -367,7 +367,7 @@ function frame(i) {
   const fxCenter = env.custom ? new THREE.Vector3(...env.focus) : lastLook;
   const fxFlash = env.globe ? 0 : cinefx.update(fr, beat, fxCenter, env.custom ? camScale : Math.max(1, S), camera);
   const glow = document.getElementById("glow");
-  if (glow) glow.style.opacity = beat && beat.effects.includes("bloom") ? (0.55 + 0.15 * Math.sin((raw.t || 0) * 1.3)).toFixed(3) : "0";
+  if (glow) glow.style.opacity = beat && beat.effects.includes("bloom") ? (0.4 + 0.12 * Math.sin((raw.t || 0) * 1.3)).toFixed(3) : "0";
   if (STYLE === "toon") toonify(scene);
   const grade = GRADE[STYLE] || "";
   canvas.style.filter = [beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg)" : "", grade,

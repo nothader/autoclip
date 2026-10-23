@@ -63,7 +63,7 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
 #darken { position: absolute; inset: 0; background: #000; opacity: 0; }
 #glow { position: absolute; inset: 0; opacity: 0; pointer-events: none; mix-blend-mode: screen;
-  background: radial-gradient(ellipse 70% 50% at 50% 38%, rgba(255, 228, 190, 0.6), rgba(255, 228, 190, 0) 72%); }
+  background: radial-gradient(ellipse 70% 50% at 50% 38%, rgba(255, 228, 190, 0.38), rgba(255, 228, 190, 0) 70%); }
 .caps { font-family: "Inter", sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
 /* 标题卡（title / chapter 样式） */
 #title { position: absolute; left: 60px; right: 60px; top: 260px; text-align: center; font-family: "WSerif", serif; }
@@ -193,7 +193,7 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #cap.box .bx { background: #fff; color: #111; padding: 6px 18px; border-radius: 14px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .st-retro #cap.words { font-family: "DejaVu Sans Mono", "Courier New", monospace; font-weight: 700; font-size: 62px; letter-spacing: 0;
                        -webkit-text-stroke: 0; text-shadow: 6px 6px 0 #000; --hl: #69db7c; }
-.st-cinematic #cap { font-size: 40px; top: 1300px; letter-spacing: 0.5px; }
+.st-cinematic #cap { font-size: 40px; top: 1300px; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,.8), 0 0 22px rgba(0,0,0,.6); }   /* 亮背景上也读得清 */
 .st-cinematic #chapter { top: 180px; } .st-cinematic #chip { top: 280px; } .st-cinematic #chip.alone { top: 190px; }
 .land #cap.words { font-size: 60px; left: 220px; right: 220px; top: auto; bottom: 110px; }
 .land #cap.box { font-size: 40px; top: auto; bottom: 100px; }
