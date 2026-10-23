@@ -762,8 +762,9 @@ def test_no_globes_rule_and_prompt():
     for scene, env in (("globe", None), ("orbit", None)):
         bad = sb.model_copy(update={"beats": [sb.beats[0].model_copy(update={"scene": scene, "env": env})] + sb.beats[1:]})
         assert any(x.rule == "no_globe" and x.level == "fix" for x in quality_report(bad)), scene
-    earth = sb.beats[0].model_copy(update={"env": {"set": {"ground": "plane", "objects": [{"kind": "earth"}]}}})
-    assert any(x.rule == "no_globe" for x in quality_report(sb.model_copy(update={"beats": [earth] + sb.beats[1:]})))
+    d = sb.model_dump()
+    d["beats"][0]["env"] = {"set": {"ground": "plane", "objects": [{"kind": "earth"}]}}
+    assert any(x.rule == "no_globe" for x in quality_report(Storyboard.model_validate(d)))
     assert not any(x.rule == "no_globe" for x in quality_report(sb))
     p = build_prompt("What if the oceans dried up?")
     assert "NEVER use globes" in p and '"scene": "globe"' not in p and "globe uses env.globe" not in p
