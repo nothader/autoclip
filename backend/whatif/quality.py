@@ -20,7 +20,7 @@ from typing import List, Optional
 from .hooks import Finding
 from .schema import Storyboard
 
-SHORT_MIN_SECONDS = 58.0       # 竖屏短视频（按节奏压缩后）至少这么长
+SHORT_MIN_SECONDS = 61.0       # 竖屏短视频（按节奏压缩后）至少这么长：1 分钟以上，留 1 秒余量
 LONG_MIN_SECONDS = 240.0       # 横屏长视频
 SAME_SHOT_RUN = 3              # 连续多少段同场景同机位算单调（witness 风格除外）
 SAME_SET_RUN = 2               # 连续多少段完全相同的自定义布景算单调
