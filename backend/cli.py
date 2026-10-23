@@ -326,7 +326,11 @@ def _whatif_plan(args: argparse.Namespace):
     info = configure_llm(_llm_override(args))
     if not args.json:
         print(_dim(f"写分镜：{info.get('provider')} · {info.get('model')}"), file=sys.stderr)
-    return plan_storyboard(args.premise, notes=args.notes or "", fmt=getattr(args, "format", None))
+    from backend.whatif.cinema import load_history, recent
+    styles = recent(load_history(), "style", 2)
+    notes = (args.notes or "") + (f"\nRecent videos used the styles {', '.join(styles)}: pick a different style unless the user asked for one."
+                                  if styles else "")
+    return plan_storyboard(args.premise, notes=notes.strip(), fmt=getattr(args, "format", None))
 
 
 def _whatif_pack(args: argparse.Namespace, out: Path) -> dict:
@@ -424,9 +428,12 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             sb = _whatif_plan(args)
         if sb.pace is None:
             sb = sb.model_copy(update={"pace": args.pace})
-        theme_up = {k: v for k, v in (("style", args.style), ("layout", args.layout), ("captions", args.captions)) if v}
+        theme_up = {k: v for k, v in (("style", args.style), ("layout", args.layout), ("captions", args.captions),
+                                      ("flow", args.flow), ("palette", args.palette)) if v}
         if theme_up:
             sb = sb.model_copy(update={"theme": sb.theme.model_copy(update=theme_up)})
+        from backend.whatif.cinema import load_history, resolve_variety
+        sb = resolve_variety(sb, load_history())   # flow / palette 自动轮换，不和最近的视频撞
         out = _whatif_out(args, sb.title)
         if args.preview and not args.output:
             out = out.with_name(out.stem + "-preview.mp4")
@@ -554,6 +561,11 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--style", choices=["calm", "bold", "cinematic", "toon", "retro", "witness"],
                        help="Visual style: calm (quiet, premium) / bold (viral word-by-word captions, punch zooms) / "
                             "cinematic (letterbox, grain, grade) / toon (cel-shaded, outlines, sticker captions) / retro (8-bit pixels, scanlines) / witness (fixed eyewitness view, coffee-cup anchor, escalating metric)")
+        x.add_argument("--flow", choices=["steady", "build", "punchy", "slowburn", "rollercoaster"],
+                       help="Edit rhythm (default: auto, rotated so consecutive videos differ): build = cuts speed up, punchy = fast cuts "
+                            "with hits, slowburn = slow start then fast, rollercoaster = alternating, steady = even")
+        x.add_argument("--palette", choices=["natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"],
+                       help="Colour grade (default: auto per style, rotated)")
         x.add_argument("--layout", choices=["full", "split"], help="split = story on top, satisfying loop below (vertical only)")
         x.add_argument("--captions", choices=["line", "words", "box"], help="Caption mode (default follows the style)")
         x.add_argument("--pack", action=argparse.BooleanOptionalAction, default=(x is wm),

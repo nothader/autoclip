@@ -666,3 +666,89 @@ def test_toon_keeps_shader_skies_and_survives_scene_switch(tmp_path):
     from PIL import Image
     top = Image.open(tmp_path / "f" / "000015.png").convert("RGB").getpixel((90, 8))
     assert sum(top) > 300, top   # 天空保持浅蓝渐变，而不是被卡通材质染暗
+
+
+# ---------------------------------------------------------------- cinema: moves, transitions, flows, sound
+def _cine_sb(n=12, **theme):
+    beats = [{"duration": 3, "scene": "custom", "camera": "dolly", "subject": {"type": "none"}, "caption": f"Beat {i} is here.",
+              "env": {"set": {"ground": "plane", "objects": [{"kind": "box"}]}}} for i in range(n)]
+    return Storyboard.model_validate({"format": "timeline", "title": "cine test", "premise": "p", "clock": {"mode": "none"},
+                                      "theme": theme, "beats": beats, "outro": {"chart": False}, "pace": 1.8})
+
+
+def test_cinema_assigns_varied_moves_and_transitions_deterministically():
+    from backend.whatif.cinema import assign, MOVES, TRANSITIONS
+    sb = _cine_sb(16, flow="punchy")
+    a, b = assign(sb), assign(sb)
+    assert a == b                                            # 纯函数，可复现
+    assert all(x["move"] in MOVES and x["tr"] in TRANSITIONS for x in a)
+    assert a[0]["tr"] == "cut"                               # 第一镜在标题下
+    assert all(a[i]["move"] != a[i + 1]["move"] for i in range(len(a) - 1))   # 相邻不重复
+    assert len({x["move"] for x in a}) >= 4 and len({x["tr"] for x in a}) >= 3
+    sb2 = sb.model_copy(update={"beats": [sb.beats[0].model_copy(update={"move": "dutch", "transition": "glitch"})] + sb.beats[1:]})
+    assert assign(sb2)[0]["move"] == "dutch"                 # 写死的优先
+    w = _cine_sb(6, style="witness")
+    w = w.model_copy(update={"beats": [b.model_copy(update={"camera": "witness"}) for b in w.beats]})
+    assert {x["move"] for x in assign(w)} == {"none"}        # 目击者视角固定
+
+
+def test_flow_shapes_rhythm_and_plan_carries_cinema():
+    from backend.whatif.model import apply_pace
+    build = [b.duration for b in apply_pace(_cine_sb(12, flow="build")).beats]
+    steady = [b.duration for b in apply_pace(_cine_sb(12, flow="steady")).beats]
+    assert build[0] > build[-1] and len(set(steady)) == 1   # build：越剪越快；steady：平稳
+    plan = compile_plan(_cine_sb(10, flow="punchy", palette="noir"))
+    assert plan["theme"]["flow"] == "punchy" and "grayscale" in plan["theme"]["palette_css"]
+    assert all("move" in b and "tr" in b for b in plan["beats"])
+    trs = [f["tr"] for f in plan["frames"] if f.get("tr")]
+    assert trs and all(0 <= t["p"] <= 1 for t in trs)
+    kinds = {e["type"] for e in plan["audio"]}
+    assert "whoosh" in kinds and ({"impact", "glitch"} & kinds)   # 转场 / 运镜自动配声
+
+
+def test_new_effects_get_matching_sounds():
+    sb = _cine_sb(4)
+    beats = [b.model_copy(update={"effects": [fx]}) for b, fx in zip(sb.beats, ["explosion", "sparks", "confetti", "lightning"])]
+    plan = compile_plan(sb.model_copy(update={"beats": beats}))
+    kinds = {e["type"] for e in plan["audio"]}
+    assert {"boom", "debris", "sparkle", "pop", "thunder"} <= kinds
+    assert any(f.get("lightning") for f in plan["frames"])
+
+
+def test_variety_rotates_flow_and_palette_against_history():
+    from backend.whatif.cinema import resolve_variety
+    sb = _cine_sb(3, style="cinematic")
+    hist = [{"flow": "build", "palette": "noir"}, {"flow": "punchy", "palette": "teal_orange"}]
+    got = resolve_variety(sb, hist).theme
+    assert got.flow not in ("build", "punchy") and got.palette not in ("noir", "teal_orange")
+    fixed = resolve_variety(sb.model_copy(update={"theme": sb.theme.model_copy(update={"flow": "build"})}), hist).theme
+    assert fixed.flow == "build"                             # 用户指定的不改
+
+
+def test_audio_synthesizes_new_events():
+    from backend.whatif import audio as A
+    for k in ("debris", "sparkle", "pop", "glitch", "shimmer"):
+        x = A.EVENT_FUNCS[k](3)
+        assert len(x) > 1000 and 0.05 < float(abs(x).max()) < 1.0
+    assert len(A._whoosh(1, 0.5)) == int(0.5 * A.SR)
+
+
+def test_cinema_effects_and_moves_render(tmp_path):
+    """每种新特效 + 运镜 + 转场都渲一帧（含转场中途），页面不报错。"""
+    pytest.importorskip("playwright")
+    from backend.whatif.render import render_frames
+    fxs = ["explosion", "sparks", "confetti", "lightning", "rays", "glitch", "bloom"]
+    moves = ["swoop_in", "spiral", "fly_by", "dutch", "whip", "drone_rise", "arc_left"]
+    trs = ["cut", "whip", "flash", "zoom", "dip", "glitch", "whip"]
+    sb = _cine_sb(7, style="bold")
+    beats = [b.model_copy(update={"effects": [f], "move": m, "transition": t, "duration": 1.0}) for b, f, m, t in zip(sb.beats, fxs, moves, trs)]
+    beats.append(beats[0].model_copy(update={"scene": "globe", "env": None, "move": "swoop_in", "transition": "flash"}))
+    plan = compile_plan(sb.model_copy(update={"beats": beats, "pace": 1.0}))
+    frames = [int((b["start"] + d) * plan["fps"]) for b in plan["beats"] for d in (0.1, 0.6)]
+    try:
+        errs = render_frames(plan, tmp_path / "f", width=180, height=320, frames=frames, workers=1, fmt="png")
+    except RuntimeError as e:
+        if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs

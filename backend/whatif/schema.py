@@ -34,10 +34,15 @@ Effect = Literal[
     "motion_blur", "heat", "plasma", "speedlines", "shake", "shockwave",
     "dust", "vapor_cone", "glow", "flash",
     "fire", "smoke", "embers", "earthquake", "vanish", "freeze", "darken",
+    "explosion", "sparks", "confetti", "lightning", "rays", "glitch", "bloom",
 ]
+Move = Literal["none", "swoop_in", "swoop_out", "crane_up", "crane_down", "arc_left", "arc_right", "push_in", "pull_out",
+               "whip", "dutch", "drone_rise", "fly_by", "spiral"]
+Transition = Literal["cut", "whip", "flash", "zoom", "dip", "glitch"]
 SfxType = Literal[
     "whoosh", "boom", "riser", "impact", "tick", "swell", "drop",
     "rumble", "alarm", "heartbeat", "crack", "ring", "beep", "siren", "thunder",
+    "debris", "sparkle", "pop", "glitch", "shimmer",
 ]
 QuantityKind = Literal["speed", "length", "mass", "temperature", "count", "generic"]
 TimeOfDay = Literal["day", "golden", "dusk", "night", "dawn"]
@@ -293,6 +298,8 @@ class Theme(_Strict):
     layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
     # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
     anchor: Optional[Literal["none", "coffee", "drink"]] = None
+    flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
+    palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"
 
 class Sfx(_Strict):
     type: SfxType
@@ -327,6 +334,8 @@ class Beat(_Strict):
     banner: Optional[Banner] = None
     screen: Optional[Screen] = None
     narration: Optional[str] = None  # 旁白文本；None = 读字幕（开启旁白时），"" = 这段不念
+    move: Optional[Move] = None      # 本段镜头运动；None = 按 flow 自动挑
+    transition: Optional[Transition] = None   # 进入本段的转场；None = 自动
     @field_validator("caption")
     @classmethod
     def _caption_len(cls, v: str) -> str:

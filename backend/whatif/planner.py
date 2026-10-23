@@ -127,6 +127,20 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
 - theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
   bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
 
+CINEMATOGRAPHY (make it feel like a film, never a slideshow)
+- Every beat gets an automatic camera move and transition chosen by theme.flow, so you only override when the story
+  needs a specific one. beat.move: swoop_in (dive in from high and far), swoop_out, crane_up, crane_down, arc_left,
+  arc_right, push_in, pull_out, whip, dutch (tilted, uneasy), drone_rise, fly_by, spiral, none.
+  beat.transition (into this beat): cut, whip (motion-blur pan), flash (white hit), zoom (punch-in blur), dip (from
+  black: big time jumps, sad moments), glitch (digital, tech topics).
+- Use the big effects at the story's peaks, not everywhere: explosion, sparks, confetti (celebrations), lightning,
+  rays (hope, revelation), glitch (systems failing), bloom (dreamy, warm), plus the older ones (shockwave, fire, smoke,
+  shake, earthquake, flash, darken, vanish, freeze ...). Every effect, move and transition gets matching sound.
+- theme.flow sets the rhythm: build (cuts speed up toward the climax), punchy (fast cuts with hits), slowburn (slow,
+  tense start, then fast), rollercoaster (alternating), steady. theme.palette sets the grade: natural, warm, cool,
+  teal_orange, vivid, pastel, mono, noir. Leave both "auto" unless the topic clearly wants one: the tool rotates them
+  so consecutive videos never look or move the same.
+
 PRODUCTION LESSONS (learned from earlier videos; visual rules are checked automatically and sent back to you)
 - Never boring: every cut must look clearly different (new place, camera, time of day, weather or set). No more than
   2 shots in a row with the same scene and camera (witness style excepted). Something must move in every shot

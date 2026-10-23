@@ -242,7 +242,8 @@ export function drawOverlay(fr, plan) {
     en.style.opacity = e.a;
   }
   // fact 结尾卡压在纯黑上
-  $("#darken").style.opacity = Math.max(fr.darken || 0, fr.end && fr.end.kind === "fact" ? fr.end.a : 0);
+  const tr = fr.tr && !fr.tr.out ? fr.tr : null;   // 转场：dip 从黑场淡入；flash 白闪
+  $("#darken").style.opacity = Math.max(fr.darken || 0, fr.end && fr.end.kind === "fact" ? fr.end.a : 0, tr && tr.k === "dip" ? (1 - tr.p) ** 1.5 : 0);
   const mp = $("#map");
   show(mp, !!fr.map);
   if (fr.map) drawMap(mp, fr.map);
@@ -255,7 +256,7 @@ export function drawOverlay(fr, plan) {
     ch.style.opacity = fr.chart.a;
   }
 
-  $("#flash").style.opacity = fr.flash || 0;
+  $("#flash").style.opacity = Math.max(fr.flash || 0, tr && tr.k === "flash" ? (1 - tr.p) ** 1.8 : 0);
   // 进度条（bold / retro）与胶片颗粒抖动（cinematic）
   if (plan.duration) $("#prog").style.width = `${Math.min(100, (fr.t || 0) / plan.duration * 100).toFixed(2)}%`;
   const gi = Math.floor((fr.t || 0) * 24) % 7;

@@ -389,12 +389,13 @@ def lightning(beat_index: int, lt: float) -> float:
     return 0.0
 
 
-def _style_sfx(sb: Storyboard, secs) -> List[Dict[str, Any]]:
-    """风格附带的转场音效：bold / retro 每次切镜一个 whoosh。"""
+def _style_sfx(sb: Storyboard, secs, cine=None) -> List[Dict[str, Any]]:
+    """风格附带的切镜音效：bold / retro 在硬切（没有转场音）时补一个 whoosh。"""
     if sb.theme.style not in ("bold", "retro"):
         return []
     gain = 0.45 if sb.theme.style == "bold" else 0.3
-    return [{"type": "whoosh", "t": s.start, "gain": gain} for s in secs if s.kind == "beat" and s.start > 0.5]
+    return [{"type": "whoosh", "t": s.start, "gain": gain} for s in secs
+            if s.kind == "beat" and s.start > 0.5 and (cine is None or cine[s.index]["tr"] == "cut")]
 
 
 def readable_seconds(caption: Optional[str]) -> float:
@@ -407,12 +408,16 @@ def apply_pace(sb: Storyboard) -> Storyboard:
     pace = sb.pace or 1.0
     if abs(pace - 1.0) < 1e-6:
         return sb
+    from .cinema import flow_factor, resolve_flow
     out = sb.model_copy(deep=True)
+    flow = resolve_flow(sb)
+    n = len(out.beats)
     sim = 0.0
-    for b in out.beats:
+    for i, b in enumerate(out.beats):
         sim = b.sim_end if b.sim_end is not None else sim + b.duration
         b.sim_end = sim          # 模拟时间不随节奏变（数字、里程碑保持原样），只是放得更快
-        b.duration = round(max(b.duration / pace, readable_seconds(b.caption), 0.8), 3)
+        # flow 决定节奏的起伏（越剪越快 / 快切 / 先慢后快…），但不短于字幕可读下限
+        b.duration = round(max(b.duration / pace * flow_factor(flow, i, n), readable_seconds(b.caption), 0.8), 3)
     out.intro.duration = round(max(1.6, out.intro.duration / pace), 3)
     out.outro.question_duration = round(max(2.2, out.outro.question_duration / max(1.0, pace * 0.75)), 3)
     return out
@@ -431,6 +436,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     fps = sb.fps
     n_frames = int(round(total * fps))
     beat_secs = [s for s in secs if s.kind == "beat"]
+    from .cinema import assign, cinema_sfx, transition_frame, transition_out, TR_OUT, resolve_flow, resolve_palette, PALETTE_CSS
+    cine = assign(sb)
     clock = sb.clock if (sb.clock and sb.clock.mode != "none") else None
 
     def sim_to_video(sim: float) -> Optional[float]:
@@ -512,6 +519,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "banner": b.banner.model_dump() if b.banner else None,
             "screen": b.screen.model_dump() if b.screen else None,
             "narration": fill(b.narration, ph) if b.narration is not None else None,
+            **cine[s.index],
         })
 
     frames: List[Dict[str, Any]] = []
@@ -653,12 +661,18 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 card = bo["card"]
                 fr["card"] = {**card,
                               "a": round(min(1.0, lt / 0.35, (s.duration - lt) / FADE), 3)}
+            # 转场：本段开头的"入"，以及下一段甩镜 / 冲推在本段末尾的"出"
+            trf = transition_frame(cine[s.index]["tr"], lt) if s.index > 0 else None
+            if s.index + 1 < len(cine) and trf is None:
+                trf = transition_out(cine[s.index + 1]["tr"], s.duration - lt)
+            if trf:
+                fr["tr"] = trf
             if "flash" in b.effects and lt < 0.5:
                 fr["flash"] = round(1 - lt / 0.5, 3)
             if "darken" in b.effects:
                 fr["darken"] = round(min(1.0, max(0.0, (frac - 0.4) / 0.6)), 3)
             env_d = bo["env"]
-            if env_d.get("weather") == "storm":
+            if env_d.get("weather") == "storm" or "lightning" in b.effects:
                 li = lightning(s.index, lt)
                 if li > 0:
                     fr["lightning"] = round(li, 3)
@@ -719,11 +733,13 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         if clock and clock.mode == "elapsed" and isinstance(bo["time"], str) and s.index > 0 \
                 and beats_out[s.index - 1]["time"] != bo["time"]:
             audio_events.append({"type": "tick", "t": s.start, "gain": 0.45})
-        if bo["env"].get("weather") == "storm":
+        if bo["env"].get("weather") == "storm" or "lightning" in b.effects:
             for k0 in lightning_times(s.index, s.duration):
                 audio_events.append({"type": "thunder", "t": s.start + k0 + 0.35, "gain": 0.8})
     for p in pops:
         audio_events.append({"type": "whoosh", "t": p["t0"], "gain": 0.55})
+    audio_events += cinema_sfx(cine, [(s.start, s.duration) for s in beat_secs],
+                               lambda i: [e for e in sb.beats[i].effects if e != "lightning"])
     if sb.outro.question or sb.outro.end:
         audio_events.append({"type": "drop", "t": secs[-1].start, "gain": 0.9})
 
@@ -752,10 +768,11 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
         "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or STYLE_CAPTIONS[sb.theme.style],
+                  "flow": resolve_flow(sb), "palette": resolve_palette(sb), "palette_css": PALETTE_CSS[resolve_palette(sb)],
                   "anchor": sb.theme.anchor or ("coffee" if sb.theme.style == "witness" else "none")}, "chapters": chapters,
         "intro_duration": intro.duration,
         "end_start": secs[-1].start if secs[-1].kind == "question" else None,
         "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},
-        "beats": beats_out, "frames": frames, "audio": sorted(audio_events + _style_sfx(sb, secs), key=lambda e: e["t"]),
+        "beats": beats_out, "frames": frames, "audio": sorted(audio_events + _style_sfx(sb, secs, cine), key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,
     }

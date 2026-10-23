@@ -314,10 +314,80 @@ def _thunder(seed: int) -> np.ndarray:
     return (crack + roll) * 0.8
 
 
+def _debris(seed: int) -> np.ndarray:
+    """爆炸后碎石落地：一串随机的小撞击 + 沙沙声。"""
+    n = int(2.4 * SR)
+    r = _rng(seed)
+    out = np.zeros(n)
+    for k in range(28):
+        t0 = int(r.uniform(0.0, 1.9) ** 1.4 * SR)
+        m = int(0.06 * SR)
+        hit = _band(_noise(m, seed + k), 300, 5000) * np.exp(-np.arange(m) / SR / 0.012) * r.uniform(0.2, 0.9)
+        out[t0: t0 + m] += hit[: max(0, min(m, n - t0))]
+    t = np.arange(n) / SR
+    hiss = _norm(_band(_noise(n, seed + 99), 2000, 9000)) * np.exp(-t / 0.8) * 0.15
+    return (out + hiss) * 0.7
+
+
+def _sparkle(seed: int, dur: float = 2.5) -> np.ndarray:
+    """电焊 / 火花：密集的高频噼啪。"""
+    n = int(dur * SR)
+    r = _rng(seed)
+    pops = np.zeros(n)
+    idx = r.integers(0, n, size=int(dur * 140))
+    pops[idx] = r.uniform(0.2, 1, size=idx.size) * r.choice([-1, 1], size=idx.size)
+    t = np.arange(n) / SR
+    env = np.minimum(1, t / 0.05) * np.minimum(1, (dur - t) / 0.3)
+    buzz = _norm(_band(_noise(n, seed + 1), 3000, 9000)) * 0.25
+    return (_norm(_band(pops, 2500, 11000)) * 0.75 + buzz) * env * 0.5
+
+
+def _pop(seed: int) -> np.ndarray:
+    """彩带炮 / 气泡：短促的"啵" + 一点纸屑沙沙。"""
+    n = int(0.9 * SR)
+    t = np.arange(n) / SR
+    body = np.sin(2 * np.pi * (420 * t - 900 * t * t)) * np.exp(-t / 0.03)
+    snap = _band(_noise(n, seed), 1500, 9000) * np.exp(-t / 0.01)
+    rustle = _norm(_band(_noise(n, seed + 2), 3000, 10000)) * np.exp(-t / 0.35) * 0.18
+    return (body * 0.7 + snap * 0.6 + rustle) * 0.6
+
+
+def _glitch(seed: int) -> np.ndarray:
+    """数字故障：方波碎片 + 位压缩噪声的断续。"""
+    n = int(0.55 * SR)
+    r = _rng(seed)
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    pos = 0
+    while pos < n:
+        m = int(r.uniform(0.015, 0.07) * SR)
+        f = r.choice([180, 340, 720, 1450, 2900])
+        seg = np.sign(np.sin(2 * np.pi * f * np.arange(m) / SR)) * r.uniform(0.3, 1.0)
+        if r.random() < 0.4:
+            seg = np.round(_noise(m, int(r.integers(1, 1 << 30))) * 3) / 3
+        if r.random() < 0.25:
+            seg *= 0
+        out[pos: pos + m] += seg[: max(0, min(m, n - pos))]
+        pos += m
+    return out * np.minimum(1, (0.55 - t) / 0.05) * 0.22
+
+
+def _shimmer(seed: int, dur: float = 2.6) -> np.ndarray:
+    """光束 / 辉光：高处的泛音铃声慢慢铺开。"""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    tones = sum(np.sin(2 * np.pi * f * t + k) * (0.6 ** k) for k, f in enumerate((880, 1318.5, 1760, 2637)))
+    trem = 0.75 + 0.25 * np.sin(2 * np.pi * 5.5 * t)
+    env = np.minimum(1, t / 0.6) * np.minimum(1, (dur - t) / 1.2)
+    return tones * trem * env * 0.07
+
+
 EVENT_FUNCS = {"tick": _tick, "whoosh": _whoosh, "boom": _boom, "impact": _impact,
                "rumble": _rumble, "alarm": _alarm, "heartbeat": _heartbeat, "crack": _crack, "ring": _ring,
                "beep": _beep, "siren": _siren, "thunder": _thunder,
-               "riser": _riser, "swell": _swell, "drop": _drop}
+               "riser": _riser, "swell": _swell, "drop": _drop,
+               "debris": _debris, "sparkle": _sparkle, "pop": _pop, "glitch": _glitch, "shimmer": _shimmer}
+TIMED = {"rumble", "alarm", "siren", "heartbeat", "whoosh", "riser", "swell", "sparkle", "shimmer"}   # 接受 dur 的事件
 
 
 def _reverb(x: np.ndarray, seconds: float = 2.2, seed: int = 99) -> np.ndarray:
@@ -419,13 +489,13 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
         fn = EVENT_FUNCS.get(ev["type"])
         if not fn:
             continue
-        s = fn(1000 + i, ev["dur"]) if "dur" in ev and ev["type"] in ("rumble", "alarm", "siren", "heartbeat") else fn(1000 + i)
+        s = fn(1000 + i, max(0.25, float(ev["dur"]))) if "dur" in ev and ev["type"] in TIMED else fn(1000 + i)
         start = int(ev["t"] * SR)
         if start >= n:
             continue
         end = min(n, start + len(s))
         seg = s[: end - start] * ev.get("gain", 1.0)
-        pan = 0.0 if ev["type"] not in ("whoosh", "thunder") else (0.35 if i % 2 else -0.35)
+        pan = 0.0 if ev["type"] not in ("whoosh", "thunder", "debris", "sparkle", "glitch") else (0.35 if i % 2 else -0.35)
         fx[start:end, 0] += seg * (1 - pan) / 1.0
         fx[start:end, 1] += seg * (1 + pan) / 1.0
     wet = np.stack([_reverb(fx[:, 0], seed=5), _reverb(fx[:, 1], seed=6)], axis=1)

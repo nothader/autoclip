@@ -98,6 +98,25 @@ autoclip whatif render story.json --style bold --layout split
 autoclip whatif render story.json --style cinematic
 ```
 
+## 电影感：运镜、转场、特效、节奏、调色（`backend/whatif/cinema.py`）
+
+每一段自动配一个**镜头运动**和一个**进入本段的转场**（分镜里 `beat.move` / `beat.transition` 可以写死），
+由 `theme.flow` + 风格 + 段号确定性地挑：相邻两段不重复，章节开头用更重的转场（白闪 / 黑场）。
+
+| 类别 | 选项 |
+|---|---|
+| 运镜 `move` | `swoop_in` 从高远处俯冲进来 · `swoop_out` · `crane_up/down` · `arc_left/right` 绕主体转 · `push_in` · `pull_out` · `whip` 甩镜 · `dutch` 倾斜 · `drone_rise` 无人机升起 · `fly_by` 侧向掠过 · `spiral` 螺旋推进 · `none` |
+| 转场 `transition` | `cut` · `whip` 甩镜运动模糊 · `flash` 白闪重拍 · `zoom` 冲推模糊 · `dip` 黑场淡入 · `glitch` RGB 错位故障 |
+| 新特效 `effects` | `explosion` 火球 + 冲击环 + 碎块 + 烟 · `sparks` 火花 · `confetti` 彩带 · `lightning` 闪电 + 全屏闪光 · `rays` 光束 · `glitch` 周期性故障 · `bloom` 辉光 |
+| 节奏 `theme.flow` | `build` 越剪越快 · `punchy` 快切重拍 · `slowburn` 先慢后快 · `rollercoaster` 忽快忽慢 · `steady` 平稳（只在 pace≠1 时改镜头时长） |
+| 调色 `theme.palette` | `natural` · `warm` · `cool` · `teal_orange` · `vivid` · `pastel` · `mono` · `noir` |
+
+**声音跟着画面走**：甩镜 / 俯冲 / 掠过 → 有方向的 whoosh；白闪 → 重拍 + 低频；冲推 → 短 whoosh；黑场 → drop；
+故障 → 数字碎音；爆炸 → boom + 碎石落地；火花 → 噼啪；彩带 → 啵 + 铺底；闪电 → 炸裂 + 雷声；光束 / 辉光 → 泛音铃。
+
+**每支都不一样**：`flow` / `palette` 为 auto 时，会避开最近几支视频用过的（历史记在数据目录 `whatif/history.json`），
+`make` 写分镜时也会告诉模型最近用过的风格，让它换一个。CLI 可强制：`--flow punchy --palette noir`。
+
 ## 节奏（`--pace`，默认 1.8）
 
 渲染默认 1.8 倍节奏：每个镜头时长 ÷ 1.8（但不短于字幕可读下限 0.8 s + 0.028 s/字符），画面里的动作（自转、走路、抖动）

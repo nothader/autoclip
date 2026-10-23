@@ -63,6 +63,11 @@ def make_video(sb: Storyboard, out: Path, *, preview: bool = False, workers: int
                            progress=(lambda d, n: progress("frames", d, n)) if progress else None)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    try:   # 记进近期历史：下一支视频的 flow / palette / 风格会避开它
+        from .cinema import record_history
+        record_history(sb, plan["theme"])
+    except Exception:  # noqa: BLE001
+        pass
     out.with_suffix(".storyboard.json").write_text(
         json.dumps(sb.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
     res.update({"title": sb.title, "seconds": round(time.time() - t0, 1),

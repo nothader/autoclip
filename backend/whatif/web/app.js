@@ -6,6 +6,7 @@ import { Person, makeCrowd, updateCrowd } from "./people.js";
 import { drawOverlay, layout } from "./overlay.js";
 import { setEarthImage } from "./common.js";
 import { Satisfying } from "./satisfying.js";
+import { CineFX } from "./fx.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -25,6 +26,44 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 20000);
 const world = new World(scene);
 const effects = new Effects(scene);
+const cinefx = new CineFX(scene);
+const lastLook = new THREE.Vector3();
+
+// ---------- 电影感运镜：在基础机位上叠加本段的 move（按本段进度 u 缓动） ----------
+const easeIO = (u) => u * u * (3 - 2 * u);
+const easeOut = (u) => 1 - (1 - u) ** 3;
+function applyMove(move, u, mk, off, look, camPos) {
+  const R = off.length() || 1;
+  const e = easeIO(u), eo = easeOut(u);
+  let roll = 0, yaw = 0;
+  const rotY = (v, a) => v.applyAxisAngle(new THREE.Vector3(0, 1, 0), a);
+  switch (move) {
+    case "swoop_in": {   // 从高远处俯冲进来
+      const start = off.clone().multiplyScalar(1 + 1.6 * mk).add(new THREE.Vector3(0, R * 0.9 * mk, 0));
+      off.lerpVectors(start, off.clone(), eo); roll = (1 - eo) * 0.1 * mk; break;
+    }
+    case "swoop_out": {
+      const end = off.clone().multiplyScalar(1 + 1.3 * mk).add(new THREE.Vector3(0, R * 0.8 * mk, 0));
+      off.lerpVectors(off.clone().multiplyScalar(0.85), end, e); roll = -e * 0.06 * mk; break;
+    }
+    case "crane_up": off.y += R * mk * (-0.35 + 0.9 * e); break;
+    case "crane_down": off.y += R * mk * (0.6 - 0.9 * e); break;
+    case "arc_left": rotY(off, (-0.6 + 1.2 * e) * mk); break;
+    case "arc_right": rotY(off, (0.6 - 1.2 * e) * mk); break;
+    case "push_in": off.multiplyScalar(1 + mk * (0.3 - 0.6 * e)); break;
+    case "pull_out": off.multiplyScalar(1 + mk * (-0.3 + 0.7 * e)); break;
+    case "whip": yaw = (1 - Math.min(1, u / 0.22)) ** 2 * 1.1 * mk; off.multiplyScalar(1 - 0.15 * e * mk); break;
+    case "dutch": roll = (-0.5 + e) * 0.3 * mk; off.multiplyScalar(1 - 0.12 * e); break;
+    case "drone_rise": off.y += R * mk * 1.1 * e; off.multiplyScalar(1 + 0.35 * e * mk); look.y += R * 0.12 * e; break;
+    case "fly_by": {
+      const side = new THREE.Vector3(off.z, 0, -off.x).normalize();
+      off.multiplyScalar(0.8).addScaledVector(side, R * mk * (1.1 - 2.2 * e)); roll = (0.5 - e) * 0.12 * mk; break;
+    }
+    case "spiral": rotY(off, 1.5 * mk * e - 0.4 * mk); off.multiplyScalar(1.3 - 0.5 * e); off.y += R * 0.3 * (1 - e); roll = (1 - e) * 0.08; break;
+    default: break;
+  }
+  return { roll, yaw };
+}
 
 const subjects = new Map();
 let currentSubject = null;
@@ -80,10 +119,16 @@ function placeCamera(name, p, S, fr, beat, env) {
   const lt = fr.lt || 0;
   const fx = beat ? beat.effects : [];
   if (env && env.globe) {
-    const dist = { closeup: 36, front: 48, wide: 62, far: 84, establishing: 72, aerial: 54 }[name] ?? 50;
-    const a = name === "orbit" ? lt * 0.25 : 0.05 * lt;
-    camera.position.set(Math.sin(a) * dist, dist * 0.08, Math.cos(a) * dist * (1 - 0.03 * lt));
+    let dist = { closeup: 36, front: 48, wide: 62, far: 84, establishing: 72, aerial: 54 }[name] ?? 50;
+    let a = name === "orbit" ? lt * 0.25 : 0.05 * lt, elev = 0.08;
+    const u = Math.min(1, fr.frac || 0), mk = beat && beat.mk || 0.7, mv = beat && beat.move;
+    if (mv === "swoop_in" || mv === "push_in") dist *= 1 + (mv === "swoop_in" ? 1.4 : 0.35) * mk * (1 - easeOut(u));
+    if (mv === "swoop_out" || mv === "pull_out") dist *= 1 + 0.8 * mk * easeIO(u);
+    if (mv === "arc_left" || mv === "arc_right" || mv === "spiral") a += (mv === "arc_right" ? -1 : 1) * (easeIO(u) - 0.5) * 0.9 * mk;
+    if (mv === "swoop_in") elev += 0.5 * mk * (1 - easeOut(u));
+    camera.position.set(Math.sin(a) * dist, dist * elev, Math.cos(a) * dist * (1 - 0.03 * lt));
     camera.lookAt(0, 0, 0);
+    lastLook.set(0, 0, 0);
     camera.fov = 40; camera.near = 0.1; camera.far = 20000;
     camera.updateProjectionMatrix();
     return;
@@ -100,9 +145,11 @@ function placeCamera(name, p, S, fr, beat, env) {
   else if (name === "witness") { off.x += Math.sin(lt * 0.45) * 0.08 * S; off.y += Math.sin(lt * 0.31 + 1) * 0.05 * S; }
   else if (name === "establishing") off.multiplyScalar(1 - 0.12 * Math.min(1, lt / dur));
   else off.multiplyScalar(1 - 0.06 * Math.min(1, lt / dur));
-  camera.position.copy(p).add(off);
   const look = new THREE.Vector3(...c.look).multiplyScalar(S).add(p);
   if (name === "dolly" || name === "pov") look.z -= Math.min(lt, dur) * S;
+  const mv = beat && beat.move && beat.move !== "none" ? applyMove(beat.move, Math.min(1, fr.frac || 0), beat.mk || 0.7, off, look) : { roll: 0, yaw: 0 };
+  camera.position.copy(p).add(off);
+  if (mv.yaw) look.sub(camera.position).applyAxisAngle(new THREE.Vector3(0, 1, 0), mv.yaw).add(camera.position);
   if (fx.includes("shake") || fx.includes("earthquake")) {
     const amp = (fx.includes("earthquake") ? 0.16 : 0.04) * S * (1 + 2 * (fr.intensity || 0));
     camera.position.x += noise1(fr.t, 1) * amp;
@@ -116,6 +163,8 @@ function placeCamera(name, p, S, fr, beat, env) {
     camera.position.z = Math.max(b.z0, Math.min(b.z1, camera.position.z));
   }
   camera.lookAt(look);
+  lastLook.copy(look);
+  if (mv.roll) camera.rotateZ(mv.roll);
   if (fx.includes("earthquake")) camera.rotation.z += noise1(fr.t, 9) * 0.02;
   camera.fov = c.fov;
   camera.near = 0.05 * S;
@@ -314,9 +363,16 @@ function frame(i) {
   world.update(fr, p, S, beat, camera.position);
   renderer.toneMappingExposure = world.exposure || 1.0;
   effects.update(currentSubject, currentSubject ? currentSubject.meshes : null, fr, beat, camera);
+  // 特效中心：自定义布景用 focus（主体所在处），其它场景用镜头注视点
+  const fxCenter = env.custom ? new THREE.Vector3(...env.focus) : lastLook;
+  const fxFlash = env.globe ? 0 : cinefx.update(fr, beat, fxCenter, env.custom ? camScale : Math.max(1, S), camera);
+  const glow = document.getElementById("glow");
+  if (glow) glow.style.opacity = beat && beat.effects.includes("bloom") ? (0.55 + 0.15 * Math.sin((raw.t || 0) * 1.3)).toFixed(3) : "0";
   if (STYLE === "toon") toonify(scene);
   const grade = GRADE[STYLE] || "";
-  canvas.style.filter = (beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg) " : "") + grade || "none";
+  canvas.style.filter = [beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg)" : "", grade,
+    (plan.theme && plan.theme.palette_css) || "", post(raw, beat, fxFlash)].filter(Boolean).join(" ") || "none";
+  canvas.style.transform = postTransform(raw, beat);
   const split = plan.theme && plan.theme.layout === "split" && H > W;
   if (split) {
     // 分屏：上半故事、下半解压循环（各自一个视口）
@@ -337,6 +393,47 @@ function frame(i) {
   }
   drawOverlay(raw, plan);
   return true;
+}
+
+// ---------- 画面后期：转场（甩镜 / 冲推 / 故障）、辉光、闪光 ----------
+function glitchCss(seed, amt) {   // RGB 通道错位（SVG 滤镜 #rgbs，偏移量每帧改）+ 色相跳动
+  const r = (k) => { const x = Math.sin(seed * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };
+  const d = Math.round((10 + 30 * amt) * W / 1080);
+  const ro = document.getElementById("rgbs-r"), go = document.getElementById("rgbs-gb");
+  if (ro && go) { ro.setAttribute("dx", d); ro.setAttribute("dy", Math.round((r(2) - 0.5) * 6)); go.setAttribute("dx", -d); }
+  return `url(#rgbs) hue-rotate(${Math.round((r(1) - 0.5) * 70 * amt)}deg) contrast(${(1 + 0.2 * amt).toFixed(2)})`;
+}
+function glitchOn(fr, beat) {
+  if (fr.tr && fr.tr.k === "glitch") return 1 - (fr.tr.out ? 1 - fr.tr.p : fr.tr.p);
+  if (beat && beat.effects.includes("glitch")) { const ph = ((fr.lt || 0) * 2.2) % 1; return ph < 0.14 ? 1 - ph / 0.14 : 0; }
+  return 0;
+}
+function post(fr, beat, fxFlash) {
+  const out = [];
+  const tr = fr.tr;
+  if (tr && (tr.k === "whip" || tr.k === "zoom")) {
+    const s = tr.out ? tr.p ** 2 : (1 - tr.p) ** 2;
+    out.push(`blur(${(s * (tr.k === "whip" ? 26 : 14)).toFixed(1)}px)`);
+  }
+  const g = glitchOn(fr, beat);
+  if (g > 0) out.push(glitchCss(fr.f ?? Math.round((fr.t || 0) * 30), g));
+  if (beat && beat.effects.includes("bloom")) out.push("brightness(1.1) saturate(1.25) contrast(1.05)");
+  const li = Math.max(fxFlash || 0, fr.lightning ? fr.lightning * 0.6 : 0);
+  if (li > 0.01) out.push(`brightness(${(1 + li).toFixed(2)})`);
+  return out.join(" ");
+}
+function postTransform(fr, beat) {
+  const tr = fr.tr;
+  if (!tr) return "";
+  const dir = beat && beat.i % 2 ? -1 : 1;
+  if (tr.k === "whip") {
+    const s = tr.out ? -(tr.p ** 2) : (1 - tr.p) ** 2;
+    return `translateX(${(dir * s * 38).toFixed(2)}%) scale(${(1 + 0.12 * Math.abs(s)).toFixed(3)})`;
+  }
+  if (tr.k === "zoom") return `scale(${(1 + 0.4 * (tr.out ? tr.p ** 2 : (1 - tr.p) ** 2)).toFixed(3)})`;
+  if (tr.k === "flash") return `scale(${(1 + 0.06 * (1 - tr.p)).toFixed(3)})`;
+  if (tr.k === "glitch") { const g = glitchOn(fr, beat); return `translateX(${((Math.sin((fr.t || 0) * 97) > 0 ? 1 : -1) * g * 2.5).toFixed(2)}%)`; }
+  return "";
 }
 
 window.WHATIF = { frame, get plan() { return plan; } };

@@ -62,6 +62,8 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #chart { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
 #darken { position: absolute; inset: 0; background: #000; opacity: 0; }
+#glow { position: absolute; inset: 0; opacity: 0; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(ellipse 70% 50% at 50% 38%, rgba(255, 228, 190, 0.6), rgba(255, 228, 190, 0) 72%); }
 .caps { font-family: "Inter", sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
 /* 标题卡（title / chapter 样式） */
 #title { position: absolute; left: 60px; right: 60px; top: 260px; text-align: center; font-family: "WSerif", serif; }
@@ -216,6 +218,14 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 </head>
 <body>
 <canvas id="gl"></canvas>
+<svg width="0" height="0" style="position:absolute"><filter id="rgbs" x="-3%" y="-1%" width="106%" height="102%" color-interpolation-filters="sRGB">
+  <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="R"/>
+  <feOffset id="rgbs-r" in="R" dx="8" dy="0" result="R2"/>
+  <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="GB"/>
+  <feOffset id="rgbs-gb" in="GB" dx="-8" dy="0" result="GB2"/>
+  <feBlend in="R2" in2="GB2" mode="screen"/>
+</filter></svg>
+<div id="glow"></div>
 <div id="ov">
   <svg id="map" class="hidden" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0;width:1080px;height:1920px"></svg>
   <div id="hud" class="hidden shadow">
