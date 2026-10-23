@@ -43,11 +43,11 @@ function applyMove(move, u, mk, off, look, camPos) {
       off.lerpVectors(start, off.clone(), eo); roll = (1 - eo) * 0.1 * mk; break;
     }
     case "swoop_out": {
-      const end = off.clone().multiplyScalar(1 + 1.3 * mk).add(new THREE.Vector3(0, R * 0.8 * mk, 0));
+      const end = off.clone().multiplyScalar(1 + 0.8 * mk).add(new THREE.Vector3(0, R * 0.45 * mk, 0));   // 拉远但主体仍在画面里
       off.lerpVectors(off.clone().multiplyScalar(0.85), end, e); roll = -e * 0.06 * mk; break;
     }
     case "crane_up": off.y += R * mk * (-0.35 + 0.9 * e); break;
-    case "crane_down": off.y += R * mk * (0.6 - 0.9 * e); break;
+    case "crane_down": off.y += R * mk * (0.5 - 0.65 * e); break;
     case "arc_left": rotY(off, (-0.6 + 1.2 * e) * mk); break;
     case "arc_right": rotY(off, (0.6 - 1.2 * e) * mk); break;
     case "push_in": off.multiplyScalar(1 + mk * (0.3 - 0.6 * e)); break;
