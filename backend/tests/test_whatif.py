@@ -570,13 +570,17 @@ def test_auto_style_picks_by_topic():
 def test_planner_prompt_suggests_style_and_repairs_visual_problems():
     from backend.whatif.planner import build_prompt
     assert "SUGGESTED STYLE: witness" in build_prompt("What if a volcano erupted in Naples?")
-    good = json.loads(EXAMPLE_PATH.read_text(encoding="utf-8"))
+    good = _cine_sb(4).model_dump()   # 只有 4 段，不够 1 分钟 → 会被要求修一次，最后一次照样返回
+    good["pace"] = None
+    good["clock"] = {"mode": "elapsed"}
+    for k, b in enumerate(good["beats"]):
+        b["time"] = f"+{k + 1} DAY"
     calls = []
 
     def fake(prompt):
         calls.append(prompt)
         return json.dumps(good)
-    plan_storyboard("x", call=fake, max_repairs=1)   # 示例本身不够 1 分钟 → 会被要求修一次，最后一次照样返回
+    plan_storyboard("x", call=fake, max_repairs=1)
     assert len(calls) == 2 and "visual rule (length)" in calls[1]
 
 

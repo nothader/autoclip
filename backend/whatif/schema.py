@@ -390,7 +390,7 @@ class Storyboard(_Strict):
     height: int = 1920
     thumbnail: str = ""          # 封面大字（2-5 个词，*星号* 标出高亮词，如 "SNOW IN *DUBAI*?"）；空 = 从标题推
     thumbnail_beat: Optional[int] = None   # 封面用哪一段的画面；None = 自动挑最有冲击力的一段
-    pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.8 = 镜头短 1.8 倍、画面动作快 1.8 倍；None = 用渲染参数（默认 1.8）
+    pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.2 = 镜头短 1.2 倍、画面动作快 1.2 倍；None = 用渲染参数（默认 1.2）
 
     @model_validator(mode="after")
     def _check(self) -> "Storyboard":

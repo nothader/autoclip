@@ -5,7 +5,7 @@
 - 单调：连续好几段同一个场景 + 同一个机位 / 同一套布景（"no sex" 那支"无聊"的原因）
 - 静止：自定义布景里没有任何动的东西（没有 animate、人不走、没有特效）
 - 空镜：自定义布景没有物体也没有地面
-- 时长：竖屏短视频按 1.8x 节奏压完后不到 1 分钟；横屏长视频不到 4 分钟
+- 时长：竖屏短视频按默认节奏压完后不到 1 分钟；横屏长视频不到 4 分钟
 - 风格配套：witness 风格却不用 witness 机位 / 没有递增指标
 
 quality_report() 返回 hooks.Finding 列表；fix 级问题会和钩子问题一起回传给 planner 修。
@@ -52,7 +52,8 @@ def auto_style(premise: str) -> str:
 
 def _paced_seconds(sb: Storyboard) -> float:
     from .model import compile_plan
-    return float(compile_plan(sb.model_copy(update={"pace": sb.pace or 1.8}))["duration"])
+    from .model import DEFAULT_PACE
+    return float(compile_plan(sb.model_copy(update={"pace": sb.pace or DEFAULT_PACE}))["duration"])
 
 
 def _set_key(b) -> Optional[str]:
@@ -123,7 +124,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
     secs = _paced_seconds(sb)
     vertical = sb.height > sb.width
     if vertical and secs < SHORT_MIN_SECONDS:
-        f.append(Finding("fix", "length", "storyboard", f"About {secs:.0f}s at the 1.8x pace; vertical shorts should run 1 minute or more. "
+        f.append(Finding("fix", "length", "storyboard", f"About {secs:.0f}s at the default pace; vertical shorts should run 1 minute or more. "
                          "Add more beats (more events, more places), not longer ones."))
     if not vertical and secs < LONG_MIN_SECONDS:
         f.append(Finding("tip", "length", "storyboard", f"About {secs:.0f}s; long-form landscape videos work best at 5-6 minutes."))

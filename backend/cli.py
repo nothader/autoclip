@@ -426,8 +426,9 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             sb = load_storyboard(Path(args.storyboard))
         else:  # make
             sb = _whatif_plan(args)
-        if sb.pace is None:
-            sb = sb.model_copy(update={"pace": args.pace})
+        if sb.pace is None or args.pace is not None:
+            from backend.whatif.model import DEFAULT_PACE
+            sb = sb.model_copy(update={"pace": args.pace if args.pace is not None else DEFAULT_PACE})
         theme_up = {k: v for k, v in (("style", args.style), ("layout", args.layout), ("captions", args.captions),
                                       ("flow", args.flow), ("palette", args.palette)) if v}
         if theme_up:
@@ -572,8 +573,8 @@ def build_parser() -> argparse.ArgumentParser:
                        help="Also write a thumbnail, title/description/tags text and (for landscape long-form) a 1-minute "
                             "vertical short with its own thumbnail. On by default for make.")
         x.add_argument("--no-short", action="store_true", help="With --pack: skip the automatic vertical short")
-        x.add_argument("--pace", type=float, default=1.8,
-                       help="Edit pace multiplier (default 1.8): shots 1.8x shorter, motion 1.8x faster; captions stay readable. "
+        x.add_argument("--pace", type=float, default=None,
+                       help="Edit pace multiplier (default 1.2): shots 1.2x shorter, motion 1.2x faster; captions stay readable. "
                             "A storyboard's own \"pace\" wins. Use 1.0 for the original timing.")
     wc = wsub.add_parser("check", help="Check a storyboard against the hook/retention rules (specific, grade-3 reading level, 3-second hook, open loop, no fluff)")
     wc.add_argument("storyboard")

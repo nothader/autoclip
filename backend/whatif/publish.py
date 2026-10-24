@@ -4,7 +4,7 @@
 - hero_beat()：挑画面最有冲击力的一段（特效、天象、损毁、人多、靠近高潮）当封面
 - thumbnail()：把那一段单独渲一帧（去掉字幕 / HUD），压上 2-5 个词的大字（*星号* 词黄色高亮）
 - metadata()：YouTube / TikTok 用的标题、简介、章节时间戳、标签、置顶评论（结尾问题）
-- make_short()：横屏长视频 → 竖屏 ~1 分钟短版（挑信息量最大的段落，按 1.8x 节奏凑够时长，去掉旁白）
+- make_short()：横屏长视频 → 竖屏 ~1 分钟短版（挑信息量最大的段落，按默认节奏凑够时长，去掉旁白）
 
 全部是确定性的模板 / 启发式，不调模型；planner 写的 storyboard.thumbnail 优先。
 """
@@ -21,7 +21,8 @@ FONT_DIR = Path(__file__).parent / "web" / "fonts"
 THUMB_FONT = FONT_DIR / "InterDisplay-Black.otf"
 HIGHLIGHT = (255, 212, 59)       # 封面高亮词（平台封面惯例的亮黄，只用于封面，不用于 App UI）
 SHORT_TARGET = 62.0              # 短版目标时长（秒，按节奏压缩后）
-SHORT_PACE = 1.8                 # 短版总是 1.8x（长视频可能是 1x，短视频不跟着慢）
+from .model import DEFAULT_PACE
+SHORT_PACE = DEFAULT_PACE        # 短版用默认节奏（长视频可能是 1x，短视频不跟着慢）
 LEAD_WORDS = {"it", "the", "a", "an", "we", "you", "there", "our", "your", "i"}
 TRAIL_WORDS = {"and", "or", "of", "in", "the", "a", "an", "to", "with", "for", "on", "at", "instead"}
 STOP = LEAD_WORDS | TRAIL_WORDS | {"what", "if", "was", "were", "is", "are", "be", "been", "had", "has", "have", "could",
