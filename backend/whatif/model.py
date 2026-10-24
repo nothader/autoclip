@@ -708,7 +708,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         b = s.beat
         bo = beats_out[s.index]
         for x in b.sfx:
-            audio_events.append({"type": x.type, "t": s.start + x.at, "gain": x.gain})
+            audio_events.append({"type": x.type, "t": s.start + x.at, "gain": x.gain, **({"dur": x.dur} if x.dur else {})})
         if "shockwave" in b.effects or "vapor_cone" in b.effects:
             audio_events.append({"type": "boom", "t": s.start + 0.05, "gain": 1.0})
         if "flash" in b.effects:

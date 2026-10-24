@@ -305,6 +305,7 @@ class Sfx(_Strict):
     type: SfxType
     at: float = 0.0              # 相对本段开始的秒数
     gain: float = 1.0
+    dur: Optional[float] = Field(default=None, gt=0, le=20)   # 可选：持续时长（whoosh / riser / rumble / heartbeat / alarm … 适用）
 
 
 class Beat(_Strict):
