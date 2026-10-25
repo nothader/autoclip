@@ -21,6 +21,7 @@ Post the Halloween ones first, since that trend ends Oct 31.
 | 8 | Sun Nov 1 | 09 Carrington solar storm | Solar max / aurora season, clocks go back |
 | 9 | Mon Nov 2 | 08 Internet down for 24h | Outage stories (Starlink, cloud outages) |
 | 10 | Tue Nov 3 | 05 Earth had Saturn's rings | Saturn season (opposition Oct 4) |
+| 11 | Wed Nov 4 (or Nov 19) | 11 Toilets didn't exist | World Toilet Day is Nov 19; gross-out curiosity |
 
 ## Captions
 
@@ -54,6 +55,9 @@ It happened in 1859. The Sun is at peak activity right now ☀️ #whatif #solar
 **10 — Everyone on Earth jumps at once**
 Earth moves less than one atom 🤯 #whatif #science #physics #earth #hypothetical
 
+**11 — Toilets didn't exist**
+You'd miss it within the hour 🚽 #whatif #toilet #science #history #worldtoiletday
+
 ## How to grow from these
 
 - **The question on the end card is the comment prompt.** Pin a comment answering it yourself.
@@ -74,3 +78,4 @@ Earth moves less than one atom 🤯 #whatif #science #physics #earth #hypothetic
 - 08: 5.5B+ internet users (ITU); July 2024 CrowdStrike update crashed ~8.5M Windows machines; GPS works without the internet.
 - 09: Carrington Event 1859: ~17.6 h Sun-to-Earth, auroras seen in the Caribbean; March 1989 Quebec blackout, 6M people, ~9 h; Solar Cycle 25 near its peak.
 - 10: ~8.2B people; humanity packed together fits in roughly a small US state's area (xkcd "Everybody Jump"); Earth's mass is ~10^13× all humans combined, so it moves less than an atom's width.
+- 11: 1854 John Snow / Broad Street pump cholera outbreak (Soho, London); 1858 Great Stink led to London's sewers; ~3.5B people lack safely managed sanitation (WHO/UNICEF JMP 2022); 2007 BMJ poll voted sanitation the greatest medical milestone since 1840.

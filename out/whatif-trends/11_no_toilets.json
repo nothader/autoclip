@@ -1,0 +1,22 @@
+{
+  "format": "timeline",
+  "title": "What if toilets didn't exist?",
+  "premise": "Every toilet and sewer on Earth disappears at once.",
+  "theme": {"accent": "#5aa9e6"},
+  "clock": {"mode": "elapsed", "label": "WITHOUT TOILETS", "intro_label": "TOILETS VANISH IN", "intro_from": 5},
+  "intro": {"style": "title", "title": "What if *toilets* didn't exist?", "icon": "drop", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "city", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "day", "crowd": 0.7}},
+    {"duration": 3.6, "scene": "interior", "camera": "pov", "env": {"room": "home"}, "time": "+0 SEC", "caption": "Every toilet on Earth vanishes. Including the one you were about to use."},
+    {"duration": 3.6, "scene": "interior", "camera": "wide", "env": {"room": "office"}, "cast": [{"outfit": "suit", "count": 10, "action": "walk", "layout": "line", "distance": 6}], "time": "+1 HOUR", "caption": "Offices, schools and malls suddenly have nowhere for anyone to go."},
+    {"duration": 3.6, "scene": "park", "camera": "wide", "env": {"time": "day", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 12, "action": "run", "layout": "scatter", "distance": 7}], "time": "+3 HOURS", "caption": "Parks, alleys and bushes become the only option."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "day", "crowd": 0.3, "weather": "fog"}, "time": "+1 DAY", "stat": {"value": "8.2B", "label": "PEOPLE NEED TO GO EVERY DAY", "count_up": false}, "caption": "Cities of millions have no way to get rid of their waste."},
+    {"duration": 3.8, "scene": "coast", "camera": "establishing", "env": {"weather": "rain"}, "time": "+3 DAYS", "caption": "The first heavy rain washes it all into rivers, lakes and drinking water."},
+    {"duration": 3.8, "scene": "map", "camera": "top_down", "env": {"map": {"style": "paper", "labels": [{"x": 0.5, "y": 0.45, "text": "BROAD STREET PUMP"}, {"x": 0.3, "y": 0.7, "text": "SOHO, LONDON"}], "zone": {"x": 0.5, "y": 0.45, "text": "CHOLERA"}, "zone_radius": 0.18}}, "time": "+1 WEEK", "tooltip": {"label": "REAL EVENT", "text": "1854: John Snow traced a deadly London cholera outbreak to one water pump contaminated by sewage."}, "caption": "This is exactly how cholera spreads."},
+    {"duration": 3.8, "scene": "interior", "camera": "wide", "env": {"room": "hospital"}, "cast": [{"outfit": "doctor", "count": 3, "action": "walk", "layout": "scatter", "distance": 5}, {"outfit": "casual", "count": 6, "action": "lie", "layout": "row", "distance": 6}], "time": "+2 WEEKS", "banner": {"title": "DISEASE OUTBREAKS SPREAD", "subtitle": "Hospitals overwhelmed in major cities"}, "caption": "Hospitals fill up with diseases most countries forgot about."},
+    {"duration": 3.8, "scene": "city", "camera": "aerial", "env": {"time": "dusk", "crowd": 0.1, "weather": "fog"}, "time": "+1 MONTH", "tooltip": {"label": "REAL EVENT", "text": "In 1858, sewage in the Thames caused 'The Great Stink' and forced London to build modern sewers."}, "caption": "The smell alone would make big cities almost unlivable."},
+    {"duration": 4.0, "scene": "globe", "camera": "wide", "env": {"globe": {"focus": [10, 40], "markers": [{"lat": 22, "lon": 80, "kind": "glow", "radius": 14}, {"lat": 5, "lon": 20, "kind": "glow", "radius": 18}]}}, "time": "TODAY", "stat": {"value": "3.5B", "label": "PEOPLE ALREADY LACK SAFELY MANAGED SANITATION (WHO/UNICEF)", "count_up": false}, "caption": "For billions of people, this isn't a what-if."},
+    {"duration": 4.0, "scene": "city", "camera": "establishing", "env": {"time": "golden", "crowd": 0.6}, "time": "TODAY", "tooltip": {"label": "FACT", "text": "In a 2007 BMJ poll, sanitation was voted the greatest medical milestone since 1840."}, "caption": "The toilet may have saved more lives than any medicine."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "question", "lines": ["HOW LONG", "COULD YOU HOLD IT?"], "accent_line": 1}}
+}
