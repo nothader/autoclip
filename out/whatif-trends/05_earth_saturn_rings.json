@@ -1,0 +1,19 @@
+{
+  "format": "story",
+  "title": "What if Earth had rings like Saturn?",
+  "premise": "Earth suddenly has a wide, bright ring system made of ice and rock, like Saturn's.",
+  "theme": {"accent": "#e8b04b"},
+  "intro": {"style": "title", "title": "What if Earth had *rings* like Saturn?", "icon": "earth", "subtitle": "A HYPOTHETICAL SCENARIO", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "globe", "camera": "orbit", "subject": {"type": "none"}, "env": {"globe": {"ring": true, "focus": [10, -30]}}},
+    {"duration": 3.8, "scene": "deep_space", "camera": "wide", "chapter": "Saturn's Secret", "tooltip": {"label": "FACT", "text": "Saturn's main rings are mostly water ice, and in places only about 10 meters thick."}, "caption": "Saturn's rings are huge, but incredibly thin."},
+    {"duration": 3.8, "scene": "globe", "camera": "wide", "env": {"globe": {"ring": true, "focus": [0, 0]}}, "chapter": "A Ringed Earth", "caption": "Now give Earth a ring just like it, circling above the equator."},
+    {"duration": 3.8, "scene": "coast", "camera": "establishing", "env": {"time": "day"}, "chip": "FROM THE EQUATOR", "caption": "Standing right on the equator, you'd see the ring edge-on: a thin line straight overhead."},
+    {"duration": 3.8, "scene": "city", "camera": "low_front", "env": {"time": "dusk", "crowd": 0.5}, "cast": [{"outfit": "casual", "count": 10, "action": "point", "layout": "crowd", "distance": 7}], "chip": "FROM YOUR CITY", "caption": "Farther north or south, it becomes a giant glowing arch across the sky."},
+    {"duration": 3.8, "scene": "fields", "camera": "establishing", "env": {"time": "night"}, "chip": "AT NIGHT", "caption": "Lit by the Sun, the ring would make nights far brighter than they are today."},
+    {"duration": 4.0, "scene": "mountains", "camera": "wide", "env": {"time": "day", "weather": "snow"}, "effects": ["freeze"], "chapter": "The Shadow", "chip": "WINTER", "caption": "In winter, the ring could cast its shadow over half a hemisphere, making winters colder."},
+    {"duration": 4.0, "scene": "orbit", "camera": "side", "effects": ["flash"], "chapter": "Trouble In Orbit", "sfx": [{"type": "impact", "at": 0.6}], "caption": "Satellites would have to avoid the ring, or get shredded crossing it."},
+    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"ring": true, "night_side": true, "focus": [20, -60]}}, "tooltip": {"label": "REAL SCIENCE", "text": "Some scientists think Earth may have had a ring of its own about 466 million years ago."}, "caption": "And it may have happened before."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.2, "end": {"kind": "question", "lines": ["WHERE WOULD YOU", "WANT TO WATCH IT?"], "accent_line": 0}}
+}

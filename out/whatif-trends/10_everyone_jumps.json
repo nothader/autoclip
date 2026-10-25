@@ -1,0 +1,20 @@
+{
+  "format": "countdown",
+  "title": "What if everyone on Earth jumped at the same time?",
+  "premise": "All 8 billion people gather in one place and jump at exactly the same moment.",
+  "theme": {"accent": "#5aa9e6"},
+  "clock": {"mode": "countdown", "label": "EVERYONE JUMPS IN", "intro_label": "EVERYONE JUMPS IN", "intro_from": 3},
+  "intro": {"style": "title", "title": "What if *everyone on Earth* jumped at once?", "icon": "people", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "fields", "camera": "establishing", "subject": {"type": "none"}, "env": {"crowd": 1}},
+    {"duration": 3.8, "scene": "globe", "camera": "wide", "env": {"globe": {"markers": [{"lat": 41.6, "lon": -71.5, "label": "EVERYONE", "kind": "glow", "radius": 4}], "focus": [35, -60]}}, "time": [10.0, 8.0], "stat": {"value": "8.2B", "label": "PEOPLE ON EARTH", "count_up": false}, "caption": "First, we get every human on Earth into one place."},
+    {"duration": 3.6, "scene": "fields", "camera": "aerial", "cast": [{"outfit": "casual", "count": 80, "action": "idle", "layout": "crowd", "distance": 8}], "time": [8.0, 5.0], "tooltip": {"label": "FACT", "text": "Packed shoulder to shoulder, all of humanity would fit in an area about the size of a small US state."}, "caption": "Packed tight, we'd take up surprisingly little space."},
+    {"duration": 3.6, "scene": "fields", "camera": "low_front", "cast": [{"outfit": "casual", "count": 40, "action": "idle", "layout": "crowd", "distance": 6}], "time": [5.0, 1.0], "sfx": [{"type": "tick", "at": 0.5}, {"type": "tick", "at": 1.5}, {"type": "tick", "at": 2.5}], "caption": "Everyone gets ready..."},
+    {"duration": 3.6, "scene": "fields", "camera": "wide", "cast": [{"outfit": "casual", "count": 40, "action": "fly", "layout": "crowd", "distance": 6}], "time": [1.0, 0.0], "caption": "...and jumps."},
+    {"duration": 3.8, "scene": "fields", "camera": "low_front", "effects": ["shake", "dust", "shockwave"], "time": "LANDING", "sfx": [{"type": "boom", "at": 0.3}, {"type": "rumble", "at": 0.5}], "caption": "Eight billion people land at once. There's a deafening thud."},
+    {"duration": 3.8, "scene": "globe", "camera": "front", "env": {"globe": {"focus": [35, -60]}}, "time": "LANDING", "tooltip": {"label": "THE MATH", "text": "Earth is over ten trillion times heavier than all humans combined."}, "caption": "And Earth moves less than the width of a single atom."},
+    {"duration": 3.8, "scene": "highway", "camera": "aerial", "env": {"traffic": 1}, "time": "+1 HOUR", "caption": "The real disaster? Eight billion people trying to get home at the same time."},
+    {"duration": 3.6, "scene": "fields", "camera": "wide", "env": {"time": "dusk"}, "time": "+1 WEEK", "caption": "Earth wouldn't even notice we jumped."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "question", "lines": ["WOULD YOU", "JUMP?"], "accent_line": 1}}
+}

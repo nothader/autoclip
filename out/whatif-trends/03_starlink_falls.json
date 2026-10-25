@@ -1,0 +1,20 @@
+{
+  "format": "story",
+  "title": "What if every Starlink satellite fell at once?",
+  "premise": "All of the more than 10,000 Starlink satellites drop out of orbit on the same night.",
+  "theme": {"accent": "#5aa9e6"},
+  "intro": {"style": "title", "title": "What if every *Starlink* satellite fell at once?", "icon": "rocket", "subtitle": "A HYPOTHETICAL SCENARIO", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "orbit", "camera": "wide", "subject": {"type": "none"}},
+    {"duration": 3.8, "scene": "globe", "camera": "orbit", "env": {"globe": {"night_side": true, "focus": [30, -40]}}, "chapter": "The Swarm", "stat": {"value": "10,000+", "label": "STARLINK SATELLITES NOW IN ORBIT"}, "caption": "SpaceX now has more than ten thousand satellites circling Earth."},
+    {"duration": 3.6, "scene": "orbit", "camera": "side", "tooltip": {"label": "FACT", "text": "They fly about 550 km up, moving at roughly 27,000 km/h."}, "caption": "Each one circles the planet in about an hour and a half."},
+    {"duration": 3.8, "scene": "fields", "camera": "establishing", "env": {"time": "night", "sky": "meteors"}, "chapter": "The Night Sky Falls", "chip": "11:02 PM", "sfx": [{"type": "whoosh", "at": 0.4}], "caption": "Then, one night, they all start falling."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "night", "sky": "meteors", "crowd": 0.5}, "cast": [{"outfit": "casual", "count": 12, "action": "point", "layout": "crowd", "distance": 7}], "chip": "11:15 PM", "caption": "Thousands of fireballs streak across the sky at once."},
+    {"duration": 3.8, "scene": "sky", "camera": "wide", "effects": ["plasma", "glow"], "tooltip": {"label": "BY DESIGN", "text": "Starlink satellites are built to burn up completely on re-entry."}, "caption": "Almost none would ever reach the ground."},
+    {"duration": 3.8, "scene": "ocean", "camera": "establishing", "env": {"time": "night"}, "chapter": "Disconnected", "chip": "MIDNIGHT", "caption": "Ships in the middle of the ocean suddenly lose their internet."},
+    {"duration": 3.8, "scene": "interior", "camera": "pov", "env": {"room": "home", "time": "night"}, "banner": {"title": "STARLINK NETWORK OFFLINE", "subtitle": "Millions of users disconnected worldwide"}, "caption": "So do millions of homes, planes and remote towns."},
+    {"duration": 4.0, "scene": "sky", "camera": "wide", "env": {"time": "day", "weather": "overcast"}, "chapter": "The Aftermath", "chip": "MONTHS LATER", "tooltip": {"label": "OPEN QUESTION", "text": "Scientists are studying whether metal ash from burned-up satellites could affect the ozone layer."}, "caption": "Tons of metal ash would linger high in the atmosphere."},
+    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"focus": [20, 0]}}, "chip": "YEARS LATER", "caption": "Replacing them all would take years of launches."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.2, "end": {"kind": "question", "lines": ["COULD YOU LIVE", "OFFLINE?"], "accent_line": 1}}
+}

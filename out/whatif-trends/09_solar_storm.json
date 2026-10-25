@@ -1,0 +1,20 @@
+{
+  "format": "story",
+  "title": "What if a Carrington-level solar storm hit tonight?",
+  "premise": "A solar storm as strong as the 1859 Carrington Event hits modern, electrified Earth.",
+  "theme": {"accent": "#4fd1a5"},
+  "intro": {"style": "title", "title": "What if a *solar storm* hit tonight?", "icon": "sun", "subtitle": "BASED ON THE 1859 CARRINGTON EVENT", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "deep_space", "camera": "wide", "subject": {"type": "none"}, "effects": ["glow"]},
+    {"duration": 3.8, "scene": "deep_space", "camera": "far", "effects": ["flash", "glow"], "chapter": "The Flare", "chip": "DAY 1 · 11:18 AM", "sfx": [{"type": "swell", "at": 0.3}], "caption": "A massive eruption blasts off the Sun, aimed straight at Earth."},
+    {"duration": 3.6, "scene": "globe", "camera": "wide", "env": {"globe": {"focus": [30, -30]}}, "tooltip": {"label": "REAL EVENT", "text": "In 1859, a storm like this reached Earth in about 17.6 hours."}, "caption": "We'd have less than a day to prepare."},
+    {"duration": 3.8, "scene": "fields", "camera": "establishing", "env": {"time": "night", "sky": "aurora"}, "chapter": "The Lights", "chip": "DAY 2 · 4:50 AM", "caption": "The storm hits. Auroras blaze across the whole sky."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "night", "sky": "aurora", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 14, "action": "phone", "layout": "crowd", "distance": 7}], "tooltip": {"label": "REAL EVENT", "text": "In 1859, auroras were seen as far south as the Caribbean."}, "caption": "Even places that never see the northern lights would see them now."},
+    {"duration": 3.8, "scene": "city", "camera": "aerial", "env": {"time": "night", "sky": "aurora", "lights_off": true}, "chapter": "The Blackout", "chip": "DAY 2 · 5:30 AM", "sfx": [{"type": "crack", "at": 0.5}], "caption": "Then power grids start to overload."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "night", "sky": "aurora", "lights_off": true}, "tooltip": {"label": "REAL EVENT", "text": "A much weaker storm in 1989 knocked out power for six million people in Quebec for nine hours."}, "banner": {"title": "WIDESPREAD POWER OUTAGES", "subtitle": "Geomagnetic storm overloads transformers"}, "caption": "Whole regions could go dark."},
+    {"duration": 3.8, "scene": "orbit", "camera": "side", "effects": ["flash"], "chapter": "Lost In Space", "chip": "DAY 2", "caption": "Satellites get blasted with radiation. GPS and radio signals scramble."},
+    {"duration": 4.0, "scene": "interior", "camera": "wide", "env": {"room": "home", "time": "night", "lights_off": true}, "cast": [{"outfit": "casual", "count": 3, "action": "sit", "layout": "seated", "distance": 4}], "chapter": "The Long Repair", "chip": "WEEKS LATER", "caption": "Huge transformers are hard to replace. Some repairs could take months."},
+    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"night_side": true, "focus": [40, -40]}}, "tooltip": {"label": "FACT", "text": "The Sun is near the peak of its 11-year cycle, when big storms are most likely."}, "caption": "It's not if a storm like this hits again. It's when."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.2, "end": {"kind": "question", "lines": ["ARE YOU READY", "FOR A BLACKOUT?"], "accent_line": 1}}
+}

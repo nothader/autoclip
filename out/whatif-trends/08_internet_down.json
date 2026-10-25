@@ -1,0 +1,20 @@
+{
+  "format": "timeline",
+  "title": "What if the internet went down for 24 hours?",
+  "premise": "The entire internet goes offline worldwide for exactly one day.",
+  "theme": {"accent": "#5aa9e6"},
+  "clock": {"mode": "elapsed", "label": "SINCE THE INTERNET WENT DOWN", "intro_label": "INTERNET OFF IN", "intro_from": 5},
+  "intro": {"style": "title", "title": "What if the *internet* went down for 24 hours?", "icon": "bolt", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "city", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "day", "crowd": 0.7}},
+    {"duration": 3.8, "scene": "city", "camera": "dolly", "env": {"time": "day", "crowd": 0.7}, "cast": [{"outfit": "casual", "count": 14, "action": "phone", "layout": "crowd", "distance": 7}], "time": "+0 SEC", "stat": {"value": "5.5B+", "label": "PEOPLE USE THE INTERNET", "count_up": false}, "caption": "Billions of people are online. Then, at once, everything stops loading."},
+    {"duration": 3.6, "scene": "interior", "camera": "wide", "env": {"room": "store"}, "cast": [{"outfit": "casual", "count": 8, "action": "idle", "layout": "line", "distance": 6}], "time": "+5 MIN", "caption": "Card payments fail. Suddenly, only cash works."},
+    {"duration": 3.8, "scene": "sky", "camera": "wide", "time": "+1 HOUR", "tooltip": {"label": "REAL EVENT", "text": "In July 2024, one faulty software update crashed about 8.5 million computers and grounded flights worldwide."}, "caption": "Airlines can't check anyone in. Flights stay on the ground."},
+    {"duration": 3.8, "scene": "interior", "camera": "wide", "env": {"room": "hospital"}, "cast": [{"outfit": "doctor", "count": 3, "action": "walk", "layout": "scatter", "distance": 5}], "time": "+3 HOURS", "caption": "Hospitals switch to paper records and backup systems."},
+    {"duration": 3.8, "scene": "highway", "camera": "aerial", "env": {"traffic": 0.7}, "time": "+6 HOURS", "tooltip": {"label": "SURPRISE", "text": "GPS still works. It comes from satellites, not the internet. But many map apps can't load new maps."}, "caption": "Your phone still knows where you are. It just can't show you the way."},
+    {"duration": 3.8, "scene": "park", "camera": "wide", "env": {"time": "golden", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 12, "action": "walk", "layout": "scatter", "distance": 7}], "time": "+12 HOURS", "caption": "People start drifting outside. Parks fill up. Strangers actually talk."},
+    {"duration": 4.0, "scene": "city", "camera": "wide", "env": {"time": "night", "crowd": 0.3}, "time": "+20 HOURS", "banner": {"title": "COST OF THE OUTAGE CLIMBS", "subtitle": "Global trade frozen for nearly a full day"}, "caption": "Online, trillions of dollars a day stop moving."},
+    {"duration": 4.0, "scene": "city", "camera": "dolly", "env": {"time": "dawn", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 14, "action": "phone", "layout": "crowd", "distance": 7}], "time": "+24 HOURS", "sfx": [{"type": "ring", "at": 0.4}], "caption": "Then everything reconnects. And billions of notifications arrive at once."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "question", "lines": ["WHAT WOULD YOU", "DO FIRST?"], "accent_line": 1}}
+}

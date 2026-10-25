@@ -1,0 +1,20 @@
+{
+  "format": "timeline",
+  "title": "What if a zombie outbreak started on Halloween?",
+  "premise": "On Halloween night, a real zombie outbreak starts in one city. Nobody can tell the costumes from the real thing.",
+  "theme": {"accent": "#f0883e"},
+  "clock": {"mode": "elapsed", "label": "SINCE THE FIRST BITE", "intro_label": "MIDNIGHT IN", "intro_from": 5},
+  "intro": {"style": "title", "title": "What if a *zombie* outbreak started on Halloween?", "icon": "warning", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "city", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night", "crowd": 0.8}},
+    {"duration": 3.6, "scene": "city", "camera": "dolly", "env": {"time": "night", "crowd": 0.8}, "cast": [{"outfit": "casual", "count": 16, "action": "walk", "layout": "crowd", "distance": 7}], "time": "+0 MIN", "caption": "October 31st. The streets are packed with people dressed as monsters."},
+    {"duration": 3.6, "scene": "city", "camera": "closeup", "env": {"time": "night", "crowd": 0.8}, "time": "+1 MIN", "sfx": [{"type": "heartbeat", "at": 0.3}], "caption": "So when someone really starts biting, nobody reacts. It looks like part of the show."},
+    {"duration": 3.6, "scene": "city", "camera": "wide", "env": {"time": "night", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 20, "action": "run", "layout": "scatter", "distance": 7}], "time": "+1 HOUR", "sfx": [{"type": "siren", "at": 0.5}], "caption": "By the time anyone notices, the crowd itself has become the danger."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "night", "crowd": 0.3, "traffic": 0.9}, "banner": {"title": "STAY INDOORS", "subtitle": "Authorities urge residents to lock their doors"}, "time": "+6 HOURS", "caption": "Roads jam as everyone tries to leave at once."},
+    {"duration": 3.8, "scene": "city", "camera": "aerial", "env": {"time": "night", "lights_off": true, "damage": 0.4, "crowd": 0.2}, "effects": ["smoke"], "time": "+1 DAY", "caption": "Without workers, the power grid starts to fail."},
+    {"duration": 4.0, "scene": "map", "camera": "top_down", "env": {"map": {"style": "dark", "zone": {"x": 0.5, "y": 0.5, "text": "OUTBREAK"}, "zone_radius": 0.3, "labels": [{"x": 0.22, "y": 0.2, "text": "MOUNTAINS"}, {"x": 0.5, "y": 0.5, "text": "CITY"}]}}, "time": "+1 WEEK", "tooltip": {"label": "REAL STUDY", "text": "Cornell researchers simulated a US zombie outbreak in 2015. The safest places were remote areas like the northern Rockies."}, "caption": "Outbreaks spread fastest where people live closest together."},
+    {"duration": 4.0, "scene": "mountains", "camera": "wide", "env": {"time": "dusk"}, "cast": [{"outfit": "ranger", "count": 4, "action": "walk", "layout": "line", "distance": 6}], "time": "+1 MONTH", "caption": "Survivors head for the empty mountains, far from any crowd."},
+    {"duration": 4.0, "scene": "city", "camera": "establishing", "env": {"time": "golden", "empty": true, "overgrown": 0.6, "damage": 0.5}, "time": "+1 YEAR", "caption": "The cities go quiet. Nature starts taking them back."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.2, "end": {"kind": "question", "lines": ["WOULD YOU SPOT", "THE REAL ONE?"], "accent_line": 1}}
+}

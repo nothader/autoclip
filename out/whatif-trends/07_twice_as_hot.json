@@ -1,0 +1,38 @@
+{
+  "format": "escalation",
+  "title": "What if it got 2x hotter every second?",
+  "premise": "Starting on a warm 25°C day, the temperature around you doubles every second.",
+  "theme": {"accent": "#f0883e"},
+  "quantity": {
+    "kind": "temperature",
+    "label": "TEMPERATURE",
+    "unit": "°C",
+    "model": {"type": "exponential", "start": 25, "factor": 2, "step": 1, "discrete": false},
+    "limit": {"label": "SURFACE OF THE SUN", "detail": "ABOUT 5,500 °C", "value": 5500, "chart_label": "SUN'S SURFACE"},
+    "milestones": [
+      {"label": "HOTTEST EVER RECORDED ON EARTH", "detail": "DEATH VALLEY, 1913: 56.7 °C", "value": 56.7, "chart_label": "EARTH RECORD"},
+      {"label": "WATER BOILS", "detail": "100 °C AT SEA LEVEL", "value": 100, "chart": false},
+      {"label": "PAPER CATCHES FIRE", "detail": "AROUND 233 °C (451 °F)", "value": 233, "chart": false},
+      {"label": "LEAD MELTS", "detail": "327 °C", "value": 327, "chart": false},
+      {"label": "HOTTER THAN VENUS", "detail": "ITS SURFACE: ABOUT 464 °C", "value": 464, "chart_label": "VENUS"},
+      {"label": "ALUMINUM MELTS", "detail": "660 °C", "value": 660, "chart": false},
+      {"label": "AS HOT AS LAVA", "detail": "BASALT LAVA: ~1,100-1,200 °C", "value": 1200, "chart_label": "LAVA"},
+      {"label": "IRON MELTS", "detail": "1,538 °C", "value": 1538, "chart": false},
+      {"label": "TUNGSTEN MELTS", "detail": "HIGHEST MELTING POINT OF ANY METAL: 3,422 °C", "value": 3422, "chart": false}
+    ]
+  },
+  "intro": {"lines": ["WHAT IF", "IT GOT", "2× HOTTER", "EVERY SECOND?"], "accent": 2, "duration": 2.4},
+  "beats": [
+    {"duration": 2.6, "sim_end": 0.3, "scene": "park", "camera": "wide", "subject": {"type": "person", "action": "idle", "outfit": "casual"}, "env": {"time": "day", "crowd": 0.5}},
+    {"duration": 3.2, "sim_end": 0.9, "scene": "park", "camera": "front", "caption": "A warm afternoon. Then the heat starts doubling every second."},
+    {"duration": 3.6, "sim_end": 1.5, "scene": "park", "camera": "closeup", "effects": ["heat"], "caption": "In just over a second, it's hotter than anywhere on Earth has ever been."},
+    {"duration": 3.6, "sim_end": 2.3, "scene": "city", "camera": "wide", "env": {"time": "day", "crowd": 0.2}, "effects": ["heat"], "caption": "It's {value}. Puddles and fountains start to boil."},
+    {"duration": 3.8, "scene": "city", "sim_end": 3.4, "camera": "low_front", "env": {"time": "day", "crowd": 0, "empty": true}, "effects": ["heat", "smoke"], "caption": "Paper, leaves and wood burst into flames on their own."},
+    {"duration": 3.8, "scene": "city", "sim_end": 4.3, "camera": "aerial", "env": {"time": "day", "empty": true, "damage": 0.3}, "effects": ["fire", "smoke", "embers"], "caption": "Now it's hotter than the surface of Venus."},
+    {"duration": 3.8, "scene": "highway", "sim_end": 5.0, "camera": "wide", "env": {"time": "day", "empty": true, "damage": 0.5}, "effects": ["fire", "heat", "embers"], "caption": "Car bodies sag as aluminum starts to melt."},
+    {"duration": 4.0, "scene": "volcano", "sim_end": 6.0, "camera": "wide", "effects": ["fire", "glow", "embers"], "caption": "Every surface now glows like lava: {value}."},
+    {"duration": 4.0, "scene": "city", "sim_end": 7.2, "camera": "establishing", "env": {"time": "day", "empty": true, "damage": 0.9}, "effects": ["glow", "plasma", "shake"], "caption": "Steel bridges and towers soften and collapse."},
+    {"duration": 4.0, "scene": "globe", "sim_end": 7.9, "camera": "wide", "env": {"globe": {"dry_oceans": true, "focus": [20, 0]}}, "effects": ["glow", "flash"], "sfx": [{"type": "boom", "at": 2.5}], "caption": "Under eight seconds in, it's as hot as the surface of the Sun."}
+  ],
+  "outro": {"chart": true, "chart_title": "THE TEMPERATURE, SECOND BY SECOND", "chart_subtitle": "EACH SECOND: TWICE AS HOT", "chart_duration": 6.0, "question": "HOW MANY SECONDS WOULD YOU LAST?", "question_duration": 3.0}
+}

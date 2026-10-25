@@ -1,0 +1,20 @@
+{
+  "format": "timeline",
+  "title": "What if a meteor shower never stopped?",
+  "premise": "This week's Orionid meteor shower never ends. Instead, it keeps getting stronger every night.",
+  "theme": {"accent": "#8e7cf0"},
+  "clock": {"mode": "elapsed", "label": "SINCE THE SHOWER BEGAN"},
+  "intro": {"style": "title", "title": "What if a *meteor shower* never stopped?", "icon": "star", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "fields", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night", "sky": "meteors"}},
+    {"duration": 3.8, "scene": "fields", "camera": "wide", "env": {"time": "night", "sky": "meteors"}, "cast": [{"outfit": "casual", "count": 3, "action": "sit", "layout": "row", "distance": 6}], "time": "NIGHT 1", "tooltip": {"label": "REAL EVENT", "text": "The Orionids peak every October. They're dust left behind by Halley's Comet."}, "caption": "It starts as a normal meteor shower. A few shooting stars an hour."},
+    {"duration": 3.8, "scene": "sky", "camera": "wide", "effects": ["plasma", "glow"], "time": "NIGHT 1", "tooltip": {"label": "FACT", "text": "Most meteors are smaller than a grain of sand. They burn up about 100 km above you."}, "caption": "Each streak is a speck of dust hitting the air at tens of kilometers per second."},
+    {"duration": 3.8, "scene": "city", "camera": "wide", "env": {"time": "night", "sky": "meteors", "crowd": 0.6}, "cast": [{"outfit": "casual", "count": 14, "action": "point", "layout": "crowd", "distance": 7}], "time": "NIGHT 7", "caption": "But the shower never ends. Every night, there are more."},
+    {"duration": 3.8, "scene": "orbit", "camera": "side", "effects": ["flash"], "time": "NIGHT 30", "sfx": [{"type": "impact", "at": 0.8}], "caption": "Up in orbit, satellites start getting sandblasted."},
+    {"duration": 3.8, "scene": "city", "camera": "aerial", "env": {"time": "night", "sky": "meteors", "lights_off": true}, "time": "NIGHT 30", "banner": {"title": "GPS AND SATELLITE TV DISRUPTED", "subtitle": "Operators race to protect damaged satellites"}, "caption": "Navigation, weather forecasts and satellite TV begin to glitch."},
+    {"duration": 4.0, "scene": "sky", "camera": "wide", "env": {"time": "night", "sky": "meteors"}, "effects": ["glow"], "time": "NIGHT 100", "caption": "The night sky never goes dark anymore. It flickers until dawn."},
+    {"duration": 4.0, "scene": "desert", "camera": "wide", "env": {"time": "night", "sky": "meteors"}, "effects": ["shake", "dust"], "time": "NIGHT 365", "sfx": [{"type": "boom", "at": 0.6}], "caption": "Every so often, a bigger rock survives the fall and hits the ground."},
+    {"duration": 4.0, "scene": "globe", "camera": "orbit", "env": {"globe": {"night_side": true, "focus": [20, -20]}}, "time": "NIGHT 365", "tooltip": {"label": "FACT", "text": "Earth already sweeps up many tons of space dust every single day."}, "caption": "We already live inside a shower that never stops. It's just too small to see."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "question", "lines": ["WOULD YOU STAY", "UP TO WATCH?"], "accent_line": 1}}
+}

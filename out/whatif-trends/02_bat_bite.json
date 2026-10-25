@@ -1,0 +1,21 @@
+{
+  "format": "timeline",
+  "title": "What if a bat bit you on Halloween?",
+  "premise": "A bat bites you while you're out on Halloween. What happens next, and what actually saves you.",
+  "theme": {"accent": "#e5484d"},
+  "clock": {"mode": "elapsed", "label": "SINCE THE BITE"},
+  "intro": {"style": "title", "title": "What if a *bat* bit you on Halloween?", "icon": "warning", "subtitle": "REAL MEDICINE · NOT MEDICAL ADVICE", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "forest", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night"}},
+    {"duration": 3.6, "scene": "forest", "camera": "closeup", "subject": {"type": "person", "action": "idle", "outfit": "hoodie"}, "env": {"time": "night"}, "time": "+0 SEC", "sfx": [{"type": "crack", "at": 0.4, "gain": 0.6}], "caption": "Something brushes your hand in the dark. It barely stings."},
+    {"duration": 3.8, "scene": "forest", "camera": "front", "env": {"time": "night"}, "time": "+10 SEC", "tooltip": {"label": "FACT", "text": "Bat teeth are tiny. A bite can leave a mark you can barely see, or none at all."}, "caption": "It's easy to shrug off. That's exactly the danger."},
+    {"duration": 3.8, "scene": "void", "camera": "front", "subject": {"type": "none"}, "time": "+1 MIN", "stat": {"value": "~100%", "label": "FATAL ONCE RABIES SYMPTOMS APPEAR", "count_up": false}, "caption": "Rabies is one of the deadliest viruses known."},
+    {"duration": 3.8, "scene": "interior", "camera": "pov", "env": {"room": "home"}, "time": "+2 MIN", "card": {"title": "STEP 1", "rows": [["WASH THE WOUND", "SOAP + WATER"], ["FOR AT LEAST", "15 MINUTES"]], "tone": "warning"}, "caption": "The first thing that helps is simple: scrub the bite hard."},
+    {"duration": 3.8, "scene": "interior", "camera": "wide", "env": {"room": "hospital"}, "cast": [{"outfit": "doctor", "count": 2, "action": "idle", "layout": "around", "distance": 4}], "time": "+1 HOUR", "screen": {"kind": "board", "title": "POST-EXPOSURE CARE", "badge": "STARTED", "rows": [["IMMUNE GLOBULIN", "DAY 0"], ["VACCINE DOSES", "DAYS 0 · 3 · 7 · 14"]]}, "caption": "Then straight to a doctor. Treatment works if it starts before symptoms."},
+    {"duration": 3.8, "scene": "city", "camera": "dolly", "env": {"time": "day", "crowd": 0.4}, "time": "+3 DAYS", "caption": "You feel completely normal. That's how rabies works."},
+    {"duration": 4.0, "scene": "void", "camera": "front", "subject": {"type": "none"}, "time": "+1 MONTH", "tooltip": {"label": "WHY IT'S SNEAKY", "text": "Rabies usually takes 1 to 3 months to cause symptoms. By then, it's almost always too late."}, "caption": "Untreated, the virus would be creeping silently toward your brain."},
+    {"duration": 4.0, "scene": "globe", "camera": "wide", "env": {"globe": {"focus": [15, 40], "markers": [{"lat": 20, "lon": 78, "label": "", "kind": "glow", "radius": 14}, {"lat": 5, "lon": 20, "label": "", "kind": "glow", "radius": 18}]}}, "time": "+1 YEAR", "stat": {"value": "~59,000", "label": "PEOPLE DIE OF RABIES EACH YEAR (WHO ESTIMATE)"}, "caption": "Almost every one of those deaths is preventable."},
+    {"duration": 3.8, "scene": "forest", "camera": "wide", "subject": {"type": "none"}, "env": {"time": "dusk"}, "time": "+1 YEAR", "caption": "Thanks to a few shots, you're fine. Never ignore a bat bite."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "title", "sub": "BITTEN OR SCRATCHED BY A BAT? SEE A DOCTOR THE SAME DAY."}}
+}

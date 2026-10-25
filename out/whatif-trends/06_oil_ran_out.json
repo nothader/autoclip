@@ -1,0 +1,20 @@
+{
+  "format": "timeline",
+  "title": "What if all the oil ran out overnight?",
+  "premise": "Every drop of oil on Earth disappears at midnight, including fuel already in tanks.",
+  "theme": {"accent": "#f0883e"},
+  "clock": {"mode": "elapsed", "label": "WITHOUT OIL", "intro_label": "OIL VANISHES IN", "intro_from": 5},
+  "intro": {"style": "title", "title": "What if all the *oil* ran out overnight?", "icon": "drop", "subtitle": "A HYPOTHETICAL SIMULATION", "duration": 2.6},
+  "beats": [
+    {"duration": 2.8, "scene": "highway", "camera": "establishing", "subject": {"type": "none"}, "env": {"time": "night", "traffic": 0.8}},
+    {"duration": 3.8, "scene": "highway", "camera": "aerial", "env": {"time": "dawn", "traffic": 0.9}, "time": "+0 SEC", "stat": {"value": "~100M", "label": "BARRELS OF OIL THE WORLD USES EVERY DAY", "count_up": false}, "caption": "The world burns through about a hundred million barrels of oil a day."},
+    {"duration": 3.8, "scene": "highway", "camera": "wide", "env": {"time": "dawn", "traffic": 0.5}, "time": "+1 MIN", "caption": "At midnight, it's all gone. Every engine running on fuel stalls."},
+    {"duration": 3.8, "scene": "sky", "camera": "wide", "env": {"time": "day"}, "time": "+1 HOUR", "banner": {"title": "ALL FLIGHTS GROUNDED", "subtitle": "No jet fuel left anywhere on Earth"}, "caption": "Planes, ships and trucks: almost all global transport stops."},
+    {"duration": 3.8, "scene": "interior", "camera": "wide", "env": {"room": "store"}, "cast": [{"outfit": "casual", "count": 10, "action": "walk", "layout": "scatter", "distance": 6}], "time": "+3 DAYS", "caption": "With no deliveries, supermarket shelves empty within days."},
+    {"duration": 3.8, "scene": "interior", "camera": "pov", "env": {"room": "home"}, "time": "+1 WEEK", "card": {"title": "ALSO MADE FROM OIL", "rows": [["MOST PLASTICS", "GONE"], ["ASPHALT", "GONE"], ["MANY MEDICINES", "AT RISK"]], "tone": "warning"}, "caption": "Oil isn't just fuel. It's in plastics, roads, clothes and medicine."},
+    {"duration": 4.0, "scene": "fields", "camera": "wide", "env": {"time": "day"}, "cast": [{"outfit": "hivis", "count": 6, "action": "walk", "layout": "row", "distance": 6}], "time": "+1 MONTH", "caption": "Farming without tractors needs far more people working the fields."},
+    {"duration": 4.0, "scene": "city", "camera": "wide", "env": {"time": "day", "traffic": 0, "crowd": 0.7}, "cast": [{"outfit": "casual", "count": 16, "action": "walk", "layout": "crowd", "distance": 7}], "time": "+1 YEAR", "caption": "Cities would rebuild around walking, bikes, trains and electric power."},
+    {"duration": 4.0, "scene": "city", "camera": "establishing", "env": {"time": "golden", "traffic": 0, "overgrown": 0.3}, "time": "+1 YEAR", "tooltip": {"label": "PERSPECTIVE", "text": "The G7 just announced a 100 million barrel emergency release. That's roughly one day of global use."}, "caption": "The air would be cleaner than it's been in over a century."}
+  ],
+  "outro": {"chart": false, "question_duration": 3.0, "end": {"kind": "question", "lines": ["HOW WOULD YOU", "GET TO WORK?"], "accent_line": 1}}
+}
