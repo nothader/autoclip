@@ -1,7 +1,9 @@
 # 10 "What If" Shorts — Posting Guide (week of Oct 25, 2026)
 
-All videos: 9:16, 1080×1920, 30 fps, ~45–60 s, narrated (Kokoro `am_michael`), made with `autoclip whatif`.
-Each `.json` is the editable storyboard; re-render with `autoclip whatif render <file>.json --narrate -o <file>.mp4`.
+All videos: 9:16, 1080×1920, 30 fps, ~35–45 s, **no narration**: on-screen captions + generated sound effects and ambient soundtrack only. Made with `autoclip whatif`.
+Each `.json` is the editable storyboard; re-render with `autoclip whatif render <file>.json -o <file>.mp4` (never pass `--narrate`).
+
+Tip: add a trending sound in the TikTok/Reels editor at low volume (~10–20%) under the built-in effects. In-app sounds are licensed for the platform; music baked into the file is not.
 
 ## Suggested posting order
 
@@ -55,7 +57,7 @@ Earth moves less than one atom 🤯 #whatif #science #physics #earth #hypothetic
 ## How to grow from these
 
 - **The question on the end card is the comment prompt.** Pin a comment answering it yourself.
-- **Reply to comments with a video.** Every "what if X?" comment is your next video: `autoclip whatif make "<their question>" --narrate`.
+- **Reply to comments with a video.** Every "what if X?" comment is your next video: `autoclip whatif make "<their question>"`.
 - **Make Part 2s.** If one does well, plan a follow-up (e.g. "the zombie outbreak, day 100").
 - **Tag AutoClip in your bio.** Something like "videos made with AutoClip (open source)" brings viewers to the repo.
 - **Check the facts before posting.** Each one was checked when written (see below), but the `tooltip`/`stat` lines are worth a second look.
