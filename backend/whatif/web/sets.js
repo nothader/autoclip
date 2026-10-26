@@ -456,7 +456,7 @@ export function setEnv(spec) {
   return {
     root, outdoor: false, custom: true, static: true, background,
     fog: spec.fog ? new THREE.Fog(spec.fog[0], spec.fog[1], spec.fog[2]) : null,
-    light: { sun: spec.light_intensity, hemi: spec.ambient, sunDir, sky: spec.light, ground: 0x30343c },
+    light: { sun: spec.light_intensity, hemi: spec.ambient, sunDir, sky: spec.light, ground: spec.bounce || 0x30343c },
     focus: spec.focus, zoom: spec.zoom,
     update(fr) {
       const lt = fr.lt || 0, k = fr.frac || 0, t = fr.t || 0;

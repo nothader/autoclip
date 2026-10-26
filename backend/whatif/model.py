@@ -426,6 +426,45 @@ def apply_pace(sb: Storyboard) -> Storyboard:
     return out
 
 
+POV_OPEN = 1.5     # pov 开头睁眼用时（秒）
+POV_TYPE = 1.1     # 顶部 POV 钩子打字用时
+
+
+def pov_frame(sb: Storyboard, t: float, trf: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    """pov 每帧：顶部钩子打字进度 k、眼皮闭合度 lid（1 = 闭眼）。开头睁眼时眨一下（半闭再睁开）；blink 转场 = 闭眼再睁开。"""
+    lid = 0.0
+    if sb.pov and sb.pov.open_eyes and t < POV_OPEN:
+        u = t / POV_OPEN
+        # 0–0.35 慢慢睁开一半，0.35–0.5 又闭上，0.5–1 完全睁开
+        lid = 1 - 0.55 * (u / 0.35) if u < 0.35 else 0.45 + 0.4 * (u - 0.35) / 0.15 if u < 0.5 else 0.85 * (1 - (u - 0.5) / 0.5) ** 1.6
+    if trf and trf.get("k") == "blink":
+        lid = max(lid, trf["p"] if trf.get("out") else (1 - trf["p"]) ** 1.3)
+    return {"k": round(min(1.0, t / POV_TYPE), 4), "lid": round(max(0.0, min(1.0, lid)), 4)}
+
+
+HEAD_SFX = {   # 头部运动自动配声：走路脚步、跑步 + 喘气、害怕时呼吸
+    "walk": [("steps", 0.6)], "stumble": [("steps", 0.7)], "run": [("run_steps", 0.7), ("breath", 0.5)],
+    "breathe": [("breath", 0.22)], "shake": [("breath", 0.55)], "float": [("breath", 0.18)],
+}
+
+
+def pov_sfx(beats_out: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    ev: List[Dict[str, Any]] = []
+    for bo in beats_out:
+        if bo["camera"] != "eyes":
+            continue
+        for kind, gain in HEAD_SFX.get(bo["head"], []):
+            ev.append({"type": kind, "t": bo["start"], "gain": gain, "dur": round(bo["duration"], 3)})
+        if bo["head"] == "fall":
+            ev.append({"type": "whoosh", "t": bo["start"], "gain": 0.7, "dur": round(bo["duration"] * 0.8, 3)})
+            ev.append({"type": "impact", "t": bo["start"] + bo["duration"] * 0.82, "gain": 0.9})
+        if "tunnel" in bo["effects"]:
+            ev.append({"type": "heartbeat", "t": bo["start"], "gain": 0.7, "dur": round(bo["duration"], 3)})
+        if "dizzy" in bo["effects"]:
+            ev.append({"type": "riser", "t": bo["start"], "gain": 0.25, "dur": round(bo["duration"], 3)})
+    return ev
+
+
 def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     from .schema import Env
     pace = sb.pace or 1.0
@@ -480,6 +519,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
 
     beats_out = []
     env = Env()
+    pov = sb.format == "pov"
+    hands = {"pose": "idle", "holding": "none", "phone_text": "", "tremble": 0.0} if pov else None
+    head = "breathe" if pov else "steady"
     prev_scene_b = None
     clock_val: Any = None
     chip = ""
@@ -501,6 +543,10 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             clock_val = b.time
         elif isinstance(clock_val, (list, tuple)):
             clock_val = (clock_val[1], clock_val[1])
+        if b.hands is not None:
+            hands = b.hands.model_dump()
+        if b.head is not None:
+            head = b.head
         ch_i = beat_chapter[s.index]
         if b.chip:
             chip = b.chip
@@ -524,6 +570,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "narration": fill(b.narration, ph) if b.narration is not None else None,
             **cine[s.index],
             "roll": b.roll, "roll_to": b.roll_to,
+            "hands": hands if b.camera == "eyes" else None, "head": head,
+            "gaze": list(b.gaze), "gaze_to": list(b.gaze_to) if b.gaze_to is not None else None,
         })
 
     frames: List[Dict[str, Any]] = []
@@ -565,7 +613,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             scale = subj.scale
             if has_q and subj.scale_with_value and q.model.start:
                 scale = subj.scale * (v / 1.75 if q.kind == "length" else v / q.model.start)
-            in_intro = t < intro.duration
+            in_intro = t < intro.duration and not pov   # pov：没有片头，顶部 POV 钩子 + 睁眼就是开头
             fr.update({
                 "b": s.index, "lt": round(lt, 4), "frac": round(frac, 5), "sim": round(sim, 5),
                 "z": round(z, 4), "vis": round(vis, 3), "scale": scale,
@@ -671,6 +719,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 trf = transition_out(cine[s.index + 1]["tr"], s.duration - lt)
             if trf:
                 fr["tr"] = trf
+            if pov:
+                fr["pov"] = pov_frame(sb, t, trf)
             if "flash" in b.effects and lt < 0.5:
                 fr["flash"] = round(1 - lt / 0.5, 3)
             if "darken" in b.effects:
@@ -744,6 +794,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
         audio_events.append({"type": "whoosh", "t": p["t0"], "gain": 0.55})
     audio_events += cinema_sfx(cine, [(s.start, s.duration) for s in beat_secs],
                                lambda i: [e for e in sb.beats[i].effects if e != "lightning"])
+    if pov:
+        audio_events += pov_sfx(beats_out)
     if sb.outro.question or sb.outro.end:
         audio_events.append({"type": "drop", "t": secs[-1].start, "gain": 0.9})
 
@@ -771,12 +823,13 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     return {
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
-        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or STYLE_CAPTIONS[sb.theme.style],
+        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or ("typed" if pov else STYLE_CAPTIONS[sb.theme.style]),
                   "flow": resolve_flow(sb), "palette": resolve_palette(sb), "palette_css": PALETTE_CSS[resolve_palette(sb)],
                   "anchor": sb.theme.anchor or ("coffee" if sb.theme.style == "witness" else "none")}, "chapters": chapters,
         "intro_duration": intro.duration,
         "end_start": secs[-1].start if secs[-1].kind == "question" else None,
-        "layout": {"cap_top": 1090 if sb.format == "escalation" else 1290},
+        "layout": {"cap_top": 1090 if sb.format == "escalation" else 1010 if pov else 1290},
+        "pov": {"text": sb.pov.text, "skin": sb.pov.skin, "sleeve": sb.pov.sleeve} if pov and sb.pov else None,
         "beats": beats_out, "frames": frames, "audio": sorted(audio_events + _style_sfx(sb, secs, cine), key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,
     }

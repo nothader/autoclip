@@ -12,6 +12,7 @@
 | `countdown` | 短暂事件（摩擦力 / 大气消失 5 秒） | 走动的倒计时 `0:04.821`、每整秒提示音 | `friction_disappeared.json` |
 | `story` | 分章节叙事（真实事件复盘 / 灾难推演） | 顶部分段进度条 + 「PART 2 OF 5」+ 章节标题、时间标签、信息框、新闻横幅、地图 | `moon_shattered.json` |
 | `survival` | 个人求生（被毒蛇咬了） | 计时器 `0:02:15`、生命体征 / 来电屏幕、医院室内 | （由模型按说明生成） |
+| `pov` | 第一人称"你"（POV: 你醒来发现重力消失了） | 顶部固定 `POV: …` 钩子（闭着眼时打字出现，然后睁眼）、眼睛机位、画面下方你自己的手、眨眼转场、打字字幕 | `pov_gravity_gone.json` |
 
 场景：`city highway suburb park fields forest desert outback mountains volcano coast ocean sky orbit deep_space globe map interior ancient lab void`；
 室内房间 `hospital operating_room classroom nursery office store home lab court hall bunker`；
@@ -45,6 +46,24 @@ autoclip whatif render tall.json -o tall.mp4
 autoclip whatif make "What if Earth stopped spinning?" --provider openai --model gpt-4o
 autoclip whatif make "What if the atmosphere vanished for 5 seconds?" --format countdown
 ```
+
+## 第一人称 POV（`format: "pov"`）
+
+观众就是主角。和其它版式完全不同的观感：
+
+- **钩子**：`pov.text`（"you wake up and gravity is gone"，≤10 个词）从第 0 帧固定在顶部，显示为 **POV:** …；
+  开头眼睛还闭着时就逐字打出来，然后睁眼（半睁 → 眨一下 → 全睁）。没有片头卡。
+- **眼睛机位** `camera: "eyes"`：自定义布景里 `env.set.focus` 就是你眼睛的位置（站着约 1.6 m，躺着约 0.9 m）。
+  `gaze` [偏航, 俯仰]（度，+ = 向右 / 抬头）+ `gaze_to` 在本段内转头；`head`：steady / breathe / walk / run（往前走）/
+  stumble（中途绊一下）/ fall（加速下落、撞地）/ float（失重漂浮、慢慢翻转）/ shake（害怕发抖）。不叠加电影运镜。
+- **你的手** `hands`：pose = idle / reach / phone / shield / grab / cover / fists / point / wave / hold / float / none，
+  holding = phone（屏幕显示 `phone_text`，朝向你）/ flashlight（真的会照亮前方）/ cup，`tremble` 手抖。省略 = 沿用上一段。
+  袖子、肤色在 `pov.sleeve` / `pov.skin`。
+- **转场**：`blink`（上一段末尾闭眼、本段开头睁开）是标志，自动至少每三刀一次；也用 whip（转头）、dip。
+- **特效**：`tunnel`（隧道视野 + 心跳）、`dizzy`（晃 + 模糊）。头部运动自动配声：走路脚步、跑步脚步 + 喘气、害怕时呼吸。
+- **字幕**默认 `typed`（逐字打出，带光标），第二人称现在时（"You grab the bed. Your phone floats away."）。
+- **检查**：钩子 ≤10 个词；≥60% 的字幕对"你"说话；≥70% 的镜头是 eyes；建议有手部动作、头部运动有变化。
+- 室内布景记得设 `env.set.bounce`（如 `#e9e1d6`），否则天花板 / 朝下的面会发黑。
 
 ## 横屏长视频（YouTube）
 

@@ -215,6 +215,25 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 .split #card { top: 380px; }
 .split #lbox::after { display: none; }
 .hidden { display: none !important; }
+
+/* ---------- pov：顶部固定 POV 钩子、眼皮、隧道视野、打字字幕 ---------- */
+#povhdr { position: absolute; left: 70px; right: 70px; top: 190px; text-align: center; font: 600 46px/1.28 "Inter", sans-serif;
+  color: #fff; letter-spacing: -0.2px; text-shadow: 0 2px 4px rgba(0,0,0,.55), 0 0 26px rgba(0,0,0,.45); }
+#povhdr b { font-weight: 800; color: var(--accent); margin-right: 10px; }
+#povhdr .cur, #cap.typed .cur { display: inline-block; width: 3px; height: 0.95em; background: currentColor; margin-left: 4px; vertical-align: -0.1em; }
+.lid { position: absolute; left: -60px; right: -60px; height: 1180px; background: #0d0c0e; pointer-events: none; }
+#lidT { top: 0; border-radius: 0 0 50% 50% / 0 0 300px 300px; }
+#lidB { bottom: 0; border-radius: 50% 50% 0 0 / 300px 300px 0 0; }
+#tunnel { position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse 62% 48% at 50% 46%, rgba(0,0,0,0) 30%, rgba(8,6,10,.92) 100%); }
+body.pov #vig { display: block; opacity: 0.75; }
+#cap.typed { font: 500 46px/1.32 "Inter", sans-serif; font-style: normal; letter-spacing: -0.2px; left: 80px; right: 80px;
+  text-shadow: 0 2px 4px rgba(0,0,0,.6), 0 0 24px rgba(0,0,0,.5); }
+.land #povhdr { top: 70px; font-size: 40px; left: 300px; right: 300px; }
+.land .lid { height: 680px; }
+.land #lidT { border-radius: 0 0 50% 50% / 0 0 200px 200px; }
+.land #lidB { border-radius: 50% 50% 0 0 / 200px 200px 0 0; }
+.land #cap.typed { font-size: 40px; top: auto; bottom: 120px; left: 300px; right: 300px; }
 </style>
 </head>
 <body>
@@ -254,9 +273,13 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
   <div id="lbox"></div>
   <div id="prog"></div>
   <div id="seam"></div>
+  <div id="tunnel"></div>
   <div id="darken"></div>
   <div id="flash"></div>
   <div id="cap" class="hidden shadow"></div>
+  <div id="lidT" class="lid hidden"></div>
+  <div id="lidB" class="lid hidden"></div>
+  <div id="povhdr" class="hidden"></div>
 </div>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 <script type="module" src="app.js"></script>

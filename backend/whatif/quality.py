@@ -101,7 +101,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         if run == SAME_SET_RUN:
             f.append(Finding("fix", "monotony", f"beats[{i - 1}..{i}]", "The same custom set with the same camera twice in a row. "
                              "Change the camera, rearrange the set or add an animation so the cut is visible."))
-    if style != "witness" and len(beats) >= 6:
+    if style != "witness" and sb.format != "pov" and len(beats) >= 6:
         cam, n = Counter(b.camera for b in beats).most_common(1)[0]
         if n / len(beats) > CAMERA_SHARE_TIP:
             f.append(Finding("tip", "variety", "storyboard", f"camera \"{cam}\" is used for {n}/{len(beats)} shots; mix in other angles."))
@@ -128,6 +128,18 @@ def quality_report(sb: Storyboard) -> List[Finding]:
                          "Add more beats (more events, more places), not longer ones."))
     if not vertical and secs < LONG_MIN_SECONDS:
         f.append(Finding("tip", "length", "storyboard", f"About {secs:.0f}s; long-form landscape videos work best at 5-6 minutes."))
+
+    # pov：大部分镜头是你的眼睛，至少有几段能看到你的手
+    if sb.format == "pov":
+        eyes = sum(b.camera == "eyes" for b in beats)
+        if eyes < len(beats) * 0.7:
+            f.append(Finding("fix", "pov", "storyboard", f"pov format: only {eyes}/{len(beats)} shots use camera \"eyes\". "
+                             "The viewer IS the character; stay in first person (cut away at most once or twice)."))
+        if not any(b.hands is not None and b.hands.pose not in ("none", "idle") for b in beats):
+            f.append(Finding("tip", "pov", "storyboard", "Show your hands doing something (phone / reach / shield / grab / flashlight); it sells the POV."))
+        heads = {b.head for b in beats if b.head}
+        if len(heads) < 2:
+            f.append(Finding("tip", "pov", "storyboard", "Vary the head motion (walk / run / stumble / fall / shake) so it feels like a body, not a tripod."))
 
     # 风格配套
     if style == "witness":

@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional
 
 MOVES = ["none", "swoop_in", "swoop_out", "crane_up", "crane_down", "arc_left", "arc_right", "push_in", "pull_out",
          "whip", "dutch", "drone_rise", "fly_by", "spiral"]
-TRANSITIONS = ["cut", "whip", "flash", "zoom", "dip", "glitch"]
+TRANSITIONS = ["cut", "whip", "flash", "zoom", "dip", "glitch", "blink"]
 FLOWS = ["steady", "build", "punchy", "slowburn", "rollercoaster"]
 PALETTES = ["natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"]
 
@@ -126,7 +126,7 @@ def assign(sb) -> List[Dict[str, Any]]:
         # 镜头运动
         if b.move:
             move = b.move
-        elif b.camera == "witness" or b.scene == "map":   # 目击者视角固定不动；地图不用运镜
+        elif b.camera in ("witness", "eyes") or b.scene == "map":   # 目击者 / 第一人称视角由自己的头部运动驱动；地图不用运镜
             move = "none"
         else:
             w = dict(FLOW_MOVES[flow])
@@ -149,9 +149,13 @@ def assign(sb) -> List[Dict[str, Any]]:
                 w[k] = w.get(k, 0) * m if k in w else (1.0 * m if m > 1 else 0)
             if flow == "build":
                 w["cut"] = w.get("cut", 0) * (1.6 - 1.3 * x)
+            if sb.format == "pov":   # 第一人称：眨眼、转头（甩）、黑场；不用闪白 / 冲推
+                w = {"blink": 4, "cut": 3, "whip": 2, "dip": 1, "glitch": 0.5 if style != "calm" else 0}
             if new_ch:   # 新章节：更重的转场
                 w = {"flash": 2, "dip": 2, "zoom": 1} if style not in ("witness",) else {"dip": 1}
             tr = _pick(w, _h(sb.title, i, "tr"), avoid=prev_tr if prev_tr != "cut" else None)
+            if sb.format == "pov" and not new_ch and i >= 3 and "blink" not in [o["tr"] for o in out[-2:]]:
+                tr = "blink"   # 眨眼是 pov 的标志：至少每三刀一次
         mk = 0.55 + 0.45 * _h(sb.title, i, "mk")
         if flow in ("punchy", "rollercoaster"):
             mk = min(1.0, mk + 0.2)
@@ -171,7 +175,7 @@ def transition_frame(tr: str, lt: float) -> Optional[Dict[str, Any]]:
 
 def transition_out(next_tr: Optional[str], left: float) -> Optional[Dict[str, Any]]:
     """上一段最后 left 秒（到下一段开始的剩余时间）的"出"半程：甩镜 / 冲推 / 故障先起势。"""
-    if next_tr not in ("whip", "zoom", "glitch") or left >= TR_OUT:
+    if next_tr not in ("whip", "zoom", "glitch", "blink") or left >= TR_OUT:
         return None
     return {"k": next_tr, "p": round(1 - left / TR_OUT, 3), "out": True}
 

@@ -182,6 +182,10 @@ def thumbnail_storyboard(sb: Storyboard, i: int, *, landscape: bool) -> Storyboa
         "caption": "", "stat": None, "card": None, "tooltip": None, "banner": None, "screen": None, "callout": None,
         "chip": "", "chapter": None, "time": None, "time_sub": "", "time_label": "", "hud": False, "caption_ref": "",
         "env": env, "subject": subj, "duration": 3.0, "sim_end": None})
+    if sb.format == "pov":   # 手 / 头部运动可能是从前面的段沿用下来的
+        b.hands = next((x.hands for x in reversed(sb.beats[: i + 1]) if x.hands is not None), b.hands)
+        b.head = "steady"
+        b.transition = "cut"
     if b.scene == "custom" and env.set and landscape != (sb.width > sb.height):
         zm = env.set.zoom * (0.8 if landscape else 1.35)
         b.env = env.model_copy(update={"set": env.set.model_copy(update={"zoom": round(zm, 2)})})
@@ -192,6 +196,8 @@ def thumbnail_storyboard(sb: Storyboard, i: int, *, landscape: bool) -> Storyboa
                   "style": sb.theme.style if sb.theme.style in ("toon", "retro") else "calm", "layout": "full"},
         "clock": {"mode": "none"}, "intro": {"style": "title", "title": "x", "duration": 0.4},
         "outro": {"chart": False, "question_duration": 0.5}, "beats": [b.model_dump()], "pace": 1.0,
+        # pov：封面不画顶部钩子、不做睁眼
+        **({"pov": {**sb.pov.model_dump(), "text": "", "open_eyes": False}} if sb.format == "pov" and sb.pov else {}),
         "width": 1920 if landscape else 1080, "height": 1080 if landscape else 1920})
 
 

@@ -112,16 +112,22 @@ def has_loop(text: str) -> bool:
 
 
 # ------------------------------------------------------------------ 检查
+POV_HOOK_WORDS = 10      # 顶部 POV 钩子最多几个词
+POV_YOU_SHARE = 0.6      # pov 字幕里至少多少比例对"你"说话
+
+
 def hook_report(sb: Storyboard) -> List[Finding]:
     f: List[Finding] = []
-    title = sb.intro.title if sb.intro and sb.intro.style != "none" else ""
+    pov = sb.format == "pov" and sb.pov is not None
+    # pov：顶部 "POV: …" 从第 0 帧就在（闭着眼时就打字出来），它就是开头钩子；没有片头卡
+    title = ("POV: " + sb.pov.text) if pov else sb.intro.title if sb.intro and sb.intro.style != "none" else ""
     caps = [(i, b.caption) for i, b in enumerate(sb.beats) if b.caption]
 
     # 规则 2b：最有意思的细节在前 3 秒——标题卡从 0 秒开始，且标题本身要够具体
     if not title:
         f.append(Finding("fix", "first3s", "intro", "No title card, so there is no hook in the first 3 seconds. Add intro.title."))
     else:
-        if sb.intro.duration > HOOK_SECONDS + 0.3:
+        if not pov and sb.intro.duration > HOOK_SECONDS + 0.3:
             f.append(Finding("tip", "first3s", "intro.duration", f"Title card lasts {sb.intro.duration:.1f}s (over {HOOK_SECONDS:.0f}s). Shorten it so the first shot lands sooner."))
         if not is_specific(title):
             f.append(Finding("fix", "specific", "intro.title",
@@ -129,6 +135,14 @@ def hook_report(sb: Storyboard) -> List[Finding]:
     if caps and not is_specific(caps[0][1]) and not has_loop(caps[0][1]):
         f.append(Finding("fix", "first3s", f"beats[{caps[0][0]}].caption",
                          "First caption is flat. Put the most interesting detail or number of the whole video here."))
+
+    if pov:
+        if len(words(sb.pov.text)) > POV_HOOK_WORDS:
+            f.append(Finding("fix", "first3s", "pov.text", f"POV hook has {len(words(sb.pov.text))} words; keep it to {POV_HOOK_WORDS} or fewer so it types out in about a second."))
+        you = sum(1 for _, c in caps if re.search(r"\b(you|your|you're|yourself)\b", c.lower())) / max(1, len(caps))
+        if caps and you < POV_YOU_SHARE:
+            f.append(Finding("fix", "pov", "storyboard", f"Only {you:.0%} of captions talk to \"you\". POV videos happen to the viewer: "
+                             "\"You grab the bed.\" \"Your phone floats away.\" (aim for most captions)."))
 
     # 规则 1：具体
     if caps:

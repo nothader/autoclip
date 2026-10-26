@@ -382,12 +382,53 @@ def _shimmer(seed: int, dur: float = 2.6) -> np.ndarray:
     return tones * trem * env * 0.07
 
 
+def _breath(seed: int, dur: float = 3.0) -> np.ndarray:
+    """第一人称呼吸：滤波噪声的吸 / 呼循环（吸气更亮、更短）。"""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    x = _noise(n, seed)
+    inhale, exhale = _norm(_band(x, 900, 4200)), _norm(_band(x, 350, 1800))
+    period = 1.7
+    ph = (t % period) / period
+    env_in = np.where(ph < 0.38, np.sin(np.pi * ph / 0.38), 0.0) ** 2
+    env_out = np.where(ph >= 0.42, np.sin(np.pi * (ph - 0.42) / 0.58), 0.0) ** 1.5
+    fade = np.minimum(1, t / 0.3) * np.minimum(1, (dur - t) / 0.3)
+    return (inhale * env_in * 0.55 + exhale * env_out * 0.7) * fade * 0.16
+
+
+def _footsteps(seed: int, dur: float, step: float, hard: float) -> np.ndarray:
+    n = int(dur * SR)
+    out = np.zeros(n)
+    rng = _rng(seed)
+    m = int(0.14 * SR)
+    tt = np.arange(m) / SR
+    k = 0
+    for t0 in np.arange(0.12, dur - 0.1, step):
+        i = int((t0 + rng.uniform(-0.015, 0.015)) * SR)
+        thump = np.sin(2 * np.pi * (95 - 120 * tt) * tt) * np.exp(-tt / 0.03)
+        scuff = _band(_noise(m, seed + k), 800, 5000) * np.exp(-tt / 0.02) * 0.35 * hard
+        g = 0.85 + 0.15 * ((k % 2) * 2 - 1)   # 左右脚轻重不同
+        seg = (thump + scuff) * g
+        out[i:i + m] += seg[: max(0, min(m, n - i))]
+        k += 1
+    return out * 0.5
+
+
+def _steps(seed: int, dur: float = 3.0) -> np.ndarray:
+    return _footsteps(seed, dur, 0.55, 0.6)
+
+
+def _run_steps(seed: int, dur: float = 3.0) -> np.ndarray:
+    return _footsteps(seed, dur, 0.31, 1.0) * 1.15
+
+
 EVENT_FUNCS = {"tick": _tick, "whoosh": _whoosh, "boom": _boom, "impact": _impact,
                "rumble": _rumble, "alarm": _alarm, "heartbeat": _heartbeat, "crack": _crack, "ring": _ring,
                "beep": _beep, "siren": _siren, "thunder": _thunder,
                "riser": _riser, "swell": _swell, "drop": _drop,
-               "debris": _debris, "sparkle": _sparkle, "pop": _pop, "glitch": _glitch, "shimmer": _shimmer}
-TIMED = {"rumble", "alarm", "siren", "heartbeat", "whoosh", "riser", "swell", "sparkle", "shimmer"}   # 接受 dur 的事件
+               "debris": _debris, "sparkle": _sparkle, "pop": _pop, "glitch": _glitch, "shimmer": _shimmer,
+               "breath": _breath, "steps": _steps, "run_steps": _run_steps}
+TIMED = {"rumble", "alarm", "siren", "heartbeat", "whoosh", "riser", "swell", "sparkle", "shimmer", "breath", "steps", "run_steps"}   # 接受 dur 的事件
 
 
 def _reverb(x: np.ndarray, seconds: float = 2.2, seed: int = 99) -> np.ndarray:

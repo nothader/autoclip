@@ -22,6 +22,7 @@ export function layout(width, plan) {
   const th = (plan && plan.theme) || {};
   for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
   document.body.classList.toggle("split", th.layout === "split" && !land);
+  document.body.classList.toggle("pov", !!(plan && plan.pov));
   $("#ov").style.transform = `scale(${s})`;
   if (plan && plan.theme && plan.theme.accent) document.documentElement.style.setProperty("--accent", plan.theme.accent);
 }
@@ -70,7 +71,12 @@ export function drawOverlay(fr, plan) {
     const mode = (plan.theme && plan.theme.captions) || "line";
     cap.classList.toggle("words", mode === "words");
     cap.classList.toggle("box", mode === "box");
-    if (mode === "words") {
+    cap.classList.toggle("typed", mode === "typed");
+    if (mode === "typed") {
+      // 打字：前 ~55% 时间逐字打出（带光标），之后整句停留
+      const txt = fr.cap.text, n = Math.min(txt.length, Math.ceil(Math.min(1, (fr.cap.k ?? 1) / 0.85) * txt.length));
+      setHTML(cap, "cap", esc(txt.slice(0, n)) + (n < txt.length ? '<span class="cur"></span>' : ""));
+    } else if (mode === "words") {
       // 逐词弹出：已出现的词常亮，最新的词高亮 + 弹跳
       const ws = fr.cap.text.split(/\s+/).filter(Boolean);
       const shown = Math.min(ws.length, Math.floor((fr.cap.k ?? 1) * ws.length) + 1);
@@ -257,6 +263,7 @@ export function drawOverlay(fr, plan) {
   }
 
   $("#flash").style.opacity = Math.max(fr.flash || 0, tr && tr.k === "flash" ? (1 - tr.p) ** 1.8 : 0);
+  drawPov(fr, plan);
   // 进度条（bold / retro）与胶片颗粒抖动（cinematic）
   if (plan.duration) $("#prog").style.width = `${Math.min(100, (fr.t || 0) / plan.duration * 100).toFixed(2)}%`;
   const gi = Math.floor((fr.t || 0) * 24) % 7;
@@ -379,4 +386,26 @@ function mapLabel(x, y, text, st, accent) {
   const w = Math.max(60, text.length * 12 + 26);
   return `<g><rect x="${x - w / 2}" y="${y - 18}" width="${w}" height="34" rx="6" fill="rgba(8,10,14,0.82)" stroke="${accent ? "var(--accent)" : "rgba(255,255,255,0.6)"}" stroke-width="1.5"/>`
     + `<text x="${x}" y="${y + 6}" text-anchor="middle" fill="${st.text === "#2b2622" ? "#fff" : st.text}" font-family="Inter" font-weight="600" font-size="16" letter-spacing="2">${esc(text.toUpperCase())}</text></g>`;
+}
+
+
+// ---------- pov：顶部 "POV: …" 钩子（开头打字）、眼皮（睁眼 / 眨眼）、隧道视野 ----------
+function drawPov(fr, plan) {
+  const hdr = $("#povhdr"), lt = $("#lidT"), lb = $("#lidB");
+  const p = plan.pov && fr.pov;
+  show(hdr, !!p && !!plan.pov.text); show(lt, !!p && p.lid > 0.001); show(lb, !!p && p.lid > 0.001);
+  const beat = fr.b !== undefined && plan.beats ? plan.beats[fr.b] : null;
+  const tun = beat && beat.effects.includes("tunnel") ? 0.75 + 0.25 * Math.sin((fr.t || 0) * Math.PI * 2 / 0.85) : 0;
+  $("#tunnel").style.opacity = p ? tun.toFixed(3) : "0";
+  if (!p) return;
+  const txt = plan.pov.text, n = Math.ceil(p.k * txt.length);
+  setHTML(hdr, "povhdr", `<b>POV:</b>${esc(txt.slice(0, n))}${n < txt.length ? '<span class="cur"></span>' : ""}`);
+  if (p.lid > 0.001) {
+    // 眼皮：上下各一片弧形，lid=1 时在画面中线合上
+    // edge = 上眼皮弧形最低点的 y；全闭时再多压一个弧高，让眼角也合上
+    const land = plan.width > plan.height, h = land ? 680 : 1180, mid = land ? 540 : 960, arc = land ? 200 : 300;
+    const edge = -40 + p.lid * (mid + 40) + p.lid ** 3 * arc;
+    lt.style.transform = `translateY(${(edge - h).toFixed(1)}px)`;
+    lb.style.transform = `translateY(${(h - edge).toFixed(1)}px)`;
+  }
 }

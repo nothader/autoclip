@@ -1,0 +1,5758 @@
+{
+ "format": "pov",
+ "title": "POV: you wake up and gravity is gone",
+ "premise": "First person: you wake up and Earth's gravity has switched off. Your room, your street, then the sky itself.",
+ "pov": {
+  "text": "you wake up and gravity is gone",
+  "sleeve": "#5f7fbf",
+  "skin": "#d6a07c"
+ },
+ "theme": {
+  "style": "calm",
+  "accent": "#74c0fc",
+  "palette": "natural"
+ },
+ "intro": {
+  "style": "overlay",
+  "title": "POV: you wake up and *gravity is gone*",
+  "duration": 1.6
+ },
+ "outro": {
+  "chart": false,
+  "question_duration": 4.6,
+  "end": {
+   "kind": "question",
+   "lines": [
+    "WHAT WOULD YOU",
+    "GRAB FIRST?"
+   ],
+   "accent_line": 1
+  }
+ },
+ "thumbnail": "*GRAVITY* IS GONE",
+ "thumbnail_beat": 6,
+ "beats": [
+  {
+   "duration": 4.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your alarm rings. But it's up on the ceiling.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.9,
+      0.95,
+      -0.2
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "clock",
+       "at": [
+        0.85,
+        2.64,
+        -0.75
+       ],
+       "scale": 0.2,
+       "color": "#f8f9fa",
+       "rotate": [
+        90,
+        0,
+        0
+       ],
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.2,
+         "speed": 9
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.3,
+        2.66,
+        -1.3
+       ],
+       "scale": [
+        0.5,
+        0.16,
+        0.35
+       ],
+       "color": "#f8f9fa"
+      },
+      {
+       "kind": "box",
+       "at": [
+        1.2,
+        2.66,
+        0.1
+       ],
+       "scale": [
+        0.22,
+        0.05,
+        0.3
+       ],
+       "color": "#e03131",
+       "count": 3,
+       "seed": 4,
+       "spread": [
+        1.2,
+        0.1,
+        1.2
+       ],
+       "animate": [
+        {
+         "type": "spin",
+         "axis": "y",
+         "speed": 0.2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        1.5,
+        2.6,
+        -1.0
+       ],
+       "scale": [
+        0.08,
+        0.12,
+        0.08
+       ],
+       "color": "#ffd43b"
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    78
+   ],
+   "gaze_to": [
+    8,
+    70
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "sfx": [
+    {
+     "type": "alarm",
+     "at": 1.4,
+     "dur": 3.0,
+     "gain": 0.35
+    }
+   ]
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You look down. Your bed is a meter below you.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.9,
+      1.75,
+      -0.2
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "clock",
+       "at": [
+        0.85,
+        2.64,
+        -0.75
+       ],
+       "scale": 0.2,
+       "color": "#f8f9fa",
+       "rotate": [
+        90,
+        0,
+        0
+       ],
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.2,
+         "speed": 9
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.3,
+        2.66,
+        -1.3
+       ],
+       "scale": [
+        0.5,
+        0.16,
+        0.35
+       ],
+       "color": "#f8f9fa"
+      },
+      {
+       "kind": "box",
+       "at": [
+        1.2,
+        2.66,
+        0.1
+       ],
+       "scale": [
+        0.22,
+        0.05,
+        0.3
+       ],
+       "color": "#e03131",
+       "count": 3,
+       "seed": 4,
+       "spread": [
+        1.2,
+        0.1,
+        1.2
+       ],
+       "animate": [
+        {
+         "type": "spin",
+         "axis": "y",
+         "speed": 0.2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        1.5,
+        2.6,
+        -1.0
+       ],
+       "scale": [
+        0.08,
+        0.12,
+        0.08
+       ],
+       "color": "#ffd43b"
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    20
+   ],
+   "gaze_to": [
+    5,
+    -62
+   ],
+   "hands": {
+    "pose": "float"
+   },
+   "head": "float",
+   "transition": "blink",
+   "sfx": [
+    {
+     "type": "whoosh",
+     "at": 0.4,
+     "dur": 1.6,
+     "gain": 0.4
+    }
+   ]
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You reach for your phone. It drifts away.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.4,
+      1.6,
+      0.2
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.25,
+        1.55,
+        -1.2
+       ],
+       "scale": [
+        0.08,
+        0.01,
+        0.16
+       ],
+       "color": "#212529",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          0.45,
+          1.85,
+          -1.9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "y",
+         "speed": 0.8
+        }
+       ]
+      },
+      {
+       "kind": "clock",
+       "at": [
+        0.85,
+        2.64,
+        -0.75
+       ],
+       "scale": 0.2,
+       "color": "#f8f9fa",
+       "rotate": [
+        90,
+        0,
+        0
+       ],
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.2,
+         "speed": 9
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.3,
+        2.66,
+        -1.3
+       ],
+       "scale": [
+        0.5,
+        0.16,
+        0.35
+       ],
+       "color": "#f8f9fa"
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    4,
+    -10
+   ],
+   "gaze_to": [
+    8,
+    0
+   ],
+   "hands": {
+    "pose": "reach"
+   },
+   "head": "float"
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You catch it. Then Mom sends a text.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.4,
+      1.65,
+      -0.6
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "clock",
+       "at": [
+        0.85,
+        2.64,
+        -0.75
+       ],
+       "scale": 0.2,
+       "color": "#f8f9fa",
+       "rotate": [
+        90,
+        0,
+        0
+       ],
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.2,
+         "speed": 9
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.3,
+        2.66,
+        -1.3
+       ],
+       "scale": [
+        0.5,
+        0.16,
+        0.35
+       ],
+       "color": "#f8f9fa"
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    -6
+   ],
+   "hands": {
+    "pose": "phone",
+    "phone_text": "MOM: why is the dog on the ceiling??"
+   },
+   "head": "float",
+   "sfx": [
+    {
+     "type": "ring",
+     "at": 0.7,
+     "gain": 0.5
+    }
+   ]
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your dog paddles in the air. It looks so confused.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.3,
+      1.7,
+      0.3
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.4,
+        2.525,
+        -1.4
+       ],
+       "scale": [
+        0.8,
+        0.375,
+        0.35
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.7223076211353314,
+        2.175,
+        -1.3582531754730547
+       ],
+       "scale": [
+        0.09,
+        0.35,
+        0.09
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.5973076211353314,
+        2.175,
+        -1.141746824526945
+       ],
+       "scale": [
+        0.09,
+        0.35,
+        0.09
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.2026923788646684,
+        2.175,
+        -1.6582531754730547
+       ],
+       "scale": [
+        0.09,
+        0.35,
+        0.09
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.0776923788646684,
+        2.175,
+        -1.4417468245269451
+       ],
+       "scale": [
+        0.09,
+        0.35,
+        0.09
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.9886379332023916,
+        2.725,
+        -1.6375
+       ],
+       "scale": [
+        0.3,
+        0.25,
+        0.25
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.8370834875401147,
+        2.675,
+        -1.7249999999999999
+       ],
+       "scale": [
+        0.15,
+        0.11,
+        0.13
+       ],
+       "color": "#212529",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.8113620667976083,
+        2.725,
+        -1.1624999999999999
+       ],
+       "scale": [
+        0.25,
+        0.06,
+        0.06
+       ],
+       "color": "#d9a066",
+       "rotate": [
+        0,
+        30,
+        0
+       ],
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.15,
+         "speed": 1.2
+        },
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.25,
+         "speed": 2
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    -40,
+    8
+   ],
+   "gaze_to": [
+    -48,
+    12
+   ],
+   "hands": {
+    "pose": "reach"
+   },
+   "head": "float",
+   "sfx": [
+    {
+     "type": "pop",
+     "at": 0.6,
+     "gain": 0.4
+    }
+   ]
+  },
+  {
+   "duration": 4.0,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You push off the wall. Way too hard.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      2.4,
+      1.6,
+      -0.4
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    -80,
+    0
+   ],
+   "gaze_to": [
+    -10,
+    0
+   ],
+   "hands": {
+    "pose": "shield"
+   },
+   "head": "float",
+   "effects": [
+    "shake"
+   ],
+   "move": "whip",
+   "transition": "whip",
+   "sfx": [
+    {
+     "type": "whoosh",
+     "at": 0.1,
+     "dur": 0.8,
+     "gain": 0.7
+    },
+    {
+     "type": "impact",
+     "at": 3.2,
+     "gain": 0.9
+    }
+   ]
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Outside, cars are lifting off the road.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      1.6,
+      -2.6
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        0.6,
+        -9
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          -3,
+          4.1,
+          -9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        0.6,
+        -9.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#f8f9fa",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          2.5,
+          3.1,
+          -9.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        0.6,
+        -8.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#1c7ed6",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          6,
+          5.1,
+          -8.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    -4
+   ],
+   "gaze_to": [
+    0,
+    6
+   ],
+   "hands": {
+    "pose": "grab"
+   },
+   "head": "float",
+   "transition": "blink",
+   "sfx": [
+    {
+     "type": "rumble",
+     "at": 0.2,
+     "dur": 3.5,
+     "gain": 0.5
+    }
+   ]
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your neighbor hugs a lamp post. He won't let go.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      1.6,
+      -3.0
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        0.6,
+        -9
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          -3,
+          4.1,
+          -9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        0.6,
+        -9.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#f8f9fa",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          2.5,
+          3.1,
+          -9.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        0.6,
+        -8.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#1c7ed6",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          6,
+          5.1,
+          -8.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -2,
+        2.2,
+        -10
+       ],
+       "scale": [
+        0.12,
+        4.4,
+        0.12
+       ],
+       "color": "#343a40"
+      },
+      {
+       "kind": "person",
+       "at": [
+        -1.7,
+        2.2,
+        -10
+       ],
+       "scale": 1.0,
+       "color": "#ae3ec9",
+       "action": "float",
+       "rotate": [
+        0,
+        90,
+        0
+       ],
+       "seed": 4,
+       "color2": "#8d5524",
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "z",
+         "amount": 0.2,
+         "speed": 3
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    -12,
+    -6
+   ],
+   "hands": {
+    "pose": "grab",
+    "tremble": 0.3
+   },
+   "head": "shake"
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your water turns into a wobbly ball, like on the space station.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0.2,
+      1.6,
+      -0.3
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0.15,
+        1.55,
+        -1.2
+       ],
+       "scale": 0.11,
+       "color": "#74c0fc",
+       "material": "glass",
+       "animate": [
+        {
+         "type": "wobble",
+         "axis": "x",
+         "amount": 0.25,
+         "speed": 5
+        },
+        {
+         "type": "pulse",
+         "amount": 0.08,
+         "speed": 3
+        }
+       ]
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0.4,
+        1.7,
+        -1.5
+       ],
+       "scale": 0.04,
+       "color": "#74c0fc",
+       "material": "glass",
+       "count": 6,
+       "seed": 2,
+       "spread": [
+        0.6,
+        0.4,
+        0.4
+       ],
+       "animate": [
+        {
+         "type": "drift",
+         "axis": "y",
+         "amount": 0.1
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    -8
+   ],
+   "hands": {
+    "pose": "hold",
+    "holding": "cup"
+   },
+   "head": "float",
+   "effects": [
+    "bloom"
+   ],
+   "transition": "cut"
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "But here's the scary part. The air is floating away too.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      1.6,
+      -2.4
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        0.6,
+        -9
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          -3,
+          4.1,
+          -9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        0.6,
+        -9.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#f8f9fa",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          2.5,
+          3.1,
+          -9.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        0.6,
+        -8.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#1c7ed6",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          6,
+          5.1,
+          -8.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    10
+   ],
+   "gaze_to": [
+    0,
+    30
+   ],
+   "hands": {
+    "pose": "idle"
+   },
+   "head": "breathe",
+   "effects": [
+    "tunnel"
+   ],
+   "sfx": [
+    {
+     "type": "riser",
+     "at": 0.2,
+     "dur": 3.6,
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Gravity is the only thing that holds our air down.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      1.6,
+      -2.6
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        0.6,
+        -9
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          -3,
+          4.1,
+          -9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        0.6,
+        -9.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#f8f9fa",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          2.5,
+          3.1,
+          -9.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        0.6,
+        -8.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#1c7ed6",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          6,
+          5.1,
+          -8.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    30
+   ],
+   "gaze_to": [
+    0,
+    45
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "stat": {
+    "value": "100%",
+    "label": "OF OUR AIR IS HELD DOWN BY GRAVITY"
+   }
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "The window bursts open. The wind pulls you out.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      1.6,
+      -2.2
+     ],
+     "zoom": 1,
+     "ambience": "room",
+     "light_intensity": 2.6,
+     "ambient": 1.7,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.01,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9a27e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.8,
+        -1
+       ],
+       "scale": [
+        6,
+        0.1,
+        6
+       ],
+       "color": "#f1ece4"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        2
+       ],
+       "scale": [
+        6,
+        2.8,
+        0.1
+       ],
+       "color": "#e9e1d6"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3.0,
+        1.4,
+        -1
+       ],
+       "scale": [
+        0.1,
+        2.8,
+        6
+       ],
+       "color": "#e3dccf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.0,
+        1.4,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        2.8,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        1.0,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2.5,
+        -4.0
+       ],
+       "scale": [
+        2.0,
+        0.6,
+        0.1
+       ],
+       "color": "#ece5da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.0,
+        -3.92
+       ],
+       "scale": [
+        2.1,
+        0.06,
+        0.2
+       ],
+       "color": "#ffffff"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.25,
+        -0.2
+       ],
+       "scale": [
+        1.6,
+        0.5,
+        2.2
+       ],
+       "color": "#8d6e57"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.9,
+        0.55,
+        -0.2
+       ],
+       "scale": [
+        1.55,
+        0.12,
+        2.1
+       ],
+       "color": "#a5b4fc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -16
+       ],
+       "scale": [
+        40,
+        0.04,
+        22
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.0,
+        -9
+       ],
+       "scale": [
+        40,
+        0.04,
+        3.5
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.2,
+        -14
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -4,
+        3.0,
+        -14
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        4.5,
+        1.2,
+        -15
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        4.5,
+        3.0,
+        -15
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -18
+       ],
+       "scale": 1.4,
+       "color": "#2f9e44",
+       "count": 4,
+       "seed": 3,
+       "spread": [
+        16,
+        0,
+        3
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        0.6,
+        -9
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          -3,
+          4.1,
+          -9
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        0.6,
+        -9.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#f8f9fa",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          2.5,
+          3.1,
+          -9.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        0.6,
+        -8.5
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#1c7ed6",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          6,
+          5.1,
+          -8.5
+         ]
+        },
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "particles",
+       "at": [
+        0,
+        1.6,
+        -1.5
+       ],
+       "scale": 0.5,
+       "color": "#e7f5ff",
+       "count": 40,
+       "seed": 5,
+       "spread": [
+        3,
+        2,
+        3
+       ],
+       "animate": [
+        {
+         "type": "move",
+         "to": [
+          0,
+          2.4,
+          -8
+         ]
+        }
+       ]
+      }
+     ],
+     "bounce": "#e9e1d6"
+    }
+   },
+   "gaze": [
+    0,
+    0
+   ],
+   "hands": {
+    "pose": "grab",
+    "tremble": 0.8
+   },
+   "head": "run",
+   "effects": [
+    "shake",
+    "dizzy"
+   ],
+   "transition": "flash",
+   "sfx": [
+    {
+     "type": "crack",
+     "at": 0.1,
+     "gain": 0.8
+    },
+    {
+     "type": "whoosh",
+     "at": 0.3,
+     "dur": 3.0,
+     "gain": 0.8
+    }
+   ]
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You're not falling down. You're falling up.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      14,
+      2
+     ],
+     "zoom": 1,
+     "ambience": "wind",
+     "light_intensity": 2.6,
+     "ambient": 1.2,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        60,
+        0.04,
+        60
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.02,
+        0
+       ],
+       "scale": [
+        60,
+        0.04,
+        4
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -6,
+        1.2,
+        -5
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -6,
+        3.0,
+        -5
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        1.2,
+        -4
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        6,
+        3.0,
+        -4
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": 1.3,
+       "color": "#2f9e44",
+       "count": 10,
+       "seed": 7,
+       "spread": [
+        40,
+        0,
+        40
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2,
+        0
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "count": 4,
+       "seed": 9,
+       "spread": [
+        24,
+        10,
+        24
+       ],
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.3
+        },
+        {
+         "type": "drift",
+         "axis": "y",
+         "amount": 0.6
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    -75
+   ],
+   "gaze_to": [
+    10,
+    -85
+   ],
+   "hands": {
+    "pose": "float"
+   },
+   "head": "float",
+   "transition": "blink",
+   "effects": [
+    "dizzy"
+   ],
+   "sfx": [
+    {
+     "type": "whoosh",
+     "at": 0.2,
+     "dur": 2.4,
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Earth spins at up to 1,670 km/h. Nothing holds you to it now.",
+   "env": {
+    "set": {
+     "background": [
+      "#4d8fd6",
+      "#cfe6f7"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      40,
+      4
+     ],
+     "zoom": 1,
+     "ambience": "wind",
+     "light_intensity": 2.6,
+     "ambient": 1.2,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        60,
+        0.04,
+        60
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.02,
+        0
+       ],
+       "scale": [
+        60,
+        0.04,
+        4
+       ],
+       "color": "#495057"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -6,
+        1.2,
+        -5
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#ffe8cc"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        -6,
+        3.0,
+        -5
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#9c3b2f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        6,
+        1.2,
+        -4
+       ],
+       "scale": [
+        3,
+        2.4,
+        3
+       ],
+       "color": "#d0ebff"
+      },
+      {
+       "kind": "cone",
+       "at": [
+        6,
+        3.0,
+        -4
+       ],
+       "scale": [
+        4.2,
+        1.4,
+        4.0
+       ],
+       "color": "#1864ab"
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": 1.3,
+       "color": "#2f9e44",
+       "count": 10,
+       "seed": 7,
+       "spread": [
+        40,
+        0,
+        40
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        2,
+        0
+       ],
+       "scale": [
+        1.8,
+        0.8,
+        0.9
+       ],
+       "color": "#e03131",
+       "count": 4,
+       "seed": 9,
+       "spread": [
+        24,
+        10,
+        24
+       ],
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "spin",
+         "axis": "z",
+         "speed": 0.3
+        },
+        {
+         "type": "drift",
+         "axis": "y",
+         "amount": 0.6
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "gaze": [
+    20,
+    -80
+   ],
+   "gaze_to": [
+    40,
+    -82
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "float",
+   "stat": {
+    "value": "1,670 KM/H",
+    "label": "EARTH'S SPIN AT THE EQUATOR"
+   }
+  },
+  {
+   "duration": 4.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Clouds slide past under your feet.",
+   "env": {
+    "set": {
+     "background": [
+      "#2f6fb5",
+      "#9cc6ea"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      75,
+      0
+     ],
+     "zoom": 1,
+     "ambience": "wind",
+     "light_intensity": 2.6,
+     "ambient": 1.3,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        400,
+        0.04,
+        400
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        60,
+        0
+       ],
+       "scale": [
+        11,
+        3.5,
+        8
+       ],
+       "color": "#f8f9fa",
+       "count": 34,
+       "seed": 3,
+       "spread": [
+        110,
+        5,
+        110
+       ],
+       "opacity": 0.95,
+       "animate": [
+        {
+         "type": "drift",
+         "axis": "x",
+         "amount": 1.5
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    -60
+   ],
+   "gaze_to": [
+    30,
+    -50
+   ],
+   "hands": {
+    "pose": "float"
+   },
+   "head": "float",
+   "effects": [
+    "rays"
+   ]
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "The air is thin up here. Each breath feels empty.",
+   "env": {
+    "set": {
+     "background": [
+      "#1b3d6e",
+      "#5d8fc4"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      110,
+      0
+     ],
+     "zoom": 1,
+     "ambience": "wind",
+     "light_intensity": 2.6,
+     "ambient": 1.1,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        400,
+        0.04,
+        400
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        60,
+        0
+       ],
+       "scale": [
+        11,
+        3.5,
+        8
+       ],
+       "color": "#f8f9fa",
+       "count": 34,
+       "seed": 3,
+       "spread": [
+        110,
+        5,
+        110
+       ],
+       "opacity": 0.95,
+       "animate": [
+        {
+         "type": "drift",
+         "axis": "x",
+         "amount": 1.5
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    -10
+   ],
+   "gaze_to": [
+    0,
+    5
+   ],
+   "hands": {
+    "pose": "idle",
+    "tremble": 0.8
+   },
+   "head": "shake",
+   "effects": [
+    "tunnel"
+   ],
+   "stat": {
+    "value": "~1/3",
+    "label": "THE AIR YOU GET 8 KM UP"
+   }
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your phone buzzes one last time.",
+   "env": {
+    "set": {
+     "background": [
+      "#12284a",
+      "#3e6ea3"
+     ],
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      130,
+      0
+     ],
+     "zoom": 1,
+     "ambience": "wind",
+     "light_intensity": 2.6,
+     "ambient": 1.2,
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        400,
+        0.04,
+        400
+       ],
+       "color": "#6b8f4e"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        60,
+        0
+       ],
+       "scale": [
+        11,
+        3.5,
+        8
+       ],
+       "color": "#f8f9fa",
+       "count": 34,
+       "seed": 3,
+       "spread": [
+        110,
+        5,
+        110
+       ],
+       "opacity": 0.95,
+       "animate": [
+        {
+         "type": "drift",
+         "axis": "x",
+         "amount": 1.5
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    -10
+   ],
+   "hands": {
+    "pose": "phone",
+    "phone_text": "MOM: hold on to something!!",
+    "tremble": 0.6
+   },
+   "head": "float",
+   "transition": "blink",
+   "sfx": [
+    {
+     "type": "ring",
+     "at": 0.4,
+     "gain": 0.5
+    }
+   ]
+  },
+  {
+   "duration": 4.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Above you, the blue sky turns black.",
+   "env": {
+    "set": {
+     "background": "stars",
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      200,
+      0
+     ],
+     "zoom": 1,
+     "ambience": "space",
+     "light_intensity": 2.6,
+     "ambient": 1.0,
+     "objects": [
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        6,
+        2,
+        4
+       ],
+       "color": "#f8f9fa",
+       "count": 20,
+       "seed": 3,
+       "spread": [
+        200,
+        4,
+        200
+       ],
+       "opacity": 0.9
+      },
+      {
+       "kind": "sun",
+       "at": [
+        40,
+        220,
+        -120
+       ],
+       "scale": 8,
+       "color": "#fff3bf",
+       "material": "glow"
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    40
+   ],
+   "gaze_to": [
+    10,
+    70
+   ],
+   "hands": {
+    "pose": "float"
+   },
+   "head": "float",
+   "effects": [
+    "rays",
+    "bloom"
+   ],
+   "sfx": [
+    {
+     "type": "swell",
+     "at": 0.3,
+     "dur": 3.0,
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "duration": 4.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Then something grabs your ankle. And pulls.",
+   "env": {
+    "set": {
+     "background": "stars",
+     "ground": "none",
+     "ground_color": "#3c4a32",
+     "focus": [
+      0,
+      205,
+      0
+     ],
+     "zoom": 1,
+     "ambience": "space",
+     "light_intensity": 2.6,
+     "ambient": 1.0,
+     "objects": [
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "scale": [
+        6,
+        2,
+        4
+       ],
+       "color": "#f8f9fa",
+       "count": 20,
+       "seed": 3,
+       "spread": [
+        200,
+        4,
+        200
+       ],
+       "opacity": 0.9
+      },
+      {
+       "kind": "sun",
+       "at": [
+        40,
+        220,
+        -120
+       ],
+       "scale": 8,
+       "color": "#fff3bf",
+       "material": "glow"
+      }
+     ]
+    }
+   },
+   "gaze": [
+    0,
+    10
+   ],
+   "gaze_to": [
+    0,
+    -80
+   ],
+   "hands": {
+    "pose": "shield",
+    "tremble": 1.0
+   },
+   "head": "fall",
+   "effects": [
+    "tunnel"
+   ],
+   "hud": false,
+   "sfx": [
+    {
+     "type": "heartbeat",
+     "at": 0.0,
+     "dur": 3.0,
+     "gain": 0.8
+    }
+   ]
+  }
+ ]
+}

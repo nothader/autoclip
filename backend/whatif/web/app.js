@@ -7,6 +7,7 @@ import { drawOverlay, layout } from "./overlay.js";
 import { setEarthImage } from "./common.js";
 import { Satisfying } from "./satisfying.js";
 import { CineFX } from "./fx.js";
+import { PovRig, eyesCamera } from "./pov.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -115,8 +116,16 @@ const CAMS = {
   witness:     { pos: [0, 21, 26],       look: [0, 5, -80],    fov: 52 },   // 固定视角：高处阳台俯看整座城
 };
 
+let povHead = { handBob: 0, handSway: 0 };
 function placeCamera(name, p, S, fr, beat, env) {
   const lt = fr.lt || 0;
+  if (name === "eyes" && !(env && env.globe)) {   // 第一人称：你的眼睛（自定义布景里 focus 就是眼睛的位置）
+    const eye = env && env.custom ? new THREE.Vector3(...env.focus) : p.clone().add(new THREE.Vector3(0, 1.65 * S, 0));
+    const r = eyesCamera(camera, beat, fr, eye, env && env.custom ? 1 : S, plan, noise1);
+    lastLook.copy(r.look);
+    povHead = r.head;
+    return;
+  }
   const fx = beat ? beat.effects : [];
   if (env && env.globe) {
     let dist = { closeup: 36, front: 48, wide: 62, far: 84, establishing: 72, aerial: 54 }[name] ?? 50;
@@ -181,6 +190,7 @@ let plan = null;
 let STYLE = "calm";
 let satisfying = null;
 let anchor = null;
+let povRig = null;
 
 // ---------- 前景锚点：镜头下方的小桌 + 咖啡杯 / 饮料，随天气变化 ----------
 function buildAnchor(kind) {
@@ -365,6 +375,10 @@ function frame(i) {
 
   if (beat) { placeCamera(beat.camera, camPivot, camScale, fr, beat, env); styleCamera(raw, beat); updateAnchor(raw, beat); }
   else { camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0); }
+  if (plan.pov) {   // 画面下方你自己的手
+    if (!povRig) { povRig = new PovRig(camera, plan.pov); if (!camera.parent) scene.add(camera); }
+    povRig.update(fr, beat && beat.camera === "eyes" ? beat : null, beat && beat.i > 0 ? plan.beats[beat.i - 1] : null, W > H, povHead);
+  }
   world.update(fr, p, S, beat, camera.position);
   renderer.toneMappingExposure = world.exposure || 1.0;
   effects.update(currentSubject, currentSubject ? currentSubject.meshes : null, fr, beat, camera);
@@ -423,6 +437,7 @@ function post(fr, beat, fxFlash) {
   const g = glitchOn(fr, beat);
   if (g > 0) out.push(glitchCss(fr.f ?? Math.round((fr.t || 0) * 30), g));
   if (beat && beat.effects.includes("bloom")) out.push("brightness(1.1) saturate(1.25) contrast(1.05)");
+  if (beat && beat.effects.includes("dizzy")) out.push(`blur(${(1.2 + 1.2 * Math.sin((fr.t || 0) * 2.1)).toFixed(2)}px)`);
   const li = Math.max(fxFlash || 0, fr.lightning ? fr.lightning * 0.6 : 0);
   if (li > 0.01) out.push(`brightness(${(1 + li).toFixed(2)})`);
   return out.join(" ");

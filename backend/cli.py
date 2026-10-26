@@ -539,7 +539,7 @@ def build_parser() -> argparse.ArgumentParser:
     wp = wsub.add_parser("plan", help="题目 → 分镜 JSON（用 LLM；可手改后再 render）")
     wp.add_argument("premise", help='题目，如 "What if you got 2x faster every second?"')
     wp.add_argument("--notes", help="给编剧的额外要求")
-    wp.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival"], help="指定版式（默认让模型按题目选）")
+    wp.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival", "pov"], help="指定版式（默认让模型按题目选）")
     wp.add_argument("-o", "--output", help="分镜 JSON 输出路径")
     wp.add_argument("--json", action="store_true")
     _add_llm_args(wp)
@@ -548,7 +548,7 @@ def build_parser() -> argparse.ArgumentParser:
     wm = wsub.add_parser("make", help="题目 → 分镜 → MP4 一步到位")
     wm.add_argument("premise")
     wm.add_argument("--notes")
-    wm.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival"], help="指定版式（默认让模型按题目选）")
+    wm.add_argument("--format", choices=["escalation", "timeline", "countdown", "story", "survival", "pov"], help="指定版式（默认让模型按题目选）")
     _add_llm_args(wm)
     for x in (wr, wm):
         x.add_argument("-o", "--output", help="MP4 输出路径（默认 数据目录/whatif/<标题>.mp4）")

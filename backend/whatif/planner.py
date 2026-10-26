@@ -26,6 +26,7 @@ FORMAT_EXAMPLES = {
     "timeline": "nitrogen_custom_sets.json",
     "countdown": "friction_disappeared.json",
     "story": "moon_shattered.json",
+    "pov": "pov_gravity_gone.json",
 }
 
 FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told otherwise):
@@ -41,7 +42,17 @@ FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told
   Beats set `chapter` when a new chapter starts, `chip` for time/date labels ("6:03 PM", "5 DAYS LATER"), `tooltip`
   for sourced facts ("REAL EVENT: ..."), `banner` for a news headline, scene="map" with env.map for maps.
 - survival: a personal survival scenario timed from an event ("TIME SINCE BITE"). clock.mode="stopwatch",
-  `time` = [from, to] seconds counting UP; use `screen` (vitals / phone_call) and interiors (hospital)."""
+  `time` = [from, to] seconds counting UP; use `screen` (vitals / phone_call) and interiors (hospital).
+- pov: "POV: you ..." first-person video; the VIEWER is the character. `pov.text` is the hook pinned at the top from
+  frame 0 (it types out while your eyes are still closed, then they open): lower-case, 10 words max, specific
+  ("you wake up and gravity is gone", "you're the last person on Earth"). No intro card. Use camera "eyes" on nearly
+  every beat; in a custom set, env.set.focus IS your eye position (about 1.6 m up when standing, 0.5 lying down).
+  Per beat: `gaze` [yaw, pitch] degrees (+yaw = look right, +pitch = look up) and `gaze_to` to turn your head during
+  the beat; `head`: steady / breathe / walk / run (you move forward) / stumble / fall / float / shake (fear);
+  `hands`: {pose: idle / reach / phone / shield / grab / cover / fists / point / wave / hold / float / none,
+  holding: phone / flashlight / cup, phone_text: "MOM: where are you??", tremble: 0-1}. Captions talk to the viewer in
+  short present tense ("You grab the bed. Your phone floats away."). Transitions: blink (eyes close and open) is the
+  signature cut. Effects: tunnel (tunnel vision + heartbeat) and dizzy. End on a cliffhanger, then a question card."""
 
 RULES = f"""You are the writer-director of a short vertical "what if" science video (TikTok / Reels / Shorts, 40-95 seconds).
 Look: low-poly 3D simulation in one of several visual styles (below); one short caption per shot; NO narration and NO

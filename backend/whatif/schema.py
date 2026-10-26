@@ -11,6 +11,7 @@ LLM 只负责「写」：选场景、镜头、文案、里程碑；所有数字�
 - countdown：倒计时时钟（"摩擦力消失 5 秒"）
 - story：分章节叙事，顶部进度条 + 章节标题 + 时间标签 + 信息框（"TWISTEX"、"月球碎裂"）
 - survival：计时器 + 生命体征等屏幕（"被毒蛇咬了"）
+- pov：第一人称"你"的视角（"POV: 你醒来发现重力消失了"）：眼睛机位 + 画面里你自己的手、眨眼转场、顶部固定 POV 钩子、打字字幕
 """
 from __future__ import annotations
 
@@ -18,14 +19,14 @@ from typing import List, Literal, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-Format = Literal["escalation", "timeline", "countdown", "story", "survival"]
+Format = Literal["escalation", "timeline", "countdown", "story", "survival", "pov"]
 SceneName = Literal[
     "city", "highway", "suburb", "park", "fields", "forest", "desert", "outback", "mountains", "volcano",
     "coast", "ocean", "sky", "orbit", "deep_space", "globe", "map", "interior", "ancient", "lab", "void", "custom",
 ]
 CameraName = Literal[
     "follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup",
-    "establishing", "pov", "top_down", "dolly", "witness",
+    "establishing", "pov", "top_down", "dolly", "witness", "eyes",
 ]
 SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
 Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat"]
@@ -35,14 +36,16 @@ Effect = Literal[
     "dust", "vapor_cone", "glow", "flash",
     "fire", "smoke", "embers", "earthquake", "vanish", "freeze", "darken",
     "explosion", "sparks", "confetti", "lightning", "rays", "glitch", "bloom",
+    "tunnel", "dizzy",
 ]
 Move = Literal["none", "swoop_in", "swoop_out", "crane_up", "crane_down", "arc_left", "arc_right", "push_in", "pull_out",
                "whip", "dutch", "drone_rise", "fly_by", "spiral"]
-Transition = Literal["cut", "whip", "flash", "zoom", "dip", "glitch"]
+Transition = Literal["cut", "whip", "flash", "zoom", "dip", "glitch", "blink"]
 SfxType = Literal[
     "whoosh", "boom", "riser", "impact", "tick", "swell", "drop",
     "rumble", "alarm", "heartbeat", "crack", "ring", "beep", "siren", "thunder",
     "debris", "sparkle", "pop", "glitch", "shimmer",
+    "breath", "steps", "run_steps",
 ]
 QuantityKind = Literal["speed", "length", "mass", "temperature", "count", "generic"]
 TimeOfDay = Literal["day", "golden", "dusk", "night", "dawn"]
@@ -205,6 +208,7 @@ class SetSpec(_Strict):
     light: str = "#ffffff"
     light_intensity: float = 2.2
     ambient: float = 0.8
+    bounce: str = "#30343c"          # 环境光的"地面反射"色（朝下的面拿到的光）；室内用接近墙面的浅色，天花板才不会发黑
     focus: Tuple[float, float, float] = (0, 1, 0)    # 镜头围绕的点
     zoom: float = 1.0                                 # 镜头距离倍数
     ambience: Literal["none", "space", "room", "calm", "forest", "ocean", "wind", "lab", "rumble"] = "space"
@@ -285,7 +289,7 @@ class Narration(_Strict):
 
 
 VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness"]
-CaptionMode = Literal["line", "words", "box"]
+CaptionMode = Literal["line", "words", "box", "typed"]
 STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line"}
 
 
@@ -306,6 +310,28 @@ class Sfx(_Strict):
     at: float = 0.0              # 相对本段开始的秒数
     gain: float = 1.0
     dur: Optional[float] = Field(default=None, gt=0, le=20)   # 可选：持续时长（whoosh / riser / rumble / heartbeat / alarm … 适用）
+
+
+HandPose = Literal["none", "idle", "reach", "phone", "shield", "grab", "cover", "fists", "point", "wave", "hold", "float"]
+HeadMotion = Literal["steady", "breathe", "walk", "run", "stumble", "fall", "float", "shake"]
+HAND_POSES: Tuple[str, ...] = HandPose.__args__  # type: ignore[attr-defined]
+HEAD_MOTIONS: Tuple[str, ...] = HeadMotion.__args__  # type: ignore[attr-defined]
+
+
+class Hands(_Strict):
+    """pov：画面下方你自己的手（镜头坐标系里的一对手臂）。"""
+    pose: HandPose = "idle"
+    holding: Literal["none", "phone", "cup", "flashlight"] = "none"   # 右手拿着的东西（phone 姿势默认拿手机）
+    phone_text: str = ""             # 手机屏幕上的字（"NO SIGNAL" / "MOM: where are you??"）
+    tremble: float = Field(default=0.0, ge=0, le=1)   # 手抖（害怕 / 冷）
+
+
+class Pov(_Strict):
+    """pov 版式：顶部固定的 POV 钩子 + 你的手的样子。"""
+    text: str                        # "you wake up and gravity is gone"（显示为 "POV: …"，整片固定在顶部）
+    skin: str = "#d6a07c"
+    sleeve: str = "#343a40"
+    open_eyes: bool = True           # 开头从闭眼到睁眼（像刚醒来）
 
 
 class Beat(_Strict):
@@ -339,6 +365,11 @@ class Beat(_Strict):
     transition: Optional[Transition] = None   # 进入本段的转场；None = 自动
     roll: float = 0.0                # 镜头横滚角（度）：180 = 整个世界倒过来（地面在头顶、天空在脚下）
     roll_to: Optional[float] = None  # 本段结束时的横滚角；设了就在本段内缓动转过去（如 0 → 180 把世界翻过来）
+    # --- pov（camera="eyes"）---
+    hands: Optional[Hands] = None    # 省略 = 沿用上一段（pov 版式第一段默认 idle）
+    head: Optional[HeadMotion] = None   # 头部运动：walk / run 会往前走；fall 往下掉；省略 = 沿用上一段
+    gaze: Tuple[float, float] = (0.0, 0.0)   # 视线（偏航, 俯仰）度：偏航 + = 向右看，俯仰 + = 抬头
+    gaze_to: Optional[Tuple[float, float]] = None   # 本段结束时的视线；设了就在本段内转头过去
     @field_validator("caption")
     @classmethod
     def _caption_len(cls, v: str) -> str:
@@ -392,12 +423,15 @@ class Storyboard(_Strict):
     height: int = 1920
     thumbnail: str = ""          # 封面大字（2-5 个词，*星号* 标出高亮词，如 "SNOW IN *DUBAI*?"）；空 = 从标题推
     thumbnail_beat: Optional[int] = None   # 封面用哪一段的画面；None = 自动挑最有冲击力的一段
+    pov: Optional[Pov] = None    # format=pov 必填
     pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.2 = 镜头短 1.2 倍、画面动作快 1.2 倍；None = 用渲染参数（默认 1.2）
 
     @model_validator(mode="after")
     def _check(self) -> "Storyboard":
         if self.beats[0].subject is None:
             self.beats[0].subject = Subject() if self.format == "escalation" else Subject(type="none")
+        if self.format == "pov" and self.pov is None:
+            raise ValueError("format=pov 需要 pov（顶部钩子文字，如 {\"text\": \"you wake up and gravity is gone\"}）")
         if self.format == "escalation" and self.quantity is None:
             raise ValueError("format=escalation 需要 quantity")
         if self.quantity is None and self.outro.chart:

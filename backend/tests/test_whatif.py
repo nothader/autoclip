@@ -774,3 +774,76 @@ def test_no_globes_rule_and_prompt():
     assert not any(x.rule == "no_globe" for x in quality_report(sb))
     p = build_prompt("What if the oceans dried up?")
     assert "NEVER use globes" in p and '"scene": "globe"' not in p and "globe uses env.globe" not in p
+
+
+# ---------------------------------------------------------------- pov: first person
+def _pov_sb(n=6, **kw):
+    beats = [{"duration": 3, "scene": "custom", "camera": "eyes", "subject": {"type": "none"}, "caption": f"You see thing {i}. Your hands shake.",
+              "env": {"set": {"ground": "plane", "focus": [0, 1.6, 0], "objects": [{"kind": "box", "at": [0, 1, -3]}]}}} for i in range(n)]
+    beats[0]["hands"] = {"pose": "phone", "phone_text": "MOM: where are you??"}
+    beats[0]["head"] = "walk"
+    beats[2]["hands"] = {"pose": "shield", "tremble": 0.5}
+    beats[2]["head"] = "run"
+    sb = {"format": "pov", "title": "t", "premise": "p", "pov": {"text": "you wake up and gravity is gone"}, "beats": beats,
+          "outro": {"chart": False, "end": {"kind": "question", "lines": ["WHAT DO", "YOU DO?"]}}, "pace": 1.0}
+    sb.update(kw)
+    return Storyboard.model_validate(sb)
+
+
+def test_pov_needs_hook_text():
+    with pytest.raises(Exception):
+        Storyboard.model_validate({"format": "pov", "title": "t", "premise": "p", "beats": [{"duration": 2, "camera": "eyes"}]})
+
+
+def test_pov_plan_opens_eyes_inherits_hands_and_types():
+    plan = compile_plan(_pov_sb())
+    assert plan["pov"]["text"] == "you wake up and gravity is gone" and plan["theme"]["captions"] == "typed"
+    f0, f_open = plan["frames"][0], plan["frames"][int(1.6 * plan["fps"])]
+    assert f0["pov"]["lid"] > 0.95 and f_open["pov"]["lid"] == 0 and f0["pov"]["k"] < 0.1 and f_open["pov"]["k"] == 1
+    assert "intro" not in f0 and f0.get("cap")          # 没有片头卡；字幕从第一帧就打字
+    hands = [b["hands"]["pose"] for b in plan["beats"]]
+    assert hands == ["phone", "phone", "shield", "shield", "shield", "shield"]   # 没写就沿用上一段
+    assert [b["head"] for b in plan["beats"]][:4] == ["walk", "walk", "run", "run"]
+    assert all(b["move"] == "none" for b in plan["beats"])   # 第一人称不叠加电影运镜
+    types = {e["type"] for e in plan["audio"]}
+    assert {"steps", "run_steps", "breath"} <= types      # 走路 / 跑步自动配脚步和喘气
+    # blink 转场：上一段末尾闭眼，本段开头睁开
+    blink = [b["i"] for b in plan["beats"] if b["tr"] == "blink"]
+    assert blink
+    s = plan["beats"][blink[0]]["start"]
+    near = [f for f in plan["frames"] if abs(f["t"] - s) < 0.05 and f.get("pov")]
+    assert max(f["pov"]["lid"] for f in near) > 0.6
+
+
+def test_pov_hook_and_quality_rules():
+    from backend.whatif.hooks import hook_report
+    from backend.whatif.quality import quality_report
+    good = _pov_sb()
+    assert not [x for x in hook_report(good) if x.rule in ("pov", "first3s") and x.level == "fix"]
+    third = good.model_copy(update={"beats": [b.model_copy(update={"caption": f"The city is quiet at {i}."}) for i, b in enumerate(good.beats)]})
+    assert any(x.rule == "pov" for x in hook_report(third))
+    long_hook = good.model_copy(update={"pov": good.pov.model_copy(update={"text": "you wake up one day and find out that every single thing floats away"})})
+    assert any(x.rule == "first3s" and x.where == "pov.text" for x in hook_report(long_hook))
+    wide = good.model_copy(update={"beats": [b.model_copy(update={"camera": "wide"}) for b in good.beats]})
+    assert any(x.rule == "pov" and x.level == "fix" for x in quality_report(wide))
+
+
+def test_pov_renders_closed_eyes_then_hands(tmp_path):
+    pytest.importorskip("playwright")
+    from PIL import Image
+    from backend.whatif.render import render_frames
+    plan = compile_plan(_pov_sb(3))
+    try:
+        errs = render_frames(plan, tmp_path / "f", width=270, height=480, frames=[0, 75], workers=1, fmt="png")
+    except RuntimeError as e:
+        if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs
+    closed = Image.open(tmp_path / "f" / "000000.png").convert("RGB")
+    assert sum(closed.getpixel((135, 300))) < 60            # 开头闭着眼：画面中下部是眼皮
+    opened = Image.open(tmp_path / "f" / "000075.png").convert("RGB")
+    assert sum(opened.getpixel((135, 300))) > 60
+    # 画面下半部有手机屏幕（深色）+ 手（肤色）：找到偏暖的肤色像素
+    px = [opened.getpixel((x, y)) for x in range(40, 230, 4) for y in range(300, 470, 4)]
+    assert any(r > 150 and r > b + 35 and g > 90 for r, g, b in px)
