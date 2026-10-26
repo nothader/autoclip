@@ -821,6 +821,9 @@ def test_pov_hook_and_quality_rules():
     from backend.whatif.quality import quality_report
     good = _pov_sb()
     assert not [x for x in hook_report(good) if x.rule in ("pov", "first3s") and x.level == "fix"]
+    from backend.whatif.publish import metadata
+    m = metadata(good.model_copy(update={"title": "POV: you wake up and gravity is gone"}))
+    assert m["title"] == "POV: you wake up and gravity is gone" and "#pov" in m["hashtags"]
     third = good.model_copy(update={"beats": [b.model_copy(update={"caption": f"The city is quiet at {i}."}) for i, b in enumerate(good.beats)]})
     assert any(x.rule == "pov" for x in hook_report(third))
     long_hook = good.model_copy(update={"pov": good.pov.model_copy(update={"text": "you wake up one day and find out that every single thing floats away"})})

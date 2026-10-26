@@ -263,7 +263,7 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
     plan = plan or compile_plan(sb)
     vertical = sb.height > sb.width
     title = clean(sb.title)
-    if not title.endswith("?"):
+    if not title.endswith("?") and not title.lower().startswith("pov"):   # "POV: you …" 是陈述，不加问号
         title = title.rstrip(".!") + "?"
     caps = [b.caption for b in sb.beats if b.caption]
     hook = caps[0] if caps else ""
@@ -283,7 +283,7 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
     else:
         question = "What would you do first if this really happened?"
     tags = tags_for(sb)
-    hashtags = ["#whatif"] + [f"#{t.replace(' ', '')}" for t in tags[:2] if t not in ("what if",)] + ["#simulation"] + (["#shorts"] if vertical else [])
+    hashtags = ["#whatif"] + (["#pov"] if sb.format == "pov" else []) + [f"#{t.replace(' ', '')}" for t in tags[:2] if t not in ("what if",)] + ["#simulation"] + (["#shorts"] if vertical else [])
     desc = [hook + (" " + tease if tease else "")]
     desc.append("")
     desc.append(clean(sb.premise) if len(sb.premise) < 400 else clean(sb.premise)[:397] + "...")
