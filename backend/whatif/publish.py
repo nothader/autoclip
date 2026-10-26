@@ -219,6 +219,9 @@ def _ts(sec: float) -> str:
     return f"{sec // 60}:{sec % 60:02d}" if sec < 3600 else f"{sec // 3600}:{sec // 60 % 60:02d}:{sec % 60:02d}"
 
 
+NUMBER_WORDS = {"hundred", "thousand", "million", "millions", "billion", "billions", "trillion", "half", "twice", "percent"}
+
+
 def tags_for(sb: Storyboard, n: int = 10) -> List[str]:
     """高亮词（*星号*）和专有名词排前面，其余实词在后。"""
     src = sb.intro.title + " " + sb.title + " " + sb.thumbnail
@@ -228,7 +231,7 @@ def tags_for(sb: Storyboard, n: int = 10) -> List[str]:
     seen, out = set(), []
     for w in [x for s0 in star for x in s0.split()] + proper + words:
         k = w.lower().strip("'")
-        if k in STOP or len(k) < 3 or k in seen:
+        if k in STOP or k in NUMBER_WORDS or not k.isalpha() or len(k) < 3 or k in seen:
             continue
         seen.add(k)
         out.append(k)
