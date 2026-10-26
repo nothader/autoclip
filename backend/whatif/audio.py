@@ -524,6 +524,15 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
         out[:, 0] += wind
         out[:, 1] += np.roll(wind, 97)
 
+    # 2b) bodycam：机身话筒的底噪 + 偶尔的风噪（一直在，像真实录像）
+    if (plan.get("theme") or {}).get("style") == "bodycam":
+        hiss = _norm(_band(_noise(n, 77), 2500, 9000)) * 0.012
+        rumble = _norm(_band(_noise(n, 78), 40, 160))
+        gust = np.clip(np.sin(2 * np.pi * 0.13 * np.arange(n) / SR) * np.sin(2 * np.pi * 0.047 * np.arange(n) / SR), 0, 1) ** 2
+        mic = hiss + rumble * gust * 0.05
+        out[:, 0] += mic
+        out[:, 1] += np.roll(mic, 53)
+
     # 3) 事件（+ 混响送一路）
     fx = np.zeros((n, 2))
     for i, ev in enumerate(plan.get("audio", [])):

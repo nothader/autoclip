@@ -559,9 +559,9 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
         x.add_argument("--tts", choices=["kokoro", "openai"], help="TTS 引擎（默认 kokoro，离线）")
         x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
-        x.add_argument("--style", choices=["calm", "bold", "cinematic", "toon", "retro", "witness"],
+        x.add_argument("--style", choices=["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam"],
                        help="Visual style: calm (quiet, premium) / bold (viral word-by-word captions, punch zooms) / "
-                            "cinematic (letterbox, grain, grade) / toon (cel-shaded, outlines, sticker captions) / retro (8-bit pixels, scanlines) / witness (fixed eyewitness view, coffee-cup anchor, escalating metric)")
+                            "cinematic (letterbox, grain, grade) / toon (cel-shaded, outlines, sticker captions) / retro (8-bit pixels, scanlines) / witness (fixed eyewitness view, coffee-cup anchor, escalating metric) / bodycam (found footage: fisheye, REC + timestamp, handheld shake, sensor noise, night vision)")
         x.add_argument("--flow", choices=["steady", "build", "punchy", "slowburn", "rollercoaster"],
                        help="Edit rhythm (default: auto, rotated so consecutive videos differ): build = cuts speed up, punchy = fast cuts "
                             "with hits, slowburn = slow start then fast, rollercoaster = alternating, steady = even")

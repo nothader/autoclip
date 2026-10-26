@@ -36,7 +36,7 @@ Effect = Literal[
     "dust", "vapor_cone", "glow", "flash",
     "fire", "smoke", "embers", "earthquake", "vanish", "freeze", "darken",
     "explosion", "sparks", "confetti", "lightning", "rays", "glitch", "bloom",
-    "tunnel", "dizzy",
+    "tunnel", "dizzy", "nightvision",
 ]
 Move = Literal["none", "swoop_in", "swoop_out", "crane_up", "crane_down", "arc_left", "arc_right", "push_in", "pull_out",
                "whip", "dutch", "drone_rise", "fly_by", "spiral"]
@@ -288,9 +288,9 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness"]
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam"]
 CaptionMode = Literal["line", "words", "box", "typed"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line"}
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box"}
 
 
 class Theme(_Strict):
@@ -303,6 +303,7 @@ class Theme(_Strict):
     # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
     anchor: Optional[Literal["none", "coffee", "drink"]] = None
     flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
+    rec: str = ""                    # bodycam：右上角时间戳的起点（"2026-10-26 07:42:13"）；空 = 渲染当天 07:42:13
     palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"
 
 class Sfx(_Strict):

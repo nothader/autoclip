@@ -47,6 +47,7 @@ STYLE_TRANS = {
     "toon": {"whip": 1.6, "zoom": 1.6, "glitch": 0.3},
     "bold": {"flash": 1.5, "zoom": 1.5},
     "witness": {"whip": 0.0, "zoom": 0.0, "glitch": 0.0, "flash": 0.3, "cut": 3.0, "dip": 1.5},
+    "bodycam": {"cut": 3.0, "glitch": 2.0, "whip": 1.2, "zoom": 0.0, "flash": 0.0, "dip": 0.4},   # 实拍感：硬切 + 数字掉帧
 }
 STYLE_PALETTES = {
     "calm": ["natural", "cool", "pastel", "warm"],
@@ -55,6 +56,7 @@ STYLE_PALETTES = {
     "toon": ["vivid", "pastel", "natural", "warm"],
     "retro": ["vivid", "cool", "natural"],
     "witness": ["natural", "cool", "warm"],
+    "bodycam": ["natural", "cool"],   # 着色器自己做传感器调色，别再叠重的滤镜
 }
 # CSS 滤镜（叠在风格自带调色后面）
 PALETTE_CSS = {

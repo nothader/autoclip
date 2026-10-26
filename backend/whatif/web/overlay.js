@@ -20,7 +20,7 @@ export function layout(width, plan) {
   if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
   const s = width / (land ? 1920 : 1080);
   const th = (plan && plan.theme) || {};
-  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
+  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
   document.body.classList.toggle("split", th.layout === "split" && !land);
   document.body.classList.toggle("pov", !!(plan && plan.pov));
   $("#ov").style.transform = `scale(${s})`;
@@ -264,6 +264,7 @@ export function drawOverlay(fr, plan) {
 
   $("#flash").style.opacity = Math.max(fr.flash || 0, tr && tr.k === "flash" ? (1 - tr.p) ** 1.8 : 0);
   drawPov(fr, plan);
+  drawBodycam(fr, plan);
   // 进度条（bold / retro）与胶片颗粒抖动（cinematic）
   if (plan.duration) $("#prog").style.width = `${Math.min(100, (fr.t || 0) / plan.duration * 100).toFixed(2)}%`;
   const gi = Math.floor((fr.t || 0) * 24) % 7;
@@ -408,4 +409,24 @@ function drawPov(fr, plan) {
     lt.style.transform = `translateY(${(edge - h).toFixed(1)}px)`;
     lb.style.transform = `translateY(${(h - edge).toFixed(1)}px)`;
   }
+}
+
+
+// ---------- bodycam：REC 闪烁、按视频时间走的时间戳、夜视时标 IR ----------
+function drawBodycam(fr, plan) {
+  const el = $("#bcam");
+  const on = plan.theme && plan.theme.style === "bodycam" && fr.sec === "beat";
+  show(el, !!on);
+  if (!on) return;
+  const beat = fr.b !== undefined ? plan.beats[fr.b] : null;
+  const ir = !!(beat && beat.effects.includes("nightvision"));
+  el.classList.toggle("ir", ir);
+  el.querySelector(".dot").style.opacity = ((fr.t || 0) % 1) < 0.6 ? "1" : "0.15";
+  const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(plan.theme.rec || "") || [0, 2026, 1, 1, 7, 42, 13];
+  const base = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
+  const d = new Date(base + Math.floor(fr.t || 0) * 1000);
+  const two = (x) => String(x).padStart(2, "0");
+  const ts = `${d.getUTCFullYear()}-${two(d.getUTCMonth() + 1)}-${two(d.getUTCDate())}  ${two(d.getUTCHours())}:${two(d.getUTCMinutes())}:${two(d.getUTCSeconds())}`;
+  setText(el.querySelector(".ts"), "bcts", ts);
+  setHTML(el.querySelector(".id"), "bcid", `${ir ? "IR  " : ""}BODY CAM 07<span class="bat"></span>`);
 }

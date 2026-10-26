@@ -193,7 +193,7 @@ def thumbnail_storyboard(sb: Storyboard, i: int, *, landscape: bool) -> Storyboa
     return Storyboard.model_validate({
         "format": fmt, "title": sb.title, "premise": sb.premise, "theme": {**sb.theme.model_dump(), "anchor": "none",
                   # 封面不要黑边 / 进度条 / 颗粒：只保留改变画面本身的风格（卡通描边、像素）
-                  "style": sb.theme.style if sb.theme.style in ("toon", "retro") else "calm", "layout": "full"},
+                  "style": sb.theme.style if sb.theme.style in ("toon", "retro", "bodycam") else "calm", "layout": "full"},
         "clock": {"mode": "none"}, "intro": {"style": "title", "title": "x", "duration": 0.4},
         "outro": {"chart": False, "question_duration": 0.5}, "beats": [b.model_dump()], "pace": 1.0,
         # pov：封面不画顶部钩子、不做睁眼

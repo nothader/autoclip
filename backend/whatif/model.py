@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import bisect
+import datetime as _dt
 import math
 import re
 import string
@@ -390,7 +391,9 @@ def lightning(beat_index: int, lt: float) -> float:
 
 
 def _style_sfx(sb: Storyboard, secs, cine=None) -> List[Dict[str, Any]]:
-    """风格附带的切镜音效：bold / retro 在硬切（没有转场音）时补一个 whoosh。"""
+    """风格附带的切镜音效：bold / retro 在硬切（没有转场音）时补一个 whoosh；bodycam 每刀一下话筒碰撞的闷响。"""
+    if sb.theme.style == "bodycam":
+        return [{"type": "impact", "t": s.start, "gain": 0.22} for s in secs if s.kind == "beat" and s.start > 0.5]
     if sb.theme.style not in ("bold", "retro"):
         return []
     gain = 0.45 if sb.theme.style == "bold" else 0.3
@@ -823,7 +826,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     return {
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
-        "theme": {**sb.theme.model_dump(), "captions": sb.theme.captions or ("typed" if pov else STYLE_CAPTIONS[sb.theme.style]),
+        "theme": {**sb.theme.model_dump(), "rec": sb.theme.rec or f"{_dt.date.today().isoformat()} 07:42:13", "captions": sb.theme.captions or ("typed" if pov else STYLE_CAPTIONS[sb.theme.style]),
                   "flow": resolve_flow(sb), "palette": resolve_palette(sb), "palette_css": PALETTE_CSS[resolve_palette(sb)],
                   "anchor": sb.theme.anchor or ("coffee" if sb.theme.style == "witness" else "none")}, "chapters": chapters,
         "intro_duration": intro.duration,

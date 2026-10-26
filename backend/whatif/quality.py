@@ -31,6 +31,7 @@ MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "handwalk", "
 
 # 题目关键词 → 推荐风格（planner 没明确选风格时用；也写进提示里当建议）
 STYLE_HINTS = [
+    ("bodycam", r"\bpov\b|footage|caught on|haunted|ghost|zombie|alien|ufo|bigfoot|abandoned|cops?|police|monster"),
     ("witness", r"hurricane|tornado|storm|snow|blizzard|volcano|erupt|tsunami|flood|earthquake|asteroid|meteor|heat ?wave|"
                 r"ice age|colder|hotter|rain(ed|s)? (for|forever)|sun (went|goes) out|sky|weather|nuke|nuclear|wildfire"),
     ("retro", r"\b(game|games|gaming|video ?games?|minecraft|internet|robots?|ai|matrix|wifi|hackers?|8-bit|pixel)\b"),

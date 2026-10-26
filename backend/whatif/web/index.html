@@ -234,6 +234,25 @@ body.pov #vig { display: block; opacity: 0.75; }
 .land #lidT { border-radius: 0 0 50% 50% / 0 0 200px 200px; }
 .land #lidB { border-radius: 50% 50% 0 0 / 200px 200px 0 0; }
 .land #cap.typed { font-size: 40px; top: auto; bottom: 120px; left: 300px; right: 300px; }
+
+/* ---------- bodycam：REC + 时间戳 + 机身编号（等宽字），字幕是半透明黑底等宽字 ---------- */
+#bcam { position: absolute; left: 56px; right: 56px; top: 64px; font: 500 38px/1.25 "DejaVu Sans Mono", ui-monospace, monospace;
+  color: #fff; letter-spacing: 1px; text-shadow: 0 1px 3px rgba(0,0,0,.8); display: flex; justify-content: space-between; }
+#bcam .l { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+#bcam .dot { width: 26px; height: 26px; border-radius: 50%; background: #e5383b; box-shadow: 0 0 10px rgba(229,56,59,.7); }
+#bcam .r { text-align: right; }
+#bcam .id { font-size: 27px; opacity: .85; margin-top: 4px; }
+#bcam .bat { display: inline-block; width: 40px; height: 18px; border: 2px solid #fff; border-radius: 3px; margin-left: 14px; position: relative; vertical-align: -1px; }
+#bcam .bat::before { content: ""; position: absolute; left: 2px; top: 2px; bottom: 2px; width: 60%; background: #fff; }
+#bcam .bat::after { content: ""; position: absolute; right: -6px; top: 4px; width: 3px; height: 6px; background: #fff; }
+#bcam.ir { color: #b8ffc4; }
+body.st-bodycam #vig { display: none; }
+.st-bodycam #cap.box { font: 500 38px/1.5 "DejaVu Sans Mono", ui-monospace, monospace; top: 1180px; left: 70px; right: 70px; }
+.st-bodycam #cap.box .bx { background: rgba(10,10,12,.66); color: #fff; padding: 4px 14px; border-radius: 4px; }
+.st-bodycam #cap.typed { font-family: "DejaVu Sans Mono", ui-monospace, monospace; font-size: 38px; font-weight: 500; letter-spacing: 0; }
+.st-bodycam #povhdr { top: 230px; }
+.land #bcam { left: 80px; right: 80px; top: 50px; font-size: 26px; }
+.land.st-bodycam #cap.box { top: auto; bottom: 110px; left: 300px; right: 300px; font-size: 32px; }
 </style>
 </head>
 <body>
@@ -279,6 +298,7 @@ body.pov #vig { display: block; opacity: 0.75; }
   <div id="cap" class="hidden shadow"></div>
   <div id="lidT" class="lid hidden"></div>
   <div id="lidB" class="lid hidden"></div>
+  <div id="bcam" class="hidden"><div class="l"><i class="dot"></i><span class="rec">REC</span></div><div class="r"><div class="ts"></div><div class="id"></div></div></div>
   <div id="povhdr" class="hidden"></div>
 </div>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>

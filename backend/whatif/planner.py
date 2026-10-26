@@ -135,6 +135,11 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
   "A CAT 5 IS 157 MPH"). Use intro.style "overlay" (title over the first shot, no icon) and end kind "fact"
   (title + one short monospace caps fact line). Small italic-feel captions, few words. Weather/sky/lighting
   changes carry the story; aim for 80-95s.
+- bodycam: found footage. Fisheye lens with colour fringing, REC dot + running timestamp + "BODY CAM 07", handheld
+  shake that jolts on every cut, sensor noise, digital dropout glitches, mic hiss; captions in a dark monospace box.
+  effect "nightvision" turns a beat green infrared. Feels like REAL footage: perfect with format "pov", eerie or
+  dangerous premises (haunted, abandoned, alien, zombie, disaster seen from the ground). theme.rec sets the start
+  timestamp ("2026-10-26 03:12:40"); a night timestamp makes it creepier.
 - theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
   bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
 

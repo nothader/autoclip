@@ -15,7 +15,7 @@ from backend.whatif.model import (  # noqa: E402
     Growth, compile_plan, fmt_distance, fmt_num, fmt_time, hud_for, rate_tag, validate,
 )
 from backend.whatif.planner import EXAMPLE_PATH, extract_json, plan_storyboard  # noqa: E402
-from backend.whatif.schema import GrowthModel, Quantity, Storyboard  # noqa: E402
+from backend.whatif.schema import GrowthModel, Pov, Quantity, Storyboard, Theme  # noqa: E402
 
 
 def _example() -> Storyboard:
@@ -782,8 +782,9 @@ def _pov_sb(n=6, **kw):
               "env": {"set": {"ground": "plane", "focus": [0, 1.6, 0], "objects": [{"kind": "box", "at": [0, 1, -3]}]}}} for i in range(n)]
     beats[0]["hands"] = {"pose": "phone", "phone_text": "MOM: where are you??"}
     beats[0]["head"] = "walk"
-    beats[2]["hands"] = {"pose": "shield", "tremble": 0.5}
-    beats[2]["head"] = "run"
+    if n > 2:
+        beats[2]["hands"] = {"pose": "shield", "tremble": 0.5}
+        beats[2]["head"] = "run"
     sb = {"format": "pov", "title": "t", "premise": "p", "pov": {"text": "you wake up and gravity is gone"}, "beats": beats,
           "outro": {"chart": False, "end": {"kind": "question", "lines": ["WHAT DO", "YOU DO?"]}}, "pace": 1.0}
     sb.update(kw)
@@ -847,3 +848,43 @@ def test_pov_renders_closed_eyes_then_hands(tmp_path):
     # 画面下半部有手机屏幕（深色）+ 手（肤色）：找到偏暖的肤色像素
     px = [opened.getpixel((x, y)) for x in range(40, 230, 4) for y in range(300, 470, 4)]
     assert any(r > 150 and r > b + 35 and g > 90 for r, g, b in px)
+
+
+# ---------------------------------------------------------------- bodycam style
+def test_bodycam_plan_audio_and_auto_style():
+    from backend.whatif.quality import auto_style
+    from backend.whatif.audio import synthesize
+    sb = _pov_sb(4).model_copy(update={"theme": Theme(style="bodycam", rec="2026-10-26 03:12:40")})
+    plan = compile_plan(sb)
+    assert plan["theme"]["rec"] == "2026-10-26 03:12:40" and plan["theme"]["palette"] in ("natural", "cool")
+    thumps = [e for e in plan["audio"] if e["type"] == "impact" and e["gain"] == 0.22]
+    assert len(thumps) == 3                                   # 每刀一下话筒闷响
+    assert not any(b["tr"] in ("flash", "zoom") for b in plan["beats"])   # 实拍感：不闪白、不冲推
+    assert synthesize(plan).shape[1] == 2
+    assert compile_plan(_pov_sb(4))["theme"]["rec"]           # 没写就用当天日期
+    assert auto_style("POV: you explore a haunted hospital") == "bodycam"
+
+
+def test_bodycam_renders_rec_hud_and_fisheye(tmp_path):
+    pytest.importorskip("playwright")
+    from PIL import Image
+    from backend.whatif.render import render_frames
+    sb = _pov_sb(2).model_copy(update={"theme": Theme(style="bodycam"), "pov": Pov(text="you wake up and gravity is gone", open_eyes=False)})
+    sb.beats[1].effects = ["nightvision"]
+    sb.beats[1].env.set.background = ("#d0d4d8", "#f1f3f5")   # 亮场景里才看得出夜视的绿
+    plan = compile_plan(sb)
+    try:
+        errs = render_frames(plan, tmp_path / "f", width=270, height=480, frames=[10, 120], workers=1, fmt="png")
+    except RuntimeError as e:
+        if "playwright install" in str(e) or "Executable doesn't exist" in str(e):
+            pytest.skip("chromium 不可用")
+        raise
+    assert not errs, errs
+    im = Image.open(tmp_path / "f" / "000010.png").convert("RGB")
+    rec = [im.getpixel((x, y)) for x in range(8, 40) for y in range(10, 30)]
+    assert any(r > 180 and g < 110 and b < 110 for r, g, b in rec)     # 红色 REC 点
+    corner, centre = sum(im.getpixel((3, 470))), sum(im.getpixel((135, 300)))
+    assert corner < centre                                               # 鱼眼暗角
+    from PIL import ImageStat
+    nv = ImageStat.Stat(Image.open(tmp_path / "f" / "000120.png").convert("RGB").crop((20, 120, 250, 460))).mean   # 第 4 秒 = 第二段
+    assert nv[1] > nv[0] * 1.6 and nv[1] > nv[2] * 1.4                   # 夜视：整体偏绿

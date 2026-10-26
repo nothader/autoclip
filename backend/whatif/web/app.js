@@ -8,6 +8,7 @@ import { setEarthImage } from "./common.js";
 import { Satisfying } from "./satisfying.js";
 import { CineFX } from "./fx.js";
 import { PovRig, eyesCamera } from "./pov.js";
+import { BodycamPass, handheld } from "./bodycam.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -191,6 +192,8 @@ let STYLE = "calm";
 let satisfying = null;
 let anchor = null;
 let povRig = null;
+let bodycam = null;
+let bodyJolt = 0;
 
 // ---------- 前景锚点：镜头下方的小桌 + 咖啡杯 / 饮料，随天气变化 ----------
 function buildAnchor(kind) {
@@ -263,7 +266,7 @@ function updateAnchor(fr, beat) {
 
 // ---------- 风格：调色 / 推镜 / 卡通 / 像素 ----------
 const GRADE = {
-  calm: "", witness: "saturate(1.08) contrast(1.04)", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
+  calm: "", bodycam: "", witness: "saturate(1.08) contrast(1.04)", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
   toon: "saturate(1.5) brightness(1.06)", retro: "saturate(1.4) contrast(1.18)",
 };
 const TOON_GRAD = (() => {
@@ -301,6 +304,7 @@ function styleCamera(fr, beat) {
   let k = 1;
   if (STYLE === "bold" || STYLE === "retro") k = 1 + 0.16 * Math.max(0, 1 - lt / 0.35) ** 2;    // 每次切镜的推镜冲击
   else if (STYLE === "cinematic") k = 1 + 0.07 * Math.min(1, (fr.frac || 0));                  // 缓慢推近
+  else if (STYLE === "bodycam") k = 1 / 1.12;   // 鱼眼会把画面中间放大：先拍宽一点
   if (k !== 1) { camera.fov = camera.fov / k; camera.updateProjectionMatrix(); }
 }
 
@@ -375,6 +379,7 @@ function frame(i) {
 
   if (beat) { placeCamera(beat.camera, camPivot, camScale, fr, beat, env); styleCamera(raw, beat); updateAnchor(raw, beat); }
   else { camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0); }
+  bodyJolt = STYLE === "bodycam" && beat ? handheld(camera, raw.t || 0, raw.lt || 0, noise1) : 0;   // 手持晃动 + 切镜猛抖
   if (plan.pov) {   // 画面下方你自己的手
     if (!povRig) { povRig = new PovRig(camera, plan.pov); if (!camera.parent) scene.add(camera); }
     povRig.update(fr, beat && beat.camera === "eyes" ? beat : null, beat && beat.i > 0 ? plan.beats[beat.i - 1] : null, W > H, povHead);
@@ -408,7 +413,11 @@ function frame(i) {
     renderer.setScissorTest(false);
   } else {
     if (camera.aspect !== W / H) { camera.aspect = W / H; camera.updateProjectionMatrix(); }
-    renderer.render(scene, camera);
+    if (STYLE === "bodycam") {
+      bodycam ??= new BodycamPass(renderer, W, H);
+      const nv = beat && beat.effects.includes("nightvision") ? Math.min(1, (raw.lt || 0) / 0.3) : 0;
+      bodycam.render(scene, camera, { time: raw.t || 0, night: nv, glitch: glitchOn(raw, beat), jolt: bodyJolt * 0.5 });
+    } else renderer.render(scene, camera);
   }
   drawOverlay(raw, plan);
   return true;
@@ -435,7 +444,7 @@ function post(fr, beat, fxFlash) {
     out.push(`blur(${(s * (tr.k === "whip" ? 26 : 14)).toFixed(1)}px)`);
   }
   const g = glitchOn(fr, beat);
-  if (g > 0) out.push(glitchCss(fr.f ?? Math.round((fr.t || 0) * 30), g));
+  if (g > 0 && STYLE !== "bodycam") out.push(glitchCss(fr.f ?? Math.round((fr.t || 0) * 30), g));   // bodycam 的掉帧在着色器里
   if (beat && beat.effects.includes("bloom")) out.push("brightness(1.1) saturate(1.25) contrast(1.05)");
   if (beat && beat.effects.includes("dizzy")) out.push(`blur(${(1.2 + 1.2 * Math.sin((fr.t || 0) * 2.1)).toFixed(2)}px)`);
   const li = Math.max(fxFlash || 0, fr.lightning ? fr.lightning * 0.6 : 0);
