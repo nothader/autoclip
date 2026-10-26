@@ -523,6 +523,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "screen": b.screen.model_dump() if b.screen else None,
             "narration": fill(b.narration, ph) if b.narration is not None else None,
             **cine[s.index],
+            "roll": b.roll, "roll_to": b.roll_to,
         })
 
     frames: List[Dict[str, Any]] = []

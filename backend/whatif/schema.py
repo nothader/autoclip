@@ -337,6 +337,8 @@ class Beat(_Strict):
     narration: Optional[str] = None  # 旁白文本；None = 读字幕（开启旁白时），"" = 这段不念
     move: Optional[Move] = None      # 本段镜头运动；None = 按 flow 自动挑
     transition: Optional[Transition] = None   # 进入本段的转场；None = 自动
+    roll: float = 0.0                # 镜头横滚角（度）：180 = 整个世界倒过来（地面在头顶、天空在脚下）
+    roll_to: Optional[float] = None  # 本段结束时的横滚角；设了就在本段内缓动转过去（如 0 → 180 把世界翻过来）
     @field_validator("caption")
     @classmethod
     def _caption_len(cls, v: str) -> str:

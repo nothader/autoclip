@@ -165,6 +165,11 @@ function placeCamera(name, p, S, fr, beat, env) {
   camera.lookAt(look);
   lastLook.copy(look);
   if (mv.roll) camera.rotateZ(mv.roll);
+  // 分镜指定的横滚：roll（度），roll_to 时在本段内缓动转过去（180 = 世界倒过来）
+  if (beat && (beat.roll || beat.roll_to != null)) {
+    const r0 = beat.roll || 0, r1 = beat.roll_to != null ? beat.roll_to : r0;
+    camera.rotateZ((r0 + (r1 - r0) * easeIO(Math.min(1, fr.frac || 0))) * Math.PI / 180);
+  }
   if (fx.includes("earthquake")) camera.rotation.z += noise1(fr.t, 9) * 0.02;
   camera.fov = c.fov;
   camera.near = 0.05 * S;
