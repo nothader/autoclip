@@ -60,7 +60,10 @@ def _paced_seconds(sb: Storyboard) -> float:
 def _set_key(b) -> Optional[str]:
     if b.scene != "custom" or not b.env or not b.env.set:
         return None
-    return json.dumps(b.env.set.model_dump(), sort_keys=True)
+    key = b.env.set.model_dump()
+    if b.camera == "eyes":   # 第一人称：同一个房间里转头 / 换手上的东西也是看得见的一刀
+        key = {**key, "gaze": list(b.gaze), "gaze_to": b.gaze_to, "hands": b.hands.model_dump() if b.hands else None}
+    return json.dumps(key, sort_keys=True)
 
 
 def quality_report(sb: Storyboard) -> List[Finding]:
@@ -116,7 +119,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
             f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
         moving = (any(o.animate for o in objs) or any(o.kind == "person" and o.action in MOVING_ACTIONS for o in objs)
-                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov"))
+                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes"))
         if not moving and b.duration >= 3.0:
             f.append(Finding("tip", "static", f"beats[{i}].env.set", "Nothing moves in this shot. Add an animate (grow/move/spin/bob), "
                              "a walking person, particles or an effect."))
