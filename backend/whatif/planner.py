@@ -50,7 +50,8 @@ FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told
   Per beat: `gaze` [yaw, pitch] degrees (+yaw = look right, +pitch = look up) and `gaze_to` to turn your head during
   the beat; `head`: steady / breathe / walk / run (you move forward) / stumble / fall / float / shake (fear);
   `hands`: {pose: idle / reach / phone / shield / grab / cover / fists / point / wave / hold / float / none,
-  holding: phone / flashlight / cup, phone_text: "MOM: where are you??", tremble: 0-1}. Captions talk to the viewer in
+  holding: phone / flashlight / cup, phone_text: "MOM: where are you??", phone_time: "2:07" (match the story's
+  time of day), tremble: 0-1}. Captions talk to the viewer in
   short present tense ("You grab the bed. Your phone floats away."). Transitions: blink (eyes close and open) is the
   signature cut. Effects: tunnel (tunnel vision + heartbeat) and dizzy. End on a cliffhanger, then a question card."""
 

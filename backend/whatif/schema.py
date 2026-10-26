@@ -324,6 +324,7 @@ class Hands(_Strict):
     pose: HandPose = "idle"
     holding: Literal["none", "phone", "cup", "flashlight"] = "none"   # 右手拿着的东西（phone 姿势默认拿手机）
     phone_text: str = ""             # 手机屏幕上的字（"NO SIGNAL" / "MOM: where are you??"）
+    phone_time: str = ""             # 手机锁屏时间（"2:07"）；空 = 9:41 起按视频时间走。要和剧情的时间对上
     tremble: float = Field(default=0.0, ge=0, le=1)   # 手抖（害怕 / 冷）
 
 

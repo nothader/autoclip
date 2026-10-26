@@ -226,7 +226,7 @@ export class PovRig {
     for (const name in this.R.items) this.R.items[name].visible = name === holding;
     if (holding === "phone") {
       const mins = 41 + Math.floor(t / 60);
-      this.R.drawPhone(h.phone_text || "", `9:${String(mins % 60).padStart(2, "0")}`);
+      this.R.drawPhone(h.phone_text || "", h.phone_time || `9:${String(mins % 60).padStart(2, "0")}`);
     }
     const lHidden = cur.L.hidden && prev.L.hidden;
     this.L.root.visible = !lHidden;
