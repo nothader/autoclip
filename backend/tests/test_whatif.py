@@ -893,3 +893,25 @@ def test_bodycam_renders_rec_hud_and_fisheye(tmp_path):
     from PIL import ImageStat
     nv = ImageStat.Stat(Image.open(tmp_path / "f" / "000120.png").convert("RGB").crop((20, 120, 250, 460))).mean   # 第 4 秒 = 第二段
     assert nv[1] > nv[0] * 1.6 and nv[1] > nv[2] * 1.4                   # 夜视：整体偏绿
+
+
+def test_speed_in_mph_keeps_physics_in_ms():
+    from backend.whatif.model import hud_for, MPH
+    from backend.whatif.schema import Quantity
+    q = Quantity.model_validate({"kind": "speed", "unit": "mph", "model": {"type": "exponential", "start": 2, "factor": 2},
+                                 "milestones": [{"label": "HIGHWAY", "value": 31.3}]})
+    h = hud_for(q, 31.3, 4)
+    assert h.unit == "mph" and h.value == "70" and "km/h" in h.sub
+    sb = Storyboard.model_validate({"format": "escalation", "title": "t", "premise": "p", "quantity": q.model_dump(), "pace": 1.0,
+                                    "beats": [{"duration": 3, "sim_end": 6, "caption": "Now {mph} mph."}]})
+    plan = compile_plan(sb)
+    assert plan["beats"][0]["caption"] == "Now 143 mph."      # 段末 2·2^5 = 64 m/s ≈ 143 mph
+    assert abs(plan["chart"]["refs"][0]["value"] - 31.3 * MPH) < 1e-6
+
+
+def test_usa_region_map_fields_reach_the_frame():
+    beats = [{"duration": 2, "scene": "map", "camera": "wide", "subject": {"type": "none"}, "chapter": "A",
+              "env": {"map": {"region": "usa", "zone": {"x": 0.25, "y": 0.2, "text": "YELLOWSTONE"}, "grow": True, "zone_stretch": 1.8}}}]
+    sb = Storyboard.model_validate({"format": "story", "title": "t", "premise": "p", "beats": beats, "outro": {"chart": False}, "pace": 1.0})
+    m = next(f["map"] for f in compile_plan(sb)["frames"] if f.get("map"))
+    assert m["region"] == "usa" and m["grow"] and m["zone_stretch"] == 1.8

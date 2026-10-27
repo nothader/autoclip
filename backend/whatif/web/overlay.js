@@ -332,8 +332,57 @@ const MAP_STYLES = {
   paper: { bg: "#e9e1cf", grid: "rgba(0,0,0,0.06)", road: "rgba(80,70,60,0.35)", major: "#a8552e", land: "#ddd3bd", text: "#2b2622" },
 };
 let mapBase = null;
+// 美国本土轮廓（经度, 纬度），简化到 ~60 个点；五大湖、海湾都取了近似
+const USA = [[-124.7,48.4],[-123.1,49.0],[-95.2,49.0],[-94.8,49.4],[-89.6,48.0],[-84.8,46.5],[-82.4,45.3],[-82.5,42.6],[-79.0,43.3],
+  [-76.5,44.2],[-75.0,45.0],[-71.5,45.0],[-69.2,47.4],[-67.8,47.1],[-67.0,44.8],[-70.2,43.6],[-70.6,42.0],[-71.9,41.3],[-74.0,40.6],
+  [-74.0,39.0],[-75.6,38.0],[-76.0,36.9],[-75.5,35.2],[-77.9,33.9],[-80.9,32.0],[-81.4,30.4],[-80.0,26.7],[-80.4,25.2],[-81.8,26.1],
+  [-82.7,27.9],[-83.6,29.9],[-85.3,29.7],[-86.9,30.4],[-89.6,30.2],[-89.4,29.0],[-90.9,29.1],[-93.8,29.7],[-95.1,29.3],[-97.2,27.6],
+  [-97.4,25.9],[-99.1,26.4],[-100.5,28.2],[-101.4,29.8],[-103.1,29.0],[-104.5,29.6],[-106.5,31.8],[-108.2,31.3],[-111.1,31.3],
+  [-114.8,32.5],[-117.1,32.5],[-118.5,34.0],[-120.6,34.6],[-121.9,36.6],[-122.5,37.8],[-123.8,39.6],[-124.2,41.9],[-124.0,43.6],
+  [-124.0,46.3]];
+export const USA_BOX = { lon0: -125, lon1: -66.5, lat0: 24.5, lat1: 49.5 };   // MapPoint x/y = 在这个框里的 0..1 位置（y 向下）
+function drawUSA(svg, m, st) {
+  const land = document.body.classList.contains("land");
+  const W = land ? 1920 : 1080, H = land ? 1080 : 1920;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  // 等距圆柱投影（经度按 37° 纬线压缩），整体放进画面中间
+  const k = Math.cos(37 * Math.PI / 180), bw = (USA_BOX.lon1 - USA_BOX.lon0) * k, bh = USA_BOX.lat1 - USA_BOX.lat0;
+  const sc = Math.min(W * 0.8 / bw, H * (land ? 0.6 : 0.4) / bh);
+  const ox = (W - bw * sc) / 2, oy = (H - bh * sc) / 2 + (land ? 40 : 60);
+  const X = (x) => ox + x * bw * sc, Y = (y) => oy + y * bh * sc;
+  const P = ([lon, lat]) => [X((lon - USA_BOX.lon0) / (USA_BOX.lon1 - USA_BOX.lon0)), Y((USA_BOX.lat1 - lat) / bh)];
+  const z = 1 + 0.05 * Math.min(1, m.p);
+  let html = `<rect width="${W}" height="${H}" fill="${st.bg}"/>`;
+  for (let i = 0; i < W; i += 80) html += `<line x1="${i}" y1="0" x2="${i}" y2="${H}" stroke="${st.grid}"/>`;
+  for (let j = 0; j < H; j += 80) html += `<line x1="0" y1="${j}" x2="${W}" y2="${j}" stroke="${st.grid}"/>`;
+  html += `<g transform="translate(${W / 2} ${H / 2}) scale(${z.toFixed(4)}) translate(${-W / 2} ${-H / 2})">`;
+  html += `<path d="M${USA.map(P).map((q) => q.join(",")).join(" L")} Z" fill="${st.land === "#141c26" ? "#1f2a36" : st.land}" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if (m.zone) {
+    // 扩散的区域（火山灰）：grow = 半径随本段进度长大；zone_stretch = 东西向拉长（高空风把灰吹向东边）
+    const R = (m.zone_radius || 0.12) * bw * sc * (m.grow ? Math.max(0.05, Math.min(1, m.p * 1.15)) : 1);
+    const sx = m.zone_stretch || 1, cx = X(m.zone.x), cy = Y(m.zone.y);
+    html += `<defs><radialGradient id="zgu"><stop offset="0" stop-color="var(--accent)" stop-opacity="0.85"/><stop offset="0.6" stop-color="var(--accent)" stop-opacity="0.45"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0.05"/></radialGradient></defs>`;
+    html += `<ellipse cx="${cx + R * (sx - 1) * 0.8}" cy="${cy}" rx="${R * sx}" ry="${R}" fill="url(#zgu)"/>`;
+    html += `<circle cx="${cx}" cy="${cy}" r="9" fill="var(--accent)" stroke="#fff" stroke-width="2"/>`;
+    if (m.zone.text) html += mapLabel(cx, cy - 40, m.zone.text, st, true);
+  }
+  if (m.path && m.path.length > 1) {
+    const pts = m.path.map((q) => [X(q.x), Y(q.y)]);
+    const n = Math.max(2, Math.ceil(pts.length * Math.min(1, m.p * 1.1)));
+    html += `<path d="M${pts.slice(0, n).map((q) => q.join(",")).join(" L")}" stroke="#ffffff" stroke-width="4" fill="none" stroke-dasharray="10 8"/>`;
+  }
+  for (const l of m.labels || []) html += `<circle cx="${X(l.x)}" cy="${Y(l.y)}" r="6" fill="#fff"/>` + mapLabel(X(l.x), Y(l.y) - 30, l.text, st, false);
+  html += "</g>";
+  svg.innerHTML = html;
+}
 function drawMap(svg, m) {
   const st = MAP_STYLES[m.style] || MAP_STYLES.dark;
+  if (m.region === "usa") return drawUSA(svg, m, st);
+  if (svg.getAttribute("viewBox") !== "0 0 1080 1920") {   // 从美国地图切回街道地图
+    svg.setAttribute("viewBox", "0 0 1080 1920");
+    svg.setAttribute("preserveAspectRatio", document.body.classList.contains("land") ? "xMidYMid slice" : "xMidYMid meet");
+  }
   const X = (x) => 40 + x * 1000, Y = (y) => 260 + y * 1400;
   // 缓慢推近
   const z = 1 + 0.06 * Math.min(1, m.p);

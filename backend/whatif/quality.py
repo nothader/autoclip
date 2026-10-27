@@ -119,7 +119,8 @@ def quality_report(sb: Storyboard) -> List[Finding]:
             f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
         moving = (any(o.animate for o in objs) or any(o.kind == "person" and o.action in MOVING_ACTIONS for o in objs)
-                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes"))
+                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes", "witness")
+                  or b.env.weather in ("rain", "storm", "snow", "ash", "dust"))
         if not moving and b.duration >= 3.0:
             f.append(Finding("tip", "static", f"beats[{i}].env.set", "Nothing moves in this shot. Add an animate (grow/move/spin/bob), "
                              "a walking person, particles or an effect."))

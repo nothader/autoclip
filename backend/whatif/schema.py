@@ -102,7 +102,7 @@ class Milestone(_Strict):
 class Quantity(_Strict):
     kind: QuantityKind = "speed"
     label: str = "SPEED"
-    unit: str = "m/s"            # speed: m/s；length: m；mass: kg；temperature: °C；其它自定
+    unit: str = "m/s"            # speed: m/s（"mph" = 数值和里程碑仍按 m/s，画面按英里/小时显示）；length: m；mass: kg；temperature: °C；其它自定
     model: GrowthModel = Field(default_factory=GrowthModel)
     limit: Optional[Milestone] = None       # 物理上限（如光速）：HUD 进度条 + 越过时报警
     milestones: List[Milestone] = Field(default_factory=list)
@@ -158,6 +158,10 @@ class MapOpts(_Strict):
     zone: Optional[MapPoint] = None                     # 危险区（圆）
     zone_radius: float = 0.12
     style: Literal["dark", "satellite", "paper"] = "dark"
+    # region="usa"：画美国本土轮廓（不是街道网格）；这时 labels/path/zone 的 x/y 是在 经度 -125..-66.5、纬度 49.5..24.5 框里的 0..1 位置
+    region: Literal["none", "usa"] = "none"
+    grow: bool = False               # zone 的半径随本段进度从 0 长到 zone_radius（扩散）
+    zone_stretch: float = Field(default=1.0, ge=0.3, le=4)   # zone 东西向拉长（风向）
 
 
 SetKind = Literal[

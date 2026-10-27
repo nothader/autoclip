@@ -251,7 +251,9 @@ body.st-bodycam #vig { display: none; }
 .st-bodycam #cap.box .bx { background: rgba(10,10,12,.66); color: #fff; padding: 4px 14px; border-radius: 4px; }
 .st-bodycam #cap.typed { font-family: "DejaVu Sans Mono", ui-monospace, monospace; font-size: 38px; font-weight: 500; letter-spacing: 0; }
 .st-bodycam #povhdr { top: 230px; }
-body.pov #clock { top: 330px; }   /* pov：时钟放在顶部钩子下面，别和中间的打字字幕撞 */
+body.pov #clock { top: 330px; }
+body.pov #stat { top: 380px; }   /* 顶部 POV 钩子常是两行：大数字放在它下面 */
+body.pov.st-bodycam #stat { top: 410px; }   /* pov：时钟放在顶部钩子下面，别和中间的打字字幕撞 */
 body.pov.st-bodycam #clock { top: 370px; }
 .land #bcam { left: 80px; right: 80px; top: 50px; font-size: 26px; }
 .land.st-bodycam #cap.box { top: auto; bottom: 110px; left: 300px; right: 300px; font-size: 32px; }

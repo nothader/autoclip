@@ -188,6 +188,8 @@ def hud_for(q: Quantity, v: float, sim: float) -> HudText:
         f"STEP {step_no}" if step_no else q.label)
     over = bool(q.limit and v > q.limit.value)
     if q.kind == "speed":
+        # unit="mph"：模型和里程碑仍然用 m/s，只是大数字按英里/小时显示（美国观众）
+        imperial = q.unit == "mph"
         parts = [f"{fmt_num(round(v * 3.6) if v * 3.6 >= 10 else v * 3.6)} km/h"]
         mach = v / SPEED_OF_SOUND
         if mach >= 0.3:
@@ -196,6 +198,9 @@ def hud_for(q: Quantity, v: float, sim: float) -> HudText:
         if frac >= 1e-3:
             pct = frac * 100
             parts.append(f"{fmt_sig(pct, 2)}% OF LIGHT SPEED" + (" · IMPOSSIBLE" if v > SPEED_OF_LIGHT else ""))
+        if imperial:
+            mph = v * MPH
+            return HudText(head, fmt_num(round(mph) if mph >= 10 else round(mph, 1)), "mph", " · ".join(parts), over)
         return HudText(head, fmt_num(v), q.unit, " · ".join(parts), over)
     if q.kind == "length":
         val, unit = fmt_length(v)
@@ -213,7 +218,8 @@ def hud_for(q: Quantity, v: float, sim: float) -> HudText:
 
 
 # ----------------------------------------------------------- placeholders ---
-PLACEHOLDERS = ("value", "value_start", "sim_end", "kmh", "mach", "light_pct", "distance", "scale", "unit")
+PLACEHOLDERS = ("value", "value_start", "sim_end", "kmh", "mph", "mach", "light_pct", "distance", "scale", "unit")
+MPH = 2.236936   # m/s → mph
 
 
 def placeholder_values(q: Quantity, g: Growth, sim0: float, sim1: float) -> Dict[str, str]:
@@ -226,6 +232,7 @@ def placeholder_values(q: Quantity, g: Growth, sim0: float, sim1: float) -> Dict
         "unit": q.unit,
         "scale": fmt_num(v1 / q.model.start) if q.model.start else "—",
         "kmh": fmt_num(round(v1 * 3.6)),
+        "mph": fmt_num(round(v1 * MPH)),
         "mach": fmt_num(round(v1 / SPEED_OF_SOUND, 1)),
         "light_pct": fmt_sig(v1 / SPEED_OF_LIGHT * 100, 2),
         "distance": fmt_distance(g.integral(sim1)),
@@ -820,6 +827,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 n = int(math.floor(c / q.model.step + 1e-9)) + 1
                 breach = {"sim": c, "label": f"SECOND {n}: {q.limit.label} EXCEEDED"
                           if q.model.step == 1 else f"{q.limit.label} EXCEEDED"}
+        if q.kind == "speed" and q.unit == "mph":   # 图表也按显示单位画
+            steps = [[k, val * MPH] for k, val in steps]
+            refs = [{**r, "value": r["value"] * MPH} for r in refs]
         chart = {"title": sb.outro.chart_title, "subtitle": sb.outro.chart_subtitle,
                  "steps": steps, "refs": refs, "breach": breach, "unit": q.unit}
 
