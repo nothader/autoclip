@@ -205,7 +205,8 @@ class SetObject(_Strict):
 
 class SetSpec(_Strict):
     """完全自定义的布景：按题目设计，而不是套用城市 / 公路 / 地球模板。"""
-    background: Union[Literal["stars", "black", "white"], Tuple[str, str]] = ("#0d1622", "#2a3b52")  # (顶, 底) 渐变
+    background: Union[Literal["stars", "black", "white"], Tuple[str, str]] = ("#5d86ad", "#c9d8e2")  # (顶, 底) 渐变；stars = 星云太空（不是纯黑）
+    sky_detail: Literal["auto", "none"] = "auto"   # auto：亮天自动加云，暗天自动加星星；none：纯渐变
     ground: Literal["none", "plane", "grid", "water", "mirror"] = "none"
     ground_color: str = "#1a2230"
     fog: Optional[Tuple[str, float, float]] = None   # (颜色, 近, 远)

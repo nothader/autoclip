@@ -42,6 +42,17 @@ STYLE_HINTS = [
 ]
 
 
+DARK_BG_LUM = 0.2     # 渐变两端（sRGB 亮度）都比这暗 = 黑 / 深藏青背景
+
+
+def _lum(hexcol: str) -> float:
+    h = hexcol.lstrip("#")
+    if len(h) != 6:
+        return 1.0
+    r, g, bl = (int(h[k:k + 2], 16) / 255 for k in (0, 2, 4))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl
+
+
 def auto_style(premise: str) -> str:
     """按题目挑一个风格（没有命中关键词 = calm）。"""
     p = premise.lower()
@@ -109,6 +120,16 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         cam, n = Counter(b.camera for b in beats).most_common(1)[0]
         if n / len(beats) > CAMERA_SHARE_TIP:
             f.append(Finding("tip", "variety", "storyboard", f"camera \"{cam}\" is used for {n}/{len(beats)} shots; mix in other angles."))
+
+    # 黑背景（用户要求：背景要有生气——天空、场景、人；不要黑底）
+    for i, b in enumerate(beats):
+        if b.scene != "custom" or not b.env or not b.env.set:
+            continue
+        bg = b.env.set.background
+        dark = bg == "black" or (isinstance(bg, tuple) and max(_lum(c) for c in bg) < DARK_BG_LUM)
+        if dark:
+            f.append(Finding("fix", "backdrop", f"beats[{i}].env.set.background", "Black / near-black backdrop. Backgrounds must be lively: "
+                             "a colored sky (dawn, dusk, storm, night-blue), a real place, people; for space use \"stars\" (nebula sky)."))
 
     # 静止 / 空镜
     for i, b in enumerate(beats):

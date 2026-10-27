@@ -1,7 +1,7 @@
 // 自定义布景：按分镜里的 env.set 从基本体和科普道具搭建场景（每个题目都可以长得不一样）。
 // 全部是确定性的：随机散布用 seed，动画只依赖本段时间 lt / 进度 frac。
 import * as THREE from "three";
-import { stars, canvasTex, makeEarth, rng } from "./common.js";
+import { stars, canvasTex, makeEarth, rng, spaceSky, skyClouds } from "./common.js";
 import { Person } from "./people.js";
 
 const SOFT = canvasTex(128, 128, (x) => {
@@ -399,7 +399,7 @@ export function setEnv(spec) {
   const root = new THREE.Group();
   const items = [];
   // 背景：渐变天空球 / 星空 / 纯色
-  let background;
+  let background, skyLayer = null;
   if (Array.isArray(spec.background)) {
     const [top, bottom] = spec.background;
     const sky = new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), new THREE.ShaderMaterial({
@@ -409,10 +409,18 @@ export function setEnv(spec) {
       side: THREE.BackSide, depthWrite: false, fog: false,
     }));
     root.add(sky);
+    // 天空要有生气：亮天加云，暗天（夜里）加星星
+    if (spec.sky_detail !== "none") {
+      const lum = (c) => { const k = new THREE.Color(c); return 0.2126 * k.r + 0.7152 * k.g + 0.0722 * k.b; };
+      if (lum(top) > 0.12) skyLayer = skyClouds(800, bottom, 5);
+      else skyLayer = stars(2500, 850, 23);
+      root.add(skyLayer);
+    }
   } else if (spec.background === "stars") {
-    background = 0x000000;
-    root.add(stars(5000, 800, 17));
-  } else background = spec.background === "white" ? 0xf4f4f2 : 0x000000;
+    background = 0x050814;
+    skyLayer = spaceSky(880, 17);
+    root.add(skyLayer);
+  } else background = spec.background === "white" ? 0xf4f4f2 : 0x0b0e16;
   // 地面
   if (spec.ground !== "none") {
     if (spec.ground === "grid") {
@@ -460,6 +468,7 @@ export function setEnv(spec) {
     focus: spec.focus, zoom: spec.zoom,
     update(fr) {
       const lt = fr.lt || 0, k = fr.frac || 0, t = fr.t || 0;
+      if (skyLayer) skyLayer.rotation.y = t * 0.004;   // 云 / 星空慢慢转
       for (const it of items) {
         const { obj, o } = it;
         if (it.water) {

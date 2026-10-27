@@ -1,7 +1,7 @@
 // 环境：city / highway / desert / ocean / sky / orbit / deep_space / lab / void。
 // 主体沿 -z 前进；地面内容按块（chunk）循环生成，块 k 的内容只由 k 决定（确定性）。
 import * as THREE from "three";
-import { makeCar, std, hash, rng, skyDome, stars, canvasTex, facadeTexture, Chunks, palm, lamp, pedestrian,
+import { makeCar, std, hash, rng, skyDome, stars, spaceSky, canvasTex, facadeTexture, Chunks, palm, lamp, pedestrian,
   CAR_COLORS, cloudTex, earthTextures, makeEarth, addOvergrowth, addDebris } from "./common.js";
 
 // ------------------------------------------------------------- city ---
@@ -343,7 +343,7 @@ function orbitEnv() {
 
 function deepSpaceEnv() {
   const root = new THREE.Group();
-  const st = stars(6000, 3000, 11);
+  const st = spaceSky(3000, 11);   // 星云 + 银河 + 星点，不是纯黑
   root.add(st);
   const earth = new THREE.Group();   // 不画地球（用户不要地球仪 / 太空地球镜头）；保留空组，update 里的引用不用改
   root.add(earth);
