@@ -80,6 +80,9 @@ def render_frames(plan: Dict[str, Any], out_dir: Path, *, width: int, height: in
     """每个 worker 是独立的 Python 子进程（不依赖调用方的 __main__ 保护）。"""
     out_dir.mkdir(parents=True, exist_ok=True)
     frames = list(frames if frames is not None else range(plan["n_frames"]))
+    frames = [i for i in frames if not (out_dir / f"{i:06d}.{fmt}").exists()]   # 续渲：已经写好的帧跳过
+    if not frames:
+        return []
     if not workers:
         workers = max(1, min(4, os.cpu_count() or 2))
     workers = max(1, min(workers, len(frames)))
@@ -145,12 +148,16 @@ def encode(frames_dir: Path, fps: int, audio: Optional[Path], out: Path, crf: in
 
 
 def render_video(plan: Dict[str, Any], out: Path, *, preview: bool = False, workers: int = 0,
-                 audio: Optional[Path] = None, keep_frames: bool = False,
+                 audio: Optional[Path] = None, keep_frames: bool = False, frames_dir: Optional[Path] = None,
                  progress: Optional[Callable[[int, int], None]] = None) -> Dict[str, Any]:
+    """frames_dir：帧放在固定目录并保留；已经渲好的帧会跳过——容器重启 / 进程被杀后用同一个目录重跑就能续上。"""
     width, height = plan["width"], plan["height"]
     if preview:
         width, height = width // 2, height // 2
-    tmp = Path(tempfile.mkdtemp(prefix="whatif-frames-"))
+    if frames_dir is not None:
+        frames_dir.mkdir(parents=True, exist_ok=True)
+        keep_frames = True
+    tmp = frames_dir or Path(tempfile.mkdtemp(prefix="whatif-frames-"))
     try:
         errors = render_frames(plan, tmp, width=width, height=height, workers=workers, progress=progress)
         out.parent.mkdir(parents=True, exist_ok=True)

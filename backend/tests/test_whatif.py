@@ -915,3 +915,35 @@ def test_usa_region_map_fields_reach_the_frame():
     sb = Storyboard.model_validate({"format": "story", "title": "t", "premise": "p", "beats": beats, "outro": {"chart": False}, "pace": 1.0})
     m = next(f["map"] for f in compile_plan(sb)["frames"] if f.get("map"))
     assert m["region"] == "usa" and m["grow"] and m["zone_stretch"] == 1.8
+
+
+def test_render_frames_resumes_and_skips_existing(tmp_path, monkeypatch):
+    from backend.whatif import render
+    calls = []
+
+    class FakeProc:
+        def __init__(self, cmd, **kw):
+            job = json.loads(Path(cmd[-2]).read_text())
+            calls.append(job["frames"])
+            for i in job["frames"]:
+                (Path(job["out"]) / f"{i:06d}.jpg").write_bytes(b"x")
+            Path(cmd[-1]).write_text(json.dumps({"errors": []}))
+            self.stderr = None
+            self.returncode = 0
+
+        def poll(self):
+            return 0
+
+        def wait(self, timeout=None):
+            return 0
+
+    monkeypatch.setattr(render.subprocess, "Popen", FakeProc)
+    plan = {"n_frames": 10, "fps": 30}
+    out = tmp_path / "frames"
+    out.mkdir()
+    for i in range(6):                                   # 前 6 帧上次已经渲好了
+        (out / f"{i:06d}.jpg").write_bytes(b"x")
+    render.render_frames(plan, out, width=10, height=10, workers=2)
+    assert sorted(i for part in calls for i in part) == [6, 7, 8, 9]
+    calls.clear()
+    assert render.render_frames(plan, out, width=10, height=10) == [] and not calls

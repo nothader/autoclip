@@ -27,7 +27,7 @@ def load_storyboard(path: Path) -> Storyboard:
 
 
 def make_video(sb: Storyboard, out: Path, *, preview: bool = False, workers: int = 0,
-               narration: Optional["Narration"] = None,
+               narration: Optional["Narration"] = None, frames_dir: Optional[Path] = None,
                progress: Optional[Callable[[str, int, int], None]] = None) -> Dict[str, Any]:
     """narration：开启旁白（覆盖分镜里的 narration 设置）；None 时按分镜里的 narration.enabled。"""
     from .audio import render_audio
@@ -59,7 +59,7 @@ def make_video(sb: Storyboard, out: Path, *, preview: bool = False, workers: int
         wav = render_audio(plan, tmp / "audio.wav", voice=voice)
         if progress:
             progress("audio", 1, 1)
-        res = render_video(plan, out, preview=preview, workers=workers, audio=wav,
+        res = render_video(plan, out, preview=preview, workers=workers, audio=wav, frames_dir=frames_dir,
                            progress=(lambda d, n: progress("frames", d, n)) if progress else None)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

@@ -452,6 +452,7 @@ def cmd_whatif(args: argparse.Namespace) -> int:
             narr = base.model_copy(update={k: v for k, v in (("voice", args.voice), ("engine", args.tts), ("speed", args.speed)) if v})
             narr.enabled = True
         res = make_video(sb, out, preview=args.preview, workers=args.workers, narration=narr,
+                         frames_dir=Path(args.frames_dir) if getattr(args, "frames_dir", None) else None,
                          progress=_whatif_progress(args.json))
     except ImportError as e:
         _err(f"缺少 what-if 依赖（{e.name}）：pip install -r requirements-whatif.txt && python -m playwright install chromium"
@@ -554,6 +555,7 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("-o", "--output", help="MP4 输出路径（默认 数据目录/whatif/<标题>.mp4）")
         x.add_argument("--preview", action="store_true", help="半分辨率（540x960），快 ~3 倍")
         x.add_argument("--workers", type=int, default=0, help="并行渲染进程数（默认 = CPU 核数，最多 4）")
+        x.add_argument("--frames-dir", help="帧放在这个目录并保留；重跑同一命令时跳过已渲好的帧（长片 / 容器可能重启时用）")
         x.add_argument("--json", action="store_true")
         x.add_argument("--narrate", action="store_true", help="加旁白（默认念字幕；本地 Kokoro TTS，首次自动下载模型 ~120 MB）")
         x.add_argument("--voice", help="旁白声音（kokoro: am_michael / af_heart / bf_emma / bm_george …；openai: onyx / nova …）")
