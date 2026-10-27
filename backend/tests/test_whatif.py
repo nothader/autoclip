@@ -593,6 +593,8 @@ def test_thumb_text_metadata_and_short():
     assert m["title"] == "What if every cat vanished?" and "#shorts" in m["hashtags"] and "#cat" in m["hashtags"]
     assert "TITLE" in publish.metadata_text(m)
     nums = publish.metadata(sb.model_copy(update={"thumbnail": "*900 MILLION* WILD DOGS?"}))   # 数字不当标签（曾出 #900 #million）
+    filler = publish.metadata(sb.model_copy(update={"title": "What if everything around you got bigger except you?", "thumbnail": ""}))
+    assert not {"#except", "#everything", "#around"} & set(filler["hashtags"]) and "bigger" in filler["tags"]
     assert "#900" not in nums["hashtags"] and "#million" not in nums["hashtags"] and "wild" in nums["tags"]
     beats = [{"duration": 4, "scene": "city", "camera": c, "subject": {"type": "none"}, "caption": f"Line {i}.", "chapter": f"C{i // 10}"}
              for i, c in zip(range(60), ["wide", "aerial", "establishing", "dolly"] * 15)]

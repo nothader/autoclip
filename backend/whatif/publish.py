@@ -28,7 +28,10 @@ TRAIL_WORDS = {"and", "or", "of", "in", "the", "a", "an", "to", "with", "for", "
 STOP = LEAD_WORDS | TRAIL_WORDS | {"what", "if", "was", "were", "is", "are", "be", "been", "had", "has", "have", "could",
                                   "would", "did", "do", "does", "never", "every", "all", "only", "no", "not", "suddenly",
                                   "became", "become", "started", "start", "from", "into", "than", "this", "that", "its", "ever",
-                                  "existed", "exist", "exists", "happened", "happen", "instead", "really"}
+                                  "existed", "exist", "exists", "happened", "happen", "instead", "really",
+                                  # 只起连接作用的词（曾出 #except / keeps / everything 这样的标签）
+                                  "except", "keeps", "keep", "everything", "everyone", "something", "nothing", "anything",
+                                  "still", "until", "got", "gets", "went", "goes", "around", "your", "you"}
 
 
 # ------------------------------------------------------------------ 选段
