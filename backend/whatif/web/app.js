@@ -277,6 +277,11 @@ const OUTLINE = new THREE.MeshBasicMaterial({ color: 0x15151a, side: THREE.BackS
 OUTLINE.onBeforeCompile = (sh) => {
   sh.vertexShader = sh.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\n  transformed += normalize(normal) * 0.035;");
 };
+// 第一人称的手很小（~0.1 m），用同样 0.035 的描边会糊成黑团：给它一套细描边
+const OUTLINE_THIN = new THREE.MeshBasicMaterial({ color: 0x15151a, side: THREE.BackSide });
+OUTLINE_THIN.onBeforeCompile = (sh) => {
+  sh.vertexShader = sh.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\n  transformed += normalize(normal) * 0.0035;");
+};
 const toonCache = new Map();
 function toonMat(m) {
   // 天空球 / 地球等自定义着色器不能换成卡通材质（换了会丢 uniforms：天空变暗，切到城市场景时报错）
@@ -293,7 +298,7 @@ function toonify(root) {   // 卡通：平涂三阶光照 + 反向外壳描边�
     const solid = !(o.material && o.material.transparent) && !(o.material && o.material.blending === THREE.AdditiveBlending);
     o.material = Array.isArray(o.material) ? o.material.map(toonMat) : toonMat(o.material);
     if (solid && o.geometry && o.geometry.attributes.normal && !o.isInstancedMesh) {
-      const ol = new THREE.Mesh(o.geometry, OUTLINE);
+      const ol = new THREE.Mesh(o.geometry, o.userData.thinOutline ? OUTLINE_THIN : OUTLINE);
       ol.userData.outline = true; ol.castShadow = false; ol.receiveShadow = false;
       o.add(ol);
     }

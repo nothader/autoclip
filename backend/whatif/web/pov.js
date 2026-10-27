@@ -199,6 +199,7 @@ export class PovRig {
       this.group.add(m); return m;
     });
     // 手自带一盏柔光（夜景里也看得清自己的手）
+    this.group.traverse((o) => { o.userData.thinOutline = true; });   // toon 风格：手和袖子用细描边
     this.fill = new THREE.PointLight("#fff1e0", 0.6, 1.6, 1.5);
     this.fill.position.set(0, 0.1, 0.1);
     this.group.add(this.fill);
