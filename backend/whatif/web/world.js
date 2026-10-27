@@ -646,7 +646,7 @@ export class World {
   }
   update(fr, subjPos, scale = 1, beat = null, camPos = null) {
     const env = this.envs[this.active];
-    env.update(fr, subjPos, beat);
+    env.update(fr, subjPos, beat, camPos || subjPos);
     this.applyMods(env, this.spec || {}, fr, beat, camPos || subjPos);
     // 阴影相机跟随主体
     const ext = 30 * Math.max(1, scale);

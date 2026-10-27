@@ -400,15 +400,17 @@ export function setEnv(spec) {
   const items = [];
   // 背景：渐变天空球 / 星空 / 纯色
   let background, skyLayer = null;
+  const skyDomes = [];   // 天空球 / 星云 / 云层：跟着镜头走（远景 zoom 很大时镜头会跑到 900 半径的天空球外面，背景就成了黑的）
   if (Array.isArray(spec.background)) {
     const [top, bottom] = spec.background;
     const sky = new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), new THREE.ShaderMaterial({
       uniforms: { top: { value: new THREE.Color(top) }, bottom: { value: new THREE.Color(bottom) } },
       vertexShader: `varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
       fragmentShader: `uniform vec3 top; uniform vec3 bottom; varying vec3 vP; void main(){ float h=smoothstep(-0.35,0.6,vP.y); gl_FragColor=vec4(mix(bottom,top,h),1.0); }`,
-      side: THREE.BackSide, depthWrite: false, fog: false,
+      side: THREE.BackSide, depthWrite: false, depthTest: false, fog: false,
     }));
-    root.add(sky);
+    sky.renderOrder = -10;   // 最先画、不参与深度：远处的物体（蘑菇云、城市）永远在天空前面
+    root.add(sky); skyDomes.push(sky);
     // 天空要有生气：亮天加云，暗天（夜里）加星星
     if (spec.sky_detail !== "none") {
       const lum = (c) => { const k = new THREE.Color(c); return 0.2126 * k.r + 0.7152 * k.g + 0.0722 * k.b; };
@@ -419,7 +421,7 @@ export function setEnv(spec) {
   } else if (spec.background === "stars") {
     background = 0x050814;
     skyLayer = spaceSky(880, 17);
-    root.add(skyLayer);
+    root.add(skyLayer); skyDomes.push(skyLayer);
   } else background = spec.background === "white" ? 0xf4f4f2 : 0x0b0e16;
   // 地面
   if (spec.ground !== "none") {
@@ -466,9 +468,10 @@ export function setEnv(spec) {
     fog: spec.fog ? new THREE.Fog(spec.fog[0], spec.fog[1], spec.fog[2]) : null,
     light: { sun: spec.light_intensity, hemi: spec.ambient, sunDir, sky: spec.light, ground: spec.bounce || 0x30343c },
     focus: spec.focus, zoom: spec.zoom,
-    update(fr) {
+    update(fr, subjPos, beat, camPos) {
       const lt = fr.lt || 0, k = fr.frac || 0, t = fr.t || 0;
       if (skyLayer) skyLayer.rotation.y = t * 0.004;   // 云 / 星空慢慢转
+      if (camPos) for (const d of skyDomes.concat(skyLayer && !skyDomes.includes(skyLayer) ? [skyLayer] : [])) d.position.copy(camPos);
       for (const it of items) {
         const { obj, o } = it;
         if (it.water) {

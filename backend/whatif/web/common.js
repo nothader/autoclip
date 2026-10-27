@@ -72,7 +72,7 @@ export function spaceSky(radius = 900, seed = 3) {
         col += vec3(0.55, 0.52, 0.62) * band * (0.18 + 0.45 * b);
         gl_FragColor = vec4(col, 1.0);
       }`,
-    side: THREE.BackSide, depthWrite: false, fog: false,
+    side: THREE.BackSide, depthWrite: false, depthTest: false, fog: false,
   });
   const sphere = new THREE.Mesh(new THREE.SphereGeometry(radius, 48, 24), mat);
   sphere.renderOrder = -10;
