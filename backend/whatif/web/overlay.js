@@ -243,6 +243,10 @@ export function drawOverlay(fr, plan) {
     if ((e.kind === "title" || e.kind === "fact") && e.title) html += `<div class="t">${accentize(e.title)}</div>`;
     html += (e.lines || []).map((l, i) => `<div class="ln ${i === e.accent_line ? "acc" : ""}">${esc(l)}</div>`).join("");
     if (e.sub) html += `<div class="sub caps">${esc(e.sub)}</div>`;
+    if (e.series) {   // 系列：本集编号在上，下一集预告 + 关注提示在下
+      html = `<div class="ser caps">PART ${e.series.part} · ${esc(e.series.name)}</div>` + html;
+      if (e.series.next) html += `<div class="next" style="opacity:${e.series.a}"><div class="caps">NEXT · PART ${e.series.part + 1}</div><div class="nt">${esc(e.series.next)}</div><div class="caps fol">FOLLOW SO YOU DON'T MISS IT</div></div>`;
+    }
     setHTML(en, "end", html);
     en.className = `shadow ${e.kind}`;
     en.style.opacity = e.a;

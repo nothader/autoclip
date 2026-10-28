@@ -399,7 +399,8 @@ function frame(i) {
   if (glow) glow.style.opacity = beat && beat.effects.includes("bloom") ? (0.4 + 0.12 * Math.sin((raw.t || 0) * 1.3)).toFixed(3) : "0";
   if (STYLE === "toon") toonify(scene);
   const grade = GRADE[STYLE] || "";
-  canvas.style.filter = [beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg)" : "", grade,
+  canvas.style.filter = [raw.freeze ? "blur(7px) brightness(0.5) saturate(0.85)" : "",   // 结尾卡背后：最后一个镜头虚化压暗
+    beat && beat.effects.includes("freeze") ? "saturate(0.45) brightness(1.08) hue-rotate(-12deg)" : "", grade,
     (plan.theme && plan.theme.palette_css) || "", post(raw, beat, fxFlash)].filter(Boolean).join(" ") || "none";
   canvas.style.transform = postTransform(raw, beat);
   const split = plan.theme && plan.theme.layout === "split" && H > W;

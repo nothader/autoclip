@@ -436,6 +436,7 @@ def apply_pace(sb: Storyboard) -> Storyboard:
     return out
 
 
+FREEZE_KEYS = ("b", "lt", "frac", "sim", "z", "vis", "scale", "stride", "ph", "scene", "intensity")   # 结尾卡沿用最后一帧的这些字段
 POV_OPEN = 1.5     # pov 开头睁眼用时（秒）
 POV_TYPE = 1.1     # 顶部 POV 钩子打字用时
 
@@ -593,6 +594,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     prev_clock_int = None
     sec_starts = [s.start for s in secs]
     intro = sb.intro
+    last_beat_fr: Optional[Dict[str, Any]] = None
     for fi in range(n_frames):
         t = fi / fps
         si = max(0, bisect.bisect_right(sec_starts, t) - 1)
@@ -762,8 +764,17 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             else:
                 fr["end"] = {**end.model_dump(), "a": a, "icon": intro.icon,
                              "title": intro.title if end.kind in ("title", "fact") else ""}
-            fr["scene"] = "void"
-            fr["intensity"] = 0.0
+            if sb.series:   # 系列：结尾卡上标出第几集，并预告下一集
+                fr["end"]["series"] = {"name": sb.series.name, "part": sb.series.part, "next": sb.series.next,
+                                       "a": round(min(1.0, max(0.0, (lt - 0.6) / 0.5)), 3)}
+            if last_beat_fr is not None:   # 结尾卡背后：最后一个镜头定格（渲染端再虚化压暗），不是黑底
+                fr.update({k: last_beat_fr[k] for k in FREEZE_KEYS if k in last_beat_fr})
+                fr["freeze"] = True
+            else:
+                fr["scene"] = "void"
+                fr["intensity"] = 0.0
+        if s.kind == "beat":
+            last_beat_fr = fr
         frames.append(fr)
 
     # 声音事件：段落 sfx + 效果/界面自动配声 + 里程碑 whoosh

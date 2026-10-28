@@ -122,7 +122,7 @@ def _wrap(draw, words, font, max_w):
     return lines
 
 
-def compose_thumbnail(still: Path, out: Path, text: str, *, size=(1280, 720), arrow: bool = False) -> Path:
+def compose_thumbnail(still: Path, out: Path, text: str, *, size=(1280, 720), arrow: bool = False, badge: str = "") -> Path:
     from PIL import Image, ImageDraw, ImageFont
     W, H = size
     img = Image.open(still).convert("RGB")
@@ -173,6 +173,13 @@ def compose_thumbnail(still: Path, out: Path, text: str, *, size=(1280, 720), ar
                (bx + math.cos(ang + 2.4) * L, by + math.sin(ang + 2.4) * L),
                (bx + math.cos(ang - 2.4) * L, by + math.sin(ang - 2.4) * L)]
         draw.polygon(pts, fill=(230, 40, 40))
+    if badge:   # 系列集数角标："PART 2"（同一系列的封面一眼认得出）
+        bf = ImageFont.truetype(str(THUMB_FONT), int(H * (0.075 if land else 0.032)))
+        pad = int(bf.size * 0.45)
+        tw = draw.textlength(badge, font=bf)
+        bx0, by0 = (int(W * 0.04), int(H * 0.06)) if land else (int(W * 0.05), int(H * 0.03))
+        draw.rounded_rectangle([bx0, by0, bx0 + tw + 2 * pad, by0 + bf.size + 2 * pad], radius=pad, fill=(230, 40, 40))
+        draw.text((bx0 + pad, by0 + pad * 0.8), badge, font=bf, fill=(255, 255, 255))
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out, quality=92)
     return out
@@ -217,7 +224,8 @@ def thumbnail(sb: Storyboard, out: Path, *, text: Optional[str] = None, landscap
     try:
         fr = int((plan["beats"][0]["start"] + 1.4) * plan["fps"])
         still = render_stills(plan, tmp, [fr], preview=False)[0]
-        return compose_thumbnail(still, out, text or thumb_text(sb), size=(1280, 720) if land else (1080, 1920), arrow=arrow)
+        return compose_thumbnail(still, out, text or thumb_text(sb), size=(1280, 720) if land else (1080, 1920), arrow=arrow,
+                                 badge=f"PART {sb.series.part}" if sb.series else "")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -268,6 +276,8 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
     title = clean(sb.title)
     if not title.endswith("?") and not title.lower().startswith("pov"):   # "POV: you …" 是陈述，不加问号
         title = title.rstrip(".!") + "?"
+    if sb.series:   # 系列：标题带集数，方便观众按顺序找
+        title = f"{title} (Part {sb.series.part})"
     caps = [b.caption for b in sb.beats if b.caption]
     hook = caps[0] if caps else ""
     tease = next((c for c in caps[1:4] if "?" in c or re.search(r"\b(but|until|worst|then)\b", c, re.I)), "")
@@ -286,11 +296,15 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
     else:
         question = "What would you do first if this really happened?"
     tags = tags_for(sb)
-    hashtags = ["#whatif"] + (["#pov"] if sb.format == "pov" else []) + [f"#{t.replace(' ', '')}" for t in tags[:2] if t not in ("what if",)] + ["#simulation"] + (["#shorts"] if vertical else [])
+    hashtags = ["#whatif"] + (["#pov"] if sb.format == "pov" else []) + (["#" + re.sub(r"[^A-Za-z0-9]", "", sb.series.name.title())] if sb.series else []) + [f"#{t.replace(' ', '')}" for t in tags[:2] if t not in ("what if",)] + ["#simulation"] + (["#shorts"] if vertical else [])
     desc = [hook + (" " + tease if tease else "")]
     desc.append("")
     desc.append(clean(sb.premise) if len(sb.premise) < 400 else clean(sb.premise)[:397] + "...")
     desc.append("")
+    if sb.series:
+        desc.append(f"Part {sb.series.part} of the {sb.series.name.title()} series." + (f" Next: {clean(sb.series.next)}" if sb.series.next else "")
+                    + " Follow so you don't miss it.")
+        desc.append("")
     desc.append("A hypothetical 3D simulation. Facts on screen are widely cited; the consequences are speculative.")
     if chapters:
         desc += ["", "CHAPTERS"] + [f"{_ts(t)} {c}" for t, c in chapters]

@@ -121,6 +121,9 @@ SHOTS
 - narration (optional per beat): when the video is narrated, the caption is read aloud by default. Set "narration" only
   when the spoken wording should differ (e.g. a fuller sentence), or "" to keep a beat silent. Captions must read well aloud.
 
+SERIES (optional): "series": {{"name": "EVERY PLANET", "part": 2, "next": "What if you threw a football on Jupiter?"}} puts
+PART 2 on the end card and thumbnail, teases the next episode with a follow prompt, and adds (Part 2) to the title.
+
 LIVELY BACKGROUNDS (the creator's rule): never a black or empty backdrop. Every shot shows a real sky (blue day, golden hour,
 storm green, dusk pink, night blue with stars) or a real place (street, stadium, kitchen, field) with people where the story
 has people (crowds in stands, shoppers, commuters, families). For space use background "stars" (nebula sky), never "black";

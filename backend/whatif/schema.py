@@ -413,6 +413,13 @@ class Outro(_Strict):
     question_duration: float = 3.0
     end: Optional[EndCard] = None    # 设置后替代 question 的样式
 
+class Series(_Strict):
+    """系列化：同一个系列的视频共用名字，按集编号；结尾卡预告下一集，封面角上打 PART 标。"""
+    name: str                        # "EVERY PLANET" / "BIGGEST EVER"
+    part: int = Field(default=1, ge=1, le=999)
+    next: str = ""                   # 下一集预告（"What if you threw a football on Jupiter?"）；空 = 不预告
+
+
 class Storyboard(_Strict):
     version: int = 1
     format: Format = "escalation"
@@ -431,6 +438,7 @@ class Storyboard(_Strict):
     thumbnail: str = ""          # 封面大字（2-5 个词，*星号* 标出高亮词，如 "SNOW IN *DUBAI*?"）；空 = 从标题推
     thumbnail_beat: Optional[int] = None   # 封面用哪一段的画面；None = 自动挑最有冲击力的一段
     pov: Optional[Pov] = None    # format=pov 必填
+    series: Optional[Series] = None  # 系列 + 集数（结尾卡预告下一集、封面 PART 标、标题加 Part N）
     pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.2 = 镜头短 1.2 倍、画面动作快 1.2 倍；None = 用渲染参数（默认 1.2）
 
     @model_validator(mode="after")

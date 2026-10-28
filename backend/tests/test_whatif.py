@@ -947,3 +947,19 @@ def test_render_frames_resumes_and_skips_existing(tmp_path, monkeypatch):
     assert sorted(i for part in calls for i in part) == [6, 7, 8, 9]
     calls.clear()
     assert render.render_frames(plan, out, width=10, height=10) == [] and not calls
+
+
+def test_series_end_card_title_and_thumbnail_badge(tmp_path):
+    from PIL import Image
+    from backend.whatif import publish
+    sb = _set_sb([{"kind": "box"}], n=3).model_copy(update={"series": {"name": "EVERY PLANET", "part": 2, "next": "Football on Jupiter?"}})
+    sb = Storyboard.model_validate(sb.model_dump())
+    end = next(f["end"] for f in compile_plan(sb)["frames"] if f.get("end"))
+    assert end["series"]["part"] == 2 and end["series"]["next"] == "Football on Jupiter?"
+    m = publish.metadata(sb)
+    assert m["title"].endswith("(Part 2)") and "#EveryPlanet" in m["hashtags"] and "Part 2 of the Every Planet series" in m["description"]
+    still = tmp_path / "s.png"
+    Image.new("RGB", (1080, 1920), (90, 120, 160)).save(still)
+    im = Image.open(publish.compose_thumbnail(still, tmp_path / "t.jpg", "X", size=(1080, 1920), badge="PART 2")).convert("RGB")
+    px = [im.getpixel((x, y)) for x in range(50, 260, 6) for y in range(55, 140, 6)]
+    assert any(r > 200 and g < 80 and b < 80 for r, g, b in px)        # 红色 PART 角标
