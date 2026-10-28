@@ -909,6 +909,21 @@ def test_speed_in_mph_keeps_physics_in_ms():
     assert abs(plan["chart"]["refs"][0]["value"] - 31.3 * MPH) < 1e-6
 
 
+def test_length_in_feet_shows_feet_then_miles():
+    from backend.whatif.model import hud_for, FT
+    from backend.whatif.schema import Quantity
+    q = Quantity.model_validate({"kind": "length", "unit": "ft", "model": {"type": "exponential", "start": 1.7, "factor": 2},
+                                 "milestones": [{"label": "HOOP", "value": 3.05}]})
+    h = hud_for(q, 3.4, 1)
+    assert (h.value, h.unit, h.sub) == ("11", "ft", "3.4 m")
+    assert hud_for(q, 14000, 13).unit == "mi" and hud_for(q, 14000, 13).value == "8.7"
+    sb = Storyboard.model_validate({"format": "escalation", "title": "t", "premise": "p", "quantity": q.model_dump(), "pace": 1.0,
+                                    "beats": [{"duration": 3, "sim_end": 3, "caption": "You're {ft} tall."}]})
+    plan = compile_plan(sb)
+    assert plan["beats"][0]["caption"] == "You're 22 ft tall."      # 段末仍在第 3 秒：1.7·2^2 = 6.8 m
+    assert abs(plan["chart"]["refs"][0]["value"] - 3.05 * FT) < 1e-6
+
+
 def test_usa_region_map_fields_reach_the_frame():
     beats = [{"duration": 2, "scene": "map", "camera": "wide", "subject": {"type": "none"}, "chapter": "A",
               "env": {"map": {"region": "usa", "zone": {"x": 0.25, "y": 0.2, "text": "YELLOWSTONE"}, "grow": True, "zone_stretch": 1.8}}}]

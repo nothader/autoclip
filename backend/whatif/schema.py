@@ -179,7 +179,7 @@ class Anim(_Strict):
     type: Literal["spin", "bob", "orbit", "pulse", "grow", "shrink", "fade_in", "fade_out", "move", "drift", "wobble"]
     axis: Literal["x", "y", "z"] = "y"
     speed: float = 1.0               # 每秒（弧度 / 周期 / 米，视类型而定）
-    amount: float = 0.3              # 幅度（bob / pulse / wobble / orbit 半径）
+    amount: float = 0.3              # 幅度（bob / pulse / wobble / orbit 半径）；grow 时 > 1 = 本段内指数长到这么多倍
     to: Optional[Tuple[float, float, float]] = None  # move：本段内从 at 移动到 to
 
 

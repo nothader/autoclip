@@ -24,7 +24,8 @@
 基本体（sphere box cylinder cone torus capsule ring plane icosahedron octahedron）和科普道具
 （molecule〔按分子式，CPK 配色与单/双/三键〕 atom dna cell blood_cell virus neuron lungs heart hourglass clock gear flame
 crystal bubble planet sun moon earth tree rock building arrow bars person particles），每个可设材质
-（matte glossy metal glass glow toon）、散布数量、动画（spin bob orbit pulse grow shrink fade_in fade_out move drift wobble）。
+（matte glossy metal glass glow toon）、散布数量、动画（spin bob orbit pulse grow shrink fade_in fade_out move drift wobble；grow 的 amount > 1 = 本段内长到这么多倍，比如巨人每秒翻倍）。
+escalation 的 `quantity.unit` 可以写 `mph`（速度）或 `ft`（长度，先英尺后英里），给美国观众看；模型和里程碑仍然用米 / 米每秒。
 示例：`examples/nitrogen_custom_sets.json`。planner 默认按题目设计自定义布景，只有剧情确实发生在城市/室内等地方时才用通用场景。
 
 环境修饰（`env`，同场景内沿用）：时段 `day golden dusk night dawn`、天气 `rain storm snow ash fog dust overcast`、

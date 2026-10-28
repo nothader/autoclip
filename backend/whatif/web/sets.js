@@ -423,6 +423,9 @@ export function setEnv(spec) {
     skyLayer = spaceSky(880, 17);
     root.add(skyLayer); skyDomes.push(skyLayer);
   } else background = spec.background === "white" ? 0xf4f4f2 : 0x0b0e16;
+  // 镜头的 near = 0.05·zoom：zoom 极大（巨人、行星尺度）时 near 会超过 900 的天空球，天空被裁掉变黑 → 天空球按 zoom 放大
+  const domeScale = Math.max(1, (spec.zoom || 1) * 0.2);
+  for (const d of skyDomes.concat(skyLayer && !skyDomes.includes(skyLayer) ? [skyLayer] : [])) d.scale.setScalar(domeScale);
   // 地面
   if (spec.ground !== "none") {
     if (spec.ground === "grid") {
@@ -491,7 +494,7 @@ export function setEnv(spec) {
             case "wobble": obj.rotation.z += Math.sin(lt * sp * 3 + it.phase) * am * 0.5; obj.rotation.x += Math.cos(lt * sp * 2.3 + it.phase) * am * 0.3; break;
             case "orbit": { const ang = lt * sp + it.phase; obj.position.x += Math.cos(ang) * am; obj.position.z += Math.sin(ang) * am; break; }
             case "pulse": s *= 1 + Math.sin(lt * sp * 4 + it.phase) * am * 0.5; break;
-            case "grow": s *= Math.min(1, 0.02 + k * 1.15); break;
+            case "grow": s *= am > 1 ? Math.pow(am, k) : Math.min(1, 0.02 + k * 1.15); break;   // amount > 1：本段内按指数长到 amount 倍（2 = 翻倍）
             case "shrink": s *= Math.max(0.02, 1 - k); break;
             case "fade_in": alpha *= Math.min(1, k * 2.5); break;
             case "fade_out": alpha *= Math.max(0, 1 - k * 1.4); break;

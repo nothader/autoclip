@@ -154,6 +154,18 @@ def fmt_length(m: float) -> Tuple[str, str]:
     return fmt_num(m / 1000), "km"
 
 
+FT = 3.28084        # m → ft
+MILE = 1609.344     # m
+
+
+def fmt_imperial_length(m: float) -> Tuple[str, str]:
+    ft = m * FT
+    if ft < 5280:
+        return fmt_num(round(ft) if ft >= 10 else round(ft, 1)), "ft"
+    mi = m / MILE
+    return fmt_num(round(mi) if mi >= 10 else round(mi, 1)), "mi"
+
+
 def fmt_time(sim: float) -> str:
     sim = max(0.0, sim)
     mm = int(sim // 60)
@@ -204,7 +216,10 @@ def hud_for(q: Quantity, v: float, sim: float) -> HudText:
         return HudText(head, fmt_num(v), q.unit, " · ".join(parts), over)
     if q.kind == "length":
         val, unit = fmt_length(v)
-        ft = v * 3.28084
+        ft = v * FT
+        if q.unit == "ft":   # 美国观众：大数字用英尺 / 英里，公制放到小字里（模型仍然是米）
+            big, u = fmt_imperial_length(v)
+            return HudText(head, big, u, f"{val} {unit}", over)
         return HudText(head, val, unit, f"{fmt_num(round(ft) if ft >= 10 else ft)} ft", over)
     if q.kind == "mass":
         if v >= 1000:
@@ -218,7 +233,7 @@ def hud_for(q: Quantity, v: float, sim: float) -> HudText:
 
 
 # ----------------------------------------------------------- placeholders ---
-PLACEHOLDERS = ("value", "value_start", "sim_end", "kmh", "mph", "mach", "light_pct", "distance", "scale", "unit")
+PLACEHOLDERS = ("value", "value_start", "sim_end", "kmh", "mph", "mach", "light_pct", "distance", "scale", "unit", "ft")
 MPH = 2.236936   # m/s → mph
 
 
@@ -233,6 +248,7 @@ def placeholder_values(q: Quantity, g: Growth, sim0: float, sim1: float) -> Dict
         "scale": fmt_num(v1 / q.model.start) if q.model.start else "—",
         "kmh": fmt_num(round(v1 * 3.6)),
         "mph": fmt_num(round(v1 * MPH)),
+        "ft": " ".join(fmt_imperial_length(v1)),
         "mach": fmt_num(round(v1 / SPEED_OF_SOUND, 1)),
         "light_pct": fmt_sig(v1 / SPEED_OF_LIGHT * 100, 2),
         "distance": fmt_distance(g.integral(sim1)),
@@ -838,9 +854,10 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                 n = int(math.floor(c / q.model.step + 1e-9)) + 1
                 breach = {"sim": c, "label": f"SECOND {n}: {q.limit.label} EXCEEDED"
                           if q.model.step == 1 else f"{q.limit.label} EXCEEDED"}
-        if q.kind == "speed" and q.unit == "mph":   # 图表也按显示单位画
-            steps = [[k, val * MPH] for k, val in steps]
-            refs = [{**r, "value": r["value"] * MPH} for r in refs]
+        conv = MPH if (q.kind == "speed" and q.unit == "mph") else FT if (q.kind == "length" and q.unit == "ft") else None
+        if conv:   # 图表也按显示单位画
+            steps = [[k, val * conv] for k, val in steps]
+            refs = [{**r, "value": r["value"] * conv} for r in refs]
         chart = {"title": sb.outro.chart_title, "subtitle": sb.outro.chart_subtitle,
                  "steps": steps, "refs": refs, "breach": breach, "unit": q.unit}
 

@@ -71,6 +71,8 @@ NUMBERS AND FACTS
 - Speculative consequences must be framed as hypothetical ("would", "could"); label simulations as simulations.
 - escalation only: NEVER hard-code computed numbers in captions; use placeholders {', '.join('{' + p + '}' for p in PLACEHOLDERS)}
   (filled at the end of each beat). Milestones are real reference values in quantity.unit; they must be crossed.
+  For US viewers set quantity.unit "mph" (speed) or "ft" (length, shows ft then mi): the model and milestones stay in
+  m/s or meters, only the display (HUD, {{mph}} / {{ft}}, chart) converts.
 - No political statements or endorsements. For religious or historical narratives, attribute events to their source
   (use caption_ref such as "LUKE 22:42") rather than presenting them as established fact.
 
@@ -100,7 +102,8 @@ SETS: DESIGN YOUR OWN FOR EVERY VIDEO (MOST IMPORTANT VISUAL RULE)
   kinds: {', '.join(k for k in SET_KINDS if k != "earth")}.
   molecule uses "formula" (N2 O2 H2 CO2 H2O CH4 NH3 O3 NaCl CO, real CPK colors); bars uses "values"; person uses
   "outfit"/"action"; particles = a drifting point cloud (count x 20 points). Units are meters; keep objects within ~8 m
-  of focus. Use grow/fade/move/shrink to make each beat's set change while its caption plays.
+  of focus. Use grow/fade/move/shrink to make each beat's set change while its caption plays
+  (grow with amount > 1 scales an existing object up by that factor during the beat, e.g. 2 = doubles).
 
 SHOTS
 - scene: {', '.join(x for x in SCENES if x not in ("globe", "orbit"))}.
