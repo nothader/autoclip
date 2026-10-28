@@ -302,7 +302,10 @@ def metadata(sb: Storyboard, plan: Optional[Dict[str, Any]] = None) -> Dict[str,
     desc.append(clean(sb.premise) if len(sb.premise) < 400 else clean(sb.premise)[:397] + "...")
     desc.append("")
     if sb.series:
-        desc.append(f"Part {sb.series.part} of the {sb.series.name.title()} series." + (f" Next: {clean(sb.series.next)}" if sb.series.next else "")
+        nxt = clean(sb.series.next).rstrip()
+        nxt = nxt + ("" if not nxt or nxt[-1] in ".!?" else ".")
+        name = sb.series.name.title() if sb.series.name.isupper() and len(sb.series.name) > 4 else sb.series.name   # "EVERY PLANET" → "Every Planet"；"POV" 不动
+        desc.append(f"Part {sb.series.part} of the {name} series." + (f" Next: {nxt}" if nxt else "")
                     + " Follow so you don't miss it.")
         desc.append("")
     desc.append("A hypothetical 3D simulation. Facts on screen are widely cited; the consequences are speculative.")

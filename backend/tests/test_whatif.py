@@ -972,7 +972,9 @@ def test_series_end_card_title_and_thumbnail_badge(tmp_path):
     end = next(f["end"] for f in compile_plan(sb)["frames"] if f.get("end"))
     assert end["series"]["part"] == 2 and end["series"]["next"] == "Football on Jupiter?"
     m = publish.metadata(sb)
-    assert m["title"].endswith("(Part 2)") and "#EveryPlanet" in m["hashtags"] and "Part 2 of the Every Planet series" in m["description"]
+    assert m["title"].endswith("(Part 2)") and "#EveryPlanet" in m["hashtags"] and "Part 2 of the Every Planet series. Next: Football on Jupiter? Follow" in m["description"]
+    sb2 = Storyboard.model_validate({**sb.model_dump(), "series": {"name": "POV", "part": 5, "next": "Zombies, day 1"}})
+    assert "Part 5 of the POV series. Next: Zombies, day 1. Follow" in publish.metadata(sb2)["description"]
     still = tmp_path / "s.png"
     Image.new("RGB", (1080, 1920), (90, 120, 160)).save(still)
     im = Image.open(publish.compose_thumbnail(still, tmp_path / "t.jpg", "X", size=(1080, 1920), badge="PART 2")).convert("RGB")
