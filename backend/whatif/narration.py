@@ -159,7 +159,7 @@ def plan_lines(sb: Storyboard, cfg: Narration) -> List[Tuple[str, int, str]]:
     from .model import compile_plan
     plan = compile_plan(sb)
     out: List[Tuple[str, int, str]] = []
-    if cfg.read_title:
+    if cfg.read_title and sb.intro.style != "none":
         t = sb.intro.title or " ".join(sb.intro.lines)
         if t.strip():
             out.append(("title", -1, t))

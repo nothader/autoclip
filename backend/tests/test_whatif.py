@@ -980,3 +980,17 @@ def test_series_end_card_title_and_thumbnail_badge(tmp_path):
     im = Image.open(publish.compose_thumbnail(still, tmp_path / "t.jpg", "X", size=(1080, 1920), badge="PART 2")).convert("RGB")
     px = [im.getpixel((x, y)) for x in range(50, 260, 6) for y in range(55, 140, 6)]
     assert any(r > 200 and g < 80 and b < 80 for r, g, b in px)        # 红色 PART 角标
+
+
+def test_cold_open_starts_on_the_first_caption_and_quick_length_rule():
+    from backend.whatif.quality import quality_report
+    from backend.whatif.hooks import hook_report
+    sb = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=4, intro={"style": "none"}, length="quick")
+    plan = compile_plan(sb)
+    f0 = plan["frames"][0]
+    assert plan["intro_duration"] == 0 and "intro" not in f0 and f0["cap"]["text"] == "Every person is gone."
+    assert not any(x.where == "intro" for x in hook_report(sb))                      # 冷开场不要求片头卡
+    lens = [x for x in quality_report(sb) if x.rule == "length"]
+    assert lens and "quick shorts" in lens[0].msg                                    # 4 段 ≈ 10 秒：太短
+    sb12 = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=12, intro={"style": "none"}, length="quick")
+    assert not any(x.rule == "length" for x in quality_report(sb12))                     # 12 段 ≈ 30 秒：刚好

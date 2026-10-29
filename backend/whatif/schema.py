@@ -386,7 +386,7 @@ class Beat(_Strict):
 
 
 class Intro(_Strict):
-    style: Literal["stack", "title", "chapter", "overlay"] = "stack"   # overlay = 标题直接压在第一个镜头上（无图标、小号衬线）
+    style: Literal["stack", "title", "chapter", "overlay", "none"] = "stack"   # overlay = 标题直接压在第一个镜头上（无图标、小号衬线）；none = 冷开场：没有片头卡，第一句字幕从第 0 帧就是钩子
     lines: List[str] = Field(default_factory=lambda: ["WHAT IF", "YOU GOT", "2× FASTER", "EVERY SECOND?"])
     accent: int = 2              # stack：哪一行用强调色、放大
     title: str = ""              # title/chapter：用 *星号* 标出强调词，例 "What if all *women* disappeared?"
@@ -439,6 +439,7 @@ class Storyboard(_Strict):
     thumbnail_beat: Optional[int] = None   # 封面用哪一段的画面；None = 自动挑最有冲击力的一段
     pov: Optional[Pov] = None    # format=pov 必填
     series: Optional[Series] = None  # 系列 + 集数（结尾卡预告下一集、封面 PART 标、标题加 Part N）
+    length: Literal["standard", "quick"] = "standard"   # quick = 快节奏短视频（25-48 秒），standard = 1 分钟以上
     pace: Optional[float] = Field(default=None, ge=0.5, le=3.0)   # 节奏倍数：1.2 = 镜头短 1.2 倍、画面动作快 1.2 倍；None = 用渲染参数（默认 1.2）
 
     @model_validator(mode="after")

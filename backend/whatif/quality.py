@@ -20,6 +20,7 @@ from typing import List, Optional
 from .hooks import Finding
 from .schema import Storyboard
 
+QUICK_SECONDS = (25.0, 48.0)   # length="quick"：留存优先的快节奏短视频
 SHORT_MIN_SECONDS = 61.0       # 竖屏短视频（按节奏压缩后）至少这么长：1 分钟以上，留 1 秒余量
 LONG_MIN_SECONDS = 240.0       # 横屏长视频
 SAME_SHOT_RUN = 3              # 连续多少段同场景同机位算单调（witness 风格除外）
@@ -149,7 +150,11 @@ def quality_report(sb: Storyboard) -> List[Finding]:
     # 时长
     secs = _paced_seconds(sb)
     vertical = sb.height > sb.width
-    if vertical and secs < SHORT_MIN_SECONDS:
+    if vertical and sb.length == "quick":
+        if not QUICK_SECONDS[0] <= secs <= QUICK_SECONDS[1]:
+            f.append(Finding("fix", "length", "storyboard", f"About {secs:.0f}s at the default pace; quick shorts should run "
+                             f"{QUICK_SECONDS[0]:.0f}-{QUICK_SECONDS[1]:.0f}s. Cut or add beats."))
+    elif vertical and secs < SHORT_MIN_SECONDS:
         f.append(Finding("fix", "length", "storyboard", f"About {secs:.0f}s at the default pace; vertical shorts should run 1 minute or more. "
                          "Add more beats (more events, more places), not longer ones."))
     if not vertical and secs < LONG_MIN_SECONDS:

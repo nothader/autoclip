@@ -79,6 +79,9 @@ NUMBERS AND FACTS
 TIMING
 - Videos render at 1.2x pace by default (shots are shortened, never below caption reading time), so write MORE, shorter
   beats with short captions: ~16-22 beats for a 1-minute video. Prefer lively places, crowds and motion over abstract props.
+- RETENTION MODE (when asked for quick / retention-first shorts): "length": "quick" (25-48 s, ~10-14 beats) and
+  intro {{"style": "none"}} (cold open: no title card; beats[0] opens on the most dramatic shot and its caption is the
+  hook from frame 0). Use theme.captions "words" (big word-by-word captions) unless the style is bold already.
 - Each beat 2.5-5 s before pacing; the paced video must run 60-95 s (checked automatically). First beat is under the
   title card (intro.duration ~2.5 s), so keep it captionless and visually strong (establishing / wide).
 - Long-form landscape (YouTube): only when asked for a long or landscape/16:9 video, set "width": 1920, "height": 1080 and

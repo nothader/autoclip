@@ -447,7 +447,7 @@ def apply_pace(sb: Storyboard) -> Storyboard:
         b.sim_end = sim          # 模拟时间不随节奏变（数字、里程碑保持原样），只是放得更快
         # flow 决定节奏的起伏（越剪越快 / 快切 / 先慢后快…），但不短于字幕可读下限
         b.duration = round(max(b.duration / pace * flow_factor(flow, i, n), readable_seconds(b.caption), 0.8), 3)
-    out.intro.duration = round(max(1.6, out.intro.duration / pace), 3)
+    out.intro.duration = 0.0 if out.intro.style == "none" else round(max(1.6, out.intro.duration / pace), 3)
     out.outro.question_duration = round(max(2.2, out.outro.question_duration / max(1.0, pace * 0.75)), 3)
     return out
 
@@ -609,7 +609,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     prev_step = None
     prev_clock_int = None
     sec_starts = [s.start for s in secs]
-    intro = sb.intro
+    intro = sb.intro if sb.intro.style != "none" else sb.intro.model_copy(update={"duration": 0.0})   # 冷开场：没有片头卡
     last_beat_fr: Optional[Dict[str, Any]] = None
     for fi in range(n_frames):
         t = fi / fps

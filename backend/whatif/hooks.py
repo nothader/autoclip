@@ -124,8 +124,12 @@ def hook_report(sb: Storyboard) -> List[Finding]:
     caps = [(i, b.caption) for i, b in enumerate(sb.beats) if b.caption]
 
     # 规则 2b：最有意思的细节在前 3 秒——标题卡从 0 秒开始，且标题本身要够具体
-    if not title:
+    cold = not pov and sb.intro.style == "none"   # 冷开场：第一句字幕就是钩子（下面单独检查它够不够具体）
+    if not title and not cold:
         f.append(Finding("fix", "first3s", "intro", "No title card, so there is no hook in the first 3 seconds. Add intro.title."))
+    elif cold:
+        if not sb.beats[0].caption:
+            f.append(Finding("fix", "first3s", "beats[0].caption", "Cold open: the first shot needs a caption. It is the hook from frame 0."))
     else:
         if not pov and sb.intro.duration > HOOK_SECONDS + 0.3:
             f.append(Finding("tip", "first3s", "intro.duration", f"Title card lasts {sb.intro.duration:.1f}s (over {HOOK_SECONDS:.0f}s). Shorten it so the first shot lands sooner."))

@@ -191,6 +191,7 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 #cap.words { font-family: "Inter", sans-serif; font-style: normal; font-weight: 900; font-size: 74px; line-height: 1.12;
              text-transform: uppercase; letter-spacing: -1px; top: 1120px; left: 70px; right: 70px;
              -webkit-text-stroke: 10px #000; paint-order: stroke fill; text-shadow: 0 8px 18px rgba(0,0,0,0.55); }
+body #cap.words { font-size: 74px; top: 1090px; }   /* 大字逐词字幕在任何风格下都保持大号（电影 / 目击风格的 #cap 规则会把它缩小） */
 #cap.words .w { display: inline-block; margin: 0 8px; transform-origin: 50% 70%; }
 #cap.words .w.on { color: var(--hl, #ffd43b); }
 #cap.words .w.off { opacity: 0; }
