@@ -990,6 +990,8 @@ def test_cold_open_starts_on_the_first_caption_and_quick_length_rule():
     f0 = plan["frames"][0]
     assert plan["intro_duration"] == 0 and "intro" not in f0 and f0["cap"]["text"] == "Every person is gone."
     assert not any(x.where == "intro" for x in hook_report(sb))                      # 冷开场不要求片头卡
+    flashy = Storyboard.model_validate({**sb.model_dump(), "beats": [{**sb.beats[0].model_dump(), "effects": ["flash"]}] + [b.model_dump() for b in sb.beats[1:]]})
+    assert any(x.where == "beats[0].effects" for x in hook_report(flashy))            # 冷开场第一帧不能是白闪
     lens = [x for x in quality_report(sb) if x.rule == "length"]
     assert lens and "quick shorts" in lens[0].msg                                    # 4 段 ≈ 10 秒：太短
     sb12 = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=12, intro={"style": "none"}, length="quick")

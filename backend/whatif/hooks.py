@@ -130,6 +130,8 @@ def hook_report(sb: Storyboard) -> List[Finding]:
     elif cold:
         if not sb.beats[0].caption:
             f.append(Finding("fix", "first3s", "beats[0].caption", "Cold open: the first shot needs a caption. It is the hook from frame 0."))
+        if "flash" in sb.beats[0].effects:
+            f.append(Finding("fix", "first3s", "beats[0].effects", "Cold open: no flash on the first shot. It washes out frame 0, the frame people see before they decide to swipe."))
     else:
         if not pov and sb.intro.duration > HOOK_SECONDS + 0.3:
             f.append(Finding("tip", "first3s", "intro.duration", f"Title card lasts {sb.intro.duration:.1f}s (over {HOOK_SECONDS:.0f}s). Shorten it so the first shot lands sooner."))
