@@ -996,3 +996,15 @@ def test_cold_open_starts_on_the_first_caption_and_quick_length_rule():
     assert lens and "quick shorts" in lens[0].msg                                    # 4 段 ≈ 10 秒：太短
     sb12 = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=12, intro={"style": "none"}, length="quick")
     assert not any(x.rule == "length" for x in quality_report(sb12))                     # 12 段 ≈ 30 秒：刚好
+
+
+def test_cold_open_countdown_runs_over_the_first_shot():
+    sb = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=3, intro={"style": "none"}, length="quick",
+                 clock={"mode": "elapsed", "intro_label": "IT HAPPENS IN", "intro_from": 2})
+    sb = Storyboard.model_validate({**sb.model_dump(), "beats": [{**b.model_dump(), "time": "+0 SEC"} for b in sb.beats]})
+    plan = compile_plan(sb)
+    fps = plan["fps"]
+    early, late = plan["frames"][int(0.5 * fps)], plan["frames"][int(2.4 * fps)]
+    assert early["clock"]["label"] == "IT HAPPENS IN" and early["clock"]["value"].startswith("0:01")
+    assert late["clock"]["value"] == "+0 SEC"
+    assert any(e["type"] == "beep" for e in plan["audio"])

@@ -680,7 +680,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                                "icon": intro.icon, "a": round(a, 3)}
             # 时钟
             if clock and b.hud:
-                if in_intro and clock.intro_from is not None:
+                # 冷开场（没有片头卡）：倒计时直接压在第一个镜头上，数到 0 就"发生"
+                cold_count = (sb.intro.style == "none" and not pov and clock.intro_from is not None and t < clock.intro_from)
+                if (in_intro and clock.intro_from is not None) or cold_count:
                     left = clock.intro_from - t
                     fr["clock"] = {"label": clock.intro_label, "value": fmt_clock(left, "countdown"), "sub": "", "a": 1.0}
                     ci = int(math.ceil(left))
