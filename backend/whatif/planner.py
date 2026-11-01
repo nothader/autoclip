@@ -79,6 +79,13 @@ NUMBERS AND FACTS
 TIMING
 - Videos render at 1.2x pace by default (shots are shortened, never below caption reading time), so write MORE, shorter
   beats with short captions: ~16-22 beats for a 1-minute video. Prefer lively places, crowds and motion over abstract props.
+- HOOK PLAYBOOK: open every video with one of three hooks in the first 2 seconds (no slow establishing shot):
+  1. DANGER: start at the riskiest moment (someone about to fall, a wave about to hit), then rewind to the start
+     ("How did we get here? Rewind." with transition "glitch").
+  2. CURIOSITY: open on a strange extreme close-up and keep pulling out (move "pull_out"/"swoop_out") until the
+     viewer understands what they are looking at.
+  3. TRANSITION: a seamless visual trick in second one (flash/whip/zoom between two states, like the swap itself).
+  Then make a specific promise ("By 2 PM, 300 million men...") and pay it off later.
 - RETENTION MODE (when asked for quick / retention-first shorts): "length": "quick" (25-48 s, ~10-14 beats) and
   intro {{"style": "none"}} (cold open: no title card; beats[0] opens on the most dramatic shot and its caption is the
   hook from frame 0). Use theme.captions "words" (big word-by-word captions) unless the style is bold already.
