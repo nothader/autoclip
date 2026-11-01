@@ -16,6 +16,8 @@ dependencies = []
 [project.optional-dependencies]
 # `autoclip whatif`：见 docs/WHATIF.md；装完再 `python -m playwright install chromium`
 whatif = ["numpy==2.3.5", "playwright==1.56.0", "kokoro-onnx==0.6.1"]
+# `autoclip beatcut`：产品 UGC 卡点剪辑，见 docs/BEATCUT.md
+beatcut = ["numpy==2.3.5"]
 
 [project.scripts]
 autoclip = "backend.cli:main"

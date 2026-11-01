@@ -18,6 +18,7 @@ AutoClip MCP server（stdio）——让 Cursor / Claude Code / 任何 MCP 客户
     list_projects       最近项目
     list_providers      可用模型提供商与本地预设（ollama / lmstudio）
     check_environment   ffmpeg / Whisper / 模型连接体检
+    beatcut_video       产品 UGC 卡点剪辑：素材 + 音乐 → 踩点成片（不需要 LLM）
 
 依赖 `mcp` Python SDK（requirements.txt 已含；兼容 1.x FastMCP 与 2.x MCPServer）。
 """
@@ -239,6 +240,47 @@ def export_clip(
     from backend.services.publish_export import ExportRequest, export_clip as _export
     try:
         return _export(ExportRequest(project_id, clip_id, preset, subtitles, title_card))
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "error": str(e)[:500]}
+
+
+@server.tool(
+    name="beatcut_video",
+    description=(
+        "产品 UGC 卡点剪辑（无需 LLM）：一组素材（文件或文件夹；一条长素材会自动按画面切换拆镜头）+ 一首音乐 → "
+        "每一刀落在拍点上的竖屏成片：最好的画面做开头 hook、强拍闪白、重拍推镜、运动镜头先快后慢变速、"
+        "素材原声（敲击 / 开合声）混在音乐下、结尾无缝接回开头。"
+        "pace: calm / normal / hype；aspect: 9:16 / 4:5 / 1:1 / 16:9；grade: none / clean / warm / moody / mono / punchy。"
+        "variants>1 一次出多个版本（不同 hook）做 A/B。返回成片路径、每个版本的剪辑表 JSON 路径和逐镜说明。"
+        "preview=true 半分辨率快速出片，先确认节奏。"
+    ),
+)
+def beatcut_video(
+    footage: List[str],
+    music_path: Optional[str] = None,
+    output_path: Optional[str] = None,
+    duration: float = 15.0,
+    pace: str = "normal",
+    aspect: str = "9:16",
+    grade: str = "clean",
+    variants: int = 1,
+    foley: float = 0.35,
+    loop: bool = True,
+    preview: bool = False,
+    bpm: Optional[float] = None,
+    music_start: Optional[float] = None,
+) -> Dict[str, Any]:
+    import time as _time
+    from backend.beatcut.pipeline import make_videos
+    from backend.beatcut.plan import PlanOptions
+    from backend.core.path_utils import get_data_directory
+    try:
+        opts = PlanOptions(duration=duration, pace=pace, aspect=aspect, grade=grade, foley=foley, loop=loop,
+                           music_start=music_start)
+        out = Path(output_path).expanduser() if output_path else (
+            get_data_directory() / "beatcut" / f"beatcut-{_time.strftime('%m%d-%H%M%S')}.mp4")
+        res = make_videos(footage, music_path, out, opts, variants=max(1, min(variants, 6)), bpm=bpm, preview=preview)
+        return {"ok": True, **res}
     except Exception as e:  # noqa: BLE001
         return {"ok": False, "error": str(e)[:500]}
 

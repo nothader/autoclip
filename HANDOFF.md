@@ -47,6 +47,12 @@ AutoClip 是一款 AI 视频切片工具：输入 B站/YouTube 链接或本地�
   - 发布导出：`publish_export.py`（9:16 blur/crop、烧字幕、标题卡）；API `POST .../clips/{id}/export`；`autoclip export`；MCP `export_clip`；切片卡片「导出」Dialog。默认流水线仍是 16:9 copy。
   - **尚未用真实 5 分钟视频跑完整流水线对照**；竖屏预设只单测了 `original` 重编码。
 
+- **beatcut 产品 UGC 卡点剪辑（2026-11-01）**：`autoclip beatcut make|plan|render|beats` + MCP `beatcut_video`，文档 `docs/BEATCUT.md`。
+  素材（文件夹 / 一条长素材自动拆镜头）+ 音乐 → 拍点跟踪（numpy，合成点击音轨实测误差 < 17 ms）→ 镜头打分（清晰 / 运动 / 曝光）→
+  剪辑表 JSON（hook、闪白、推镜、变速、高帧率慢放、原声、无缝循环、多版本）→ 逐镜 ffmpeg 精确帧数渲染 + numpy 混音。
+  不需要 LLM，依赖只有 numpy（`pip install -e ".[beatcut]"`，CI 已装）。单测 `tests/test_beatcut.py` 19 条，含端到端：
+  对成片自身音轨重新找拍点，验证每一刀在 1 帧内。**尚未用真实手机素材 + 真实歌曲人工看片**；暂无桌面端 UI。
+
 ### v1.2.1（2026-09-06 打 tag）
 问题根源：README 推荐的 `docker compose` 路径从 2025-09 起就没能跑通过一次完整处理
 （issue #88 给出 7 条可复现问题，全部核验属实），是 issue 区大量"用不了"的来源。#89 修复：

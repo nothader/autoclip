@@ -8,6 +8,7 @@ autoclip — 命令行出片。
     autoclip run video.mp4 --provider openai --base-url https://api.deepseek.com/v1 --model deepseek-chat --api-key sk-...
     autoclip run video.mp4 --srt video.srt --min-score 0.6 --json
     autoclip list / show <project_id> / providers / doctor
+    autoclip beatcut make ./footage -m song.mp3 -d 15 --variants 3   # 产品 UGC 卡点剪辑
 
 产物与桌面应用共用同一个数据目录（mac: ~/Library/Application Support/AutoClip），
 跑完在桌面应用首页就能看到。用 --data-dir 或 AUTOCLIP_DATA_DIR 可以换目录。
@@ -382,6 +383,111 @@ def cmd_whatif(args: argparse.Namespace) -> int:
     return 0
 
 
+# ---------------------------------------------------------------- beatcut ---
+def _beatcut_default_out(args: argparse.Namespace, ext: str = ".mp4") -> Path:
+    if getattr(args, "output", None):
+        return Path(args.output).expanduser().resolve()
+    import re
+    from backend.core.path_utils import get_data_directory
+    base = args.title or (Path(args.music).stem if getattr(args, "music", None) else Path(args.footage[0]).stem)
+    slug = re.sub(r"[^\w\-]+", "-", base, flags=re.UNICODE).strip("-").lower() or "beatcut"
+    return get_data_directory() / "beatcut" / f"{slug}-{time.strftime('%m%d-%H%M%S')}{ext}"
+
+
+def _beatcut_progress(as_json: bool):
+    last = {"k": None}
+
+    def cb(stage: str, done: int, total: int) -> None:
+        key = (stage, done * 4 // max(1, total))
+        if as_json or key == last["k"]:
+            return
+        last["k"] = key
+        label = {"footage": "分析素材", "shots": "渲染镜头", "audio": "混音"}.get(stage, stage)
+        print(_dim(f"  {label} {done}/{total}"), file=sys.stderr)
+    return cb
+
+
+def _beatcut_options(args: argparse.Namespace):
+    from backend.beatcut.plan import PlanOptions
+    return PlanOptions(
+        duration=args.duration, pace=args.pace, aspect=args.aspect, fps=args.fps, grade=args.grade, lut=args.lut,
+        loop=not args.no_loop, ramps=not args.no_ramps, punch=not args.no_punch, flash=not args.no_flash,
+        foley=args.foley, sfx=not args.no_sfx, variant=args.variant, music_start=args.music_start,
+        title=args.title or "beatcut",
+    )
+
+
+def _print_edl(lines: list, warnings: list) -> None:
+    for line in lines:
+        print(_dim("  " + line), file=sys.stderr)
+    for w in warnings:
+        print(_c("33", "  ! ") + w, file=sys.stderr)
+
+
+def cmd_beatcut(args: argparse.Namespace) -> int:
+    try:
+        if args.beatcut_cmd == "beats":
+            from backend.beatcut.audio import analyze_music, pick_window
+            m = analyze_music(Path(args.music).expanduser(), bpm_hint=args.bpm)
+            start = pick_window(m, args.duration)
+            if args.json:
+                print(json.dumps({"ok": True, **m.to_dict(), "suggested_start": round(start, 3)}, ensure_ascii=False))
+            else:
+                print(f"{m.bpm:.1f} BPM · {len(m.beats)} 拍 · {m.duration:.1f}s · "
+                      f"建议从 {start:.2f}s 开始用（{args.duration:.0f}s 内能量最高、起点在重拍）")
+            return 0
+
+        if args.beatcut_cmd == "render":
+            from backend.beatcut.pipeline import load_plan
+            from backend.beatcut.plan import describe
+            from backend.beatcut.render import render_plan
+            plan = load_plan(Path(args.plan))
+            out = Path(args.output).expanduser().resolve() if args.output else Path(args.plan).expanduser().resolve().with_suffix(".mp4")
+            if not args.json:
+                _print_edl(describe(plan), [])
+            res = render_plan(plan, out, preview=args.preview, workers=args.workers, progress=_beatcut_progress(args.json))
+            videos, warnings = [res], []
+        else:
+            from backend.beatcut.pipeline import make_plans, make_videos, save_plan, variant_path
+            from backend.beatcut.plan import describe
+            opts = _beatcut_options(args)
+            if args.beatcut_cmd == "plan":
+                res = make_plans(args.footage, args.music, opts, variants=args.variants, bpm=args.bpm,
+                                 progress=_beatcut_progress(args.json))
+                out = _beatcut_default_out(args, ".json")
+                paths = [str(save_plan(p, variant_path(out, i, len(res["plans"])))) for i, p in enumerate(res["plans"])]
+                if args.json:
+                    print(json.dumps({"ok": True, "plans": paths, "warnings": res["warnings"], "music": res["music"],
+                                      "footage": res["footage"]}, ensure_ascii=False, indent=2))
+                else:
+                    _print_edl(describe(res["plans"][0]), res["warnings"])
+                    print("剪辑表已写入 " + " ".join(paths) + f"\n下一步：autoclip beatcut render {paths[0]}")
+                return 0
+            out = _beatcut_default_out(args)
+            if not args.json:
+                print(_bold(f"卡点剪辑 → {out}"), file=sys.stderr)
+            r = make_videos(args.footage, args.music, out, opts, variants=args.variants, bpm=args.bpm,
+                            preview=args.preview, workers=args.workers, progress=_beatcut_progress(args.json))
+            videos, warnings = r["videos"], r["warnings"]
+            if not args.json:
+                print(_dim(f"  音乐 {r['music']['bpm']} BPM · 素材 {r['footage']['files']} 个文件 / {r['footage']['shots']} 个镜头"),
+                      file=sys.stderr)
+                _print_edl(videos[0].get("edl", []), warnings)
+    except ImportError as e:
+        _err(f"缺少依赖（{e.name}）：pip install numpy")
+        return 2
+    except (ValueError, RuntimeError, FileNotFoundError) as e:
+        _err(str(e))
+        return 1
+    if args.json:
+        print(json.dumps({"ok": True, "videos": videos, "warnings": warnings}, ensure_ascii=False, indent=2))
+    else:
+        for v in videos:
+            extra = f"  剪辑表 {v['plan']}" if v.get("plan") else ""
+            print(f"完成：{v['path']}  ({v['duration']:.2f}s, {v['shots']} 镜, {v['width']}x{v['height']}, 用时 {v['seconds']}s){extra}")
+    return 0
+
+
 # ---------------------------------------------------------------- parser ---
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
@@ -467,6 +573,47 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--speed", type=float, help="语速 0.6–1.6（默认 1.0）")
     wsub.add_parser("examples", help="列出内置示例分镜")
     w.set_defaults(func=cmd_whatif)
+
+    b = sub.add_parser("beatcut", help="产品 UGC 卡点剪辑：素材 + 音乐 → 踩点、变速、闪白、推镜、无缝循环的竖屏成片")
+    bsub = b.add_subparsers(dest="beatcut_cmd", required=True)
+    bm = bsub.add_parser("make", help="素材 + 音乐 → MP4（同时写出可手改的剪辑表 JSON）")
+    bp = bsub.add_parser("plan", help="只出剪辑表 JSON，手改后再 render")
+    for x in (bm, bp):
+        x.add_argument("footage", nargs="+", help="素材文件或文件夹（一条长素材会按画面切换自动拆镜头）")
+        x.add_argument("-m", "--music", help="音乐文件（不给则按 --bpm 的节拍网格剪，只保留素材原声）")
+        x.add_argument("-d", "--duration", type=float, default=15.0, help="成片时长（秒，结尾吸附到拍点；默认 15）")
+        x.add_argument("--pace", choices=["calm", "normal", "hype"], default="normal",
+                       help="节奏：calm 两拍以上一切 / normal 一拍一切 / hype 高潮半拍一切")
+        x.add_argument("--aspect", choices=["9:16", "4:5", "1:1", "16:9"], default="9:16")
+        x.add_argument("--fps", type=int, default=30, choices=[24, 25, 30, 60])
+        x.add_argument("--grade", default="clean", choices=["none", "clean", "warm", "moody", "mono", "punchy"], help="调色")
+        x.add_argument("--lut", help=".cube LUT 文件（在 --grade 之后套用）")
+        x.add_argument("--foley", type=float, default=0.35, help="素材原声音量 0–1.5（敲击、开合、倒水声；0 = 只要音乐）")
+        x.add_argument("--no-sfx", action="store_true", help="不加合成音效（变速 whoosh、闪白重音）")
+        x.add_argument("--no-loop", action="store_true", help="结尾不接回开头")
+        x.add_argument("--no-ramps", action="store_true", help="不做变速")
+        x.add_argument("--no-punch", action="store_true", help="不做推镜")
+        x.add_argument("--no-flash", action="store_true", help="不做闪白")
+        x.add_argument("--variants", type=int, default=1, help="一次出几个版本（不同 hook 镜头 / 特效分布），给 A/B 测试")
+        x.add_argument("--variant", type=int, default=0, help="从第几个版本开始（换一种剪法）")
+        x.add_argument("--bpm", type=float, help="强制速度（自动识别错成半速 / 倍速时用；无音乐时默认 120）")
+        x.add_argument("--music-start", type=float, help="从音乐第几秒开始（默认自动挑能量最高、起点在重拍的一段）")
+        x.add_argument("--title", help="成片名（默认取音乐 / 素材文件名）")
+        x.add_argument("-o", "--output", help="输出路径（默认 数据目录/beatcut/<名字>-<时间>.mp4|.json）")
+        x.add_argument("--json", action="store_true")
+    br = bsub.add_parser("render", help="剪辑表 JSON → MP4")
+    br.add_argument("plan", help="剪辑表 JSON")
+    br.add_argument("-o", "--output", help="MP4 输出路径（默认与 JSON 同名）")
+    br.add_argument("--json", action="store_true")
+    for x in (bm, br):
+        x.add_argument("--preview", action="store_true", help="半分辨率 + 快速编码，先看节奏")
+        x.add_argument("--workers", type=int, default=0, help="并行渲染镜头数（默认 = CPU 核数，最多 4）")
+    bb = bsub.add_parser("beats", help="分析音乐：BPM、拍点、建议起点")
+    bb.add_argument("music")
+    bb.add_argument("-d", "--duration", type=float, default=15.0)
+    bb.add_argument("--bpm", type=float)
+    bb.add_argument("--json", action="store_true")
+    b.set_defaults(func=cmd_beatcut)
     return p
 
 

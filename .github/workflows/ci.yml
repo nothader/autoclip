@@ -25,7 +25,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install ruff
+          pip install ruff numpy==2.3.5   # numpy: backend/tests/test_beatcut.py
 
       - name: Lint backend (ruff)
         continue-on-error: true
