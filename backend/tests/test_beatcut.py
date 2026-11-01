@@ -263,3 +263,143 @@ def test_cli_parses_beatcut():
     assert a.footage == ["dir", "clip.mov"] and a.duration == 12 and a.variants == 3 and a.no_loop
     assert build_parser().parse_args(["beatcut", "render", "p.json", "--preview"]).preview
     assert build_parser().parse_args(["beatcut", "beats", "s.mp3"]).beatcut_cmd == "beats"
+
+
+# ---------------------------------------------------------------- text overlay ---
+def test_assign_lines_switch_on_cuts():
+    from backend.beatcut.text import assign_lines
+    frames = [15] * 12
+    got = assign_lines(frames, ["one", "two", "three"])
+    assert [t for t, _ in got] == ["one"] * 4 + ["two"] * 4 + ["three"] * 4
+    assert [i for i, (_, first) in enumerate(got) if first] == [0, 4, 8]
+    assert assign_lines([10, 10], ["a", "b", "c"]) == [("a", True), ("b / c", True)]
+    assert assign_lines([10, 10], []) == [("", False), ("", False)]
+
+
+def test_wrap_and_font_resolution():
+    from backend.beatcut.text import FONT_DIR, resolve_font, wrap
+    lines = wrap("slow mornings, warm light, and the sound of a fresh pour", 1080, 63)
+    assert len(lines) >= 2 and all(len(x) <= 29 for x in lines)
+    assert wrap("line one\\nline two", 1080, 63) == ["line one", "line two"]
+    assert resolve_font("serif-italic") == FONT_DIR / "SourceSerif4-Italic.ttf"
+    assert resolve_font("serif").exists()
+    with pytest.raises(FileNotFoundError):
+        resolve_font("serif", override="/nope.ttf")
+
+
+def test_plan_text_and_dim_defaults():
+    shots = _fake_shots()
+    plan, _ = plan_edit(shots, grid_analysis(120, 20), PlanOptions(duration=8, text=["a", "b"]))
+    assert plan.dim == pytest.approx(0.3)
+    assert plan.shots[0].text == "a" and plan.shots[0].text_in
+    assert plan.shots[-1].text == "b"
+    plain, _ = plan_edit(shots, grid_analysis(120, 20), PlanOptions(duration=8))
+    assert plain.dim == 0 and not any(s.text for s in plain.shots)
+
+
+@needs_ffmpeg
+def test_render_text_overlay_dims_and_draws(media, tmp_path):
+    from backend.beatcut.pipeline import make_videos
+    common = dict(duration=3, grade="none", flash=False, punch=False, ramps=False, loop=False)
+    a = make_videos([media / "footage" / "b.mp4"], None, tmp_path / "plain.mp4", PlanOptions(**common),
+                    bpm=120, preview=True)["videos"][0]
+    b = make_videos([media / "footage" / "b.mp4"], None, tmp_path / "text.mp4",
+                    PlanOptions(**common, text=["the little things"], text_pos="center"),
+                    bpm=120, preview=True)["videos"][0]
+
+    def frame(p, n=20):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-vf", f"select=eq(n\\,{n}),format=gray",
+                              "-frames:v", "1", "-f", "rawvideo", "-"], capture_output=True).stdout
+        return np.frombuffer(raw, np.uint8).reshape(960, 540).astype(float)
+
+    fa, fb = frame(a["path"]), frame(b["path"])
+    band = slice(440, 520)  # 居中文字所在的横条
+    outside = slice(0, 300)
+    assert fb[outside].mean() < fa[outside].mean() * 0.85, "压暗了"
+    assert (fb[band] > 235).sum() > 200, "画面中间有白字"
+
+
+# ---------------------------------------------------------------- stock footage ---
+PEXELS_RESPONSE = {"videos": [
+    {"id": 111, "url": "https://www.pexels.com/video/111/", "duration": 12, "width": 2160, "height": 3840,
+     "user": {"name": "Ana", "url": "https://www.pexels.com/@ana"},
+     "video_files": [
+         {"quality": "uhd", "file_type": "video/mp4", "width": 2160, "height": 3840, "fps": 30, "link": "https://v/111-4k.mp4"},
+         {"quality": "hd", "file_type": "video/mp4", "width": 1080, "height": 1920, "fps": 30, "link": "https://v/111-hd30.mp4"},
+         {"quality": "hd", "file_type": "video/mp4", "width": 1080, "height": 1920, "fps": 59.94, "link": "https://v/111-hd60.mp4"},
+         {"quality": "sd", "file_type": "video/mp4", "width": 540, "height": 960, "fps": 30, "link": "https://v/111-sd.mp4"}]},
+    {"id": 222, "url": "https://www.pexels.com/video/222/", "duration": 95, "width": 1080, "height": 1920,
+     "user": {"name": "Bo", "url": ""},
+     "video_files": [{"file_type": "video/mp4", "width": 1080, "height": 1920, "fps": 25, "link": "https://v/222.mp4"}]},
+]}
+PIXABAY_RESPONSE = {"hits": [
+    {"id": 333, "pageURL": "https://pixabay.com/videos/333/", "duration": 8, "user": "cam", "user_id": 9,
+     "videos": {"large": {"url": "https://p/333-l.mp4", "width": 2160, "height": 3840, "size": 1},
+                "medium": {"url": "https://p/333-m.mp4", "width": 1080, "height": 1920, "size": 1},
+                "small": {"url": "https://p/333-s.mp4", "width": 720, "height": 1280, "size": 1},
+                "tiny": {"url": "", "width": 0, "height": 0, "size": 0}}},
+    {"id": 444, "pageURL": "https://pixabay.com/videos/444/", "duration": 10, "user": "wide", "user_id": 1,
+     "videos": {"medium": {"url": "https://p/444-m.mp4", "width": 1920, "height": 1080, "size": 1}}},
+]}
+
+
+@pytest.fixture
+def fake_stock_api(monkeypatch):
+    from backend.beatcut import stock
+    calls = []
+
+    def get_json(url, headers=None):
+        calls.append((url, headers))
+        return PEXELS_RESPONSE if "pexels" in url else PIXABAY_RESPONSE
+
+    def download(url, dest):
+        dest.write_bytes(b"x" * 10)
+        calls.append(("dl", url))
+        return 10
+
+    monkeypatch.setattr(stock, "_get_json", get_json)
+    monkeypatch.setattr(stock, "_download", download)
+    monkeypatch.setenv("PEXELS_API_KEY", "pk")
+    monkeypatch.setenv("PIXABAY_API_KEY", "xk")
+    return calls
+
+
+def test_stock_search_picks_files_and_filters(fake_stock_api):
+    from backend.beatcut.stock import search
+    clips = search(["coffee pour"], 10)
+    by_id = {c.id: c for c in clips}
+    assert set(by_id) == {"111", "333"}, "222 太长、444 是横屏，都过滤掉"
+    assert by_id["111"].download_url == "https://v/111-hd60.mp4", "≤1920 里最大，同尺寸取 60fps"
+    assert by_id["333"].download_url == "https://p/333-m.mp4"
+    pexels_call = next(c for c in fake_stock_api if "pexels" in c[0])
+    assert pexels_call[1] == {"Authorization": "pk"} and "orientation=portrait" in pexels_call[0]
+    assert any("key=xk" in c[0] for c in fake_stock_api if isinstance(c[0], str) and "pixabay" in c[0])
+
+
+def test_stock_fetch_writes_files_and_credits(fake_stock_api, tmp_path):
+    from backend.beatcut.stock import fetch
+    res = fetch(["coffee pour"], tmp_path, 5)
+    assert sorted(Path(f).name for f in res["files"]) == ["pexels-111.mp4", "pixabay-333.mp4"]
+    credits = (tmp_path / "CREDITS.md").read_text(encoding="utf-8")
+    assert "Ana" in credits and "Pexels License" in credits and "Pixabay Content License" in credits
+    again = fetch(["coffee pour"], tmp_path, 5)  # 已下载的不重复下载、署名不重复
+    assert again["downloaded_mb"] == 0
+    assert len(__import__("json").loads((tmp_path / "credits.json").read_text())) == 2
+
+
+def test_stock_requires_a_key(monkeypatch):
+    from backend.beatcut.stock import StockError, search
+    monkeypatch.delenv("PEXELS_API_KEY", raising=False)
+    monkeypatch.delenv("PIXABAY_API_KEY", raising=False)
+    monkeypatch.delenv("AUTOCLIP_PEXELS_API_KEY", raising=False)
+    monkeypatch.delenv("AUTOCLIP_PIXABAY_API_KEY", raising=False)
+    with pytest.raises(StockError, match="pexels.com/api"):
+        search(["x"], 3)
+
+
+def test_cli_parses_stock_and_text():
+    from backend.cli import build_parser
+    a = build_parser().parse_args(["beatcut", "stock", "coffee pour", "hands", "-n", "8", "--source", "pexels"])
+    assert a.query == ["coffee pour", "hands"] and a.count == 8
+    m = build_parser().parse_args(["beatcut", "make", "d", "-t", "one", "-t", "two", "--dim", "0.4", "--text-pos", "lower"])
+    assert m.text == ["one", "two"] and m.dim == 0.4

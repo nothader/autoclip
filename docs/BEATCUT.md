@@ -25,6 +25,42 @@ autoclip beatcut beats song.mp3                                      # BPM, beat
 
 Output goes to `<data dir>/beatcut/` (same data dir as the desktop app) unless you pass `-o`.
 
+## Free footage: `beatcut stock`
+
+No footage yet? Pull free, commercially usable vertical clips from **Pexels** and **Pixabay** through their official
+APIs. Both keys are free: [pexels.com/api](https://www.pexels.com/api/) and [pixabay.com/api/docs](https://pixabay.com/api/docs/).
+
+```bash
+export PEXELS_API_KEY=...   PIXABAY_API_KEY=...         # either one is enough
+autoclip beatcut stock "coffee pour" "hands typing laptop" "clouds sky" -n 15
+autoclip beatcut make ~/…/beatcut/stock/coffee-pour-hands-typing-laptop-clouds-sky -m song.mp3 -t "slow mornings"
+```
+
+- Picks the largest file ≤ 1920 px on the long side (60 fps when offered), skips clips over `--max-duration` (30 s),
+  portrait by default; files are named `pexels-<id>.mp4` / `pixabay-<id>.mp4` and never downloaded twice.
+- Writes `CREDITS.md` + `credits.json` (author, link, license) to the folder. Neither license requires attribution;
+  both forbid reselling the clips as-is — editing them into your own video is fine.
+- Faceless-friendly searches: `hands`, `pov`, `macro`, `close up`, `silhouette`, `from behind`, `sky clouds`,
+  `coffee pour`, `unboxing`, `typing`, `flatlay`. Stock search can't exclude faces — preview before posting.
+- Other "faceless content" sites (Hautestock, Social Stocks, The Studio Brief, Packsia, Forefolk, Content Cove)
+  are paid or behind sign-up, so they're not integrated. Downloaded clips from any of them still work: just point
+  `beatcut make` at the folder.
+
+## Text + low-exposure look
+
+The classic faceless look: darken the footage, put calm white type on top.
+
+```bash
+autoclip beatcut make ./shoot -m song.mp3 -t "the little things" -t "slow mornings, warm light" --pace calm
+autoclip beatcut make ./shoot -m song.mp3 -t "pov: you finally fixed your desk setup" --text-pos lower --dim 0.4
+```
+
+- Each `-t` line gets an equal share of the video and switches **on a cut**, fading in over 0.2 s.
+- `--dim` (0–0.8) is a black overlay at that opacity; it defaults to 0.3 when there's text, 0 otherwise.
+- `--text-style serif-italic` (default, bundled Source Serif 4) / `serif` / `sans`; `--text-pos center|lower|upper`;
+  `--text-size 1.2`; `--font my.otf`. Long lines wrap; `\n` forces a break. Chinese/Japanese/Korean switch to a system CJK
+  font automatically (warns if none is installed).
+
 ## What the edit does
 
 | Moment | Rule |
@@ -55,14 +91,14 @@ Output goes to `<data dir>/beatcut/` (same data dir as the desktop app) unless y
   "speed": [[0.4, 2.6], [0.6, 0.65]], "punch": 0.12, "flash": false, "foley": true, "note": "ramp punch" }
 ```
 
-Swap `source` / `src_start` to change what's on screen, change `speed` (`[[fraction of the shot, speed], …]`),
+Swap `source` / `src_start` to change what's on screen, edit a shot's `text` (and top-level `dim`, `text_pos`, `text_style`), change `speed` (`[[fraction of the shot, speed], …]`),
 toggle `flash` / `punch`, change `grade` / `lut` / `foley` at the top. **Keep `frames` as is** so cuts stay on the beat;
 if you change one shot's `frames`, change a neighbour's by the opposite amount. Then `autoclip beatcut render edit.json`.
 
 ## MCP
 
-`autoclip mcp` exposes `beatcut_video(footage[], music_path?, output_path?, duration, pace, aspect, grade, variants, foley, loop, preview, bpm?, music_start?)`,
-which returns the video paths, plan paths and a shot-by-shot description.
+`autoclip mcp` exposes `beatcut_video(footage[], music_path?, output_path?, duration, pace, aspect, grade, variants, foley, loop, preview, bpm?, music_start?, text?, dim?, text_pos?, text_style?)`,
+which returns the video paths, plan paths and a shot-by-shot description, and `stock_footage(queries[], count?, source?, orientation?, max_duration?, output_dir?)`.
 
 ## Code
 
@@ -72,8 +108,10 @@ which returns the video paths, plan paths and a shot-by-shot description.
 | `backend/beatcut/footage.py` | Probing (fps, rotation, HDR, audio), 10 fps grayscale sampling, sharpness / motion / exposure, shot splitting, window search |
 | `backend/beatcut/plan.py` | Beat grid → slots → effects → shot assignment (hook, variety, loop tail) → `EditPlan` (pydantic, `extra=forbid`) |
 | `backend/beatcut/render.py` | Per-shot ffmpeg (piecewise `setpts` speed curve → `fps` → cover crop → punch → grade/LUT → flash), concat, numpy mix (music + foley + whoosh/impact), mux |
+| `backend/beatcut/text.py` | Line → shot assignment (switch on cuts), wrapping, fonts, `drawtext` chain |
+| `backend/beatcut/stock.py` | Pexels / Pixabay API search, file choice, download, credits |
 | `backend/beatcut/pipeline.py` | Shared by the CLI and MCP |
 | `backend/tests/test_beatcut.py` | Beat accuracy at 85–174 BPM (< 1 frame), plan invariants, and an end-to-end render that re-detects beats in the output's own audio and checks every cut is within 1 frame |
 
-Limits / next: no on-screen text or captions yet (use `autoclip export`-style overlays or your editor), no
+Limits / next: no word-by-word captions, no
 masking/match-cut transitions (those need object tracking), and there's no desktop UI for it yet — CLI and MCP only.

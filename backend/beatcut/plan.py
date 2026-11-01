@@ -47,6 +47,8 @@ class ShotPlan(_M):
     punch: float = Field(0.0, ge=0, le=0.5, description="推镜幅度：开头放大到 1+punch，0.25 s 内回到 1")
     flash: bool = False
     foley: bool = True
+    text: str = Field("", description="这一镜上叠的文案（同一句跨多个镜头时每镜都写同一句）")
+    text_in: bool = Field(False, description="这一句从这一镜开始（淡入）")
     note: str = ""
 
     def src_seconds(self, fps: float) -> float:
@@ -71,6 +73,11 @@ class EditPlan(_M):
     foley: float = Field(0.35, ge=0, le=1.5, description="素材原声（敲击、开合、倒水）混音音量")
     sfx: bool = True
     loop: bool = True
+    dim: float = Field(0.0, ge=0, le=0.8, description="低曝光遮罩：整体压暗的比例（0 = 不压，0.3 ≈ 30% 黑色遮罩）")
+    text_style: str = "serif-italic"
+    text_pos: str = "center"
+    text_size: float = Field(1.0, gt=0.2, le=3)
+    font: Optional[str] = None
     beats: List[float] = Field(default_factory=list, description="成片内的拍点（秒），仅供参考")
     shots: List[ShotPlan]
 
@@ -99,6 +106,12 @@ class PlanOptions(_M):
     variant: int = Field(0, ge=0, description="第几个版本：换 hook 镜头和特效分布")
     music_start: Optional[float] = None
     title: str = "beatcut"
+    text: List[str] = Field(default_factory=list, description="文案，每句占一段，换句落在切点上")
+    dim: Optional[float] = Field(None, ge=0, le=0.8, description="低曝光遮罩；默认有文案时 0.3，否则 0")
+    text_style: str = "serif-italic"
+    text_pos: str = "center"
+    text_size: float = 1.0
+    font: Optional[str] = None
 
 
 # ------------------------------------------------------------------ slots ---
@@ -299,8 +312,19 @@ def plan_edit(shots: List[Shot], music: MusicAnalysis, opts: PlanOptions,
         title=opts.title, width=W, height=H, fps=fps,
         music=MusicRef(path=music_path, start=round(w0, 4), bpm=round(music.bpm, 2)) if music_path else None,
         grade=opts.grade, lut=opts.lut, foley=opts.foley, sfx=opts.sfx, loop=loop_tail,
+        dim=opts.dim if opts.dim is not None else (0.3 if opts.text else 0.0),
+        text_style=opts.text_style, text_pos=opts.text_pos, text_size=opts.text_size, font=opts.font,
         beats=[round(float(b), 4) for b in beats], shots=plans,
     )
+    if opts.text:
+        from backend.beatcut.text import assign_lines
+        for sp, (line, first) in zip(plans, assign_lines([p.frames for p in plans], opts.text), strict=True):
+            sp.text, sp.text_in = line, first
+        from backend.beatcut.text import has_cjk
+        if not opts.font and any(has_cjk(x) for x in opts.text):
+            from backend.services.publish_export import resolve_cjk_font
+            if resolve_cjk_font() is None:
+                warnings.append("文案里有中日韩文字但系统里没找到 CJK 字体，会显示成方框：用 --font 指定一个 .ttf/.otf")
     footage_total = sum(sh.duration for sh in shots)
     if footage_total < end:
         warnings.append(f"素材总长 {footage_total:.1f}s 少于成片 {end:.1f}s，部分画面会重复出现")

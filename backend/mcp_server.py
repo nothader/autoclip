@@ -19,6 +19,7 @@ AutoClip MCP server（stdio）——让 Cursor / Claude Code / 任何 MCP 客户
     list_providers      可用模型提供商与本地预设（ollama / lmstudio）
     check_environment   ffmpeg / Whisper / 模型连接体检
     beatcut_video       产品 UGC 卡点剪辑：素材 + 音乐 → 踩点成片（不需要 LLM）
+    stock_footage       Pexels / Pixabay 免费竖屏素材下载（喂给 beatcut_video）
 
 依赖 `mcp` Python SDK（requirements.txt 已含；兼容 1.x FastMCP 与 2.x MCPServer）。
 """
@@ -253,6 +254,8 @@ def export_clip(
         "pace: calm / normal / hype；aspect: 9:16 / 4:5 / 1:1 / 16:9；grade: none / clean / warm / moody / mono / punchy。"
         "variants>1 一次出多个版本（不同 hook）做 A/B。返回成片路径、每个版本的剪辑表 JSON 路径和逐镜说明。"
         "preview=true 半分辨率快速出片，先确认节奏。"
+        "text=[句子…] 叠白字文案（每句占一段，换句落在拍点上），dim 0–0.8 是低曝光遮罩（有文案时默认 0.3）；"
+        "text_pos: center / lower / upper；text_style: serif-italic / serif / sans。"
     ),
 )
 def beatcut_video(
@@ -269,6 +272,10 @@ def beatcut_video(
     preview: bool = False,
     bpm: Optional[float] = None,
     music_start: Optional[float] = None,
+    text: Optional[List[str]] = None,
+    dim: Optional[float] = None,
+    text_pos: str = "center",
+    text_style: str = "serif-italic",
 ) -> Dict[str, Any]:
     import time as _time
     from backend.beatcut.pipeline import make_videos
@@ -276,11 +283,38 @@ def beatcut_video(
     from backend.core.path_utils import get_data_directory
     try:
         opts = PlanOptions(duration=duration, pace=pace, aspect=aspect, grade=grade, foley=foley, loop=loop,
-                           music_start=music_start)
+                           music_start=music_start, text=text or [], dim=dim, text_pos=text_pos, text_style=text_style)
         out = Path(output_path).expanduser() if output_path else (
             get_data_directory() / "beatcut" / f"beatcut-{_time.strftime('%m%d-%H%M%S')}.mp4")
         res = make_videos(footage, music_path, out, opts, variants=max(1, min(variants, 6)), bpm=bpm, preview=preview)
         return {"ok": True, **res}
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "error": str(e)[:500]}
+
+
+@server.tool(
+    name="stock_footage",
+    description=(
+        "从 Pexels / Pixabay 搜索并下载免费可商用的竖屏视频素材（需环境变量 PEXELS_API_KEY / PIXABAY_API_KEY，"
+        "两家都免费申请）。返回下载目录，直接作为 beatcut_video 的 footage。无脸内容的好关键词："
+        "hands、pov、macro、close up、silhouette、from behind、sky clouds、coffee pour、unboxing。"
+    ),
+)
+def stock_footage(
+    queries: List[str],
+    count: int = 12,
+    source: str = "both",
+    orientation: str = "portrait",
+    max_duration: float = 30,
+    output_dir: Optional[str] = None,
+) -> Dict[str, Any]:
+    from backend.beatcut.stock import fetch, slug
+    from backend.core.path_utils import get_data_directory
+    try:
+        out = Path(output_dir).expanduser() if output_dir else get_data_directory() / "beatcut" / "stock" / slug(" ".join(queries))
+        sources = ("pexels", "pixabay") if source == "both" else (source,)
+        return {"ok": True, **fetch(queries, out, max(1, min(count, 60)), sources=sources, orientation=orientation,
+                                    max_duration=max_duration)}
     except Exception as e:  # noqa: BLE001
         return {"ok": False, "error": str(e)[:500]}
 

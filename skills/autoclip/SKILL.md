@@ -28,6 +28,7 @@ AutoClip 是本地运行的 AI 切片工具：字幕（自带 SRT 或本地 Whis
 | `get_project` / `list_projects` | 回看之前的项目 |
 | `list_providers` | 用户问"能用什么模型 / 能不能不花钱" |
 | `export_clip` | 用户要把切好的片段「直接发抖音 / 小红书 / Shorts」——渲 9:16、烧字幕、加标题卡 |
+| `stock_footage` | 用户没有素材 / 想要「无脸」「aesthetic」素材——先下 Pexels / Pixabay 免费竖屏视频，再把目录交给 `beatcut_video` |
 | `beatcut_video` | 用户给一堆产品素材（微距、手部、多角度）+ 一首歌，要「卡点剪辑」「踩点」「UGC 带货短视频」——不需要模型；先 `preview=true` 看节奏，再出全分辨率；要 A/B 就 `variants=3` |
 
 参数约定（`clip_video` 与 `start_clip_job` 相同）：

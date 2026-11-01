@@ -83,7 +83,8 @@ def speed_expr(shot: ShotPlan, fps: int) -> str:
     return f"({expr})/TB"
 
 
-def shot_filter(shot: ShotPlan, plan: EditPlan, W: int, H: int) -> str:
+def shot_filter(shot: ShotPlan, plan: EditPlan, W: int, H: int, workdir: Optional[Path] = None,
+                key: str = "0") -> str:
     chain: List[str] = []
     if _is_hdr(shot.source) and _has_filter("zscale"):
         chain.append(HDR_TONEMAP)
@@ -98,17 +99,25 @@ def shot_filter(shot: ShotPlan, plan: EditPlan, W: int, H: int) -> str:
         chain.append(grade)
     if plan.lut:
         chain.append(f"lut3d=file='{_escape_filter_path(str(Path(plan.lut).expanduser()))}'")
+    if plan.dim > 0:  # 低曝光遮罩 = 乘以 (1 - dim)，等价于盖一层 dim 不透明度的黑
+        k = 1 - plan.dim
+        chain.append(f"colorchannelmixer=rr={k:.3f}:gg={k:.3f}:bb={k:.3f}")
     if shot.flash:
         chain.append(f"fade=t=in:st=0:d={FLASH_SECONDS}:color=white")
+    if shot.text and workdir is not None:
+        from backend.beatcut.text import drawtext_chain
+        chain += drawtext_chain(shot.text, W=W, H=H, style=plan.text_style, pos=plan.text_pos, size=plan.text_size,
+                                fade_in=shot.text_in, workdir=workdir, key=key, font=plan.font)
     chain += ["setsar=1", "format=yuv420p", "tpad=stop_mode=clone:stop_duration=3"]
     return ",".join(chain)
 
 
 def _render_shot(shot: ShotPlan, plan: EditPlan, W: int, H: int, out: Path, preview: bool) -> None:
+    """out 所在的临时目录同时放这一镜的文案文件。"""
     src_len = shot.src_seconds(plan.fps)
     cmd = [get_ffmpeg_path(), "-v", "error", "-nostdin", "-y",
            "-ss", f"{shot.src_start:.4f}", "-t", f"{src_len + 0.4:.4f}", "-i", shot.source,
-           "-an", "-vf", shot_filter(shot, plan, W, H), "-frames:v", str(shot.frames),
+           "-an", "-vf", shot_filter(shot, plan, W, H, out.parent, out.stem), "-frames:v", str(shot.frames),
            "-c:v", "libx264", "-preset", "ultrafast" if preview else "medium", "-crf", "23" if preview else "18",
            "-g", str(plan.fps), "-r", str(plan.fps), "-video_track_timescale", str(plan.fps * 1000), str(out)]
     proc = subprocess.run(cmd, capture_output=True, text=True)
@@ -217,6 +226,10 @@ def render_plan(plan: EditPlan, out: Path, *, preview: bool = False, workers: in
             raise FileNotFoundError(f"剪辑表里的素材不存在：{s.source}")
     if plan.lut and not Path(plan.lut).expanduser().exists():
         raise FileNotFoundError(f"LUT 文件不存在：{plan.lut}")
+    if plan.text_style not in ("serif-italic", "serif", "sans"):
+        raise ValueError(f"未知字体样式 {plan.text_style}，可选：serif-italic serif sans")
+    if plan.text_pos not in ("center", "lower", "upper"):
+        raise ValueError(f"未知文字位置 {plan.text_pos}，可选：center lower upper")
     if plan.grade not in GRADES:
         raise ValueError(f"未知调色 {plan.grade}，可选：{' '.join(GRADES)}")
     W, H = plan.width, plan.height

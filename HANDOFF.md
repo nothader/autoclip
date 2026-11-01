@@ -52,6 +52,9 @@ AutoClip 是一款 AI 视频切片工具：输入 B站/YouTube 链接或本地�
   剪辑表 JSON（hook、闪白、推镜、变速、高帧率慢放、原声、无缝循环、多版本）→ 逐镜 ffmpeg 精确帧数渲染 + numpy 混音。
   不需要 LLM，依赖只有 numpy（`pip install -e ".[beatcut]"`，CI 已装）。单测 `tests/test_beatcut.py` 19 条，含端到端：
   对成片自身音轨重新找拍点，验证每一刀在 1 帧内。**尚未用真实手机素材 + 真实歌曲人工看片**；暂无桌面端 UI。
+  - 追加：`beatcut stock`（Pexels / Pixabay 官方 API 下载免费竖屏素材 + CREDITS.md；需各自免费 key，**未用真 key 跑过**，单测用接口原样结构 mock）、
+    `-t/--text` 白字文案 + `--dim` 低曝光遮罩（换句落在切点、0.2 s 淡入、默认 Source Serif 4 斜体）；MCP `stock_footage`。
+    其他「无脸素材站」（Hautestock / Social Stocks / The Studio Brief / Packsia / Forefolk / Content Cove）均付费或需注册，未接入。
 
 ### v1.2.1（2026-09-06 打 tag）
 问题根源：README 推荐的 `docker compose` 路径从 2025-09 起就没能跑通过一次完整处理

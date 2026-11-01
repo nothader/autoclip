@@ -402,7 +402,7 @@ def _beatcut_progress(as_json: bool):
         if as_json or key == last["k"]:
             return
         last["k"] = key
-        label = {"footage": "分析素材", "shots": "渲染镜头", "audio": "混音"}.get(stage, stage)
+        label = {"footage": "分析素材", "shots": "渲染镜头", "audio": "混音", "download": "下载"}.get(stage, stage)
         print(_dim(f"  {label} {done}/{total}"), file=sys.stderr)
     return cb
 
@@ -414,6 +414,8 @@ def _beatcut_options(args: argparse.Namespace):
         loop=not args.no_loop, ramps=not args.no_ramps, punch=not args.no_punch, flash=not args.no_flash,
         foley=args.foley, sfx=not args.no_sfx, variant=args.variant, music_start=args.music_start,
         title=args.title or "beatcut",
+        text=args.text or [], dim=args.dim, text_style=args.text_style, text_pos=args.text_pos,
+        text_size=args.text_size, font=args.font,
     )
 
 
@@ -424,7 +426,32 @@ def _print_edl(lines: list, warnings: list) -> None:
         print(_c("33", "  ! ") + w, file=sys.stderr)
 
 
+def _beatcut_stock(args: argparse.Namespace) -> int:
+    from backend.beatcut.stock import StockError, fetch, slug
+    from backend.core.path_utils import get_data_directory
+    out = Path(args.output).expanduser() if args.output else get_data_directory() / "beatcut" / "stock" / slug(" ".join(args.query))
+    sources = ("pexels", "pixabay") if args.source == "both" else (args.source,)
+    try:
+        res = fetch(args.query, out, args.count, sources=sources, orientation=args.orientation,
+                    min_duration=args.min_duration, max_duration=args.max_duration,
+                    keys={"pexels": args.pexels_key, "pixabay": args.pixabay_key},
+                    progress=_beatcut_progress(args.json) if not args.json else None)
+    except StockError as e:
+        _err(str(e))
+        return 1
+    if args.json:
+        print(json.dumps({"ok": True, **res}, ensure_ascii=False, indent=2))
+    else:
+        src = " · ".join(f"{k} {v}" for k, v in res["by_source"].items())
+        print(f"{len(res['files'])} 条素材（{src}，新下载 {res['downloaded_mb']} MB）→ {res['folder']}\n"
+              f"署名 / license：{res['credits']}\n"
+              f"下一步：autoclip beatcut make {res['folder']} -m song.mp3")
+    return 0
+
+
 def cmd_beatcut(args: argparse.Namespace) -> int:
+    if args.beatcut_cmd == "stock":
+        return _beatcut_stock(args)
     try:
         if args.beatcut_cmd == "beats":
             from backend.beatcut.audio import analyze_music, pick_window
@@ -599,6 +626,13 @@ def build_parser() -> argparse.ArgumentParser:
         x.add_argument("--bpm", type=float, help="强制速度（自动识别错成半速 / 倍速时用；无音乐时默认 120）")
         x.add_argument("--music-start", type=float, help="从音乐第几秒开始（默认自动挑能量最高、起点在重拍的一段）")
         x.add_argument("--title", help="成片名（默认取音乐 / 素材文件名）")
+        x.add_argument("-t", "--text", action="append",
+                       help="叠一句白字文案，可重复：每句占一段，换句落在拍点上（\\n 手动换行）")
+        x.add_argument("--dim", type=float, help="低曝光遮罩 0–0.8（默认：有文案 0.3，否则 0）")
+        x.add_argument("--text-style", default="serif-italic", choices=["serif-italic", "serif", "sans"])
+        x.add_argument("--text-pos", default="center", choices=["center", "lower", "upper"])
+        x.add_argument("--text-size", type=float, default=1.0, help="字号倍数（默认 1.0 ≈ 画面宽 5.8%%）")
+        x.add_argument("--font", help="自定义字体文件（.ttf/.otf）")
         x.add_argument("-o", "--output", help="输出路径（默认 数据目录/beatcut/<名字>-<时间>.mp4|.json）")
         x.add_argument("--json", action="store_true")
     br = bsub.add_parser("render", help="剪辑表 JSON → MP4")
@@ -608,6 +642,18 @@ def build_parser() -> argparse.ArgumentParser:
     for x in (bm, br):
         x.add_argument("--preview", action="store_true", help="半分辨率 + 快速编码，先看节奏")
         x.add_argument("--workers", type=int, default=0, help="并行渲染镜头数（默认 = CPU 核数，最多 4）")
+    bs = bsub.add_parser("stock", help="从 Pexels / Pixabay 下载免费可商用的竖屏素材（需各自的免费 API Key）")
+    bs.add_argument("query", nargs="+", help='关键词，可多个："coffee pour" "hands typing" "clouds sky"')
+    bs.add_argument("-n", "--count", type=int, default=12, help="一共下载几条（默认 12）")
+    bs.add_argument("--source", choices=["both", "pexels", "pixabay"], default="both",
+                    help="来源（默认 both：有哪个 key 用哪个）")
+    bs.add_argument("--orientation", choices=["portrait", "landscape", "any"], default="portrait")
+    bs.add_argument("--min-duration", type=float, default=3)
+    bs.add_argument("--max-duration", type=float, default=30, help="跳过更长的素材（省流量）")
+    bs.add_argument("--pexels-key", help="或环境变量 PEXELS_API_KEY")
+    bs.add_argument("--pixabay-key", help="或环境变量 PIXABAY_API_KEY")
+    bs.add_argument("-o", "--output", help="下载目录（默认 数据目录/beatcut/stock/<关键词>）")
+    bs.add_argument("--json", action="store_true")
     bb = bsub.add_parser("beats", help="分析音乐：BPM、拍点、建议起点")
     bb.add_argument("music")
     bb.add_argument("-d", "--duration", type=float, default=15.0)

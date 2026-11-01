@@ -96,6 +96,7 @@ autoclip export <project_id> --clip 2 --clip 5 --preset shorts --no-title
 
 `autoclip beatcut make <素材文件/文件夹> -m song.mp3 [-d 15] [--pace calm|normal|hype] [--variants 3]`：
 素材 + 音乐 → 每一刀落在拍点上的竖屏成片（hook、闪白、推镜、变速、原声、无缝循环）。不需要 LLM，只要 `numpy`。
+`autoclip beatcut stock "coffee pour" -n 12`：从 Pexels / Pixabay 下载免费竖屏素材；`-t "文案"` 叠白字 + 低曝光遮罩。
 详见 [BEATCUT.md](BEATCUT.md)。
 
 ---
@@ -135,7 +136,8 @@ claude mcp add autoclip -- /path/to/autoclip/venv/bin/autoclip mcp
 | `list_providers()` | 云端 provider + 本地预设 + 当前配置 |
 | `check_environment(provider?, …)` | ffmpeg / Whisper / 模型连接体检 |
 | `export_clip(project_id, clip_id, preset?, subtitles?, title_card?)` | 渲可发布成片（douyin / xiaohongshu / shorts / bilibili / original） |
-| `beatcut_video(footage[], music_path?, duration?, pace?, aspect?, grade?, variants?, …)` | 产品 UGC 卡点剪辑，返回成片、剪辑表 JSON、逐镜说明（不需要 LLM） |
+| `beatcut_video(footage[], music_path?, duration?, pace?, aspect?, grade?, variants?, text?, dim?, …)` | 产品 UGC 卡点剪辑，返回成片、剪辑表 JSON、逐镜说明（不需要 LLM） |
+| `stock_footage(queries[], count?, source?, orientation?)` | Pexels / Pixabay 免费竖屏素材（需各自免费 API Key） |
 
 实现要点：
 - 流水线里散落着 `print()`，会污染 stdout 协议通道；server 启动时把 `sys.stdout` 指到 stderr，真正的 stdout 只交给 MCP 传输层。
