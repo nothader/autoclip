@@ -416,6 +416,19 @@ def cmd_whatif(args: argparse.Namespace) -> int:
                   else f"短版分镜（{len(short.beats)} 段）：{out}\n下一步：autoclip whatif render {out} --pack")
             return 0
 
+        if args.whatif_cmd == "upload":
+            from backend.whatif import youtube
+            video = Path(args.video)
+            stem = video.with_suffix("")
+            meta = Path(args.meta) if args.meta else stem.with_name(stem.name + "_youtube.txt")
+            thumb = Path(args.thumb) if args.thumb else stem.with_name(stem.name + "_thumb.jpg")
+            res = youtube.publish(video, meta, thumb=thumb, privacy=args.privacy, publish_at=args.publish_at,
+                                  short=args.short, log=(lambda *_: None) if args.json else print)
+            print(json.dumps({"ok": True, **res}, ensure_ascii=False) if args.json else
+                  f"Uploaded ({res['privacy']}): {res['url']}\nReview / publish: {res['studio']}"
+                  + ("" if res["thumbnail_set"] else "\n(thumbnail not set: the channel may need phone verification)"))
+            return 0
+
         if args.whatif_cmd == "examples":
             from backend.whatif.planner import EXAMPLE_PATH
             for p in sorted(EXAMPLE_PATH.parent.glob("*.json")):
@@ -600,6 +613,14 @@ def build_parser() -> argparse.ArgumentParser:
     wsh.add_argument("-o", "--output", help="JSON path (default <storyboard>_short.json)")
     wsh.add_argument("--target", type=float, default=62.0, help="Target length in seconds after pacing (default 62)")
     wsh.add_argument("--json", action="store_true")
+    wu = wsub.add_parser("upload", help="Upload a rendered video to YouTube (private by default; needs YOUTUBE_* env vars)")
+    wu.add_argument("video")
+    wu.add_argument("--meta", help="Metadata TXT (default <video>_youtube.txt)")
+    wu.add_argument("--thumb", help="Thumbnail JPG/PNG (default <video>_thumb.jpg)")
+    wu.add_argument("--privacy", choices=["private", "unlisted", "public"], default="private")
+    wu.add_argument("--publish-at", help="RFC3339 time to go public automatically (stays private until then)")
+    wu.add_argument("--short", action="store_true", help="Vertical Short: adds #shorts to the description")
+    wu.add_argument("--json", action="store_true")
     wsub.add_parser("examples", help="列出内置示例分镜")
     w.set_defaults(func=cmd_whatif)
     return p

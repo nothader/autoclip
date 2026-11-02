@@ -1008,3 +1008,42 @@ def test_cold_open_countdown_runs_over_the_first_shot():
     assert early["clock"]["label"] == "IT HAPPENS IN" and early["clock"]["value"].startswith("0:01")
     assert late["clock"]["value"] == "+0 SEC"
     assert any(e["type"] == "beep" for e in plan["audio"])
+
+
+def test_youtube_meta_parse_and_resumable_upload(tmp_path):
+    from backend.whatif import youtube
+    txt = ("TITLE\nWhat if X?\n\nDESCRIPTION\nLine one <b>.\n\nCHAPTERS\n0:00 Start\n\nTAGS\na, b, c\n\nPINNED COMMENT\nWho wins?\n")
+    m = youtube.parse_meta(txt)
+    assert m.title == "What if X?" and m.tags == ["a", "b", "c"] and "0:00 Start" in m.description and m.pinned_comment == "Who wins?"
+    body = youtube.body_for(m, publish_at="2026-11-10T21:00:00Z")
+    assert body["status"]["privacyStatus"] == "private" and body["status"]["publishAt"] and "<" not in body["snippet"]["description"]
+    video = tmp_path / "v.mp4"; video.write_bytes(b"x" * 1000)
+    thumb = tmp_path / "t.jpg"; thumb.write_bytes(b"jpg")
+    calls = []
+
+    class R:
+        def __init__(self, code, js=None, headers=None):
+            self.status_code, self._js, self.headers, self.text = code, js or {}, headers or {}, ""
+        def json(self):
+            return self._js
+
+    class Sess:
+        def post(self, url, **kw):
+            calls.append(("post", url))
+            if url == youtube.TOKEN_URL:
+                return R(200, {"access_token": "tok"})
+            if url == youtube.UPLOAD_URL:
+                assert json.loads(kw["data"])["snippet"]["title"] == "What if X?"
+                return R(200, headers={"Location": "https://up/1"})
+            return R(200)
+        def put(self, url, **kw):
+            calls.append(("put", kw["headers"]["Content-Range"]))
+            return R(200, {"id": "abc123"})
+
+    meta = tmp_path / "v_youtube.txt"; meta.write_text(txt)
+    env = {k: "x" for k in youtube.ENV_KEYS}
+    res = youtube.publish(video, meta, thumb=thumb, short=True, env=env, session=Sess(), log=lambda *a: None)
+    assert res["id"] == "abc123" and res["privacy"] == "private" and res["thumbnail_set"]
+    assert ("put", "bytes 0-999/1000") in calls
+    with pytest.raises(youtube.YouTubeError):
+        youtube.credentials_from_env({})
