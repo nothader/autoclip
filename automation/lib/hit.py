@@ -18,8 +18,9 @@ class Video:
         b.update(k)
         self.beats.append(b)
 
-    def save(self, name, title, premise, style, label, end, thumb, thumb_beat=1, accent="#ffa94d", palette=None, captions="words"):
-        theme = {"style": style, "accent": accent}
+    def save(self, name, title, premise, style, label, end, thumb, thumb_beat=1, accent="#ffa94d", palette=None, captions="words",
+             narrate=True, music="dark", voice="am_onyx"):
+        theme = {"style": style, "accent": accent, "music": music}   # outlier formula: dark music bed ~10-15% under the voice
         if captions:
             theme["captions"] = captions
         if palette:
@@ -29,6 +30,8 @@ class Video:
               "theme": theme, "clock": {"mode": "elapsed", "label": label, "intro_label": "IT HAPPENS IN", "intro_from": 3},
               "outro": {"chart": False, "question_duration": 3.4, "end": {"kind": "question", "lines": end, "accent_line": 1}},
               "thumbnail": thumb, "thumbnail_beat": thumb_beat, "beats": self.beats}
+        if narrate:   # outlier formula: deep, serious narrator talking to "you"
+            sb["narration"] = {"enabled": True, "engine": "kokoro", "voice": voice, "speed": 1.0, "read_title": False, "read_end": True}
         out = Path(sys.argv[0]).resolve().parent / f"{name}.json"   # 写在调用脚本旁边
         out.write_text(json.dumps(sb, indent=1, ensure_ascii=False))
         print(out, len(self.beats))

@@ -443,6 +443,31 @@ def _reverb(x: np.ndarray, seconds: float = 2.2, seed: int = 99) -> np.ndarray:
 
 
 # ------------------------------------------------------------ 合成主函数 ---
+def _music_dark(n: int, seed: int = 3, bpm: float = 72.0) -> np.ndarray:
+    """低沉电影感配乐床：A 小调和弦进行（Am-F-Dm-E，每和弦 2 小节）+ 次低音持续音 + 每拍一下低脉冲 + 八分音符轻沙沙。"""
+    t = np.arange(n) / SR
+    beat = 60.0 / bpm
+    bar = beat * 4
+    chords = [(110.0, 130.81, 164.81), (87.31, 110.0, 130.81), (73.42, 87.31, 110.0), (82.41, 103.83, 123.47)]
+    idx = (t // (bar * 2)).astype(int) % len(chords)
+    pad = np.zeros(n)
+    for k, ch in enumerate(chords):
+        m = idx == k
+        if not m.any():
+            continue
+        tt = t[m]
+        pad[m] = sum(np.sin(2 * np.pi * f * tt + j) + 0.35 * np.sin(2 * np.pi * f * 2.003 * tt) for j, f in enumerate(ch)) / 6
+    pos = (t % (bar * 2)) / (bar * 2)                          # 每个和弦缓入缓出，换和弦不跳
+    pad *= np.minimum(1, pos / 0.12) * np.minimum(1, (1 - pos) / 0.12) * 0.5 + 0.5
+    sub = np.sin(2 * np.pi * 55 * t) * 0.5 + np.sin(2 * np.pi * 41.2 * t) * 0.25
+    ph = (t % beat) / beat
+    kick = np.sin(2 * np.pi * (45 + 60 * np.exp(-ph * beat / 0.04)) * ph * beat) * np.exp(-ph * beat / 0.18)
+    hat_ph = (t % (beat / 2)) / (beat / 2)
+    hat = _norm(_band(_noise(n, seed), 5000, 11000)) * np.exp(-hat_ph * (beat / 2) / 0.03) * 0.25
+    swell = 0.75 + 0.25 * np.sin(2 * np.pi * t / (bar * 4) - np.pi / 2)
+    return _norm(pad * 0.55 * swell + sub * 0.35 + kick * 0.55 + hat * 0.6)
+
+
 def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.ndarray:
     """返回 (n, 2) float32，范围 [-1, 1]。voice：可选旁白人声（单声道 48 kHz），自动压低底噪/音效。"""
     fps = plan["fps"]
@@ -576,6 +601,16 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
         v *= 10 ** (-16 / 20) / (vr or 1.0)
         out[:, 0] += v
         out[:, 1] += v
+    # 6) 配乐床（可选）：比旁白低 ~14 dB（约 10–15% 音量），说话时再让一点；结尾问句段渐弱
+    if (plan.get("theme") or {}).get("music") == "dark":
+        mus = _music_dark(n)
+        mus *= 10 ** (-30 / 20) / (np.sqrt(np.mean(mus ** 2)) or 1.0)
+        if has_voice:
+            mus *= 1 - 0.35 * venv
+        mus[:fade] *= np.linspace(0, 1, fade)
+        mus[-tail:] *= np.linspace(1, 0, tail)
+        out[:, 0] += mus
+        out[:, 1] += np.roll(mus, 120)
     out = np.tanh(out * 1.2) / np.tanh(1.2)
     peak = np.max(np.abs(out)) or 1.0
     if peak > 0.79:

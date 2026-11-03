@@ -6,6 +6,10 @@ Edit freely: reorder, add, or delete lines. Done lines get `[x]`, the date and t
 Lane mix (from the 41K-view swap video): mostly "it's about YOU + pick a side" topics, plus some science/series ones.
 
 ## Shorts (daily)
+- [ ] What if you were raised by wolves?
+- [ ] What happens to your body if you stop eating sugar for 30 days?
+- [ ] How long could you survive in space without a suit?
+- [ ] What if you were raised by gorillas?
 - [ ] What if men could get pregnant?
 - [ ] What if you swapped bodies with your mom or dad for a day?
 - [ ] What if everyone could read minds for one day?

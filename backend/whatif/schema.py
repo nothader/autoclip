@@ -307,6 +307,7 @@ class Theme(_Strict):
     layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
     # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
     anchor: Optional[Literal["none", "coffee", "drink"]] = None
+    music: Literal["none", "dark"] = "none"   # dark = 低沉电影感配乐床（小声，在旁白下面）
     flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
     rec: str = ""                    # bodycam：右上角时间戳的起点（"2026-10-26 07:42:13"）；空 = 渲染当天 07:42:13
     palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"

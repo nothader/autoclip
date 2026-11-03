@@ -27,6 +27,17 @@ Copy the closest example and adapt it. Never reuse a set or shot list as-is.
   - **Big captions:** `theme.captions: "words"` and a bold or toon style. Thin serif subtitles are unreadable on phones.
   - **No dip-to-black between chapters.** It is an exit point; use whip or zoom transitions.
 
+### The outlier formula (researched Nov 2026; supersedes the old "sound effects only" rule)
+From the biggest "what if" / 3D-explainer Shorts (Zack D. Films: about 29M subscribers, about 81B views; one viral "what if" body channel: 3.9M average views over 59 videos):
+- **Deep, serious narrator talking to "you"** ("documentary meets horror trailer"). `hit.save` turns this on by default: Kokoro `am_onyx`. Captions are what the narrator says.
+- **Quiet dark cinematic music bed** at about 10–15% volume (`theme.music: "dark"`, on by default in `hit.save`), plus sound effects on every impact moment.
+- **50–65 s is the sweet spot**; under 30 s or over 65 s underperforms. About 12–14 beats at the 0.9 pace with narration.
+- **Escalation arc:** a curiosity-gap question → a mild, relatable start → it escalates every beat (never plateaus) → the peak drama → a finale of total failure, transformation or twist. Then the pick-a-side question.
+- **Something always moves:** the camera is never still for long, with a scene change or new detail every 3–5 s.
+- **Bold, centered captions.**
+- **Top topic patterns:** "What if you were raised by ___?" (strongest category in that data), survival and body ("What happens to your body if…"), "How long could you…?" Titles with a specific number, a known brand or event, and a hidden consequence.
+- An owner can still ask for sound effects only on a specific video: `v.save(..., narrate=False, music="none")`.
+
 ### The recipe (what made the 41K-view swap video work)
 - **About YOU:** the viewer, their partner, family, body, money, school or job. Everyone watching is in the story.
 - **3-2-1 countdown cold open** (`v.save(...)` sets it up): beat 0 caption = "In 3 seconds, ..." Never start on a `flash`.

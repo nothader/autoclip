@@ -1047,3 +1047,15 @@ def test_youtube_meta_parse_and_resumable_upload(tmp_path):
     assert ("put", "bytes 0-999/1000") in calls
     with pytest.raises(youtube.YouTubeError):
         youtube.credentials_from_env({})
+
+
+def test_dark_music_bed_is_quiet_and_optional():
+    import numpy as np
+    from backend.whatif.audio import synthesize
+    sb = _set_sb([{"kind": "box", "animate": [{"type": "spin"}]}], n=3)
+    base = synthesize(compile_plan(sb))
+    sbm = Storyboard.model_validate({**sb.model_dump(), "theme": {**sb.theme.model_dump(), "music": "dark"}})
+    plan = compile_plan(sbm)
+    assert plan["theme"]["music"] == "dark"
+    mus = synthesize(plan)
+    assert mus.shape == base.shape and not np.allclose(mus, base) and np.abs(mus).max() <= 0.8
