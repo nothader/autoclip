@@ -20,6 +20,12 @@ Use the first `- [ ]` line in the right section of `automation/topics.md` (Short
 Copy the closest example and adapt it. Never reuse a set or shot list as-is.
 - Shorts: `automation/scripts/*.py`, using the `automation/lib/hit.py` helpers (`Video`, `V`, `P`, `crowd`, `room`, `city`, `park`, `school`, `BOY`/`GIRL`, palettes). Best examples: `partner.py`, `onegender.py`, `planes.py`, `mars.py`.
 - Long-form: `automation/longform/swap24.py` (16:9, narrated, chapters, comment prompts) plus `hook.py` (danger-hook cold open).
+  **Lessons from the first long-form** (swap, Nov 2026: 9% average viewed, 31% left at 0:32, nearly 0% by 2:15):
+  - **Deliver the thumbnail promise in the first 10 seconds.** If the thumbnail says "HE GOT HER PERIOD", open on that moment, then rewind. Don't spend the first 48 s on countdown, teasers and "meet the characters". Story action must start by 0:10.
+  - **No "coming up" teaser beats.** Show them, don't announce them. Introduce characters inside the action.
+  - **3–4 minutes, not 6–7:** 6–8 chapters with the strongest moments only (cut filler chapters), and a faster pace (`pace` 1.35+).
+  - **Big captions:** `theme.captions: "words"` and a bold or toon style. Thin serif subtitles are unreadable on phones.
+  - **No dip-to-black between chapters.** It is an exit point; use whip or zoom transitions.
 
 ### The recipe (what made the 41K-view swap video work)
 - **About YOU:** the viewer, their partner, family, body, money, school or job. Everyone watching is in the story.
