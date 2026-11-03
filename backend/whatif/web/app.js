@@ -9,6 +9,7 @@ import { Satisfying } from "./satisfying.js";
 import { CineFX } from "./fx.js";
 import { PovRig, eyesCamera } from "./pov.js";
 import { BodycamPass, handheld } from "./bodycam.js";
+import { FilmPass } from "./film.js";
 
 const qs = new URLSearchParams(location.search);
 const W = +(qs.get("w") || 1080), H = +(qs.get("h") || 1920);
@@ -193,6 +194,7 @@ let satisfying = null;
 let anchor = null;
 let povRig = null;
 let bodycam = null;
+let film = null;
 let bodyJolt = 0;
 
 // ---------- 前景锚点：镜头下方的小桌 + 咖啡杯 / 饮料，随天气变化 ----------
@@ -423,6 +425,9 @@ function frame(i) {
       bodycam ??= new BodycamPass(renderer, W, H);
       const nv = beat && beat.effects.includes("nightvision") ? Math.min(1, (raw.lt || 0) / 0.3) : 0;
       bodycam.render(scene, camera, { time: raw.t || 0, night: nv, glitch: glitchOn(raw, beat), jolt: bodyJolt * 0.5 });
+    } else if (STYLE === "film") {
+      film ??= new FilmPass(renderer, W, H);
+      film.render(scene, camera, env.custom ? new THREE.Vector3(...env.focus) : lastLook, env.globe ? 0 : 0.9);
     } else renderer.render(scene, camera);
   }
   drawOverlay(raw, plan);

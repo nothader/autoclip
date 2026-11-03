@@ -70,19 +70,34 @@ export class Person {
     this.hips = new THREE.Group();
     this.hips.position.y = 0.98;
     this.body.add(this.hips);
-    const pelvis = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.2), bottom);
+    const pelvisG = new THREE.CapsuleGeometry(0.11, 0.12, 6, 14);
+    pelvisG.rotateZ(Math.PI / 2); pelvisG.scale(1.05, 0.95, 0.95);
+    const pelvis = new THREE.Mesh(pelvisG, bottom);
     pelvis.castShadow = true;
     this.hips.add(pelvis);
 
     this.spine = new THREE.Group();
     this.spine.position.y = 0.06;
     this.hips.add(this.spine);
-    const torsoG = new THREE.CapsuleGeometry(0.19, 0.36, 4, 12);
-    torsoG.scale(1.05, 1, 0.68);
-    torsoG.translate(0, 0.3, 0);
+    // 躯干：胸口宽、腰收窄（上下两段胶囊），肩头圆球把手臂接上，脖子连到头
+    const torsoG = new THREE.CapsuleGeometry(0.175, 0.2, 6, 16);
+    torsoG.scale(1.18, 1, 0.66);
+    torsoG.translate(0, 0.4, 0);
     const torso = new THREE.Mesh(torsoG, top);
     torso.castShadow = true;
     this.spine.add(torso);
+    const waistG = new THREE.CapsuleGeometry(0.15, 0.14, 6, 16);
+    waistG.scale(1.05, 1, 0.66);
+    waistG.translate(0, 0.17, 0);
+    const waist = new THREE.Mesh(waistG, top);
+    waist.castShadow = true;
+    this.spine.add(waist);
+    for (const sx of [-1, 1]) {
+      const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.075, 14, 10), top);
+      shoulder.scale.set(1.1, 0.9, 1); shoulder.position.set(sx * 0.215, 0.53, 0);
+      shoulder.castShadow = true;
+      this.spine.add(shoulder);
+    }
     if (spec.hood) {
       const hood = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.05, 6, 14, Math.PI * 1.3), top);
       hood.position.set(0, 0.6, 0.06);
@@ -135,6 +150,9 @@ export class Person {
     this.neck.position.y = 0.66;
     this.spine.add(this.neck);
     const headR = spec.child ? 0.135 : 0.115;
+    const neckM = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.052, 0.1, 12), skin);
+    neckM.position.y = 0.02;
+    this.neck.add(neckM);
     const head = new THREE.Mesh(new THREE.SphereGeometry(headR, 18, 14), skin);
     head.scale.set(0.92, 1.1, 1);
     head.position.y = 0.14;
@@ -156,15 +174,53 @@ export class Person {
       beard.position.set(0, 0.11, -0.04); beard.scale.set(1, 1.1, 1);
       this.neck.add(beard);
     }
-    const eyeM = mat("#1d1a18", 0.4);
-    for (const ex of spec.mann ? [] : [-0.04, 0.04]) {
-      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.014, 8, 6), eyeM);
-      eye.position.set(ex, 0.155, -headR + 0.013);
-      this.neck.add(eye);
+    // 脸：眼白 + 有色虹膜 + 高光点、眉毛、嘴（表情随动作变：害怕 / 开心 / 平静）、耳朵
+    this.face = null;
+    if (!spec.mann) {
+      const f = new THREE.Group();
+      const zf = -headR;
+      const white = mat("#fbf8f3", 0.35), iris = mat(["#3b2a1e", "#2f4a6b", "#3d5a35", "#1d1a18"][Math.floor(r() * 4)], 0.3);
+      const shine = new THREE.MeshBasicMaterial({ color: "#ffffff" });
+      this.pupils = [];
+      for (const ex of [-0.042, 0.042]) {
+        const sc = new THREE.Mesh(new THREE.SphereGeometry(0.025, 14, 10), white);
+        sc.scale.set(1, 1.12, 0.5); sc.position.set(ex, 0.158, zf + 0.012);
+        const ir = new THREE.Mesh(new THREE.SphereGeometry(0.0135, 12, 8), iris);
+        ir.scale.set(1, 1, 0.5); ir.position.set(ex, 0.156, zf - 0.0005);
+        const hl = new THREE.Mesh(new THREE.SphereGeometry(0.0042, 6, 4), shine);
+        hl.position.set(ex + 0.005, 0.163, zf - 0.006);
+        f.add(sc, ir, hl);
+        this.pupils.push(ir);
+      }
+      this.brows = [-1, 1].map((sd) => {
+        const b = new THREE.Mesh(new THREE.BoxGeometry(0.046, 0.011, 0.012), hairM);
+        b.position.set(sd * 0.042, 0.196, zf + 0.008);
+        f.add(b);
+        return b;
+      });
+      const lip = mat("#7a3b32", 0.6);
+      this.mouths = {
+        neutral: new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.008, 0.01), lip),
+        smile: new THREE.Mesh(new THREE.TorusGeometry(0.024, 0.0055, 6, 16, Math.PI), lip),
+        scared: new THREE.Mesh(new THREE.SphereGeometry(0.017, 12, 8), mat("#3a1a18", 0.8)),
+      };
+      this.mouths.neutral.position.set(0, 0.097, zf + 0.012);
+      this.mouths.smile.position.set(0, 0.108, zf + 0.012); this.mouths.smile.rotation.z = Math.PI;
+      this.mouths.scared.position.set(0, 0.095, zf + 0.01); this.mouths.scared.scale.set(1, 1.35, 0.45);
+      for (const m of Object.values(this.mouths)) { m.visible = false; f.add(m); }
+      for (const sd of [-1, 1]) {
+        const ear = new THREE.Mesh(new THREE.SphereGeometry(0.026, 8, 6), skin);
+        ear.scale.set(0.5, 1, 0.8); ear.position.set(sd * headR * 0.93, 0.145, 0.0);
+        f.add(ear);
+      }
+      this.neck.add(f);
+      this.face = f;
+      this.expr = null;
+      this.setExpression("neutral");
     }
-    const nose = new THREE.Mesh(new THREE.ConeGeometry(0.018, 0.04, 6), skin);
-    nose.rotation.x = -Math.PI / 2;
-    nose.position.set(0, 0.125, -headR - 0.003);
+    const nose = new THREE.Mesh(new THREE.SphereGeometry(0.017, 10, 8), skin);
+    nose.scale.set(0.9, 1.1, 1.2);
+    nose.position.set(0, 0.128, -headR - 0.004);
     this.neck.add(nose);
     if (spec.cap) {
       const c = new THREE.Mesh(new THREE.SphereGeometry(headR * 1.1, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(spec.cap));
@@ -239,7 +295,19 @@ export class Person {
     this.armR.hand.add(this.phone);
   }
 
+  setExpression(e) {
+    if (!this.face || this.expr === e) return;
+    this.expr = e;
+    for (const [k, m] of Object.entries(this.mouths)) m.visible = k === e;
+    const tilt = { neutral: 0.06, smile: -0.12, scared: 0.42 }[e];   // 害怕：眉头内侧上扬
+    const lift = { neutral: 0, smile: 0.004, scared: 0.012 }[e];
+    this.brows.forEach((b, i) => { b.rotation.z = (i === 0 ? -1 : 1) * tilt; b.position.y = 0.196 + lift; });
+    for (const p of this.pupils) p.scale.set(e === "scared" ? 0.8 : 1, e === "scared" ? 0.8 : 1, 0.5);   // 害怕时瞳孔缩小
+  }
+
   pose(action, ph = 0, t = 0) {
+    this.setExpression({ kneel: "scared", fall: "scared", run: "scared", sprint: "scared", point: "smile", wave: "smile",
+                         phone: "smile", sit: "neutral" }[action] || "neutral");
     // 复位
     this.body.rotation.set(0, 0, 0);
     this.body.position.set(0, 0, 0);

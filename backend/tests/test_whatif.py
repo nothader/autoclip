@@ -1059,3 +1059,9 @@ def test_dark_music_bed_is_quiet_and_optional():
     assert plan["theme"]["music"] == "dark"
     mus = synthesize(plan)
     assert mus.shape == base.shape and not np.allclose(mus, base) and np.abs(mus).max() <= 0.8
+
+
+def test_film_style_compiles_with_word_captions():
+    sb = _set_sb([{"kind": "person", "action": "kneel"}], n=3, theme={"style": "film"})
+    plan = compile_plan(sb)
+    assert plan["theme"]["style"] == "film" and plan["theme"]["captions"] == "words"

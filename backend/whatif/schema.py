@@ -293,9 +293,9 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam"]
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
 CaptionMode = Literal["line", "words", "box", "typed"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box"}
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words"}
 
 
 class Theme(_Strict):

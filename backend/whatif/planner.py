@@ -148,6 +148,8 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
   progress bar. Shock/curiosity topics, body and money "what ifs", fast lists.
 - cinematic: documentary: letterbox bars, film grain, warm grade, slow push-ins. History, disasters, people's stories.
 - toon: cartoon: cel shading, black outlines, white sticker captions. Funny/absurd premises, kids, animals, food.
+- film: bright, warm 3D-animation look like the top explainer channels: depth-of-field background blur, expressive faces
+  (scared when kneeling/running, smiling when pointing/waving), big word captions. Default for people-centred shorts.
 - retro: 8-bit pixels and scanlines, green word highlights. Games, tech, internet, "simulation" topics.
 - witness: one fixed eyewitness view of a REAL named place (a balcony over a city, a harbour, a café terrace) that
   watches a disaster or change escalate. Use camera "witness" on most beats (it drifts like a handheld shot), set

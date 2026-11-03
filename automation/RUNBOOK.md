@@ -45,7 +45,8 @@ From the biggest "what if" / 3D-explainer Shorts (Zack D. Films: about 29M subsc
 - **Everyday funny details** over abstract facts. One real number per 2–3 beats (`stat` or `tooltip`), rounded and widely cited. Say "about".
 - **Shorts:** 10–13 beats, about 40–60 s at the default 0.9 pace (`length: quick`). The owner asked for a 25% slower pace so captions can be read; never speed it back up. Captions at grade-3 reading level, under about 14 words.
 - **End on a pick-a-side question** (end card lines + last caption). Examples: "WHO HAD IT HARDER?", "WOULD YOU GO?", "WHICH WORLD WINS?"
-- **Rotate the style** (bold, toon, calm, cinematic, retro, witness, bodycam). Don't repeat yesterday's.
+- **House look = `style: "film"`** (Nov 2026, matches the top 3D channels): bright warm grade, background blurred by depth, expressive faces. Use it for every Short so the channel has one recognizable look. Use `witness` or `bodycam` only when the format needs it (one fixed eyewitness view or found footage).
+- **Faces sell it:** frame people waist-up or closer (`front`/`closeup`/`side`, zoom about 0.5–0.8, `focus` at head height) on most beats. Expressions follow the action: `kneel`/`run`/`sprint`/`fall` = scared, `point`/`wave`/`phone` = smiling, everything else neutral.
 - **Stay neutral** on politics, gender and religion. Present both sides and let the comments argue. No gore, nothing sexual, no real people mocked.
 - **Lively backgrounds:** sky colours, places and people. No black voids. No globes or Earth-from-space shots (a small star in the sky is fine). Sound effects only for Shorts; narration for long-form.
 
