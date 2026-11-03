@@ -40,4 +40,4 @@ v.B(3.2, "wide", "Football gets VERY gentle. Every tackle hurts someone at home.
 v.B(3.6, "far", "Couples stop fighting fast. Hurting them... hurts you.", V(pk([HE("idle"), SHE("idle")]), DUSK, focus=(0, 1.2, -6), zoom=1.8), "+1 YEAR", move="pull_out",
     effects=["glow"])
 v.save("pain", "What if men and women felt each other's pain?", "Every couple on Earth feels each other's pain: stubbed toes, cramps, even childbirth.",
-       "bold", "SINCE THE LINK", ["WHO WOULD", "CRY FIRST?"], "HE FEELS *HER* PAIN", 2, accent="#ff6b6b", captions=None)
+       "bold", "SINCE THE LINK", ["WHO WOULD", "CRY FIRST?"], "HE FEELS *HER* PAIN", 2, accent="#ff6b6b", captions=None, countdown=True)

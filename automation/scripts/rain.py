@@ -66,6 +66,6 @@ B(3.6, "It happened once. About 232 million years ago, it rained for about a mil
 B(3.8, "And when it finally stopped... the dinosaurs took over. Rain forever, or sun forever?",
   W(jungle + animal((-6, 0, -17), 2.6, "#6b8e23", neck=2.6) + animal((7, 0, -20), 2.2, "#7a9a3a", neck=2.4), ["#4a8fd1", "#e6f4d7"], "clear"), "AFTER THE RAIN", "THE AGE OF DINOSAURS", effects=["rays"])
 v.save("rain", "What if it rained forever?", "It starts raining on your street and never stops: floods, no sun, boats to work, and the true story of a million-year rain.",
-       "witness", "SINCE IT STARTED RAINING", ["RAIN FOREVER", "OR SUN FOREVER?"], "IT NEVER *STOPS* RAINING", 3, accent="#74c0fc")
+       "witness", "SINCE IT STARTED RAINING", ["RAIN FOREVER", "OR SUN FOREVER?"], "IT NEVER *STOPS* RAINING", 3, accent="#74c0fc", countdown=True)
 p = Path(sys.argv[0]).resolve().parent / "rain.json"
 d = json.loads(p.read_text()); d["theme"]["anchor"] = "none"; p.write_text(json.dumps(d, indent=1, ensure_ascii=False))

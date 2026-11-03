@@ -37,4 +37,4 @@ v.B(3.4, "dolly", "Then the next election comes. Everyone gets to vote.", V(boot
 v.B(3.6, "far", "Here's the real question: would people vote to keep it?", V(hall + flags + [leaders(GIRL, act="sit", seed=3)], WARM, focus=(0, 2, -12), zoom=3.0, amb="room"),
     "+4 YEARS", move="pull_out", effects=["glow"])
 v.save("leaders", "What if women ran every country?", "Every country on Earth gets a woman as its leader overnight. A neutral look at what could change.",
-       "cinematic", "SINCE THE CHANGE", ["WOULD THE WORLD", "BE BETTER?"], "WOMEN RUN *EVERY* COUNTRY", 1, accent="#f4a259", palette="warm")
+       "cinematic", "SINCE THE CHANGE", ["WOULD THE WORLD", "BE BETTER?"], "WOMEN RUN *EVERY* COUNTRY", 1, accent="#f4a259", palette="warm", countdown=True)

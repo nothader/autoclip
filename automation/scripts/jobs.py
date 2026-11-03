@@ -39,4 +39,4 @@ v.B(3.4, "wide", "Here's the twist: by day 30, everyone begs to switch back.", V
 v.B(3.6, "far", "But nobody ever says \"your job is easy\" again.", V(home + [HE("idle"), SHE("idle")], DUSK, focus=(0, 1.2, -6), zoom=2.0), "+1 YEAR", move="pull_out",
     effects=["glow"])
 v.save("jobs", "What if couples had to switch jobs?", "Every couple swaps jobs for 30 days: a nurse on a building site, a builder on a 12-hour hospital shift.",
-       "toon", "SINCE THE SWITCH", ["WHOSE JOB", "IS HARDER?"], "COUPLES *SWITCH* JOBS", 2, accent="#40c057", captions=None)
+       "toon", "SINCE THE SWITCH", ["WHOSE JOB", "IS HARDER?"], "COUPLES *SWITCH* JOBS", 2, accent="#40c057", captions=None, countdown=True)

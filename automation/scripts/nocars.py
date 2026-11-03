@@ -59,4 +59,4 @@ v.B(3.6, "follow", "And kids play in the middle of the street again.", V(road(ex
 v.B(4.0, "far", "So be honest: a better world, or total chaos?", V(road(extra=[YOU("idle", (0, 0, -9), 180), crowd(10, 13, at=(0, 0, -12), spread=(30, 0, 6))]),
     DUSK, focus=(0, 1.2, -10), zoom=1.8), "+5 YEARS", move="pull_out", effects=["glow"])
 v.save("nocars", "What if every car disappeared?", "All 1.5 billion cars on Earth vanish at once: walking commutes, sold-out bikes, cold pizza, cleaner air and safer streets.",
-       "film", "SINCE THE CARS VANISHED", ["BETTER WORLD", "OR TOTAL CHAOS?"], "EVERY *CAR* IS GONE", 1, accent="#ffd43b")
+       "film", "SINCE THE CARS VANISHED", ["BETTER WORLD", "OR TOTAL CHAOS?"], "EVERY *CAR* IS GONE", 1, accent="#ffd43b", countdown=True)

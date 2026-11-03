@@ -67,4 +67,4 @@ v.B(3.8, "far", "Here's the real question: if Earth healed, would you ever go ba
     V(empty_city(2.0, [O("person", (0, 0, -8), 1.0, "#f8f9fa", action="walk", seed=4, color2="#e0ac69", animate=[{"type": "move", "to": [0, 0, -4]}])]),
       ["#4a8fd1", "#e6f4d7"], focus=(0, 1.6, -12), zoom=2.2, amb="forest"), "100 YEARS", move="pull_out", effects=["rays"])
 v.save("mars", "What if we lived on Mars and Earth was empty?", "All 8 billion people move to Mars and Earth is left empty. Life on Mars vs. nature taking Earth back.",
-       "cinematic", "SINCE THE MOVE", ["MARS OR", "EMPTY EARTH?"], "WE LEFT *EARTH*", 1, accent="#ff922b", palette="warm")
+       "cinematic", "SINCE THE MOVE", ["MARS OR", "EMPTY EARTH?"], "WE LEFT *EARTH*", 1, accent="#ff922b", palette="warm", countdown=True)

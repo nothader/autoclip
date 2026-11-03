@@ -43,4 +43,4 @@ v.B(3.4, "side", "But they could never surprise you again. Ever.", V(park([P((-0
 v.B(3.8, "far", "And if they could hear yours... what would they hear right now?", V(park([P((-0.4, 0, -6), YOU, "idle", 2, ry=90), P((0.4, 0, -6), THEM, "idle", 3, ry=270)]),
     DUSK, focus=(0, 1.2, -6), zoom=1.6), "+1 MONTH", move="pull_out", effects=["glow"])
 v.save("partner", "What if you could hear your partner's thoughts?", "You can suddenly hear every thought your partner has, and everyone else's too.", "calm",
-       "SINCE YOU HEARD IT", ["WOULD YOU", "WANT TO KNOW?"], "HEARING MY *PARTNER'S* THOUGHTS", 1, accent="#f06595", captions="words")
+       "SINCE YOU HEARD IT", ["WOULD YOU", "WANT TO KNOW?"], "HEARING MY *PARTNER'S* THOUGHTS", 1, accent="#f06595", captions="words", countdown=True)

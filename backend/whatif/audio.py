@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import wave
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Optional, Any, Dict, List
 
 import numpy as np
 
@@ -443,12 +443,27 @@ def _reverb(x: np.ndarray, seconds: float = 2.2, seed: int = 99) -> np.ndarray:
 
 
 # ------------------------------------------------------------ 合成主函数 ---
-def _music_dark(n: int, seed: int = 3, bpm: float = 72.0) -> np.ndarray:
-    """低沉电影感配乐床：A 小调和弦进行（Am-F-Dm-E，每和弦 2 小节）+ 次低音持续音 + 每拍一下低脉冲 + 八分音符轻沙沙。"""
+PROGRESSIONS = [   # 小调和弦进行（以 A=110 Hz 为根的半音偏移）：每个视频按标题挑一种，再整体移调、换速度，配乐不重样
+    [(0, 3, 7), (-4, 0, 3), (-7, -4, 0), (-5, -1, 2)],      # i - VI - iv - V
+    [(0, 3, 7), (-2, 2, 5), (-4, 0, 3), (-2, 2, 5)],        # i - VII - VI - VII
+    [(0, 3, 7), (-7, -4, 0), (-4, 0, 3), (-5, -1, 2)],      # i - iv - VI - V
+    [(0, 3, 7), (3, 7, 10), (-2, 2, 5), (-4, 0, 3)],        # i - III - VII - VI
+    [(0, 3, 7), (1, 5, 8), (0, 3, 7), (-2, 1, 5)],          # i - bII - i - vii（更紧张）
+]
+
+
+def _music_dark(n: int, seed: int = 3, bpm: Optional[float] = None) -> np.ndarray:
+    """低沉电影感配乐床：小调和弦进行（每和弦 2 小节）+ 次低音持续音 + 每拍一下低脉冲 + 八分音符轻沙沙。
+    seed 决定和弦进行、移调（-5..+4 半音）和速度（64-88 BPM）。"""
+    r = np.random.default_rng(seed)
     t = np.arange(n) / SR
+    bpm = bpm or float(r.integers(64, 89))
     beat = 60.0 / bpm
     bar = beat * 4
-    chords = [(110.0, 130.81, 164.81), (87.31, 110.0, 130.81), (73.42, 87.31, 110.0), (82.41, 103.83, 123.47)]
+    shift = int(r.integers(-5, 5))
+    prog = PROGRESSIONS[int(r.integers(len(PROGRESSIONS)))]
+    hz = lambda s: 110.0 * 2 ** ((s + shift) / 12)
+    chords = [tuple(hz(s) for s in ch) for ch in prog]
     idx = (t // (bar * 2)).astype(int) % len(chords)
     pad = np.zeros(n)
     for k, ch in enumerate(chords):
@@ -459,7 +474,8 @@ def _music_dark(n: int, seed: int = 3, bpm: float = 72.0) -> np.ndarray:
         pad[m] = sum(np.sin(2 * np.pi * f * tt + j) + 0.35 * np.sin(2 * np.pi * f * 2.003 * tt) for j, f in enumerate(ch)) / 6
     pos = (t % (bar * 2)) / (bar * 2)                          # 每个和弦缓入缓出，换和弦不跳
     pad *= np.minimum(1, pos / 0.12) * np.minimum(1, (1 - pos) / 0.12) * 0.5 + 0.5
-    sub = np.sin(2 * np.pi * 55 * t) * 0.5 + np.sin(2 * np.pi * 41.2 * t) * 0.25
+    root = hz(0) / 2
+    sub = np.sin(2 * np.pi * root * t) * 0.5 + np.sin(2 * np.pi * root * 0.75 * t) * 0.25
     ph = (t % beat) / beat
     kick = np.sin(2 * np.pi * (45 + 60 * np.exp(-ph * beat / 0.04)) * ph * beat) * np.exp(-ph * beat / 0.18)
     hat_ph = (t % (beat / 2)) / (beat / 2)
@@ -603,7 +619,8 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
         out[:, 1] += v
     # 6) 配乐床（可选）：比旁白低 ~14 dB（约 10–15% 音量），说话时再让一点；结尾问句段渐弱
     if (plan.get("theme") or {}).get("music") == "dark":
-        mus = _music_dark(n)
+        import zlib
+        mus = _music_dark(n, seed=zlib.crc32((plan.get("title") or "").encode()) % 100000)   # 每个视频一首不同的配乐
         mus *= 10 ** (-30 / 20) / (np.sqrt(np.mean(mus ** 2)) or 1.0)
         if has_voice:
             mus *= 1 - 0.35 * venv

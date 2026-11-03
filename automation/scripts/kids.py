@@ -40,4 +40,4 @@ couch = room("#3b2a6b", "#5c3d2e", win="#0b1d3a", extra=[O("box", (0, 0.4, -7), 
 v.B(3.6, "follow", "By 2 AM, every kid falls asleep anyway. Rules are hard.", V(couch, ["#1b2a5c", "#6c4ed6"], focus=(0, 0.8, -7), zoom=0.9, bounce="#3b2a6b"), "+2 AM",
     sfx=[{"type": "breath", "at": 0.5, "dur": 2.6, "gain": 0.5}])
 v.save("kids", "What if kids made the rules for a day?", "For one day, every rule on Earth is made by kids: ice cream breakfasts, no homework, recess all day.",
-       "retro", "KIDS IN CHARGE", ["WHAT'S YOUR", "FIRST RULE?"], "KIDS MAKE *THE RULES*", 2, accent="#ffd43b", captions=None)
+       "retro", "KIDS IN CHARGE", ["WHAT'S YOUR", "FIRST RULE?"], "KIDS MAKE *THE RULES*", 2, accent="#ffd43b", captions=None, countdown=True)

@@ -1,4 +1,5 @@
-"""The 'swap' recipe (41K-view hit) for every video: everyone watching is in the story, a 3-2-1 countdown cold open,
+"""Small helpers only. The locations below (room/city/park/school) are EXAMPLES: build a new world for every topic
+(see automation/RUNBOOK.md, "Make every video different"). The 'swap' recipe (41K-view hit) for every video: everyone watching is in the story, a 3-2-1 countdown cold open,
 everyday funny details, ~30-35 s, big word captions, and an end question people argue about."""
 import json, sys
 from pathlib import Path
@@ -19,7 +20,7 @@ class Video:
         self.beats.append(b)
 
     def save(self, name, title, premise, style, label, end, thumb, thumb_beat=1, accent="#ffa94d", palette=None, captions="words",
-             narrate=True, music="dark", voice="am_onyx"):
+             narrate=True, music="dark", voice="am_onyx", countdown=False):
         theme = {"style": style, "accent": accent, "music": music}   # outlier formula: dark music bed ~10-15% under the voice
         if captions:
             theme["captions"] = captions
@@ -27,7 +28,7 @@ class Video:
             theme["palette"] = palette
         sb = {"format": "timeline", "title": title, "premise": premise, "length": "quick",
               "intro": {"style": "none", "title": title.replace("What if ", "What if *", 1).rstrip("?") + "*?"},
-              "theme": theme, "clock": {"mode": "elapsed", "label": label, "intro_label": "IT HAPPENS IN", "intro_from": 3},
+              "theme": theme, "clock": {"mode": "elapsed", "label": label, **({"intro_label": "IT HAPPENS IN", "intro_from": 3} if countdown else {})},
               "outro": {"chart": False, "question_duration": 3.4, "end": {"kind": "question", "lines": end, "accent_line": 1}},
               "thumbnail": thumb, "thumbnail_beat": thumb_beat, "beats": self.beats}
         if narrate:   # outlier formula: deep, serious narrator talking to "you"

@@ -38,9 +38,26 @@ From the biggest "what if" / 3D-explainer Shorts (Zack D. Films: about 29M subsc
 - **Top topic patterns:** "What if you were raised by ___?" (strongest category in that data), survival and body ("What happens to your body if…"), "How long could you…?" Titles with a specific number, a known brand or event, and a hidden consequence.
 - An owner can still ask for sound effects only on a specific video: `v.save(..., narrate=False, music="none")`.
 
+### Make every video different (owner, Nov 2026: "everything now feels similar")
+Every video gets its **own world**, built from scratch for its topic. Nothing below may repeat from the last few videos:
+- **Opening:** rotate between these hook types. Never "In 3 seconds" twice in a row (`v.save(countdown=True)` only for the countdown type).
+  1. **Danger moment** first ("This man has 10 seconds before…"), then rewind.
+  2. **Curiosity close-up:** a strange extreme close-up, then pull out to reveal.
+  3. **Direct question to "you"** ("Could you survive a week without…?").
+  4. **One shocking number** ("1.5 billion cars. Gone.").
+  5. **Countdown** ("In 3 seconds…"), at most one video in five.
+- **World:** design props, buildings and places for *this* topic. Don't drop in the stock `city()`/`park()`/`room()`/`house()`/`school()` helpers. They are examples; copy and reshape them (different layout, materials, colours, scale). Each topic needs at least 3 locations nobody has seen on the channel.
+- **Colour:** pick a fresh 3–4 colour palette for the video (skies, ground, clothes) and avoid the last video's. Vary the time of day (dawn, noon, golden, dusk, night, storm).
+- **Characters:** give the main character(s) a new look per video: outfit, colours, hair, skin, child or adult or elder. Don't reuse the blue-shirt guy and pink-shirt girl.
+- **Camera rhythm:** vary angles and moves (`move`: swoop, crane, arc, push, pull). No fixed pattern of front, wide, follow.
+- **Ending:** a new pick-a-side question in new words.
+- **Music:** varies automatically (each title gets its own key, tempo and chord progression).
+- **Before rendering, run the novelty check.** It must pass:
+  `./venv/bin/python automation/novelty.py automation/scripts/<topic>.json`
+
 ### The recipe (what made the 41K-view swap video work)
 - **About YOU:** the viewer, their partner, family, body, money, school or job. Everyone watching is in the story.
-- **3-2-1 countdown cold open** (`v.save(...)` sets it up): beat 0 caption = "In 3 seconds, ..." Never start on a `flash`.
+- **Cold open, rotated** (see "Make every video different" below). Never start on a `flash`.
 - **Open loop in the first 3 captions** ("But wait until...", "Here's the scary part...") with a payoff later.
 - **Everyday funny details** over abstract facts. One real number per 2–3 beats (`stat` or `tooltip`), rounded and widely cited. Say "about".
 - **Shorts:** 10–13 beats, about 40–60 s at the default 0.9 pace (`length: quick`). The owner asked for a 25% slower pace so captions can be read; never speed it back up. Captions at grade-3 reading level, under about 14 words.
@@ -54,6 +71,7 @@ From the biggest "what if" / 3D-explainer Shorts (Zack D. Films: about 29M subsc
 ```bash
 ./venv/bin/python automation/scripts/<topic>.py           # writes <topic>.json next to it
 ./venv/bin/python -m backend.cli whatif check automation/scripts/<topic>.json   # must be 100/100 or tips only
+./venv/bin/python automation/novelty.py automation/scripts/<topic>.json          # must pass: different from recent videos
 ./venv/bin/python automation/sheet.py automation/scripts/<topic>.json   # then Read the PNG
 ```
 Read the contact sheet and fix every shot where the subject isn't clearly visible above the captions (bottom ~45% of a vertical frame). Known pitfalls:

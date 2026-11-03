@@ -61,4 +61,4 @@ v.B(3.4, "wide", "And the sky? Totally quiet. No more jet trails.", V(park([crow
     ["#339af0", "#d0ebff"], focus=(0, 6, -14), zoom=1.6, amb="forest"), "+1 YEAR", effects=["rays"])
 v.B(3.8, "far", "Would you take a 7-day boat for your next vacation?", V(ship(), DUSK, focus=(0, 3, -14), zoom=2.0, amb="ocean"), "+1 YEAR", move="pull_out", effects=["glow"])
 v.save("planes", "What if airplanes didn't exist?", "Every airplane on Earth vanishes. Road trips, ships, hospitals, trade and the sky itself change.",
-       "toon", "SINCE THE LAST FLIGHT", ["WOULD YOU TAKE", "A 7-DAY BOAT?"], "NO MORE *PLANES*", 0, accent="#4dabf7", captions=None)
+       "toon", "SINCE THE LAST FLIGHT", ["WOULD YOU TAKE", "A 7-DAY BOAT?"], "NO MORE *PLANES*", 0, accent="#4dabf7", captions=None, countdown=True)

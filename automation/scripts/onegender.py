@@ -60,4 +60,4 @@ v.B(3.4, "wide", "Nature already tried it. Whiptail lizards are all female. And 
     "BONUS FACT", "REAL", transition="whip", tooltip={"label": "REAL", "text": "Some whiptail lizard species have no males at all."})
 v.B(3.8, "wide", "So which world would last longer? Pick a side.", V(split(), DUSK, focus=(0, 1, -10), zoom=1.3), "THE END", "TWO WORLDS", effects=["glow"])
 v.save("onegender", "What if only one gender existed?", "Earth becomes one gender. We compare an all-women world and an all-men world: crime, cars, lifespan and babies.",
-       "bold", "SINCE THE CHANGE", ["WHICH WORLD", "LASTS LONGER?"], "ONLY *ONE* GENDER", 1, accent="#ff6b6b", captions=None)
+       "bold", "SINCE THE CHANGE", ["WHICH WORLD", "LASTS LONGER?"], "ONLY *ONE* GENDER", 1, accent="#ff6b6b", captions=None, countdown=True)
