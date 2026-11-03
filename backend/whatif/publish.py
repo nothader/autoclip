@@ -328,7 +328,7 @@ def metadata_text(meta: Dict[str, Any]) -> str:
 def make_short(sb: Storyboard, *, target: float = SHORT_TARGET) -> Storyboard:
     """横屏长视频 → 竖屏短版：保留开头和结尾，中间按信息量挑段，按节奏压缩后凑够 target 秒。"""
     from .model import compile_plan
-    pace = max(sb.pace or SHORT_PACE, SHORT_PACE)
+    pace = SHORT_PACE   # 短版一律用默认节奏（0.9，字幕读得完）
     n = len(sb.beats)
     must = {0, max(i for i, b in enumerate(sb.beats) if b.caption) if any(b.caption for b in sb.beats) else n - 1}
     # 钩子要留住：长视频的第一句字幕和第一个悬念句（开放式循环）都进短版

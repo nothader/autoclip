@@ -603,7 +603,7 @@ def test_thumb_text_metadata_and_short():
     assert [c["title"] for c in publish.metadata(long)["chapters"]] == [f"C{i}" for i in range(6)]
     short = publish.make_short(long)
     assert (short.width, short.height) == (1080, 1920) and short.narration is None
-    assert short.pace == publish.SHORT_PACE   # 长视频是 1x 也一样：短版按 1.8x
+    assert short.pace == publish.SHORT_PACE   # 短版一律按默认节奏
     for b in short.beats:   # 年份 / 章节按原片补齐
         k = next(i for i, x in enumerate(long.beats) if x.caption == b.caption) if b.caption else 0
         assert b.chapter == f"C{k // 10}"

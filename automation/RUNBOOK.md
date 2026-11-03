@@ -32,7 +32,7 @@ Copy the closest example and adapt it. Never reuse a set or shot list as-is.
 - **3-2-1 countdown cold open** (`v.save(...)` sets it up): beat 0 caption = "In 3 seconds, ..." Never start on a `flash`.
 - **Open loop in the first 3 captions** ("But wait until...", "Here's the scary part...") with a payoff later.
 - **Everyday funny details** over abstract facts. One real number per 2–3 beats (`stat` or `tooltip`), rounded and widely cited. Say "about".
-- **Shorts:** 10–13 beats, 30–45 s (`length: quick`). Captions at grade-3 reading level, under about 14 words.
+- **Shorts:** 10–13 beats, about 40–60 s at the default 0.9 pace (`length: quick`). The owner asked for a 25% slower pace so captions can be read; never speed it back up. Captions at grade-3 reading level, under about 14 words.
 - **End on a pick-a-side question** (end card lines + last caption). Examples: "WHO HAD IT HARDER?", "WOULD YOU GO?", "WHICH WORLD WINS?"
 - **Rotate the style** (bold, toon, calm, cinematic, retro, witness, bodycam). Don't repeat yesterday's.
 - **Stay neutral** on politics, gender and religion. Present both sides and let the comments argue. No gore, nothing sexual, no real people mocked.

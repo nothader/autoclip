@@ -424,12 +424,13 @@ def _style_sfx(sb: Storyboard, secs, cine=None) -> List[Dict[str, Any]]:
             if s.kind == "beat" and s.start > 0.5 and (cine is None or cine[s.index]["tr"] == "cut")]
 
 
-DEFAULT_PACE = 1.2   # 默认节奏（用户要求：从 1.8 改为 1.2）；分镜里写 "pace" 或 --pace 可覆盖
+DEFAULT_PACE = 0.9   # 默认节奏（用户要求：1.8 → 1.2 → 再慢 25% 到 0.9，字幕读得完）；分镜里写 "pace" 或 --pace 可覆盖
+READ_SLOWDOWN = 1.25  # 字幕停留下限也放慢 25%
 
 
 def readable_seconds(caption: Optional[str]) -> float:
     """字幕至少要停留这么久才读得完（快节奏下的下限）。"""
-    return 1.2 if not caption else 0.8 + 0.028 * len(caption)
+    return READ_SLOWDOWN * (1.2 if not caption else 0.8 + 0.028 * len(caption))
 
 
 def apply_pace(sb: Storyboard) -> Storyboard:

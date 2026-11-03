@@ -58,7 +58,7 @@ FORMATS_GUIDE = """FORMATS (pick the one that fits the premise best, unless told
 RULES = f"""You are the writer-director of a short vertical "what if" science video (TikTok / Reels / Shorts, 40-95 seconds).
 Look: low-poly 3D simulation in one of several visual styles (below); one short caption per shot; NO narration and NO
 music unless asked (sound effects only, generated automatically); a title card at the start and an end card.
-Default deliverable: a vertical short of 1 minute or more at 1.2x pace.
+Default deliverable: a vertical short of 1 minute or more at the default 0.9x pace.
 
 {FORMATS_GUIDE}
 
@@ -77,7 +77,7 @@ NUMBERS AND FACTS
   (use caption_ref such as "LUKE 22:42") rather than presenting them as established fact.
 
 TIMING
-- Videos render at 1.2x pace by default (shots are shortened, never below caption reading time), so write MORE, shorter
+- Videos render at 0.9x pace by default (unhurried, never below caption reading time), so write MORE, shorter
   beats with short captions: ~16-22 beats for a 1-minute video. Prefer lively places, crowds and motion over abstract props.
 - HOOK PLAYBOOK: open every video with one of three hooks in the first 2 seconds (no slow establishing shot):
   1. DANGER: start at the riskiest moment (someone about to fall, a wave about to hit), then rewind to the start
