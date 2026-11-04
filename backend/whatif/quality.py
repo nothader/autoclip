@@ -128,6 +128,8 @@ def quality_report(sb: Storyboard) -> List[Finding]:
             continue
         bg = b.env.set.background
         dark = bg == "black" or (isinstance(bg, tuple) and max(_lum(c) for c in bg) < DARK_BG_LUM)
+        if sb.theme.style == "block":   # block：真实场景（室内、夜景）本来就暗，天空只是窗外；不按这条查
+            dark = False
         if dark:
             f.append(Finding("fix", "backdrop", f"beats[{i}].env.set.background", "Black / near-black backdrop. Backgrounds must be lively: "
                              "a colored sky (dawn, dusk, storm, night-blue), a real place, people; for space use \"stars\" (nebula sky)."))
@@ -140,7 +142,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         if not objs and b.env.set.ground == "none":
             f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
-        moving = (any(o.animate for o in objs) or any(o.kind in ("person", "voxel_person") and o.action in MOVING_ACTIONS for o in objs)
+        moving = (any(o.animate for o in objs) or any(o.kind in ("person", "voxel_person", "block_person") and o.action in MOVING_ACTIONS for o in objs)
                   or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes", "witness")
                   or b.env.weather in ("rain", "storm", "snow", "ash", "dust"))
         if not moving and b.duration >= 3.0:

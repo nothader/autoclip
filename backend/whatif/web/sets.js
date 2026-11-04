@@ -394,6 +394,8 @@ function build(o, r) {
     case "voxel": return voxelProp(o.count > 1 ? { ...o, seed: 2 + Math.floor(r() * 6) } : o);   // 一组道具：每个换一套配色
     case "voxel_person": { const p = new VoxelPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
     case "carpet": return voxelCarpet(o);
+    // block_person：block 风格的方块人（画出来的脸、更长的身材）；color = 上衣，color2 = 裤子
+    case "block_person": { const p = new VoxelPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { drawn: true, expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
     case "particles": return particles(c, Math.min(4000, o.count * 20), o.spread.map((v) => v || 10), Array.isArray(o.scale) ? o.scale[0] : o.scale, o.seed);
     default: return mesh(new THREE.SphereGeometry(1, 16, 12), material(mk, c));
   }

@@ -120,11 +120,12 @@ def hook_report(sb: Storyboard) -> List[Finding]:
     f: List[Finding] = []
     pov = sb.format == "pov" and sb.pov is not None
     # pov：顶部 "POV: …" 从第 0 帧就在（闭着眼时就打字出来），它就是开头钩子；没有片头卡
-    title = ("POV: " + sb.pov.text) if pov else sb.intro.title if sb.intro and sb.intro.style != "none" else ""
+    block = sb.theme.style == "block"   # block 风格：顶部衬线标题（intro.title）就是钩子，没有 "POV:" 头
+    title = sb.intro.title if block else ("POV: " + sb.pov.text) if pov else sb.intro.title if sb.intro and sb.intro.style != "none" else ""
     caps = [(i, b.caption) for i, b in enumerate(sb.beats) if b.caption]
 
     # 规则 2b：最有意思的细节在前 3 秒——标题卡从 0 秒开始，且标题本身要够具体
-    cold = not pov and sb.intro.style == "none"   # 冷开场：第一句字幕就是钩子（下面单独检查它够不够具体）
+    cold = not pov and not block and sb.intro.style == "none"   # 冷开场：第一句字幕就是钩子（下面单独检查它够不够具体）
     if not title and not cold:
         f.append(Finding("fix", "first3s", "intro", "No title card, so there is no hook in the first 3 seconds. Add intro.title."))
     elif cold:
@@ -138,7 +139,7 @@ def hook_report(sb: Storyboard) -> List[Finding]:
         if not is_specific(title):
             f.append(Finding("fix", "specific", "intro.title",
                              f"Title \"{title}\" is not specific. Add a number, a name or an emotional trigger (every / never / 8 billion / gone)."))
-    if caps and not is_specific(caps[0][1]) and not has_loop(caps[0][1]):
+    if caps and not block and not is_specific(caps[0][1]) and not has_loop(caps[0][1]):
         f.append(Finding("fix", "first3s", f"beats[{caps[0][0]}].caption",
                          "First caption is flat. Put the most interesting detail or number of the whole video here."))
 
@@ -146,7 +147,7 @@ def hook_report(sb: Storyboard) -> List[Finding]:
         if len(words(sb.pov.text)) > POV_HOOK_WORDS:
             f.append(Finding("fix", "first3s", "pov.text", f"POV hook has {len(words(sb.pov.text))} words; keep it to {POV_HOOK_WORDS} or fewer so it types out in about a second."))
         you = sum(1 for _, c in caps if re.search(r"\b(you|your|you're|yourself)\b", c.lower())) / max(1, len(caps))
-        if caps and you < POV_YOU_SHARE:
+        if caps and you < (0.4 if block else POV_YOU_SHARE):   # block：也写身边的人和外面的世界（参考里约一半）
             f.append(Finding("fix", "pov", "storyboard", f"Only {you:.0%} of captions talk to \"you\". POV videos happen to the viewer: "
                              "\"You grab the bed.\" \"Your phone floats away.\" (aim for most captions)."))
 

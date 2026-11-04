@@ -49,9 +49,13 @@ def make_video(sb: Storyboard, out: Path, *, preview: bool = False, workers: int
         sb, lines = narrate(sb, cfg)
         if progress:
             progress("voice", 1, 1)
+    from .narration import character_voices, place_voices
+    sb, cast = character_voices(sb)   # 画面里的人说话（block 风格）
     plan = compile_plan(sb)
     if cfg is not None:
         voice = voice_track(plan, lines)
+    if cast:
+        voice = place_voices(plan, cast, voice)
     tmp = Path(tempfile.mkdtemp(prefix="whatif-"))
     try:
         if progress:

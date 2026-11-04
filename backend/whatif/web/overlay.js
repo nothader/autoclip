@@ -20,7 +20,7 @@ export function layout(width, plan) {
   if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
   const s = width / (land ? 1920 : 1080);
   const th = (plan && plan.theme) || {};
-  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
+  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel", "block"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
   document.body.classList.toggle("split", th.layout === "split" && !land);
   document.body.classList.toggle("pov", !!(plan && plan.pov));
   $("#ov").style.transform = `scale(${s})`;
@@ -82,6 +82,21 @@ export function drawOverlay(fr, plan) {
     ctr.style.opacity = c.a;
     ctr.style.transform = `translateY(${(1 - c.a) * -14}px)`;
   }
+  // block 风格：顶部衬线标题（强调词着色）+ 左侧进度块（小标签 / 粗体大值 / 小副标签；危险变红，高潮居中放大）
+  const bt = $("#btitle");
+  show(bt, !!fr.btitle);
+  if (fr.btitle) { setHTML(bt, "btitle", accentize(fr.btitle.text)); bt.style.opacity = fr.btitle.a; }
+  const trk = $("#trk");
+  show(trk, !!fr.tracker && !fr.end);
+  if (fr.tracker) {
+    const k = fr.tracker;
+    setText(trk.querySelector(".l"), "trkl", k.label || "");
+    setText(trk.querySelector(".v"), "trkv", k.value || "");
+    setText(trk.querySelector(".s"), "trks", k.sub || "");
+    trk.classList.toggle("alert", !!k.alert);
+    trk.classList.toggle("big", !!k.big);
+    trk.style.opacity = k.a;
+  }
   const cap = $("#cap");
   show(cap, !!fr.cap && !fr.counter);   // 有数据卡时，字幕写在卡里
   if (fr.cap) {
@@ -89,7 +104,10 @@ export function drawOverlay(fr, plan) {
     cap.classList.toggle("words", mode === "words");
     cap.classList.toggle("box", mode === "box");
     cap.classList.toggle("typed", mode === "typed");
-    if (mode === "typed") {
+    cap.classList.toggle("story", mode === "story");
+    if (mode === "story") {   // 斜体衬线小字；引语带出处小字
+      setHTML(cap, "cap", esc(fr.cap.text) + (fr.cap.ref ? `<span class="by">${esc(fr.cap.ref)}</span>` : ""));
+    } else if (mode === "typed") {
       // 打字：前 ~55% 时间逐字打出（带光标），之后整句停留
       const txt = fr.cap.text, n = Math.min(txt.length, Math.ceil(Math.min(1, (fr.cap.k ?? 1) / 0.85) * txt.length));
       setHTML(cap, "cap", esc(txt.slice(0, n)) + (n < txt.length ? '<span class="cur"></span>' : ""));
@@ -253,6 +271,13 @@ export function drawOverlay(fr, plan) {
   if (fr.end) {
     const e = fr.end;
     let html = "";
+    if (document.body.classList.contains("st-block")) {   // block：黑底，居中衬线标题 + 金色斜体问句
+      html = `<div class="bt">${esc((plan.intro && plan.intro.title || plan.title || "").replace(/\*/g, ""))}</div>` +
+        `<div class="bq">${esc((e.lines || []).join(" "))}</div>`;
+      setHTML(en, "end", html);
+      en.className = "blockend";
+      en.style.opacity = e.a;
+    } else {
     if (e.kind === "question" || e.kind === "tagline") {
       html += `<div class="icon" style="width:70px;height:70px;margin:0 auto 24px">${icon(e.icon === "none" ? "" : "bars")}</div>`;
     }
@@ -267,10 +292,11 @@ export function drawOverlay(fr, plan) {
     setHTML(en, "end", html);
     en.className = `shadow ${e.kind}`;
     en.style.opacity = e.a;
+    }
   }
   // fact 结尾卡压在纯黑上
   const tr = fr.tr && !fr.tr.out ? fr.tr : null;   // 转场：dip 从黑场淡入；flash 白闪
-  $("#darken").style.opacity = Math.max(fr.darken || 0, fr.end && fr.end.kind === "fact" ? fr.end.a : 0, tr && tr.k === "dip" ? (1 - tr.p) ** 1.5 : 0);
+  $("#darken").style.opacity = Math.max(fr.darken || 0, fr.end && (fr.end.kind === "fact" || document.body.classList.contains("st-block")) ? fr.end.a : 0, tr && tr.k === "dip" ? (1 - tr.p) ** 1.5 : 0);
   const mp = $("#map");
   show(mp, !!fr.map);
   if (fr.map) drawMap(mp, fr.map);

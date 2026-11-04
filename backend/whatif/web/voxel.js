@@ -470,6 +470,37 @@ function faceTexture(skin, expr, eye, hair) {
   return t;
 }
 
+// block 风格的脸：画出来的（圆点眼 + 高光、细眉、小鼻子、线条嘴、淡淡腮红），不是像素
+function drawnFace(skin, expr, eye, hair) {
+  const S = 128, cv = document.createElement("canvas"); cv.width = cv.height = S;
+  const x = cv.getContext("2d");
+  x.fillStyle = skin; x.fillRect(0, 0, S, S);
+  x.fillStyle = hair; x.fillRect(0, 0, S, 10);
+  const eyeY = expr === "shock" ? 54 : 58, er = expr === "shock" ? 7 : 5.5;
+  for (const ex of [40, 88]) {
+    x.fillStyle = eye; x.beginPath(); x.ellipse(ex, eyeY, er, expr === "smile" ? er * 0.55 : er * 1.15, 0, 0, Math.PI * 2); x.fill();
+    if (expr !== "smile") { x.fillStyle = "rgba(255,255,255,0.9)"; x.beginPath(); x.arc(ex + 1.8, eyeY - 2, 1.6, 0, Math.PI * 2); x.fill(); }
+  }
+  x.strokeStyle = hair; x.lineWidth = 3.2; x.lineCap = "round";
+  const brow = { neutral: [0, 0], smile: [-1, -1], shock: [-5, -5], sad: [3, -3], angry: [-3, 4], smirk: [0, -3] }[expr] || [0, 0];
+  for (const [ex, sd] of [[40, -1], [88, 1]]) {
+    x.beginPath(); x.moveTo(ex - 9, 42 + (sd < 0 ? brow[0] : brow[1])); x.lineTo(ex + 9, 42 + (sd < 0 ? brow[1] : brow[0])); x.stroke();
+  }
+  x.fillStyle = "rgba(0,0,0,0.13)"; x.fillRect(60, 66, 8, 10);                                      // 鼻子
+  x.fillStyle = "rgba(255,120,120,0.16)"; for (const cx of [30, 98]) { x.beginPath(); x.ellipse(cx, 78, 9, 5, 0, 0, Math.PI * 2); x.fill(); }
+  x.strokeStyle = "#5c2a24"; x.lineWidth = 3;
+  x.beginPath();
+  if (expr === "smile") { x.arc(64, 82, 14, 0.15 * Math.PI, 0.85 * Math.PI); x.stroke(); }
+  else if (expr === "shock") { x.fillStyle = "#4a1f1a"; x.ellipse(64, 92, 7, 9, 0, 0, Math.PI * 2); x.fill(); }
+  else if (expr === "sad") { x.arc(64, 102, 12, 1.2 * Math.PI, 1.8 * Math.PI); x.stroke(); }
+  else if (expr === "angry") { x.moveTo(52, 94); x.lineTo(76, 92); x.stroke(); }
+  else if (expr === "smirk") { x.moveTo(56, 92); x.quadraticCurveTo(70, 94, 78, 86); x.stroke(); }
+  else { x.moveTo(55, 92); x.lineTo(73, 92); x.stroke(); }
+  const t = new THREE.CanvasTexture(cv);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  return t;
+}
+
 const mBox = (w, h, d, c) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color: c, roughness: 0.8, flatShading: true })); m.castShadow = true; return m; };
 
 export class VoxelPerson {
@@ -480,25 +511,29 @@ export class VoxelPerson {
     this.top = look.top || pick(r, PAL.bright.concat(PAL.earth, ["#212529", "#f8f9fa", "#495057"]));
     this.pants = look.pants || pick(r, ["#2c3440", "#3f5a85", "#5a6070", "#212529", "#7a6a55", "#c2a878", "#e9ecef"]);
     this.hairStyle = look.hairStyle || pick(r, HAIR);
-    this.hat = look.hat || pick(r, HATS);
-    this.outfit = look.outfit || pick(r, OUTFITS);
+    // drawn（block 风格）：普通人的打扮——大多不戴帽子，没有礼帽 / 皇冠 / 派对帽、条纹衫
+    this.hat = look.hat || pick(r, look.drawn ? ["none", "none", "none", "none", "none", "cap", "beanie", "headphones"] : HATS);
+    this.outfit = look.outfit || pick(r, look.drawn ? ["hoodie", "tee", "suit", "puffer", "uniform", "lab", "dress", "overalls", "tee", "hoodie"] : OUTFITS);
     this.eye = pick(r, ["#212529", "#3b2a1e", "#2f4a6b", "#2b5a2b"]);
     this.expr = look.expression && look.expression !== "auto" ? look.expression : null;
     this.root = new THREE.Group();
     this.body = new THREE.Group(); this.root.add(this.body);
     const U = 0.11;                                  // 一个"像素"的尺寸
+    // drawn = block 风格（@weirdsecret_ 式）：腿和身子更长、头小一点、脸是画出来的（不是像素脸）
+    this.drawn = !!look.drawn;
+    const LEG = this.drawn ? 8 : 6, TOR = this.drawn ? 7.2 : 6.5, ARM = this.drawn ? 6.4 : 5;
     const shoeC = pick(r, ["#212529", "#f8f9fa", "#e03131", "#8d6e57"]);
     // 腿
     this.legs = [-1, 1].map((sd) => {
-      const g = new THREE.Group(); g.position.set(sd * 2 * U, 6 * U, 0); this.body.add(g);
-      const leg = mBox(3.6 * U, 6 * U, 3.6 * U, this.outfit === "dress" ? this.skin : this.pants); leg.position.y = -3 * U; g.add(leg);
-      const sh = mBox(3.8 * U, 1.2 * U, 4.4 * U, shoeC); sh.position.set(0, -5.6 * U, -0.3 * U); g.add(sh);
+      const g = new THREE.Group(); g.position.set(sd * 2 * U, LEG * U, 0); this.body.add(g);
+      const leg = mBox(3.6 * U, LEG * U, 3.6 * U, this.outfit === "dress" ? this.skin : this.pants); leg.position.y = -LEG / 2 * U; g.add(leg);
+      const sh = mBox(3.8 * U, 1.2 * U, 4.4 * U, shoeC); sh.position.set(0, -(LEG - 0.4) * U, -0.3 * U); g.add(sh);
       return g;
     });
     // 躯干
-    this.torso = new THREE.Group(); this.torso.position.y = 6 * U; this.body.add(this.torso);
+    this.torso = new THREE.Group(); this.torso.position.y = LEG * U; this.body.add(this.torso);
     const tw = this.outfit === "puffer" ? 9 : 8, td = this.outfit === "puffer" ? 5.2 : 4.4;
-    const t = mBox(tw * U, 6.5 * U, td * U, this.top); t.position.y = 3.25 * U; this.torso.add(t);
+    const t = mBox(tw * U, TOR * U, td * U, this.top); t.position.y = TOR / 2 * U; this.torso.add(t);
     const deco = (w, h, d, c, x, y, z) => { const m = mBox(w * U, h * U, d * U, c); m.position.set(x * U, y * U, z * U); this.torso.add(m); };
     if (this.outfit === "hoodie") { deco(0.4, 3, 0.2, "#f8f9fa", -1, 4, -td / 2 - 0.1); deco(0.4, 3, 0.2, "#f8f9fa", 1, 4, -td / 2 - 0.1); deco(5, 1.4, 0.2, this.top, 0, 1.2, -td / 2 - 0.15); }
     if (this.outfit === "puffer") for (const y of [1.5, 3.2, 4.9]) deco(tw + 0.2, 0.3, td + 0.2, "rgba(0,0,0,0)" === "" ? this.top : new THREE.Color(this.top).multiplyScalar(0.85).getStyle(), 0, y, 0);
@@ -511,15 +546,16 @@ export class VoxelPerson {
     if (this.outfit === "stripes") for (const y of [1, 3, 5]) deco(tw + 0.1, 0.8, td + 0.1, "#f8f9fa", 0, y, 0);
     // 手臂（肩部转轴）
     this.arms = [-1, 1].map((sd) => {
-      const g = new THREE.Group(); g.position.set(sd * (tw / 2 + 1.6) * U, 6 * U, 0); this.torso.add(g);
-      const arm = mBox(3 * U, 5 * U, 3 * U, this.outfit === "tee" || this.outfit === "jersey" ? this.skin : this.top); arm.position.y = -2.5 * U; g.add(arm);
-      const hand = mBox(3 * U, 1.6 * U, 3 * U, this.skin); hand.position.y = -5.8 * U; g.add(hand);
+      const g = new THREE.Group(); g.position.set(sd * (tw / 2 + 1.6) * U, (TOR - 0.5) * U, 0); this.torso.add(g);
+      const arm = mBox(3 * U, ARM * U, 3 * U, this.outfit === "tee" || this.outfit === "jersey" ? this.skin : this.top); arm.position.y = -ARM / 2 * U; g.add(arm);
+      const hand = mBox(3 * U, 1.6 * U, 3 * U, this.skin); hand.position.y = -(ARM + 0.8) * U; g.add(hand);
       return g;
     });
     // 头（大头：像参考那样）
-    this.head = new THREE.Group(); this.head.position.y = 6.5 * U; this.torso.add(this.head);
-    const H = 8;
+    this.head = new THREE.Group(); this.head.position.y = TOR * U; this.torso.add(this.head);
+    const H = this.drawn ? 7.4 : 8;
     const mats = Array.from({ length: 6 }, () => new THREE.MeshStandardMaterial({ color: this.skin, roughness: 0.75, flatShading: true }));
+    if (this.drawn) mats[5].emissive = new THREE.Color("#ffffff"), mats[5].emissiveIntensity = 0.12;   // 脸稍微自发光：逆光时也看得清表情
     this.faceMat = mats[5];                                            // -z 面朝前（与 Person 一致）
     this.headMesh = new THREE.Mesh(new THREE.BoxGeometry(H * U, H * U, H * U), mats);
     this.headMesh.position.y = H / 2 * U; this.headMesh.castShadow = true; this.head.add(this.headMesh);
@@ -558,14 +594,15 @@ export class VoxelPerson {
       case "headband": hb(H + 0.4, 1.2, H + 0.4, 0, H - 2, 0, hatC); break;
     }
     this.height = 1.8;
-    this.body.scale.setScalar(1.8 / ((6 + 6.5 + H + 1.5) * U));        // 头顶 ≈ 1.8 m
+    this.body.scale.setScalar(1.8 / ((LEG + TOR + H + 1.0) * U));        // 头顶 ≈ 1.8 m
   }
 
   setExpression(e, force = false) {
     if (!force && this.faceExpr === e) return;
     this.faceExpr = e;
-    this.faceMat.map = faceTexture(this.skin, e, this.eye, this.hairC);
+    this.faceMat.map = this.drawn ? drawnFace(this.skin, e, this.eye, this.hairC) : faceTexture(this.skin, e, this.eye, this.hairC);
     this.faceMat.color.set("#ffffff");
+    if (this.drawn) this.faceMat.emissiveMap = this.faceMat.map;
     this.faceMat.needsUpdate = true;
   }
 

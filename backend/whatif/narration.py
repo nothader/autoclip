@@ -222,3 +222,38 @@ def voice_track(plan: Dict[str, Any], lines: List[Line]) -> np.ndarray:
         seg = ln.audio[: max(0, n - i0)]
         out[i0: i0 + len(seg)] += seg
     return out
+
+
+# ------------------------------------------------------------- 角色台词 ---
+def character_voices(sb: Storyboard) -> Tuple[Storyboard, List[Tuple[int, float, np.ndarray, float]]]:
+    """beat.voices：画面里的人说的话（block 风格没有旁白）。每句单独合成；段太短时拉长以容纳整句。"""
+    items: List[Tuple[int, float, np.ndarray, float]] = []
+    if not any(b.voices for b in sb.beats):
+        return sb, items
+    sb2 = sb.model_copy(deep=True)
+    speakers: Dict[Tuple[str, float], Speaker] = {}
+    for i, b in enumerate(sb2.beats):
+        for vl in b.voices:
+            key = (vl.voice, vl.speed)
+            if key not in speakers:
+                speakers[key] = Speaker(Narration(engine="kokoro", voice=vl.voice, speed=vl.speed))
+            a = speakers[key].say(speech_text(vl.text))
+            need = vl.at + len(a) / SR + 0.25
+            if b.duration < need:
+                b.duration = min(MAX_BEAT, round(need, 2))
+            items.append((i, vl.at, a, vl.gain))
+    return sb2, items
+
+
+def place_voices(plan: Dict[str, Any], items, out: Optional[np.ndarray] = None) -> np.ndarray:
+    n = int(round(plan["duration"] * SR))
+    if out is None:
+        out = np.zeros(n, dtype=np.float32)
+    starts = {b["i"]: b["start"] for b in plan["beats"]}
+    for i, at, a, gain in items:
+        i0 = int((starts[i] + at) * SR)
+        if i0 >= n:
+            continue
+        seg = a[: n - i0] * gain
+        out[i0: i0 + len(seg)] += seg
+    return out

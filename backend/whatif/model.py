@@ -373,6 +373,51 @@ def validate(sb: Storyboard) -> List[str]:
 _NUM_RE = re.compile(r"^(?P<pre>[^\d]*)(?P<num>\d[\d,]*(?:\.\d+)?)(?P<post>.*)$")
 
 
+def _parse_clock(c: str) -> int:
+    """"8:46:27 AM" → 当天秒数。"""
+    m = re.match(r"\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AaPp][Mm])?", c)
+    if not m:
+        return 0
+    h, mi, se, ap = int(m.group(1)), int(m.group(2)), int(m.group(3) or 0), (m.group(4) or "").upper()
+    if ap == "PM" and h < 12:
+        h += 12
+    if ap == "AM" and h == 12:
+        h = 0
+    return h * 3600 + mi * 60 + se
+
+
+def _fmt_clock(sec: float, like: str) -> str:
+    sec = int(sec) % 86400
+    h, mi, se = sec // 3600, sec % 3600 // 60, sec % 60
+    secs = like.count(":") >= 2
+    if re.search(r"[AaPp][Mm]", like):
+        ap = "AM" if h < 12 else "PM"
+        h12 = h % 12 or 12
+        return f"{h12}:{mi:02d}" + (f":{se:02d}" if secs else "") + f" {ap}"
+    return f"{h}:{mi:02d}" + (f":{se:02d}" if secs else "")
+
+
+def tracker_frame(tr: dict, lt: float, own: bool, dur: float) -> dict:
+    """进度块在本帧的显示：时钟按秒走、数字缓动、乱码闪动。沿用上一段时只显示最终值。"""
+    if tr.get("scramble"):
+        r = int(lt * 12)
+        val = "".join("?" if (r * 7 + i * 13) % 5 else str((r + i) % 10) for i in range(6))
+        val = f"{val[:2]}:{val[2:4]}:{val[4:]}"
+    elif tr.get("clock"):
+        base = _parse_clock(tr["clock"])
+        val = _fmt_clock(base + lt * tr.get("clock_rate", 1.0), tr["clock"])   # 沿用时 lt = 从它那段开始算起：时钟继续走
+    elif tr.get("count_to") is not None:
+        k = 1.0 if not own else 1 - (1 - min(1.0, lt / max(0.4, dur * 0.8))) ** 3
+        v0 = tr.get("count_from")
+        v0 = tr["count_to"] if v0 is None else v0
+        v = v0 + (tr["count_to"] - v0) * k
+        val = f"{v:,.{tr.get('decimals', 0)}f}{tr.get('unit', '')}"
+    else:
+        val = tr.get("value", "")
+    return {"label": tr.get("label", ""), "value": val, "sub": tr.get("sub", ""), "alert": bool(tr.get("alert")),
+            "big": bool(tr.get("big")), "a": round(min(1.0, lt / 0.3) if own else 1.0, 3)}
+
+
 def count_up(value: str, k: float) -> str:
     """"90%" → 在 k∈[0,1] 时显示 "0%"…"90%"；不含数字的原样返回。保留千分位与小数位数。"""
     m = _NUM_RE.match(value.strip())
@@ -593,6 +638,8 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "time": list(clock_val) if isinstance(clock_val, (list, tuple)) else clock_val,
             "time_sub": b.time_sub, "stat": b.stat.model_dump() if b.stat else None,
             "counter": b.counter.model_dump(by_alias=True) if b.counter else None,
+            "tracker": b.tracker.model_dump() if b.tracker else None,
+            "caption_by": b.caption_by,
             "chapter": ch_i, "chip": chip,
             "tooltip": b.tooltip.model_dump() if b.tooltip else None,
             "banner": b.banner.model_dump() if b.banner else None,
@@ -606,6 +653,9 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
 
     frames: List[Dict[str, Any]] = []
     audio_events: List[Dict[str, Any]] = []
+    block_style = sb.theme.style == "block"
+    block_title = sb.intro.title or sb.title
+    beat_start = {s.index: s.start for s in secs if s.kind == "beat"}
     z = 0.0
     phase = 0.0
     prev_scene = None
@@ -743,10 +793,18 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             if bo["screen"] and not in_intro:
                 fr["screen"] = {**bo["screen"], "a": round(min(1.0, lt / 0.3, (s.duration - lt) / FADE), 3), "lt": round(lt, 3)}
 
+            # block 风格：左侧进度块（沿用最近一个定义过的）+ 开头 3.5 秒顶部标题
+            if block_style:
+                tb = next((bb for bb in reversed(beats_out[: s.index + 1]) if bb.get("tracker")), None)
+                if tb:
+                    own = tb is bo
+                    fr["tracker"] = tracker_frame(tb["tracker"], lt if own else (t - beat_start[tb["i"]]), own, s.duration)
+                if t < 3.8:
+                    fr["btitle"] = {"text": block_title, "a": round(max(0.0, min(1.0, (3.8 - t) / 0.6)), 3)}
             cap = bo["caption"]
             if cap and not in_intro:
                 # k：逐词字幕的显示进度（前 ~65% 时间里逐词出现，之后整句停留）
-                fr["cap"] = {"text": cap, "a": round(fade, 3), "ref": bo["caption_ref"],
+                fr["cap"] = {"text": cap, "a": round(fade, 3), "ref": bo["caption_ref"] or bo.get("caption_by", ""),
                              "k": round(min(1.0, lt / max(0.6, s.duration * 0.65)), 4)}
             pop = next((p for p in pops if p["t0"] <= t < p["t1"]), None)
             if pop:
@@ -881,13 +939,13 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
     return {
         "version": 2, "title": sb.title, "format": sb.format, "fps": fps, "width": sb.width, "height": sb.height, "pace": pace,
         "duration": n_frames / fps, "n_frames": n_frames, "kind": q.kind if has_q else None,
-        "theme": {**sb.theme.model_dump(), "rec": sb.theme.rec or f"{_dt.date.today().isoformat()} 07:42:13", "captions": sb.theme.captions or ("typed" if pov else STYLE_CAPTIONS[sb.theme.style]),
+        "theme": {**sb.theme.model_dump(), "rec": sb.theme.rec or f"{_dt.date.today().isoformat()} 07:42:13", "captions": sb.theme.captions or ("story" if block_style else "typed" if pov else STYLE_CAPTIONS[sb.theme.style]),
                   "flow": resolve_flow(sb), "palette": resolve_palette(sb), "palette_css": PALETTE_CSS[resolve_palette(sb)],
                   "anchor": sb.theme.anchor or ("coffee" if sb.theme.style == "witness" else "none")}, "chapters": chapters,
         "intro_duration": intro.duration,
         "end_start": secs[-1].start if secs[-1].kind == "question" else None,
-        "layout": {"cap_top": 1090 if sb.format == "escalation" else 1010 if pov else 1290},
-        "pov": {"text": sb.pov.text, "skin": sb.pov.skin, "sleeve": sb.pov.sleeve} if pov and sb.pov else None,
+        "layout": {"cap_top": 1100 if block_style else 1090 if sb.format == "escalation" else 1010 if pov else 1290},
+        "pov": {"text": sb.pov.text, "skin": sb.pov.skin, "sleeve": sb.pov.sleeve, "hand_style": sb.pov.hand_style} if pov and sb.pov else None,
         "beats": beats_out, "frames": frames, "audio": sorted(audio_events + _style_sfx(sb, secs, cine), key=lambda e: e["t"]),
         "chart": chart, "milestones": pops,
     }

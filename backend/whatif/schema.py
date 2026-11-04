@@ -173,7 +173,7 @@ SetKind = Literal[
     "gear", "flame", "crystal", "bubble", "planet", "sun", "moon", "earth", "tree", "rock", "building", "arrow",
     "bars", "person", "particles",
     # voxel 格式：方块道具（model = 目录里的名字）、方块人、成千上万个小道具铺成的"海"
-    "voxel", "voxel_person", "carpet",
+    "voxel", "voxel_person", "carpet", "block_person",
 ]
 SET_KINDS: Tuple[str, ...] = SetKind.__args__  # type: ignore[attr-defined]
 
@@ -251,6 +251,31 @@ class Stat(_Strict):
     count_up: bool = True
 
 
+class Tracker(_Strict):
+    """block 风格左侧的"进度块"：小号大写标签 + 粗体大值（可走动的时钟 / 计数）+ 小号副标签。"""
+    label: str = ""                  # "SEPT 11, 2001" / "IN A COMA" / "STUCK IN ELEVATOR 4"
+    value: str = ""                  # 固定值："DAY 3" / "CLOSED"（clock / count 有值时忽略）
+    sub: str = ""                    # "STAIRWELL A · FLOOR 76"
+    clock: Optional[str] = None      # 起始时间 "8:46:27 AM"：本段内按秒走（× clock_rate）
+    clock_rate: float = Field(default=1.0, ge=0, le=100000)
+    count_from: Optional[float] = None
+    count_to: Optional[float] = None   # 数字在本段内缓动（带千分位）
+    decimals: int = Field(default=0, ge=0, le=2)
+    unit: str = ""                   # 计数后缀（"%" / " hours"）
+    alert: bool = False              # 危险：值变红
+    big: bool = False                # 高潮：移到画面中间放大
+    scramble: bool = False           # "??:??:??" 乱码闪动（未知的倒计时）
+
+
+class VoiceLine(_Strict):
+    """画面里的人说的一句话（不是旁白）：短、带情绪。"""
+    at: float = Field(default=0.3, ge=0, le=20)   # 相对本段开始（秒）
+    text: str
+    voice: str = "am_michael"        # kokoro 声音：am_* 男 / af_* 女 / bm_* bf_* 英音
+    speed: float = Field(default=1.0, ge=0.6, le=1.6)
+    gain: float = Field(default=1.0, ge=0.1, le=2.0)
+
+
 class Counter(_Strict):
     """voxel 格式的左上角数据卡：大号数字从 from_ 数到 to（带千分位）、小号标签、彩色药丸标签、一句冷幽默。"""
     model_config = {"extra": "forbid", "populate_by_name": True}   # 存盘再读回时 "from_" 也认
@@ -312,9 +337,9 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
-CaptionMode = Literal["line", "words", "box", "typed"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words", "voxel": "line"}
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel", "block"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
+CaptionMode = Literal["line", "words", "box", "typed", "story"]
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words", "voxel": "line", "block": "story"}
 
 
 class Theme(_Strict):
@@ -326,7 +351,7 @@ class Theme(_Strict):
     layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
     # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
     anchor: Optional[Literal["none", "coffee", "drink"]] = None
-    music: Literal["none", "dark", "playful"] = "none"   # playful = 轻快大调拨弦（voxel 格式）   # dark = 低沉电影感配乐床（小声，在旁白下面）
+    music: Literal["none", "dark", "playful", "tender"] = "none"   # playful = 轻快大调拨弦（voxel 格式）   # dark = 低沉电影感配乐床（小声，在旁白下面）
     flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
     rec: str = ""                    # bodycam：右上角时间戳的起点（"2026-10-26 07:42:13"）；空 = 渲染当天 07:42:13
     palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"
@@ -355,10 +380,11 @@ class Hands(_Strict):
 
 class Pov(_Strict):
     """pov 版式：顶部固定的 POV 钩子 + 你的手的样子。"""
-    text: str                        # "you wake up and gravity is gone"（显示为 "POV: …"，整片固定在顶部）
+    text: str = ""                   # "you wake up and gravity is gone"（显示为 "POV: …"，整片固定在顶部）
     skin: str = "#d6a07c"
     sleeve: str = "#343a40"
     open_eyes: bool = True           # 开头从闭眼到睁眼（像刚醒来）
+    hand_style: Literal["real", "block"] = "real"   # block：方块手（block 风格）
 
 
 class Beat(_Strict):
@@ -382,6 +408,9 @@ class Beat(_Strict):
     time_label: str = ""             # 本段时钟上方的标签（覆盖 clock.label，如 "COLUMN HEIGHT" / "WIND" / "THE FLOW"）
     stat: Optional[Stat] = None
     counter: Optional[Counter] = None   # voxel 格式的数据卡
+    tracker: Optional[Tracker] = None   # block 风格左侧进度块（省略 = 沿用上一段的）
+    voices: List[VoiceLine] = Field(default_factory=list)   # 画面里的人说话（block 风格没有旁白）
+    caption_by: str = ""                # 引语的出处小字（"FLIGHT ATTENDANT"）
     chapter: Optional[str] = None    # 章节标题；省略=沿用上一段
     chip: str = ""                   # 右上角时间标签（"6:20 PM" / "5 DAYS LATER"）
     tooltip: Optional[Tooltip] = None

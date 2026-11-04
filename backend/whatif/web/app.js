@@ -269,7 +269,7 @@ function updateAnchor(fr, beat) {
 // ---------- 风格：调色 / 推镜 / 卡通 / 像素 ----------
 const GRADE = {
   calm: "", bodycam: "", witness: "saturate(1.08) contrast(1.04)", bold: "saturate(1.32) contrast(1.08)", cinematic: "contrast(1.14) saturate(0.82) sepia(0.14) brightness(0.96)",
-  toon: "saturate(1.5) brightness(1.06)", retro: "saturate(1.4) contrast(1.18)",
+  toon: "saturate(1.5) brightness(1.06)", retro: "saturate(1.4) contrast(1.18)", block: "contrast(1.04) saturate(0.92) brightness(0.98)",
 };
 const TOON_GRAD = (() => {
   const t = new THREE.DataTexture(new Uint8Array([70, 70, 70, 255, 160, 160, 160, 255, 255, 255, 255, 255]), 3, 1, THREE.RGBAFormat);
@@ -425,10 +425,12 @@ function frame(i) {
       bodycam ??= new BodycamPass(renderer, W, H);
       const nv = beat && beat.effects.includes("nightvision") ? Math.min(1, (raw.lt || 0) / 0.3) : 0;
       bodycam.render(scene, camera, { time: raw.t || 0, night: nv, glitch: glitchOn(raw, beat), jolt: bodyJolt * 0.5 });
-    } else if (STYLE === "film" || STYLE === "voxel") {
+    } else if (STYLE === "film" || STYLE === "voxel" || STYLE === "block") {
       film ??= new FilmPass(renderer, W, H);
       const vox = STYLE === "voxel";
-      film.render(scene, camera, env.custom ? new THREE.Vector3(...env.focus) : lastLook, env.globe ? 0 : vox ? 0.6 : 0.9, vox ? 0.75 : 0, vox ? 1 : 0);
+      const eyesCam = beat && beat.camera === "eyes";   // 第一人称：对焦在视线前方 ~2.5 m，不是眼睛本身
+      const fpt = eyesCam ? camera.position.clone().add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(1.8)) : env.custom ? new THREE.Vector3(...env.focus) : lastLook;
+      film.render(scene, camera, fpt, env.globe ? 0 : vox ? 0.6 : STYLE === "block" ? 0.55 : 0.9, vox ? 0.75 : 0, vox ? 1 : 0);
     } else renderer.render(scene, camera);
   }
   drawOverlay(raw, plan);

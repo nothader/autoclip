@@ -38,7 +38,15 @@ function mat(color, emissive = 0.12, skin = true) {
     sheen: skin ? 0.5 : 0, sheenColor: new THREE.Color("#ff8f70"), sheenRoughness: 0.45 });
 }
 
-function capsule(r, len, m) {
+function blockSeg(r, len, m) {   // 方块风格的指节：方条代替胶囊
+  const g = new THREE.BoxGeometry(r * 2.1, r * 2.1, len + r * 2);
+  g.translate(0, 0, -(len / 2 + r));
+  const mesh = new THREE.Mesh(g, m);
+  mesh.castShadow = false; mesh.receiveShadow = false;
+  return mesh;
+}
+
+function capsuleFn(r, len, m) {
   const g = new THREE.CapsuleGeometry(r, len, 4, 10);
   g.translate(0, len / 2 + r, 0);
   g.rotateX(-HALF_PI);   // 沿 -z 伸出
@@ -48,18 +56,22 @@ function capsule(r, len, m) {
 }
 
 class Hand {
-  constructor(side, skin, sleeve) {
+  constructor(side, skin, sleeve, block = false) {
     this.side = side;   // 1 = 右手，-1 = 左手
     this.root = new THREE.Group();
-    const sk = mat(skin);
+    const sk = block ? new THREE.MeshStandardMaterial({ color: new THREE.Color(skin), roughness: 0.75, flatShading: true }) : mat(skin);
+    const capsule = block ? blockSeg : capsuleFn;
     // 手掌：扁盒 + 椭球垫，边缘圆润
-    const palm = new THREE.Mesh(new THREE.BoxGeometry(0.074, 0.022, 0.082), sk);
+    const palm = new THREE.Mesh(new THREE.BoxGeometry(block ? 0.082 : 0.074, block ? 0.032 : 0.022, block ? 0.09 : 0.082), sk);
     palm.geometry.translate(0, 0, -0.046);
-    const pad = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 12), sk);
-    pad.scale.set(0.045, 0.017, 0.052); pad.position.set(0, -0.002, -0.046);
-    const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), sk);
-    heel.scale.set(0.036, 0.02, 0.03); heel.position.set(0, 0, -0.008);
-    this.root.add(palm, pad, heel);
+    this.root.add(palm);
+    if (!block) {
+      const pad = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 12), sk);
+      pad.scale.set(0.045, 0.017, 0.052); pad.position.set(0, -0.002, -0.046);
+      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), sk);
+      heel.scale.set(0.036, 0.02, 0.03); heel.position.set(0, 0, -0.008);
+      this.root.add(pad, heel);
+    }
     // 手指：两节（根节 + 指尖），curl 绕 x 轴弯向手心（-y）
     this.fingers = [];
     const fx = [0.028, 0.0095, -0.0095, -0.027], fl = [0.03, 0.034, 0.032, 0.024];
@@ -83,8 +95,9 @@ class Hand {
     this.thumb.add(tt); this.thumbTip = tt;
     this.root.add(this.thumb);
     // 手腕（前臂在 PovRig 里按镜头坐标单独摆：从手腕伸向画面外的手肘）
-    const wrist = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), sk);
-    wrist.scale.set(0.032, 0.022, 0.04); wrist.position.z = 0.012;
+    const wrist = block ? new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.04, 0.05), sk) : new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), sk);
+    if (!block) wrist.scale.set(0.032, 0.022, 0.04);
+    wrist.position.z = 0.012;
     this.root.add(wrist);
     // 拿着的东西
     this.items = {};
@@ -187,13 +200,15 @@ export class PovRig {
     this.camera = camera;
     this.group = new THREE.Group();
     camera.add(this.group);
-    this.R = new Hand(1, opts.skin || "#c68642", opts.sleeve || "#343a40");
-    this.L = new Hand(-1, opts.skin || "#c68642", opts.sleeve || "#343a40");
+    const block = opts.hand_style === "block";
+    if (block) { this.group.scale.setScalar(0.78); this.group.position.set(0, -0.045, 0.02); }   // 方块手偏大：缩小、放低（像参考里那样在画面下角）
+    this.R = new Hand(1, opts.skin || "#c68642", opts.sleeve || "#343a40", block);
+    this.L = new Hand(-1, opts.skin || "#c68642", opts.sleeve || "#343a40", block);
     this.group.add(this.R.root, this.L.root);
     // 前臂：从手腕连到画面外的手肘（镜头坐标），细一点、略收窄
     const sl = mat(opts.sleeve || "#343a40", 0.08, false);
     this.arms = [1, -1].map(() => {
-      const g = new THREE.CapsuleGeometry(0.034, 1, 4, 18);
+      const g = block ? new THREE.BoxGeometry(0.085, 1, 0.085) : new THREE.CapsuleGeometry(0.034, 1, 4, 18);
       g.translate(0, 0.5, 0);
       const m = new THREE.Mesh(g, sl); m.frustumCulled = false;
       this.group.add(m); return m;
