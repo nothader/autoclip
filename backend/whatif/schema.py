@@ -253,6 +253,7 @@ class Stat(_Strict):
 
 class Counter(_Strict):
     """voxel 格式的左上角数据卡：大号数字从 from_ 数到 to（带千分位）、小号标签、彩色药丸标签、一句冷幽默。"""
+    model_config = {"extra": "forbid", "populate_by_name": True}   # 存盘再读回时 "from_" 也认
     to: float
     from_: Optional[float] = Field(default=None, alias="from")   # 省略 = 接着上一段的数
     label: str = ""                  # "PEOPLE AT THE BEACH"
