@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node /tmp/claude-0/*/scratchpad/tt_list.js)",
+      "Bash(node /tmp/claude-0/-home-user-autoclip/18932803-b42b-59aa-b79a-50ecfcb761db/scratchpad/tt_list.js)"
+    ]
+  }
+}
