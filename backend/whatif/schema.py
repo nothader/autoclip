@@ -29,7 +29,8 @@ CameraName = Literal[
     "establishing", "pov", "top_down", "dolly", "witness", "eyes",
 ]
 SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
-Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat"]
+Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat",
+                 "cheer", "wave", "scared", "jump", "swim", "think"]
 Outfit = Literal["casual", "hoodie", "scrubs", "doctor", "hivis", "suit", "robe", "soldier", "child", "elder", "ranger", "police", "mannequin"]
 Effect = Literal[
     "motion_blur", "heat", "plasma", "speedlines", "shake", "shockwave",
@@ -171,6 +172,8 @@ SetKind = Literal[
     "molecule", "atom", "dna", "cell", "blood_cell", "virus", "neuron", "lungs", "heart", "hourglass", "clock",
     "gear", "flame", "crystal", "bubble", "planet", "sun", "moon", "earth", "tree", "rock", "building", "arrow",
     "bars", "person", "particles",
+    # voxel 格式：方块道具（model = 目录里的名字）、方块人、成千上万个小道具铺成的"海"
+    "voxel", "voxel_person", "carpet",
 ]
 SET_KINDS: Tuple[str, ...] = SetKind.__args__  # type: ignore[attr-defined]
 
@@ -201,6 +204,9 @@ class SetObject(_Strict):
     outfit: Outfit = "casual"        # person
     action: Action = "idle"
     animate: List[Anim] = Field(default_factory=list)
+    model: str = ""                  # voxel / carpet：道具目录里的名字（"gummy_bear" / "eiffel_tower" …）
+    n: int = Field(default=0, ge=0, le=30000)   # carpet：数量
+    expression: Literal["auto", "neutral", "smile", "shock", "sad", "angry", "smirk"] = "auto"   # voxel_person 的表情
 
 
 class SetSpec(_Strict):
@@ -243,6 +249,18 @@ class Stat(_Strict):
     value: str
     label: str = ""
     count_up: bool = True
+
+
+class Counter(_Strict):
+    """voxel 格式的左上角数据卡：大号数字从 from_ 数到 to（带千分位）、小号标签、彩色药丸标签、一句冷幽默。"""
+    to: float
+    from_: Optional[float] = Field(default=None, alias="from")   # 省略 = 接着上一段的数
+    label: str = ""                  # "PEOPLE AT THE BEACH"
+    unit: str = ""                   # "m" / "mph" / "%"（跟在数字后面）
+    tag: str = ""                    # "FREE GUMMIES" / "≈ EIFFEL TOWER"
+    tag_color: str = "#e64980"
+    line: str = ""                   # 斜体冷笑话；空 = 用本段 caption
+    decimals: int = Field(default=0, ge=0, le=3)
 
 
 class Tooltip(_Strict):
@@ -293,9 +311,9 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
+VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
 CaptionMode = Literal["line", "words", "box", "typed"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words"}
+STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words", "voxel": "line"}
 
 
 class Theme(_Strict):
@@ -307,7 +325,7 @@ class Theme(_Strict):
     layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
     # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
     anchor: Optional[Literal["none", "coffee", "drink"]] = None
-    music: Literal["none", "dark"] = "none"   # dark = 低沉电影感配乐床（小声，在旁白下面）
+    music: Literal["none", "dark", "playful"] = "none"   # playful = 轻快大调拨弦（voxel 格式）   # dark = 低沉电影感配乐床（小声，在旁白下面）
     flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
     rec: str = ""                    # bodycam：右上角时间戳的起点（"2026-10-26 07:42:13"）；空 = 渲染当天 07:42:13
     palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"
@@ -362,6 +380,7 @@ class Beat(_Strict):
     time_sub: str = ""               # 时钟下面的一行小字
     time_label: str = ""             # 本段时钟上方的标签（覆盖 clock.label，如 "COLUMN HEIGHT" / "WIND" / "THE FLOW"）
     stat: Optional[Stat] = None
+    counter: Optional[Counter] = None   # voxel 格式的数据卡
     chapter: Optional[str] = None    # 章节标题；省略=沿用上一段
     chip: str = ""                   # 右上角时间标签（"6:20 PM" / "5 DAYS LATER"）
     tooltip: Optional[Tooltip] = None

@@ -48,6 +48,7 @@ STYLE_TRANS = {
     "bold": {"flash": 1.5, "zoom": 1.5},
     "witness": {"whip": 0.0, "zoom": 0.0, "glitch": 0.0, "flash": 0.3, "cut": 3.0, "dip": 1.5},
     "bodycam": {"cut": 3.0, "glitch": 2.0, "whip": 1.2, "zoom": 0.0, "flash": 0.0, "dip": 0.4},   # 实拍感：硬切 + 数字掉帧
+    "voxel": {"cut": 3.0, "whip": 1.0, "zoom": 1.2, "dip": 0.1, "glitch": 0.0, "flash": 0.2},
     "film": {"cut": 2.5, "whip": 1.2, "zoom": 1.0, "dip": 0.2, "glitch": 0.0, "flash": 0.3},   # 动画短片：干净的硬切，少黑场
 }
 STYLE_PALETTES = {
@@ -58,6 +59,7 @@ STYLE_PALETTES = {
     "retro": ["vivid", "cool", "natural"],
     "witness": ["natural", "cool", "warm"],
     "bodycam": ["natural", "cool"],   # 着色器自己做传感器调色，别再叠重的滤镜
+    "voxel": ["natural"],
     "film": ["natural", "warm"],   # 着色器做调色：明亮、暖、干净
 }
 # CSS 滤镜（叠在风格自带调色后面）
@@ -137,6 +139,10 @@ def assign(sb) -> List[Dict[str, Any]]:
             if flow == "build":   # 越往后越猛
                 for k in ("swoop_in", "fly_by", "whip", "spiral"):
                     w[k] = w.get(k, 0) * (0.3 + 2.2 * x)
+            GENTLE = ("arc_left", "arc_right", "push_in", "pull_out", "crane_up", "crane_down", "none")
+            # 特写（镜头离脸很近，横移会穿过头）和 voxel 微缩风格（慢推慢摇，像在看模型）只用柔和运镜
+            if b.camera in ("closeup", "front", "low_front") or (sb.theme and sb.theme.style == "voxel"):
+                w = {k: v for k, v in w.items() if k in GENTLE} or {"push_in": 1, "arc_left": 1, "arc_right": 1}
             if b.scene == "globe":
                 w = {k: v for k, v in w.items() if k in ("swoop_in", "swoop_out", "arc_left", "arc_right", "push_in", "pull_out", "spiral", "none")}
             move = _pick(w, _h(sb.title, i, "move"), avoid=prev_move)

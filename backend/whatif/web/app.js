@@ -425,9 +425,10 @@ function frame(i) {
       bodycam ??= new BodycamPass(renderer, W, H);
       const nv = beat && beat.effects.includes("nightvision") ? Math.min(1, (raw.lt || 0) / 0.3) : 0;
       bodycam.render(scene, camera, { time: raw.t || 0, night: nv, glitch: glitchOn(raw, beat), jolt: bodyJolt * 0.5 });
-    } else if (STYLE === "film") {
+    } else if (STYLE === "film" || STYLE === "voxel") {
       film ??= new FilmPass(renderer, W, H);
-      film.render(scene, camera, env.custom ? new THREE.Vector3(...env.focus) : lastLook, env.globe ? 0 : 0.9);
+      const vox = STYLE === "voxel";
+      film.render(scene, camera, env.custom ? new THREE.Vector3(...env.focus) : lastLook, env.globe ? 0 : vox ? 0.6 : 0.9, vox ? 0.75 : 0, vox ? 1 : 0);
     } else renderer.render(scene, camera);
   }
   drawOverlay(raw, plan);

@@ -30,7 +30,7 @@ def fingerprint(d):
         if isinstance(bg, list):
             skies.add(tuple(c.lower() for c in bg))
         for o in st.get("objects", []):
-            props.add((o.get("kind"), str(o.get("color", "")).lower()))
+            props.add((o.get("kind"), o.get("model") or str(o.get("color", "")).lower()))
     caps = [b.get("caption", "") for b in d.get("beats", []) if b.get("caption")]
     opening = " ".join(caps[0].lower().replace(",", "").split()[:3]) if caps else ""
     end = tuple(((d.get("outro") or {}).get("end") or {}).get("lines") or [])

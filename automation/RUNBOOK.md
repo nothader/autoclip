@@ -111,3 +111,28 @@ It prints the video URL and the Studio link. Never pass `--privacy public`.
   - suggested posting time: Shorts 4 PM ET, long-form Sunday 12 PM ET;
   - the pinned comment to post;
   - anything you could not do and why.
+
+## Voxel format (branch `feat/voxel-format`)
+A second format modelled on the blocky "what if" explainers: a miniature voxel world with tilt-shift blur, a top-left **counter card** on every beat (big serif number that counts up, small-caps label, coloured pill tag, italic deadpan line), playful music, and a narrator who reads **only the title**.
+- **Script:** `automation/lib/vox.py` (`Vox`, `biome`, `carpet`, `person`, `crowd`, `prop`, `landmark`, `env`, `SKIES`). Example: `automation/scripts/gummy_ocean.py`.
+- **Variety, built in:**
+  - about 290 voxel models in 10 families (`vox.MODELS`, `vox.FAMILIES`);
+  - 40 biomes (`vox.BIOMES`) that each pick a seeded subset of props;
+  - 18 pastel skies;
+  - seeded people: 15 hair styles × 14 hats × 10 outfits × 10 skins × 6 faces;
+  - carpets of up to 30,000 copies of one model.
+  - Use a new seed, biome and sky on every beat. The novelty check compares models, so reusing the same props fails it.
+- **Sizes are real:** a model's scale is its longest side in metres (a person is 1.8, a burger 0.12, the Eiffel Tower 330). `vox.LANDMARKS` lists real heights for comparison beats.
+- **Writing (witty and interactive):**
+  - a counter on every beat, escalating every time;
+  - deadpan understatement ("It's adorable. It is also a wave.");
+  - one absurd everyday detail per beat;
+  - landmark comparisons in the tag ("≈ EIFFEL TOWER");
+  - a callback to beat 1 at the end;
+  - a yes/no or pick-a-side end question;
+  - grade-3 words; nothing mean or gross.
+- **Framing pitfalls:**
+  - Use `front` with zoom 0.7–0.8 for faces. `closeup` is too tight for voxel heads.
+  - Keep carpets from reaching toward the camera: the `front` camera sits at −z, `wide` and `far` at +z.
+  - Big things (ships, landmarks) need `far` with zoom ≈ height/10.
+  - Giants are never picked at random by `biome()`; add them on purpose.

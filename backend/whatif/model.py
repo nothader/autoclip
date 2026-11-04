@@ -349,9 +349,10 @@ def validate(sb: Storyboard) -> List[str]:
                 problems.append(f"beats[{i}] 自定义布景物体太多（{n_obj} > 260），会拖慢渲染")
         if b.scene == "map" and not (b.env and b.env.map):
             problems.append(f"beats[{i}] scene=map 需要 env.map（labels/path/zone）")
-    if sb.format in ("timeline", "countdown", "survival") and (sb.clock is None or sb.clock.mode == "none"):
+    counter_led = all(b.counter is not None for b in sb.beats)   # voxel 格式：每段都有数据卡，就不需要时钟
+    if sb.format in ("timeline", "countdown", "survival") and not counter_led and (sb.clock is None or sb.clock.mode == "none"):
         problems.append(f"format={sb.format} 需要 clock（mode 建议 {FORMAT_CLOCK[sb.format]}）")
-    if sb.format in ("timeline", "countdown", "survival") and sb.beats[0].time is None and len(sb.beats) > 1 \
+    if sb.format in ("timeline", "countdown", "survival") and not counter_led and sb.beats[0].time is None and len(sb.beats) > 1 \
             and all(b.time is None for b in sb.beats):
         problems.append("每段都没有 time；时钟会是空的")
     if sb.format == "story" and not any(b.chapter for b in sb.beats):
@@ -591,6 +592,7 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
             "env": env.model_dump(), "cast": [c.model_dump() for c in b.cast],
             "time": list(clock_val) if isinstance(clock_val, (list, tuple)) else clock_val,
             "time_sub": b.time_sub, "stat": b.stat.model_dump() if b.stat else None,
+            "counter": b.counter.model_dump(by_alias=True) if b.counter else None,
             "chapter": ch_i, "chip": chip,
             "tooltip": b.tooltip.model_dump() if b.tooltip else None,
             "banner": b.banner.model_dump() if b.banner else None,
@@ -706,6 +708,18 @@ def compile_plan(sb: Storyboard) -> Dict[str, Any]:
                     changed = prev_b is None or prev_b["time"] != tv or isinstance(tv, list)
                     ca = 1.0 if not changed or isinstance(tv, list) else min(1.0, lt / 0.3)
                     fr["clock"] = {"label": b.time_label or clock.label, "value": val, "sub": b.time_sub, "a": round(ca, 3)}
+            # voxel 数据卡：数字在本段前 75% 时间里缓动地数上去
+            if bo["counter"] and not in_intro:
+                c = bo["counter"]
+                prev_to = next((bb["counter"]["to"] for bb in reversed(beats_out[:s.index]) if bb.get("counter")), c["to"])
+                v0 = c["from"] if c.get("from") is not None else prev_to
+                kk = min(1.0, max(0.0, lt / max(0.3, s.duration * 0.75)))
+                kk = 1 - (1 - kk) ** 3
+                val = v0 + (c["to"] - v0) * kk
+                txt = f"{val:,.{c['decimals']}f}" + (f" {c['unit']}" if c["unit"] else "")
+                full = f"{max(abs(c['to']), abs(v0)):,.{c['decimals']}f}" + (f" {c['unit']}" if c["unit"] else "")
+                fr["counter"] = {"value": txt, "w": len(full), "label": c["label"], "tag": c["tag"], "tag_color": c["tag_color"],
+                                 "line": c["line"] or b.caption or "", "a": round(min(1.0, lt / 0.25), 3)}
             # 统计大字
             if bo["stat"] and not in_intro:
                 st = bo["stat"]

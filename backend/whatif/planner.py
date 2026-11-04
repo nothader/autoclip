@@ -164,6 +164,19 @@ VISUAL STYLE (theme.style; pick the one that fits the topic and vary it between 
   effect "nightvision" turns a beat green infrared. Feels like REAL footage: perfect with format "pov", eerie or
   dangerous premises (haunted, abandoned, alien, zombie, disaster seen from the ground). theme.rec sets the start
   timestamp ("2026-10-26 03:12:40"); a night timestamp makes it creepier.
+- voxel: blocky miniature-diorama world with tilt-shift blur and a pastel grade, playful music (theme.music "playful").
+  Witty/absurd "what if" premises (food, money, animals, giant everyday things). Rules:
+  * Every beat has beat.counter: a big serif number that counts up (from/to, unit), a small-caps label, a coloured
+    pill tag and an italic deadpan line (counter.line; it replaces the caption on screen). The number escalates
+    every beat; compare it to real landmarks with the tag ("≈ EIFFEL TOWER", 330 m; Statue of Liberty 93 m;
+    Burj Khalifa 828 m).
+  * Humour: deadpan understatement ("It's adorable. It is also a wave."), one absurd everyday detail per beat,
+    a callback at the end to the first beat's character or number. Never mean, never gross.
+  * Narration reads ONLY the title on beat 0 (beat.narration = title there, "" elsewhere). Cards carry the jokes.
+  * Sets use kinds "voxel" (object.model from the voxel catalog; scale = longest side in metres), "voxel_person"
+    (seeded look; expression smile/shock/sad/angry/smirk; actions cheer/wave/scared/jump/swim/think/walk/run) and
+    "carpet" (one model scattered n times, up to 30,000, e.g. a sea of gummy bears). New biome, sky and people
+    every beat. End on an interactive question ("WOULD YOU SWIM IN IT?").
 - theme.layout "split" (vertical only): story on top, a satisfying ball-run loop below, captions on the seam. Good for
   bold/retro storytime-style videos. theme.captions (line|words|box) overrides the style's caption mode.
 

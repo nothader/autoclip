@@ -28,7 +28,7 @@ SAME_SET_RUN = 2               # 连续多少段完全相同的自定义布景�
 CAMERA_SHARE_TIP = 0.55        # 某个机位占比超过这个给建议
 NO_EARTH_SCENES = ("globe", "orbit")   # 用户要求：视频里不要地球仪 / 太空里的地球（deep_space 已不画地球）
 NO_EARTH_KINDS = ("earth",)
-MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "handwalk", "footeat"}
+MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "handwalk", "footeat", "cheer", "wave", "jump", "swim", "scared"}
 
 # 题目关键词 → 推荐风格（planner 没明确选风格时用；也写进提示里当建议）
 STYLE_HINTS = [
@@ -140,7 +140,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         if not objs and b.env.set.ground == "none":
             f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
-        moving = (any(o.animate for o in objs) or any(o.kind == "person" and o.action in MOVING_ACTIONS for o in objs)
+        moving = (any(o.animate for o in objs) or any(o.kind in ("person", "voxel_person") and o.action in MOVING_ACTIONS for o in objs)
                   or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes", "witness")
                   or b.env.weather in ("rain", "storm", "snow", "ash", "dust"))
         if not moving and b.duration >= 3.0:

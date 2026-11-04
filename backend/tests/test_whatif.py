@@ -1065,3 +1065,49 @@ def test_film_style_compiles_with_word_captions():
     sb = _set_sb([{"kind": "person", "action": "kneel"}], n=3, theme={"style": "film"})
     plan = compile_plan(sb)
     assert plan["theme"]["style"] == "film" and plan["theme"]["captions"] == "words"
+
+
+# ---------------------------------------------------------------- voxel format
+def _vox_sb(counters):
+    from backend.whatif.schema import Storyboard
+    beats = []
+    for c in counters:
+        beats.append({"duration": 3, "scene": "custom", "camera": "front", "subject": {"type": "none"}, "caption": "Line.",
+                      "env": {"set": {"objects": [{"kind": "carpet", "model": "gummy_bear", "n": 5000, "spread": [20, 0.3, 20]},
+                                                  {"kind": "voxel_person", "seed": 4, "action": "cheer", "expression": "smile"},
+                                                  {"kind": "voxel", "model": "eiffel_tower", "scale": 330}]}},
+                      "counter": c})
+    return Storyboard.model_validate({"format": "timeline", "title": "What if the ocean was gummy bears?", "premise": "t",
+                                      "length": "quick", "intro": {"style": "none", "title": "x"},
+                                      "theme": {"style": "voxel", "music": "playful"}, "outro": {"chart": False}, "beats": beats})
+
+
+def test_voxel_counter_counts_up_and_continues():
+    from backend.whatif.model import compile_plan
+    sb = _vox_sb([{"to": 1000, "from": 0, "label": "Bears", "tag": "Free"}, {"to": 3000, "label": "Bears", "line": "Deadpan."}])
+    plan = compile_plan(sb)
+    b0, b1 = plan["beats"][0], plan["beats"][1]
+    f = lambda t: plan["frames"][int(t * plan["fps"])]
+    assert f(b0["start"] + 0.02)["counter"]["value"] == "0"
+    assert f(b0["start"] + b0["duration"] - 0.05)["counter"]["value"] == "1,000"
+    assert f(b1["start"] + 0.02)["counter"]["value"].replace(",", "").isdigit()
+    end = f(b1["start"] + b1["duration"] - 0.05)["counter"]
+    assert end["value"] == "3,000" and end["line"] == "Deadpan." and end["tag"] == ""
+    assert f(b0["start"] + 1)["counter"]["line"] == "Line."      # line falls back to the caption
+
+
+def test_voxel_schema_and_playful_music():
+    import numpy as np
+    from backend.whatif.audio import _music_playful
+    sb = _vox_sb([{"to": 5}])
+    assert sb.beats[0].env.set.objects[0].n == 5000
+    a = _music_playful(44100 * 2, 7)
+    assert len(a) >= 44100 * 2 and np.abs(a).max() > 0
+
+
+def test_voxel_catalog_is_large():
+    import re
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[1] / "whatif" / "web" / "voxel.js").read_text()
+    names = re.findall(r'def\("([a-z0-9_]+)"', src)
+    assert len(names) >= 250 and len(set(names)) == len(names)

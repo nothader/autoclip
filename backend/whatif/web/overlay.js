@@ -20,7 +20,7 @@ export function layout(width, plan) {
   if (land) $("#map").setAttribute("preserveAspectRatio", "xMidYMid slice");
   const s = width / (land ? 1920 : 1080);
   const th = (plan && plan.theme) || {};
-  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
+  for (const st of ["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel"]) document.body.classList.toggle("st-" + st, (th.style || "calm") === st);
   document.body.classList.toggle("split", th.layout === "split" && !land);
   document.body.classList.toggle("pov", !!(plan && plan.pov));
   $("#ov").style.transform = `scale(${s})`;
@@ -65,8 +65,25 @@ export function drawOverlay(fr, plan) {
   }
 
   // 字幕
+  // voxel 数据卡（左上）：大号衬线数字 + 小型大写标签 + 彩色胶囊标签 + 斜体冷幽默一句
+  const ctr = $("#ctr");
+  show(ctr, !!fr.counter);
+  if (fr.counter) {
+    const c = fr.counter;
+    const vEl = ctr.querySelector(".v");
+    setText(vEl, "ctrv", c.value);
+    vEl.style.fontSize = (c.w > 9 ? Math.max(60, Math.round(128 * 9 / c.w)) : 128) + "px";   // 长数字缩小，别出画
+    setText(ctr.querySelector(".l"), "ctrl", c.label || "");
+    const tg = ctr.querySelector(".tag");
+    show(tg, !!c.tag);
+    setText(tg, "ctrt", c.tag || "");
+    tg.style.background = c.tag_color || "#e64980";
+    setText(ctr.querySelector(".ln"), "ctrln", c.line || "");
+    ctr.style.opacity = c.a;
+    ctr.style.transform = `translateY(${(1 - c.a) * -14}px)`;
+  }
   const cap = $("#cap");
-  show(cap, !!fr.cap);
+  show(cap, !!fr.cap && !fr.counter);   // 有数据卡时，字幕写在卡里
   if (fr.cap) {
     const mode = (plan.theme && plan.theme.captions) || "line";
     cap.classList.toggle("words", mode === "words");

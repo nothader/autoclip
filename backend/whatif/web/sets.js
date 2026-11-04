@@ -3,6 +3,7 @@
 import * as THREE from "three";
 import { stars, canvasTex, makeEarth, rng, spaceSky, skyClouds } from "./common.js";
 import { Person } from "./people.js";
+import { voxelProp, voxelCarpet, VoxelPerson } from "./voxel.js";
 
 const SOFT = canvasTex(128, 128, (x) => {
   const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
@@ -389,6 +390,10 @@ function build(o, r) {
     case "bars": return bars(o.values.length ? o.values : [1, 2, 3], c, c2);
     // person：color = 衣服颜色，color2 = 肤色
     case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed, o.color2 || null); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
+    // 方块风格：model = 目录里的模型名；voxel_person 的 color = 上衣（默认随 seed）
+    case "voxel": return voxelProp(o.count > 1 ? { ...o, seed: 2 + Math.floor(r() * 6) } : o);   // 一组道具：每个换一套配色
+    case "voxel_person": { const p = new VoxelPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
+    case "carpet": return voxelCarpet(o);
     case "particles": return particles(c, Math.min(4000, o.count * 20), o.spread.map((v) => v || 10), Array.isArray(o.scale) ? o.scale[0] : o.scale, o.seed);
     default: return mesh(new THREE.SphereGeometry(1, 16, 12), material(mk, c));
   }
@@ -448,7 +453,7 @@ export function setEnv(spec) {
     "blood_cell", "virus", "neuron", "crystal", "bubble", "gear", "rock", "planet", "moon"]);
   for (const o of spec.objects) {
     const r = rng(o.seed * 7919 + o.kind.length);
-    const n = o.kind === "particles" ? 1 : o.count;
+    const n = o.kind === "particles" || o.kind === "carpet" ? 1 : o.count;
     for (let i = 0; i < n; i++) {
       const obj = build(o, r);
       const jitter = n > 1 ? o.spread.map((s) => (r() - 0.5) * s) : [0, 0, 0];
@@ -505,7 +510,7 @@ export function setEnv(spec) {
         obj.scale.copy(it.baseScale).multiplyScalar(s);
         // 道具自带动画
         const u = obj.userData;
-        if (u.person && /walk|run|sprint|handwalk|footeat|float|idle/.test(o.action)) {   // 布景里的人也走起来（步频随动作）
+        if (u.person && /walk|run|sprint|handwalk|footeat|float|idle|cheer|wave|scared|jump|swim|think|fall|fly/.test(o.action)) {   // 布景里的人也走起来（步频随动作）
           const rate = { run: 9, sprint: 12, handwalk: 4.5 }[o.action] ?? 6;
           u.person.pose(o.action, t * rate + it.phase, t + it.phase);
         }

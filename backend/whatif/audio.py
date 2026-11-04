@@ -484,6 +484,49 @@ def _music_dark(n: int, seed: int = 3, bpm: Optional[float] = None) -> np.ndarra
     return _norm(pad * 0.55 * swell + sub * 0.35 + kick * 0.55 + hat * 0.6)
 
 
+def _music_playful(n: int, seed: int = 3) -> np.ndarray:
+    """轻快大调配乐床（voxel 格式）：拨弦琶音 + 木琴旋律片段 + 轻底鼓 / 拍手。seed 决定调、速度和旋律。"""
+    r = np.random.default_rng(seed)
+    t = np.arange(n) / SR
+    bpm = float(r.integers(96, 121))
+    beat = 60.0 / bpm
+    shift = int(r.integers(-4, 6))
+    hz = lambda s: 261.63 * 2 ** ((s + shift) / 12)
+    progs = [[(0, 4, 7), (-3, 0, 4), (-7, -3, 0), (-5, -1, 2)], [(0, 4, 7), (5, 9, 12), (-3, 0, 4), (-5, -1, 2)],
+             [(0, 4, 7), (-5, -1, 2), (-3, 0, 4), (5, 9, 12)], [(0, 4, 7), (2, 5, 9), (5, 9, 12), (-5, -1, 2)]]
+    prog = progs[int(r.integers(len(progs)))]
+    out = np.zeros(n)
+    step = beat / 2                                   # 八分音符琶音
+    k = 0
+    while k * step < n / SR:
+        st = k * step
+        ch = prog[int(st // (beat * 4)) % len(prog)]
+        note = ch[k % 3] + (12 if (k // 3) % 2 else 0)
+        i0 = int(st * SR); L = min(n - i0, int(0.35 * SR))
+        tt = np.arange(L) / SR
+        f = hz(note)
+        out[i0:i0 + L] += (np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(4 * np.pi * f * tt)) * np.exp(-tt / 0.12) * 0.35
+        k += 1
+    mel = r.integers(0, 5, size=16)                   # 每两小节一句木琴旋律
+    scale = [0, 2, 4, 7, 9]
+    for bar in range(int(n / SR / (beat * 4)) + 1):
+        if bar % 2:
+            continue
+        for j in range(4):
+            st = bar * beat * 4 + j * beat * (1.5 if j % 2 else 1.0)
+            i0 = int(st * SR)
+            if i0 >= n:
+                break
+            L = min(n - i0, int(0.5 * SR)); tt = np.arange(L) / SR
+            f = hz(scale[int(mel[(bar + j) % 16])] + 12)
+            out[i0:i0 + L] += np.sin(2 * np.pi * f * tt) * np.exp(-tt / 0.18) * 0.28
+    ph = (t % beat) / beat
+    kick = np.sin(2 * np.pi * (55 + 90 * np.exp(-ph * beat / 0.03)) * ph * beat) * np.exp(-ph * beat / 0.12) * 0.5
+    clap_ph = ((t + beat) % (beat * 2)) / (beat * 2)
+    clap = _norm(_band(_noise(n, seed + 1), 900, 4000)) * np.exp(-clap_ph * beat * 2 / 0.05) * 0.25
+    return _norm(out + kick + clap)
+
+
 def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.ndarray:
     """返回 (n, 2) float32，范围 [-1, 1]。voice：可选旁白人声（单声道 48 kHz），自动压低底噪/音效。"""
     fps = plan["fps"]
@@ -618,10 +661,12 @@ def synthesize(plan: Dict[str, Any], voice: "np.ndarray | None" = None) -> np.nd
         out[:, 0] += v
         out[:, 1] += v
     # 6) 配乐床（可选）：比旁白低 ~14 dB（约 10–15% 音量），说话时再让一点；结尾问句段渐弱
-    if (plan.get("theme") or {}).get("music") == "dark":
+    music = (plan.get("theme") or {}).get("music")
+    if music in ("dark", "playful"):
         import zlib
-        mus = _music_dark(n, seed=zlib.crc32((plan.get("title") or "").encode()) % 100000)   # 每个视频一首不同的配乐
-        mus *= 10 ** (-30 / 20) / (np.sqrt(np.mean(mus ** 2)) or 1.0)
+        sd = zlib.crc32((plan.get("title") or "").encode()) % 100000   # 每个视频一首不同的配乐
+        mus = _music_dark(n, seed=sd) if music == "dark" else _music_playful(n, seed=sd)
+        mus *= 10 ** ((-30 if music == "dark" else -24) / 20) / (np.sqrt(np.mean(mus ** 2)) or 1.0)   # playful 是主声部（只念标题），放大一些
         if has_voice:
             mus *= 1 - 0.35 * venv
         mus[:fade] *= np.linspace(0, 1, fade)
