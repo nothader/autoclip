@@ -137,7 +137,7 @@ def hook_report(sb: Storyboard) -> List[Finding]:
         if not pov and sb.intro.duration > HOOK_SECONDS + 0.3:
             f.append(Finding("tip", "first3s", "intro.duration", f"Title card lasts {sb.intro.duration:.1f}s (over {HOOK_SECONDS:.0f}s). Shorten it so the first shot lands sooner."))
         if not is_specific(title):
-            f.append(Finding("fix", "specific", "intro.title",
+            f.append(Finding("tip" if block else "fix", "specific", "intro.title",
                              f"Title \"{title}\" is not specific. Add a number, a name or an emotional trigger (every / never / 8 billion / gone)."))
     if caps and not block and not is_specific(caps[0][1]) and not has_loop(caps[0][1]):
         f.append(Finding("fix", "first3s", f"beats[{caps[0][0]}].caption",
@@ -187,7 +187,7 @@ def hook_report(sb: Storyboard) -> List[Finding]:
     # 规则 3c：开放式悬念
     early = [c for _, c in caps[:LOOP_WINDOW]]   # 标题本身总是问句，不算悬念
     if caps and not any(has_loop(c) for c in early):
-        f.append(Finding("fix", "open_loop", "storyboard",
+        f.append(Finding("tip" if sb.theme.style == "block" else "fix", "open_loop", "storyboard",
                          f"No open loop in the first {LOOP_WINDOW} captions. Ask a question, or tease with \"but... / until... / here's the worst part\", and only answer it at the end."))
     end = sb.outro.end if sb.outro else None
     if not end or end.kind != "question":

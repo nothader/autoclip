@@ -115,7 +115,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         k0, k1 = _set_key(beats[i - 1]), _set_key(beats[i])
         run = run + 1 if (k0 is not None and k0 == k1 and beats[i - 1].camera == beats[i].camera) else 1
         if run == SAME_SET_RUN:
-            f.append(Finding("fix", "monotony", f"beats[{i - 1}..{i}]", "The same custom set with the same camera twice in a row. "
+            f.append(Finding("tip" if sb.theme.style == "block" else "fix", "monotony", f"beats[{i - 1}..{i}]", "The same custom set with the same camera twice in a row. "
                              "Change the camera, rearrange the set or add an animation so the cut is visible."))
     if style != "witness" and sb.format != "pov" and len(beats) >= 6:
         cam, n = Counter(b.camera for b in beats).most_common(1)[0]
@@ -140,7 +140,8 @@ def quality_report(sb: Storyboard) -> List[Finding]:
             continue
         objs = b.env.set.objects
         if not objs and b.env.set.ground == "none":
-            f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
+            if sb.theme.style != "block":   # block：黑场（昏迷、闭眼）是这个格式的一部分
+                f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
         moving = (any(o.animate for o in objs) or any(o.kind in ("person", "voxel_person", "block_person") and o.action in MOVING_ACTIONS for o in objs)
                   or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes", "witness")
