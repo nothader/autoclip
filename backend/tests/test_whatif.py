@@ -1111,3 +1111,34 @@ def test_voxel_catalog_is_large():
     src = (Path(__file__).resolve().parents[1] / "whatif" / "web" / "voxel.js").read_text()
     names = re.findall(r'def\("([a-z0-9_]+)"', src)
     assert len(names) >= 250 and len(set(names)) == len(names)
+
+
+# ---------------------------------------------------------------- block POV format
+def test_block_tracker_clock_count_and_scramble():
+    from backend.whatif.model import tracker_frame, _parse_clock, _fmt_clock
+    assert _parse_clock("12:05:00 AM") == 300 and _parse_clock("1:00 PM") == 13 * 3600
+    assert _fmt_clock(_parse_clock("11:59:58 PM") + 3, "11:59:58 PM") == "12:00:01 AM"
+    f = tracker_frame({"label": "FRIDAY", "clock": "8:46:27 AM"}, 2.0, True, 3.0)
+    assert f["value"] == "8:46:29 AM" and f["label"] == "FRIDAY"
+    c = tracker_frame({"count_from": 0, "count_to": 41, "unit": " HOURS", "alert": True}, 3.0, True, 3.0)
+    assert c["value"] == "41 HOURS" and c["alert"]
+    assert ":" in tracker_frame({"scramble": True}, 0.5, True, 3.0)["value"]
+
+
+def test_block_frames_title_tracker_and_story_captions():
+    from backend.whatif.schema import Storyboard
+    from backend.whatif.model import compile_plan
+    beat = lambda cap, **k: {"duration": 3, "scene": "custom", "camera": "eyes", "subject": {"type": "none"}, "caption": cap,
+                             "env": {"set": {"objects": [{"kind": "block_person", "seed": 3, "action": "wave"}]}}, "hands": {"pose": "idle"}, **k}
+    sb = Storyboard.model_validate({
+        "format": "pov", "title": "What if you got stuck in an elevator?", "premise": "t", "intro": {"style": "none", "title": "What if you got stuck in an *elevator*?"},
+        "pov": {"hand_style": "block"}, "theme": {"style": "block", "music": "tender"},
+        "outro": {"chart": False, "end": {"kind": "question", "lines": ["Would you wait?"]}},
+        "beats": [beat("", tracker={"label": "FRIDAY", "clock": "11:02:14 PM"}, voices=[{"text": "Hold the door!", "voice": "af_bella"}]),
+                  beat("Then a jolt.", caption_by="", tracker={"label": "STUCK FOR", "value": "2 HOURS", "big": True})]})
+    plan = compile_plan(sb)
+    assert plan["theme"]["captions"] == "story" and plan["pov"]["hand_style"] == "block"
+    f0 = plan["frames"][int(0.5 * plan["fps"])]
+    assert f0["btitle"]["text"].startswith("What if") and f0["tracker"]["value"].endswith("PM")
+    f1 = plan["frames"][int((plan["beats"][1]["start"] + 1) * plan["fps"])]
+    assert "btitle" not in f1 and f1["tracker"]["big"] and f1["cap"]["text"] == "Then a jolt."
