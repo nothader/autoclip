@@ -136,3 +136,22 @@ A second format modelled on the blocky "what if" explainers: a miniature voxel w
   - Keep carpets from reaching toward the camera: the `front` camera sits at −z, `wide` and `far` at +z.
   - Big things (ships, landmarks) need `far` with zoom ≈ height/10.
   - Giants are never picked at random by `biome()`; add them on purpose.
+
+## Block POV format (branch `feat/block-pov`, studied from @weirdsecret_)
+The full breakdown is in `automation/STYLE_BLOCK_POV.md`.
+- **Library:** `automation/lib/block.py` provides `Story`, `T` (tracker), `guy`, `crowd` and `env`. `automation/lib/places.py` provides `street`, `terrace`, `hospital_room`, `bedroom`, `church`, `mosque`, `office_floor`, `stairwell`, `plain`, `living_room` and `park`.
+- **Examples:** `automation/scripts/elevator.py` and `bp_*.py`, the 15 remakes.
+- **Rules:**
+  - No narrator; people in the scene talk (`voices`).
+  - Italic second-person captions of 3–9 words.
+  - The left tracker ticks (`clock`, `count`, `value`, `scramble`); it uses `alert` for danger and `big` at the climax.
+  - The title shows only in the first 3.5 s.
+  - It ends on a black card with a gold question.
+  - Use a real fact or source line as an anchor (`by=`).
+- **Framing:**
+  - The `eyes` camera looks toward −z from `eye=(x, y, z)`.
+  - People facing you need `ry=180` (or around 150–210).
+  - Keep faces above the caption line (about 58% down the frame).
+  - Avoid near flames and glows; they burn out the captions.
+  - Use `look="elder"` for grandparents.
+- **Owner's topic rule (Nov 2026):** religious "what if" topics are allowed, told from a believer's point of view. Do not set stories inside real attacks with real victims (use fictional buildings and places instead), and keep immigration or political group topics to neutral reworks.
