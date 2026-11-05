@@ -61,6 +61,7 @@ STYLE_PALETTES = {
     "bodycam": ["natural", "cool"],   # 着色器自己做传感器调色，别再叠重的滤镜
     "voxel": ["natural"],
     "film": ["natural", "warm"],   # 着色器做调色：明亮、暖、干净
+    "block": ["natural", "warm", "cool"],   # @weirdsecret_ 式：柔和电影感，不要黑白 / 高饱和
 }
 # CSS 滤镜（叠在风格自带调色后面）
 PALETTE_CSS = {
