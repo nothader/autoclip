@@ -155,4 +155,4 @@ def park(seed=1, grass="#7aa35a", trees=8, people=10, extra=()):
     return [O("box", (0, -0.03, -20), [120, 0.04, 120], grass), O("box", (0, 0.0, -20), [2.4, 0.02, 80], "#c8b9a0"),
             O("tree", (0, 0, -18), 1.8, "#4f8a3a", count=trees, seed=seed, spread=[40, 0, 30]),
             O("box", (3, 0.25, -6), [1.8, 0.5, 0.5], "#6b4f3a", count=3, seed=seed + 1, spread=[0, 0, 16]),
-            crowd(people, seed + 2, at=(0, 0, -14), spread=(20, 0, 16), act="walk")] + list(extra)
+            ] + ([crowd(people, seed + 2, at=(0, 0, -14), spread=(20, 0, 16), act="walk")] if people > 0 else []) + list(extra)

@@ -32,11 +32,13 @@ def T(label="", value="", sub="", clock=None, rate=1.0, count=None, unit="", dec
     return t
 
 
-def guy(at, top=None, pants=None, act="idle", face="auto", seed=1, ry=0, anim=()):
+def guy(at, top=None, pants=None, act="idle", face="auto", seed=1, ry=0, anim=(), look=""):
     """A block person (drawn face). Faces −z by default; ry=180 faces +z (toward wide/follow cameras)."""
     o = O("block_person", at, 1.0, top or "#d8d8d8", seed=seed, action=act, expression=face, rotate=[0, ry, 0], animate=list(anim))
     if pants:
         o["color2"] = pants
+    if look:   # "elder" = gray hair in a bun; "child" = no hat
+        o["outfit"] = look
     return o
 
 
