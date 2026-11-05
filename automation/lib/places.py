@@ -136,9 +136,12 @@ def stairwell(seed=1, steps=12, stripe="#9fe3b8", extra=()):
     return o + list(extra)
 
 
-def plain(seed=1, ground="#e9e4da", people=80, extra=()):
+def plain(seed=1, ground="#d9c7a4", people=80, extra=()):
     """An endless pale plain with rows of people (gatherings, judgment scenes)."""
-    return [O("box", (0, -0.03, -40), [400, 0.04, 400], ground), crowd(min(people, 200), seed, at=(0, 0, -18), spread=(40, 0, 30), act="idle", ry=180)] + list(extra)
+    o = [O("box", (0, -0.03, -40), [400, 0.04, 400], ground)]
+    if people > 0:
+        o.append(crowd(min(people, 200), seed, at=(0, 0, -18), spread=(40, 0, 30), act="idle", ry=180))
+    return o + list(extra)
 
 
 def living_room(seed=1, wall="#e9dfcf", tv="#2b3a55", extra=()):
