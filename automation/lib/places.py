@@ -125,13 +125,14 @@ def office_floor(seed=1, night=False, extra=()):
     return o + list(extra)
 
 
-def stairwell(seed=1, steps=12, stripe="#9fe3b8", floor_no=None, extra=()):
-    """Emergency stairwell going down toward −z, glow-in-the-dark stripes on each edge, handrail, wall light."""
-    o = [O("box", (0, 1.62 - 0.18 * i - 0.09, -0.3 * i), [1.4, 0.18, 0.3], "#8a8f96") for i in range(0, steps, 1)][:12]
-    o += [O("box", (0, 1.62 - 0.18 * i + 0.002, -0.3 * i + 0.12), [1.3, 0.01, 0.05], stripe, material="glow") for i in range(0, 12, 2)]
-    o += [O("box", (-0.75, 1.2, -2), [0.06, 4.0, 6], "#d9d4cc"), O("box", (0.75, 1.2, -2), [0.06, 4.0, 6], "#d9d4cc"),
-          O("box", (0.68, 1.4, -1.8), [0.05, 0.05, 4.4], stripe, rotate=[-31, 0, 0]), O("box", (0, 3.3, -2), [1.5, 0.05, 6], "#cfc9c0"),
-          O("plane", (0.72, 2.6, -1.0), [0.3, 0.2, 1], "#fff4dc", material="glow", rotate=[0, -90, 0])]
+def stairwell(seed=1, steps=12, stripe="#9fe3b8", extra=()):
+    """Emergency stairwell going DOWN toward −z from your feet (eye about (0, 1.62, 1.2), look down ~25°): glow stripes, handrail, wall light."""
+    o = [O("box", (0, -0.09 - 0.18 * i, -0.3 * i), [1.4, 0.18, 0.3], "#8a8f96") for i in range(min(steps, 12))]
+    o += [O("box", (0, -0.178 - 0.18 * i, -0.3 * i + 0.12), [1.3, 0.01, 0.05], stripe, material="glow") for i in range(0, 12, 2)]
+    o += [O("box", (0, -0.02, 1.0), [1.4, 0.04, 1.6], "#8a8f96"),
+          O("box", (-0.75, 0.4, -1.5), [0.06, 5.0, 7], "#d9d4cc"), O("box", (0.75, 0.4, -1.5), [0.06, 5.0, 7], "#d9d4cc"),
+          O("box", (0.68, 0.0, -1.6), [0.05, 0.05, 4.4], stripe, material="glow", rotate=[-31, 0, 0]), O("box", (0, 2.95, -1.5), [1.5, 0.05, 7], "#cfc9c0"),
+          O("box", (0, -1.2, -4.6), [1.5, 3.4, 0.06], "#cfc9c0"), O("plane", (0.72, 2.3, -0.4), [0.3, 0.2, 1], "#fff4dc", material="glow", rotate=[0, -90, 0])]
     return o + list(extra)
 
 
