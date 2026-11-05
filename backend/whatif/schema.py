@@ -262,6 +262,7 @@ class Tracker(_Strict):
     count_to: Optional[float] = None   # 数字在本段内缓动（带千分位）
     decimals: int = Field(default=0, ge=0, le=2)
     unit: str = ""                   # 计数后缀（"%" / " hours"）
+    prefix: str = ""                 # 计数前缀（"$"）
     alert: bool = False              # 危险：值变红
     big: bool = False                # 高潮：移到画面中间放大
     scramble: bool = False           # "??:??:??" 乱码闪动（未知的倒计时）

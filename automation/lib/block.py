@@ -22,13 +22,13 @@ OVERCAST = ["#6f7a86", "#c4cad0"]; GOLDEN = ["#3c4f7a", "#f2b066"]; INDOOR = ["#
 SKINS = ["#f1c27d", "#e0ac69", "#c68642", "#8d5524", "#5c3a21", "#ffdbac", "#d4a373", "#a0522d"]
 
 
-def T(label="", value="", sub="", clock=None, rate=1.0, count=None, unit="", decimals=0, alert=False, big=False, scramble=False):
+def T(label="", value="", sub="", clock=None, rate=1.0, count=None, unit="", decimals=0, alert=False, big=False, scramble=False, prefix=""):
     """Tracker. clock="11:02:14 PM" ticks (rate = sim seconds per real second); count=(from, to) eases; value = fixed text."""
     t = {"label": label, "value": value, "sub": sub, "alert": alert, "big": big, "scramble": scramble}
     if clock:
         t["clock"], t["clock_rate"] = clock, rate
     if count is not None:
-        t["count_from"], t["count_to"], t["unit"], t["decimals"] = count[0], count[1], unit, decimals
+        t["count_from"], t["count_to"], t["unit"], t["decimals"], t["prefix"] = count[0], count[1], unit, decimals, prefix
     return t
 
 

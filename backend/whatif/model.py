@@ -411,7 +411,7 @@ def tracker_frame(tr: dict, lt: float, own: bool, dur: float) -> dict:
         v0 = tr.get("count_from")
         v0 = tr["count_to"] if v0 is None else v0
         v = v0 + (tr["count_to"] - v0) * k
-        val = f"{v:,.{tr.get('decimals', 0)}f}{tr.get('unit', '')}"
+        val = f"{tr.get('prefix', '')}{v:,.{tr.get('decimals', 0)}f}{tr.get('unit', '')}"
     else:
         val = tr.get("value", "")
     return {"label": tr.get("label", ""), "value": val, "sub": tr.get("sub", ""), "alert": bool(tr.get("alert")),
