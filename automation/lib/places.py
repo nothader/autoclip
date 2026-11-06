@@ -9,8 +9,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from props import O  # noqa: E402
-from block import guy, crowd  # noqa: E402
+from block import O, guy, crowd  # noqa: E402
 
 BRICK = ["#9c5b43", "#b3684a", "#8a4f3a", "#c47a5a"]; STONE = ["#c9c1b3", "#d8d0c2", "#b9b2a6"]; GLASS = ["#7d93ad", "#93a8c0", "#6f86a1"]
 CONCRETE = ["#9da3aa", "#b5bac0", "#868c94"]

@@ -192,22 +192,23 @@ def thumbnail_storyboard(sb: Storyboard, i: int, *, landscape: bool) -> Storyboa
         "caption": "", "stat": None, "card": None, "tooltip": None, "banner": None, "screen": None, "callout": None,
         "chip": "", "chapter": None, "time": None, "time_sub": "", "time_label": "", "hud": False, "caption_ref": "",
         "env": env, "subject": subj, "duration": 3.0, "sim_end": None})
-    if sb.format == "pov":   # 手 / 头部运动可能是从前面的段沿用下来的
+    if True:   # 手 / 头部运动可能是从前面的段沿用下来的
         b.hands = next((x.hands for x in reversed(sb.beats[: i + 1]) if x.hands is not None), b.hands)
         b.head = "steady"
         b.transition = "cut"
     if b.scene == "custom" and env.set and landscape != (sb.width > sb.height):
         zm = env.set.zoom * (0.8 if landscape else 1.35)
         b.env = env.model_copy(update={"set": env.set.model_copy(update={"zoom": round(zm, 2)})})
-    fmt = "timeline" if sb.format in ("escalation", "story") else sb.format
+    b.caption = ""
+    b.tracker = None
+    b.banner = None
+    b.screen = None
+    b.voices = []
     return Storyboard.model_validate({
-        "format": fmt, "title": sb.title, "premise": sb.premise, "theme": {**sb.theme.model_dump(), "anchor": "none",
-                  # 封面不要黑边 / 进度条 / 颗粒：只保留改变画面本身的风格（卡通描边、像素）
-                  "style": sb.theme.style if sb.theme.style in ("toon", "retro", "bodycam") else "calm", "layout": "full"},
-        "clock": {"mode": "none"}, "intro": {"style": "title", "title": "x", "duration": 0.4},
-        "outro": {"chart": False, "question_duration": 0.5}, "beats": [b.model_dump()], "pace": 1.0,
-        # pov：封面不画顶部钩子、不做睁眼
-        **({"pov": {**sb.pov.model_dump(), "text": "", "open_eyes": False}} if sb.format == "pov" and sb.pov else {}),
+        "title": sb.title, "premise": sb.premise, "theme": sb.theme.model_dump(),
+        "intro": {"title": " "}, "outro": {"question_duration": 0.5, "end": {"lines": [""]}},   # 封面：不压标题
+        "beats": [b.model_dump()], "pace": 1.0,
+        "pov": {**sb.pov.model_dump(), "open_eyes": False} if sb.pov else {"open_eyes": False},
         "width": 1920 if landscape else 1080, "height": 1080 if landscape else 1920})
 
 
@@ -357,14 +358,6 @@ def make_short(sb: Storyboard, *, target: float = SHORT_TARGET) -> Storyboard:
         d = sb.model_dump()
         d.update({"beats": beats, "width": 1080, "height": 1920, "narration": None, "pace": pace})
         d["intro"]["duration"] = min(d["intro"]["duration"], 2.6)
-        if d["format"] == "escalation":
-            sims, sim = [], 0.0
-            for i in sorted(ids):   # 增长型：保留原模拟时间
-                b0 = sb.beats[i]
-                sim = b0.sim_end if b0.sim_end is not None else sim + b0.duration
-                sims.append(sim)
-            for b, s in zip(d["beats"], sims):
-                b["sim_end"] = s
         return Storyboard.model_validate(d)
 
     cur = build(chosen)

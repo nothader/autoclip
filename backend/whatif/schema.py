@@ -19,17 +19,14 @@ from typing import List, Literal, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-Format = Literal["escalation", "timeline", "countdown", "story", "survival", "pov"]
-SceneName = Literal[
-    "city", "highway", "suburb", "park", "fields", "forest", "desert", "outback", "mountains", "volcano",
-    "coast", "ocean", "sky", "orbit", "deep_space", "globe", "map", "interior", "ancient", "lab", "void", "custom",
-]
+Format = Literal["pov"]   # 只剩 Block POV：第一人称，你就是主角
+SceneName = Literal["custom"]   # 每个镜头的布景都按分镜搭（env.set）
 CameraName = Literal[
     "follow", "front", "side", "low_front", "wide", "aerial", "orbit", "far", "closeup",
-    "establishing", "pov", "top_down", "dolly", "witness", "eyes",
+    "establishing", "pov", "top_down", "dolly", "eyes",
 ]
-SubjectType = Literal["runner", "person", "ball", "car", "cube", "rocket", "none"]
-Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall", "handwalk", "footeat",
+SubjectType = Literal["none"]
+Action = Literal["idle", "walk", "run", "sprint", "float", "fly", "sit", "kneel", "lie", "point", "phone", "pray", "fall",
                  "cheer", "wave", "scared", "jump", "swim", "think"]
 Outfit = Literal["casual", "hoodie", "scrubs", "doctor", "hivis", "suit", "robe", "soldier", "child", "elder", "ranger", "police", "mannequin"]
 Effect = Literal[
@@ -110,8 +107,8 @@ class Quantity(_Strict):
 
 
 class Subject(_Strict):
-    type: SubjectType = "runner"
-    action: Action = "run"
+    type: SubjectType = "none"
+    action: Action = "idle"
     outfit: Outfit = "hoodie"        # runner/person 的服装
     scale: float = 1.0
     scale_with_value: bool = False   # length 类：主体尺寸跟着数值变
@@ -170,10 +167,10 @@ SetKind = Literal[
     "sphere", "box", "cylinder", "cone", "torus", "capsule", "ring", "plane", "icosahedron", "octahedron",
     # 科普道具
     "molecule", "atom", "dna", "cell", "blood_cell", "virus", "neuron", "lungs", "heart", "hourglass", "clock",
-    "gear", "flame", "crystal", "bubble", "planet", "sun", "moon", "earth", "tree", "rock", "building", "arrow",
-    "bars", "person", "particles",
-    # voxel 格式：方块道具（model = 目录里的名字）、方块人、成千上万个小道具铺成的"海"
-    "voxel", "voxel_person", "carpet", "block_person",
+    "gear", "flame", "crystal", "bubble", "planet", "sun", "moon", "tree", "rock", "building", "arrow",
+    "bars", "particles",
+    # Block POV 的方块人（画出来的脸）
+    "block_person",
 ]
 SET_KINDS: Tuple[str, ...] = SetKind.__args__  # type: ignore[attr-defined]
 
@@ -204,9 +201,7 @@ class SetObject(_Strict):
     outfit: Outfit = "casual"        # person
     action: Action = "idle"
     animate: List[Anim] = Field(default_factory=list)
-    model: str = ""                  # voxel / carpet：道具目录里的名字（"gummy_bear" / "eiffel_tower" …）
-    n: int = Field(default=0, ge=0, le=30000)   # carpet：数量
-    expression: Literal["auto", "neutral", "smile", "shock", "sad", "angry", "smirk"] = "auto"   # voxel_person 的表情
+    expression: Literal["auto", "neutral", "smile", "shock", "sad", "angry", "smirk"] = "auto"   # block_person 的表情
 
 
 class SetSpec(_Strict):
@@ -277,19 +272,6 @@ class VoiceLine(_Strict):
     gain: float = Field(default=1.0, ge=0.1, le=2.0)
 
 
-class Counter(_Strict):
-    """voxel 格式的左上角数据卡：大号数字从 from_ 数到 to（带千分位）、小号标签、彩色药丸标签、一句冷幽默。"""
-    model_config = {"extra": "forbid", "populate_by_name": True}   # 存盘再读回时 "from_" 也认
-    to: float
-    from_: Optional[float] = Field(default=None, alias="from")   # 省略 = 接着上一段的数
-    label: str = ""                  # "PEOPLE AT THE BEACH"
-    unit: str = ""                   # "m" / "mph" / "%"（跟在数字后面）
-    tag: str = ""                    # "FREE GUMMIES" / "≈ EIFFEL TOWER"
-    tag_color: str = "#e64980"
-    line: str = ""                   # 斜体冷笑话；空 = 用本段 caption
-    decimals: int = Field(default=0, ge=0, le=3)
-
-
 class Tooltip(_Strict):
     label: str = "FACT"
     text: str
@@ -338,24 +320,18 @@ class Narration(_Strict):
     read_end: bool = True            # 结尾念问句 / 结尾卡
 
 
-VideoStyle = Literal["calm", "bold", "cinematic", "toon", "retro", "witness", "bodycam", "film", "voxel", "block"]   # film = 头部频道那种明亮暖调 3D 动画（景深虚化 + 柔光）
-CaptionMode = Literal["line", "words", "box", "typed", "story"]
-STYLE_CAPTIONS = {"calm": "line", "bold": "words", "cinematic": "line", "toon": "box", "retro": "words", "witness": "line", "bodycam": "box", "film": "words", "voxel": "line", "block": "story"}
+VideoStyle = Literal["block"]   # 唯一的画面风格：Block POV（@weirdsecret_ 式方块世界）
+CaptionMode = Literal["story"]
+STYLE_CAPTIONS = {"block": "story"}
 
 
 class Theme(_Strict):
     accent: str = "#f0883e"          # 主题强调色（女性=粉、地球=蓝、太阳=黄……）
-    # 画面风格：calm 安静高级（默认）/ bold 爆款快剪（逐词大字幕、推镜、闪切）/ cinematic 纪录片（黑边、颗粒、调色）
-    #          / toon 卡通（描边、平涂、贴纸字幕）/ retro 8-bit 像素（低分辨率、扫描线）
-    style: VideoStyle = "calm"
-    captions: Optional[CaptionMode] = None   # None = 跟随风格
-    layout: Literal["full", "split"] = "full"   # split = 上半故事、下半解压循环画面（竖屏）
-    # 前景"锚点"小物：固定在镜头下方，随剧情变化（冒热气 / 结霜 / 落灰 / 抖动）。witness 风格默认 coffee
-    anchor: Optional[Literal["none", "coffee", "drink"]] = None
-    music: Literal["none", "dark", "playful", "tender"] = "none"   # playful = 轻快大调拨弦（voxel 格式）   # dark = 低沉电影感配乐床（小声，在旁白下面）
+    style: VideoStyle = "block"
+    captions: Optional[CaptionMode] = None
+    music: Literal["none", "tender"] = "tender"   # tender = 慢速钢琴 + 弦乐铺底（每个标题一首不同的）
     flow: Literal["auto", "steady", "build", "punchy", "slowburn", "rollercoaster"] = "auto"   # 整片节奏；auto = 按标题 / 近期历史挑
-    rec: str = ""                    # bodycam：右上角时间戳的起点（"2026-10-26 07:42:13"）；空 = 渲染当天 07:42:13
-    palette: Literal["auto", "natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"] = "auto"
+    palette: Literal["auto", "natural", "warm", "cool"] = "auto"
 
 class Sfx(_Strict):
     type: SfxType
@@ -381,18 +357,18 @@ class Hands(_Strict):
 
 class Pov(_Strict):
     """pov 版式：顶部固定的 POV 钩子 + 你的手的样子。"""
-    text: str = ""                   # "you wake up and gravity is gone"（显示为 "POV: …"，整片固定在顶部）
+    text: str = ""                   # 已不显示（旧的 "POV: …" 顶部钩子）；标题写在 intro.title
     skin: str = "#d6a07c"
     sleeve: str = "#343a40"
     open_eyes: bool = True           # 开头从闭眼到睁眼（像刚醒来）
-    hand_style: Literal["real", "block"] = "real"   # block：方块手（block 风格）
+    hand_style: Literal["block"] = "block"   # 方块手
 
 
 class Beat(_Strict):
     duration: float = Field(gt=0.3, le=20)
     sim_end: Optional[float] = None  # 本段结束时的模拟时间；省略=实时推进（sim 增量=duration）
-    scene: SceneName = "city"
-    camera: CameraName = "follow"
+    scene: SceneName = "custom"
+    camera: CameraName = "eyes"
     subject: Optional[Subject] = None   # 省略=沿用上一段
     effects: List[Effect] = Field(default_factory=list)
     caption: str = ""
@@ -408,7 +384,6 @@ class Beat(_Strict):
     time_sub: str = ""               # 时钟下面的一行小字
     time_label: str = ""             # 本段时钟上方的标签（覆盖 clock.label，如 "COLUMN HEIGHT" / "WIND" / "THE FLOW"）
     stat: Optional[Stat] = None
-    counter: Optional[Counter] = None   # voxel 格式的数据卡
     tracker: Optional[Tracker] = None   # block 风格左侧进度块（省略 = 沿用上一段的）
     voices: List[VoiceLine] = Field(default_factory=list)   # 画面里的人说话（block 风格没有旁白）
     caption_by: str = ""                # 引语的出处小字（"FLIGHT ATTENDANT"）
@@ -437,7 +412,7 @@ class Beat(_Strict):
 
 
 class Intro(_Strict):
-    style: Literal["stack", "title", "chapter", "overlay", "none"] = "stack"   # overlay = 标题直接压在第一个镜头上（无图标、小号衬线）；none = 冷开场：没有片头卡，第一句字幕从第 0 帧就是钩子
+    style: Literal["none"] = "none"   # 没有片头卡：标题（intro.title）压在前 3.5 秒的画面上   # overlay = 标题直接压在第一个镜头上（无图标、小号衬线）；none = 冷开场：没有片头卡，第一句字幕从第 0 帧就是钩子
     lines: List[str] = Field(default_factory=lambda: ["WHAT IF", "YOU GOT", "2× FASTER", "EVERY SECOND?"])
     accent: int = 2              # stack：哪一行用强调色、放大
     title: str = ""              # title/chapter：用 *星号* 标出强调词，例 "What if all *women* disappeared?"
@@ -448,14 +423,14 @@ class Intro(_Strict):
 
 
 class EndCard(_Strict):
-    kind: Literal["question", "title", "tagline", "memorial", "continued", "fact"] = "question"   # fact = 标题 + 一行等宽小字史实
+    kind: Literal["question"] = "question"   # 黑底，标题 + 金色斜体问句   # fact = 标题 + 一行等宽小字史实
     kicker: str = ""             # 小字（"IN MEMORY OF" / "PART 2"）
     lines: List[str] = Field(default_factory=list)
     accent_line: int = -1        # 哪一行用强调色
     sub: str = ""
 
 class Outro(_Strict):
-    chart: bool = True
+    chart: Literal[False] = False
     chart_title: str = "YOUR SPEED, SECOND BY SECOND"
     chart_subtitle: str = "EACH STEP UP: TWICE AS FAST"
     chart_captions: List[str] = Field(default_factory=list)
@@ -473,7 +448,7 @@ class Series(_Strict):
 
 class Storyboard(_Strict):
     version: int = 1
-    format: Format = "escalation"
+    format: Format = "pov"
     title: str
     premise: str
     theme: Theme = Field(default_factory=Theme)
@@ -496,13 +471,16 @@ class Storyboard(_Strict):
     @model_validator(mode="after")
     def _check(self) -> "Storyboard":
         if self.beats[0].subject is None:
-            self.beats[0].subject = Subject() if self.format == "escalation" else Subject(type="none")
-        if self.format == "pov" and self.pov is None:
-            raise ValueError("format=pov 需要 pov（顶部钩子文字，如 {\"text\": \"you wake up and gravity is gone\"}）")
-        if self.format == "escalation" and self.quantity is None:
-            raise ValueError("format=escalation 需要 quantity")
-        if self.quantity is None and self.outro.chart:
-            self.outro.chart = False
+            self.beats[0].subject = Subject()
+        if self.pov is None:
+            self.pov = Pov()
+        if self.narration is not None and self.narration.enabled:
+            raise ValueError("Block POV 没有旁白：让画面里的人说话（beat.voices）")
+        for i, b in enumerate(self.beats):
+            old = [k for k in ("callout", "card", "stat", "tooltip", "altitude", "time") if getattr(b, k) is not None] + \
+                  [k for k in ("cast", "chip", "time_label", "time_sub", "chapter") if getattr(b, k)]
+            if old:
+                raise ValueError(f"beats[{i}]：{', '.join(old)} 属于已删除的旧版式，Block POV 不再显示；用 tracker / banner / screen / caption")
         last = 0.0
         sim = 0.0
         for i, b in enumerate(self.beats):

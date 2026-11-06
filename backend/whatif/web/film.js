@@ -1,4 +1,4 @@
-// film 风格：头部 3D 短片频道那种观感——主体清晰、背景按深度虚化（景深）、明亮暖调、柔和暗角。
+// Block POV 的画面后期：主体清晰、背景按深度虚化（景深）、柔和调色、轻暗角。
 // 场景先渲染到带深度纹理的离屏目标，再用全屏三角形做景深 + 色调映射 + 调色。
 import * as THREE from "three";
 
@@ -7,7 +7,7 @@ const VERT = `varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(posit
 const FRAG = `
 #include <packing>
 uniform sampler2D tDiffuse, tDepth;
-uniform float cameraNear, cameraFar, focusDist, aperture, maxBlur, aspect, tilt, pastel;
+uniform float cameraNear, cameraFar, focusDist, aperture, maxBlur, aspect;
 uniform vec2 res;
 varying vec2 vUv;
 float viewDist(vec2 uv) {
@@ -16,10 +16,7 @@ float viewDist(vec2 uv) {
 }
 float coc(vec2 uv) {   // 弥散圆：离对焦距离越远越大；天空（最远处）也虚
   float z = viewDist(uv);
-  float d = clamp(abs(z - focusDist) / max(z, 0.001) * aperture, 0.0, 1.0);
-  // 移轴（voxel 风格）：画面上下两端按屏幕位置额外虚化，像微缩模型
-  float ts = tilt * smoothstep(0.1, 0.42, abs(uv.y - 0.56));
-  return clamp(max(d, ts), 0.0, 1.0);
+  return clamp(abs(z - focusDist) / max(z, 0.001) * aperture, 0.0, 1.0);
 }
 void main() {
   float c0 = coc(vUv);
@@ -49,8 +46,6 @@ void main() {
   c *= vec3(1.035, 1.0, 0.955);
   c = mix(c, smoothstep(0.0, 1.0, c), 0.22);
   c = c * 1.03 + 0.012;
-  // 粉彩调（voxel）：降对比、抬暗部、轻微偏粉
-  c = mix(c, c * 0.86 + 0.12 * vec3(1.02, 0.97, 1.0), pastel);
   // 柔和暗角
   vec2 q = (vUv - 0.5) * vec2(aspect, 1.0);
   c *= 1.0 - smoothstep(0.45, 1.05, length(q) * 1.2) * 0.32;
@@ -68,7 +63,7 @@ export class FilmPass {
       uniforms: {
         tDiffuse: { value: this.rt.texture }, tDepth: { value: depth }, cameraNear: { value: 0.1 }, cameraFar: { value: 1000 },
         focusDist: { value: 10 }, aperture: { value: 0.9 }, maxBlur: { value: 14 * w / 1080 }, aspect: { value: w / h },
-        res: { value: new THREE.Vector2(w, h) }, tilt: { value: 0 }, pastel: { value: 0 },
+        res: { value: new THREE.Vector2(w, h) },
       },
     });
     const g = new THREE.BufferGeometry();
@@ -81,9 +76,8 @@ export class FilmPass {
     this.cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   }
 
-  render(scene, camera, focusPoint, aperture = 0.9, tilt = 0, pastel = 0) {
+  render(scene, camera, focusPoint, aperture = 0.9) {
     const U = this.mat.uniforms;
-    U.tilt.value = tilt; U.pastel.value = pastel;
     U.cameraNear.value = camera.near; U.cameraFar.value = camera.far;
     U.focusDist.value = Math.max(0.05, camera.position.distanceTo(focusPoint));
     U.aperture.value = aperture;

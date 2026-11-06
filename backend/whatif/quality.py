@@ -6,7 +6,6 @@
 - 静止：自定义布景里没有任何动的东西（没有 animate、人不走、没有特效）
 - 空镜：自定义布景没有物体也没有地面
 - 时长：竖屏短视频按默认节奏压完后不到 1 分钟；横屏长视频不到 4 分钟
-- 风格配套：witness 风格却不用 witness 机位 / 没有递增指标
 
 quality_report() 返回 hooks.Finding 列表；fix 级问题会和钩子问题一起回传给 planner 修。
 """
@@ -23,25 +22,12 @@ from .schema import Storyboard
 QUICK_SECONDS = (30.0, 64.0)   # length="quick"：留存优先的短视频（节奏放慢 25% 后的范围）
 SHORT_MIN_SECONDS = 61.0       # 竖屏短视频（按节奏压缩后）至少这么长：1 分钟以上，留 1 秒余量
 LONG_MIN_SECONDS = 240.0       # 横屏长视频
-SAME_SHOT_RUN = 3              # 连续多少段同场景同机位算单调（witness 风格除外）
+SAME_SHOT_RUN = 3              # 连续多少段同场景同机位算单调
 SAME_SET_RUN = 2               # 连续多少段完全相同的自定义布景算单调
 CAMERA_SHARE_TIP = 0.55        # 某个机位占比超过这个给建议
 NO_EARTH_SCENES = ("globe", "orbit")   # 用户要求：视频里不要地球仪 / 太空里的地球（deep_space 已不画地球）
 NO_EARTH_KINDS = ("earth",)
-MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "handwalk", "footeat", "cheer", "wave", "jump", "swim", "scared"}
-
-# 题目关键词 → 推荐风格（planner 没明确选风格时用；也写进提示里当建议）
-STYLE_HINTS = [
-    ("bodycam", r"\bpov\b|footage|caught on|haunted|ghost|zombie|alien|ufo|bigfoot|abandoned|cops?|police|monster"),
-    ("witness", r"hurricane|tornado|storm|snow|blizzard|volcano|erupt|tsunami|flood|earthquake|asteroid|meteor|heat ?wave|"
-                r"ice age|colder|hotter|rain(ed|s)? (for|forever)|sun (went|goes) out|sky|weather|nuke|nuclear|wildfire"),
-    ("retro", r"\b(game|games|gaming|video ?games?|minecraft|internet|robots?|ai|matrix|wifi|hackers?|8-bit|pixel)\b"),
-    ("toon", r"\b(animal|animals|dog|cat|food|fruit|pizza|candy|baby|babies|kids?|feet|hands|naked|clothes|talk|tiny|giant)\b"),
-    ("cinematic", r"\b(war|empire|rome|roman|egypt|history|historical|never existed|died|death|king|queen|ancient|jesus|"
-                  r"president|world war|titanic|plague)\b"),
-    ("bold", r"\b(rich|money|billion|million|sex|body|bbl|surgery|men|women|race|black|white|swap|everyone|nobody)\b"),
-]
-
+MOVING_ACTIONS = {"walk", "run", "sprint", "fly", "float", "fall", "cheer", "wave", "jump", "swim", "scared"}
 
 DARK_BG_LUM = 0.2     # 渐变两端（sRGB 亮度）都比这暗 = 黑 / 深藏青背景
 
@@ -52,15 +38,6 @@ def _lum(hexcol: str) -> float:
         return 1.0
     r, g, bl = (int(h[k:k + 2], 16) / 255 for k in (0, 2, 4))
     return 0.2126 * r + 0.7152 * g + 0.0722 * bl
-
-
-def auto_style(premise: str) -> str:
-    """按题目挑一个风格（没有命中关键词 = calm）。"""
-    p = premise.lower()
-    for style, pat in STYLE_HINTS:
-        if re.search(pat, p):
-            return style
-    return "calm"
 
 
 def _paced_seconds(sb: Storyboard) -> float:
@@ -106,7 +83,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         a, b = beats[i - 1], beats[i]
         same = a.scene == b.scene and a.camera == b.camera and a.scene != "custom"
         run = run + 1 if same else 1
-        if run == SAME_SHOT_RUN and style != "witness":
+        if run == SAME_SHOT_RUN:
             f.append(Finding("fix", "monotony", f"beats[{i - SAME_SHOT_RUN + 1}..{i}]",
                              f"{SAME_SHOT_RUN} shots in a row with scene={b.scene} and camera={b.camera}. Change the camera, scene, "
                              "time of day or weather so every cut looks different."))
@@ -117,7 +94,7 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         if run == SAME_SET_RUN:
             f.append(Finding("tip" if sb.theme.style == "block" else "fix", "monotony", f"beats[{i - 1}..{i}]", "The same custom set with the same camera twice in a row. "
                              "Change the camera, rearrange the set or add an animation so the cut is visible."))
-    if style != "witness" and sb.format != "pov" and len(beats) >= 6:
+    if sb.format != "pov" and len(beats) >= 6:
         cam, n = Counter(b.camera for b in beats).most_common(1)[0]
         if n / len(beats) > CAMERA_SHARE_TIP:
             f.append(Finding("tip", "variety", "storyboard", f"camera \"{cam}\" is used for {n}/{len(beats)} shots; mix in other angles."))
@@ -143,8 +120,8 @@ def quality_report(sb: Storyboard) -> List[Finding]:
             if sb.theme.style != "block":   # block：黑场（昏迷、闭眼）是这个格式的一部分
                 f.append(Finding("fix", "empty", f"beats[{i}].env.set", "Empty set: no objects and no ground. Build something to look at."))
             continue
-        moving = (any(o.animate for o in objs) or any(o.kind in ("person", "voxel_person", "block_person") and o.action in MOVING_ACTIONS for o in objs)
-                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes", "witness")
+        moving = (any(o.animate for o in objs) or any(o.kind == "block_person" and o.action in MOVING_ACTIONS for o in objs)
+                  or any(o.kind in ("particles", "flame") for o in objs) or b.effects or b.camera in ("orbit", "dolly", "pov", "eyes")
                   or b.env.weather in ("rain", "storm", "snow", "ash", "dust"))
         if not moving and b.duration >= 3.0:
             f.append(Finding("tip", "static", f"beats[{i}].env.set", "Nothing moves in this shot. Add an animate (grow/move/spin/bob), "
@@ -175,12 +152,6 @@ def quality_report(sb: Storyboard) -> List[Finding]:
         if len(heads) < 2:
             f.append(Finding("tip", "pov", "storyboard", "Vary the head motion (walk / run / stumble / fall / shake) so it feels like a body, not a tripod."))
 
-    # 风格配套
-    if style == "witness":
-        if sum(b.camera == "witness" for b in beats) < len(beats) / 2:
-            f.append(Finding("tip", "style", "storyboard", "witness style: use camera \"witness\" on most beats (one fixed eyewitness view)."))
-        if not sb.clock or not any(b.time for b in beats):
-            f.append(Finding("fix", "style", "storyboard", "witness style needs an escalating metric: clock + beat.time (+ time_label / time_sub)."))
     return f
 
 

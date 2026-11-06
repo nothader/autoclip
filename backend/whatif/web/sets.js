@@ -1,9 +1,8 @@
 // 自定义布景：按分镜里的 env.set 从基本体和科普道具搭建场景（每个题目都可以长得不一样）。
 // 全部是确定性的：随机散布用 seed，动画只依赖本段时间 lt / 进度 frac。
 import * as THREE from "three";
-import { stars, canvasTex, makeEarth, rng, spaceSky, skyClouds } from "./common.js";
-import { Person } from "./people.js";
-import { voxelProp, voxelCarpet, VoxelPerson } from "./voxel.js";
+import { stars, canvasTex, rng, spaceSky, skyClouds } from "./common.js";
+import { BlockPerson } from "./people.js";
 
 const SOFT = canvasTex(128, 128, (x) => {
   const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
@@ -382,20 +381,13 @@ function build(o, r) {
     case "planet": return planet(c, c2, mk, !!c2);
     case "sun": { const g = new THREE.Group(); g.add(mesh(new THREE.SphereGeometry(1, 40, 28), material("glow", c || "#ffd43b"))); g.add(halo(c || "#ffb703", 5, 0.7)); return g; }
     case "moon": return mesh(new THREE.SphereGeometry(1, 40, 28), material("matte", c || "#adb5bd"));
-    case "earth": return makeEarth(1);
     case "tree": return tree(c);
     case "rock": return mesh(new THREE.DodecahedronGeometry(1, 0), Object.assign(material(mk, c, o.opacity), { flatShading: true }));
     case "building": return building(c, r);
     case "arrow": return arrow(c);
     case "bars": return bars(o.values.length ? o.values : [1, 2, 3], c, c2);
-    // person：color = 衣服颜色，color2 = 肤色
-    case "person": { const p = new Person(o.outfit, o.color === "#d8d8d8" ? null : o.color, o.seed, o.color2 || null); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
-    // 方块风格：model = 目录里的模型名；voxel_person 的 color = 上衣（默认随 seed）
-    case "voxel": return voxelProp(o.count > 1 ? { ...o, seed: 2 + Math.floor(r() * 6) } : o);   // 一组道具：每个换一套配色
-    case "voxel_person": { const p = new VoxelPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
-    case "carpet": return voxelCarpet(o);
-    // block_person：block 风格的方块人（画出来的脸、更长的身材）；color = 上衣，color2 = 裤子
-    case "block_person": { const p = new VoxelPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { drawn: true, ...(o.outfit === "elder" ? { hair: "#d9d6d0", hairStyle: "bun", hat: "none", outfit: "tee" } : o.outfit === "child" ? { hat: "none" } : {}), expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
+    // block_person：方块人（画出来的脸）；color = 上衣，color2 = 裤子；outfit "elder" = 老人（白发盘头）
+    case "block_person": { const p = new BlockPerson(o.count > 1 ? o.seed * 977 + Math.floor(r() * 100000) : o.seed, { ...(o.outfit === "elder" ? { hair: "#d9d6d0", hairStyle: "bun", hat: "none", outfit: "tee" } : o.outfit === "child" ? { hat: "none" } : {}), expression: o.expression, top: o.color !== "#d8d8d8" ? o.color : undefined, pants: o.color2 || undefined }); p.pose(o.action, 0, 0); p.root.userData.person = p; return p.root; }
     case "particles": return particles(c, Math.min(4000, o.count * 20), o.spread.map((v) => v || 10), Array.isArray(o.scale) ? o.scale[0] : o.scale, o.seed);
     default: return mesh(new THREE.SphereGeometry(1, 16, 12), material(mk, c));
   }
@@ -512,8 +504,8 @@ export function setEnv(spec) {
         obj.scale.copy(it.baseScale).multiplyScalar(s);
         // 道具自带动画
         const u = obj.userData;
-        if (u.person && /walk|run|sprint|handwalk|footeat|float|idle|cheer|wave|scared|jump|swim|think|fall|fly/.test(o.action)) {   // 布景里的人也走起来（步频随动作）
-          const rate = { run: 9, sprint: 12, handwalk: 4.5 }[o.action] ?? 6;
+        if (u.person && /walk|run|sprint|float|idle|cheer|wave|scared|jump|swim|think|fall|fly/.test(o.action)) {   // 布景里的人也走起来（步频随动作）
+          const rate = { run: 9, sprint: 12 }[o.action] ?? 6;
           u.person.pose(o.action, t * rate + it.phase, t + it.phase);
         }
         if (u.breathe) obj.scale.multiplyScalar(1 + Math.sin(t * 2.2) * 0.05);

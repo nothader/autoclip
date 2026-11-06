@@ -2,6 +2,8 @@
 
 Scheduled sessions follow this file. **Daily** (Short) and **weekly** (long-form) runs make one video each, upload it to YouTube as **PRIVATE**, and report the link. The owner reviews it and makes it public in YouTube Studio. Never upload as public or unlisted.
 
+**There is one look: Block POV** (studied frame by frame from @weirdsecret_; the full breakdown is in `automation/STYLE_BLOCK_POV.md`). Every other style (film, voxel, bodycam, toon, cinematic, witness, retro, split screen, narrated explainers) has been deleted from the generator, and the schema rejects it.
+
 Repo: `nothader/autoclip`, branch `feat/whatif-video-generator`. Commit with the session's attribution trailer. Never commit videos (`work/` is excluded).
 
 ## 0. Setup (fresh container)
@@ -10,62 +12,33 @@ cd <repo> && git checkout feat/whatif-video-generator && git pull
 [ -x venv/bin/python ] || { python3 -m venv venv && ./venv/bin/pip install -q -r requirements.txt -r requirements-whatif.txt; }
 ./venv/bin/python -c "import playwright, kokoro_onnx" && ffmpeg -version | head -1
 ```
-Chromium is preinstalled (do not run `playwright install`). Narration downloads its TTS model on first use (~120 MB).
+Chromium is preinstalled (do not run `playwright install`). Character voices download the Kokoro TTS model on first use (~120 MB).
 If `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET` or `YOUTUBE_REFRESH_TOKEN` is missing, still make the video. Skip the upload, and in the final message say which variable is missing.
 
 ## 1. Pick the topic
-Use the first `- [ ]` line in the right section of `automation/topics.md` (Shorts for daily, Long-form for weekly). Skip a topic that is unsafe or already made (see Done).
+Use the first `- [ ]` line in the right section of `automation/topics.md` (Shorts for daily, Long-form for weekly). Skip a topic that breaks the topic rules below or is already made (see Done).
+
+**Topic rules (owner, Nov 2026):** religious what-ifs are allowed and are told from a believer's point of view. Never set a story inside a real attack with real victims (use a fictional building and place). Immigration or other political group topics only as neutral reworks (e.g. "what if every nurse walked out"). No gore.
 
 ## 2. Write the script
-Copy the closest example and adapt it. Never reuse a set or shot list as-is.
-- Shorts: `automation/scripts/*.py`, using the `automation/lib/hit.py` helpers (`Video`, `V`, `P`, `crowd`, `room`, `city`, `park`, `school`, `BOY`/`GIRL`, palettes). Best examples: `partner.py`, `onegender.py`, `planes.py`, `mars.py`.
-- Long-form: `automation/longform/swap24.py` (16:9, narrated, chapters, comment prompts) plus `hook.py` (danger-hook cold open).
-  **Lessons from the first long-form** (swap, Nov 2026: 9% average viewed, 31% left at 0:32, nearly 0% by 2:15):
-  - **Deliver the thumbnail promise in the first 10 seconds.** If the thumbnail says "HE GOT HER PERIOD", open on that moment, then rewind. Don't spend the first 48 s on countdown, teasers and "meet the characters". Story action must start by 0:10.
-  - **No "coming up" teaser beats.** Show them, don't announce them. Introduce characters inside the action.
-  - **3–4 minutes, not 6–7:** 6–8 chapters with the strongest moments only (cut filler chapters), and a faster pace (`pace` 1.35+).
-  - **Big captions:** `theme.captions: "words"` and a bold or toon style. Thin serif subtitles are unreadable on phones.
-  - **No dip-to-black between chapters.** It is an exit point; use whip or zoom transitions.
-
-### The outlier formula (researched Nov 2026; supersedes the old "sound effects only" rule)
-From the biggest "what if" / 3D-explainer Shorts (Zack D. Films: about 29M subscribers, about 81B views; one viral "what if" body channel: 3.9M average views over 59 videos):
-- **Deep, serious narrator talking to "you"** ("documentary meets horror trailer"). `hit.save` turns this on by default: Kokoro `am_onyx`. Captions are what the narrator says.
-- **Quiet dark cinematic music bed** at about 10–15% volume (`theme.music: "dark"`, on by default in `hit.save`), plus sound effects on every impact moment.
-- **50–65 s is the sweet spot**; under 30 s or over 65 s underperforms. About 12–14 beats at the 0.9 pace with narration.
-- **Escalation arc:** a curiosity-gap question → a mild, relatable start → it escalates every beat (never plateaus) → the peak drama → a finale of total failure, transformation or twist. Then the pick-a-side question.
-- **Something always moves:** the camera is never still for long, with a scene change or new detail every 3–5 s.
-- **Bold, centered captions.**
-- **Top topic patterns:** "What if you were raised by ___?" (strongest category in that data), survival and body ("What happens to your body if…"), "How long could you…?" Titles with a specific number, a known brand or event, and a hidden consequence.
-- An owner can still ask for sound effects only on a specific video: `v.save(..., narrate=False, music="none")`.
-
-### Make every video different (owner, Nov 2026: "everything now feels similar")
-Every video gets its **own world**, built from scratch for its topic. Nothing below may repeat from the last few videos:
-- **Opening:** rotate between these hook types. Never "In 3 seconds" twice in a row (`v.save(countdown=True)` only for the countdown type).
-  1. **Danger moment** first ("This man has 10 seconds before…"), then rewind.
-  2. **Curiosity close-up:** a strange extreme close-up, then pull out to reveal.
-  3. **Direct question to "you"** ("Could you survive a week without…?").
-  4. **One shocking number** ("1.5 billion cars. Gone.").
-  5. **Countdown** ("In 3 seconds…"), at most one video in five.
-- **World:** design props, buildings and places for *this* topic. Don't drop in the stock `city()`/`park()`/`room()`/`house()`/`school()` helpers. They are examples; copy and reshape them (different layout, materials, colours, scale). Each topic needs at least 3 locations nobody has seen on the channel.
-- **Colour:** pick a fresh 3–4 colour palette for the video (skies, ground, clothes) and avoid the last video's. Vary the time of day (dawn, noon, golden, dusk, night, storm).
-- **Characters:** give the main character(s) a new look per video: outfit, colours, hair, skin, child or adult or elder. Don't reuse the blue-shirt guy and pink-shirt girl.
-- **Camera rhythm:** vary angles and moves (`move`: swoop, crane, arc, push, pull). No fixed pattern of front, wide, follow.
-- **Ending:** a new pick-a-side question in new words.
-- **Music:** varies automatically (each title gets its own key, tempo and chord progression).
-- **Before rendering, run the novelty check.** It must pass:
-  `./venv/bin/python automation/novelty.py automation/scripts/<topic>.json`
-
-### The recipe (what made the 41K-view swap video work)
-- **About YOU:** the viewer, their partner, family, body, money, school or job. Everyone watching is in the story.
-- **Cold open, rotated** (see "Make every video different" below). Never start on a `flash`.
-- **Open loop in the first 3 captions** ("But wait until...", "Here's the scary part...") with a payoff later.
-- **Everyday funny details** over abstract facts. One real number per 2–3 beats (`stat` or `tooltip`), rounded and widely cited. Say "about".
-- **Shorts:** 10–13 beats, about 40–60 s at the default 0.9 pace (`length: quick`). The owner asked for a 25% slower pace so captions can be read; never speed it back up. Captions at grade-3 reading level, under about 14 words.
-- **End on a pick-a-side question** (end card lines + last caption). Examples: "WHO HAD IT HARDER?", "WOULD YOU GO?", "WHICH WORLD WINS?"
-- **House look = `style: "film"`** (Nov 2026, matches the top 3D channels): bright warm grade, background blurred by depth, expressive faces. Use it for every Short so the channel has one recognizable look. Use `witness` or `bodycam` only when the format needs it (one fixed eyewitness view or found footage).
-- **Faces sell it:** frame people waist-up or closer (`front`/`closeup`/`side`, zoom about 0.5–0.8, `focus` at head height) on most beats. Expressions follow the action: `kneel`/`run`/`sprint`/`fall` = scared, `point`/`phone` = smiling, everything else neutral.
-- **Stay neutral** on politics, gender and religion. Present both sides and let the comments argue. No gore, nothing sexual, no real people mocked.
-- **Lively backgrounds:** sky colours, places and people. No black voids. No globes or Earth-from-space shots (a small star in the sky is fine). Sound effects only for Shorts; narration for long-form.
+Copy the closest example in `automation/scripts/` (`elevator.py`, `bp_*.py`) and adapt it. Never reuse a set or shot list as-is.
+- **Library:** `automation/lib/block.py` gives `Story`, `T` (tracker), `guy`, `crowd`, `env`, `O`. `automation/lib/places.py` gives `street`, `terrace`, `hospital_room`, `bedroom`, `church`, `mosque`, `office_floor`, `stairwell`, `plain`, `living_room`, `park` (all take a seed and colours; build new places for every topic too).
+- **Structure (Shorts 60–100 s, 16–26 beats of 2.8–4 s):**
+  1. Beat 0: caption `""`; the serif title (one `*key word*` in the accent colour) shows over it for 3.5 s. A normal, specific moment.
+  2. The event lands in 2–3 short beats. Then time jumps; each jump is a new place or angle.
+  3. One real-world anchor (a real number, case or source line in `by=`).
+  4. People around you get it wrong; you choose differently. Climax: tracker `alert` (red) or `big` (centre), `shake`.
+  5. A quiet emotional resolution. End card: one gold question to YOU.
+- **Text:** italic second-person captions, 3–9 words, grade-3 words, at least 40% say "you"/"your". Dialogue in quotes with `by=`. A tracker on most beats: `clock` (ticks), `count` (+ `unit`, `prefix="$"`), `value`, or `scramble`.
+- **Sound:** no narrator. People in the scene talk (`voices=[("text", "af_heart", at)]`). Music is the tender piano bed.
+- **Camera:** mostly `eyes` (first person, block hands: `idle`, `phone`, `hold`+`cup`, `reach`, `shield`, `grab`, `point`, `float`), 1–3 cutaways to `front` / `far`.
+- **Long-form (weekly):** same look at 1920×1080 (`Story.save(..., )` then set `"width": 1920, "height": 1080` in the JSON), 3–4 minutes, 45–60 beats, chapters as time jumps on the tracker. Check a landscape contact sheet before rendering.
+- **Framing pitfalls:**
+  - The `eyes` camera looks toward −z from `eye=(x, y, z)`; people facing you need `ry=180` (or 150–210).
+  - Keep faces above the caption line (about 58% down the frame).
+  - Near flames and glows burn out the captions; keep them back.
+  - `look="elder"` for grandparents.
+  - A cramped room puts the camera inside people: move the eye back or the people away.
 
 ## 3. Check, then LOOK
 ```bash
@@ -74,13 +47,7 @@ Every video gets its **own world**, built from scratch for its topic. Nothing be
 ./venv/bin/python automation/novelty.py automation/scripts/<topic>.json          # must pass: different from recent videos
 ./venv/bin/python automation/sheet.py automation/scripts/<topic>.json   # then Read the PNG
 ```
-Read the contact sheet and fix every shot where the subject isn't clearly visible above the captions (bottom ~45% of a vertical frame). Known pitfalls:
-- **Walls of `room()` block the camera:** use an open floor with no walls, or `camera "aerial"` with `focus` moved toward the camera (+z) so subjects sit in the top half.
-- **`low_front`/`front`/`closeup` sit at −z looking toward +z:** objects placed at −z end up *behind* them. People face −z by default (`ry=180` faces the wide/follow cameras).
-- **Multi-part props (`animal`, `dog`, planes, ships) with a `move` animation collapse into one point.** Animate them with `bob`/`wobble`, or move single objects only.
-- **Tall `city()` buildings** block wide shots: use `far`/`aerial` or lower the zoom.
-- **Thumbnail:** if the auto-picked beat is weak, re-render it: `whatif thumb <json> --beat N --text "..."`.
-Re-run the sheet until every frame reads.
+Read the contact sheet and fix every shot where the subject isn't clearly visible or a face is cut off, turned away or hidden under the caption. Re-run the sheet until every frame reads.
 
 ## 4. Render (detached, resumable)
 ```bash
@@ -88,13 +55,12 @@ mkdir -p /tmp/frames-<topic>
 setsid nohup ./venv/bin/python -m backend.cli whatif render automation/scripts/<topic>.json \
   -o work/whatif/<slug>.mp4 --pack --frames-dir /tmp/frames-<topic> > /tmp/render-<topic>.log 2>&1 < /dev/null & disown
 ```
-Wait with a background until-loop on the log (Shorts take about 10 min, long-form about 90 min). If the container restarts, re-run the same command: existing frames are skipped.
+A Short takes about an hour on 4 cores. Keep a background until-loop waiting on the log the whole time: the container is reclaimed when the session goes idle, which kills the render. If the container restarts, re-run the same command; existing frames are skipped. Delete `/tmp/frames-<topic>` after the video is done (the disk fills up otherwise).
 Then compress: `ffmpeg -i X.mp4 -c:v libx264 -preset slow -b:v 6M -maxrate 9M -bufsize 12M -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart X_c.mp4 && mv X_c.mp4 X.mp4`.
-Long-form: render `hook.json` too, trim its end card (duration − 2.2 s), and concat it in front (see the git history for `long_swap_bodies_24h`).
-Pull 4–5 frames from the final MP4 and look at them: frame 0, the middle, the end, and the thumbnail.
+Pull 4–5 frames from the final MP4 and look at them (check colour, faces, text). If the thumbnail beat is weak: `whatif thumb <json> --beat N --text "..."`.
 
 ## 5. Metadata
-`work/whatif/<slug>_youtube.txt` is generated by `--pack`. Replace its TAGS with about 10 specific search phrases (topic phrase first, then "what if", "fyp", "dink dunk"). For long-form, add a backup title and a sources line.
+`work/whatif/<slug>_youtube.txt` is generated by `--pack`. Replace its TAGS with about 10 specific search phrases (topic phrase first, then "what if", "pov", "fyp", "dink dunk").
 
 ## 6. Upload (PRIVATE)
 ```bash
@@ -109,49 +75,5 @@ It prints the video URL and the Studio link. Never pass `--privacy public`.
   - title and length;
   - the Studio link to review;
   - suggested posting time: Shorts 4 PM ET, long-form Sunday 12 PM ET;
-  - the pinned comment to post;
+  - the pinned comment to post (the end-card question);
   - anything you could not do and why.
-
-## Voxel format (branch `feat/voxel-format`)
-A second format modelled on the blocky "what if" explainers: a miniature voxel world with tilt-shift blur, a top-left **counter card** on every beat (big serif number that counts up, small-caps label, coloured pill tag, italic deadpan line), playful music, and a narrator who reads **only the title**.
-- **Script:** `automation/lib/vox.py` (`Vox`, `biome`, `carpet`, `person`, `crowd`, `prop`, `landmark`, `env`, `SKIES`). Example: `automation/scripts/gummy_ocean.py`.
-- **Variety, built in:**
-  - about 290 voxel models in 10 families (`vox.MODELS`, `vox.FAMILIES`);
-  - 40 biomes (`vox.BIOMES`) that each pick a seeded subset of props;
-  - 18 pastel skies;
-  - seeded people: 15 hair styles × 14 hats × 10 outfits × 10 skins × 6 faces;
-  - carpets of up to 30,000 copies of one model.
-  - Use a new seed, biome and sky on every beat. The novelty check compares models, so reusing the same props fails it.
-- **Sizes are real:** a model's scale is its longest side in metres (a person is 1.8, a burger 0.12, the Eiffel Tower 330). `vox.LANDMARKS` lists real heights for comparison beats.
-- **Writing (witty and interactive):**
-  - a counter on every beat, escalating every time;
-  - deadpan understatement ("It's adorable. It is also a wave.");
-  - one absurd everyday detail per beat;
-  - landmark comparisons in the tag ("≈ EIFFEL TOWER");
-  - a callback to beat 1 at the end;
-  - a yes/no or pick-a-side end question;
-  - grade-3 words; nothing mean or gross.
-- **Framing pitfalls:**
-  - Use `front` with zoom 0.7–0.8 for faces. `closeup` is too tight for voxel heads.
-  - Keep carpets from reaching toward the camera: the `front` camera sits at −z, `wide` and `far` at +z.
-  - Big things (ships, landmarks) need `far` with zoom ≈ height/10.
-  - Giants are never picked at random by `biome()`; add them on purpose.
-
-## Block POV format (branch `feat/block-pov`, studied from @weirdsecret_)
-The full breakdown is in `automation/STYLE_BLOCK_POV.md`.
-- **Library:** `automation/lib/block.py` provides `Story`, `T` (tracker), `guy`, `crowd` and `env`. `automation/lib/places.py` provides `street`, `terrace`, `hospital_room`, `bedroom`, `church`, `mosque`, `office_floor`, `stairwell`, `plain`, `living_room` and `park`.
-- **Examples:** `automation/scripts/elevator.py` and `bp_*.py`, the 15 remakes.
-- **Rules:**
-  - No narrator; people in the scene talk (`voices`).
-  - Italic second-person captions of 3–9 words.
-  - The left tracker ticks (`clock`, `count`, `value`, `scramble`); it uses `alert` for danger and `big` at the climax.
-  - The title shows only in the first 3.5 s.
-  - It ends on a black card with a gold question.
-  - Use a real fact or source line as an anchor (`by=`).
-- **Framing:**
-  - The `eyes` camera looks toward −z from `eye=(x, y, z)`.
-  - People facing you need `ry=180` (or around 150–210).
-  - Keep faces above the caption line (about 58% down the frame).
-  - Avoid near flames and glows; they burn out the captions.
-  - Use `look="elder"` for grandparents.
-- **Owner's topic rule (Nov 2026):** religious "what if" topics are allowed, told from a believer's point of view. Do not set stories inside real attacks with real victims (use fictional buildings and places instead), and keep immigration or political group topics to neutral reworks.

@@ -13,8 +13,13 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
-from props import O  # noqa: E402,F401
+
+
+def O(kind, at, scale=1, color="#d8d8d8", **kw):
+    """One set object: kind, position, scale (number or [x, y, z]), colour, plus any SetObject field."""
+    d = {"kind": kind, "at": list(at), "scale": scale if isinstance(scale, (int, float)) else list(scale), "color": color}
+    d.update(kw)
+    return d
 
 # Skies (top, bottom): pick per scene, keep them believable (this format is cinematic, not pastel).
 NIGHT = ["#0b1020", "#26324a"]; DUSK = ["#2c2a4a", "#e08a5f"]; DAWN = ["#5c6f9e", "#f4c9a0"]; DAY = ["#5d86ad", "#d7e3ea"]

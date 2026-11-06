@@ -19,7 +19,7 @@ MOVES = ["none", "swoop_in", "swoop_out", "crane_up", "crane_down", "arc_left", 
          "whip", "dutch", "drone_rise", "fly_by", "spiral"]
 TRANSITIONS = ["cut", "whip", "flash", "zoom", "dip", "glitch", "blink"]
 FLOWS = ["steady", "build", "punchy", "slowburn", "rollercoaster"]
-PALETTES = ["natural", "warm", "cool", "teal_orange", "vivid", "pastel", "mono", "noir"]
+PALETTES = ["natural", "warm", "cool"]
 
 TR_IN = 0.32      # 转场覆盖本段开头多少秒（原始时间，不随节奏缩）
 TR_OUT = 0.12     # 甩镜 / 冲推在上一段末尾的"出"半程
@@ -41,38 +41,16 @@ FLOW_TRANS = {
 }
 # 风格对转场的偏好（乘到权重上）
 STYLE_TRANS = {
-    "retro": {"glitch": 3.0, "dip": 0.3},
-    "cinematic": {"dip": 2.0, "glitch": 0.0, "flash": 0.6},
-    "calm": {"glitch": 0.0, "flash": 0.5, "dip": 1.5},
-    "toon": {"whip": 1.6, "zoom": 1.6, "glitch": 0.3},
-    "bold": {"flash": 1.5, "zoom": 1.5},
-    "witness": {"whip": 0.0, "zoom": 0.0, "glitch": 0.0, "flash": 0.3, "cut": 3.0, "dip": 1.5},
-    "bodycam": {"cut": 3.0, "glitch": 2.0, "whip": 1.2, "zoom": 0.0, "flash": 0.0, "dip": 0.4},   # 实拍感：硬切 + 数字掉帧
-    "voxel": {"cut": 3.0, "whip": 1.0, "zoom": 1.2, "dip": 0.1, "glitch": 0.0, "flash": 0.2},
-    "film": {"cut": 2.5, "whip": 1.2, "zoom": 1.0, "dip": 0.2, "glitch": 0.0, "flash": 0.3},   # 动画短片：干净的硬切，少黑场
+    "block": {"cut": 2.5, "whip": 1.2, "zoom": 1.0, "dip": 0.6, "glitch": 0.0, "flash": 0.3},   # 运动模糊甩镜 + 硬切，少量黑场
 }
 STYLE_PALETTES = {
-    "calm": ["natural", "cool", "pastel", "warm"],
-    "bold": ["vivid", "teal_orange", "warm", "natural"],
-    "cinematic": ["teal_orange", "warm", "noir", "mono", "cool"],
-    "toon": ["vivid", "pastel", "natural", "warm"],
-    "retro": ["vivid", "cool", "natural"],
-    "witness": ["natural", "cool", "warm"],
-    "bodycam": ["natural", "cool"],   # 着色器自己做传感器调色，别再叠重的滤镜
-    "voxel": ["natural"],
-    "film": ["natural", "warm"],   # 着色器做调色：明亮、暖、干净
-    "block": ["natural", "warm", "cool"],   # @weirdsecret_ 式：柔和电影感，不要黑白 / 高饱和
+    "block": ["natural", "warm", "cool"],   # 柔和电影感：不要黑白 / 高饱和
 }
 # CSS 滤镜（叠在风格自带调色后面）
 PALETTE_CSS = {
     "natural": "",
     "warm": "sepia(0.18) saturate(1.12) hue-rotate(-6deg)",
     "cool": "saturate(0.92) hue-rotate(8deg) brightness(1.02)",
-    "teal_orange": "sepia(0.12) saturate(1.28) contrast(1.06) hue-rotate(-4deg)",
-    "vivid": "saturate(1.4) contrast(1.07)",
-    "pastel": "saturate(0.78) brightness(1.07) contrast(0.93)",
-    "mono": "grayscale(0.82) contrast(1.12)",
-    "noir": "grayscale(1) contrast(1.32) brightness(0.94)",
 }
 
 
@@ -133,7 +111,7 @@ def assign(sb) -> List[Dict[str, Any]]:
         # 镜头运动
         if b.move:
             move = b.move
-        elif b.camera in ("witness", "eyes") or b.scene == "map":   # 目击者 / 第一人称视角由自己的头部运动驱动；地图不用运镜
+        elif b.camera == "eyes":   # 目击者 / 第一人称视角由自己的头部运动驱动；地图不用运镜
             move = "none"
         else:
             w = dict(FLOW_MOVES[flow])
@@ -141,8 +119,8 @@ def assign(sb) -> List[Dict[str, Any]]:
                 for k in ("swoop_in", "fly_by", "whip", "spiral"):
                     w[k] = w.get(k, 0) * (0.3 + 2.2 * x)
             GENTLE = ("arc_left", "arc_right", "push_in", "pull_out", "crane_up", "crane_down", "none")
-            # 特写（镜头离脸很近，横移会穿过头）和 voxel 微缩风格（慢推慢摇，像在看模型）只用柔和运镜
-            if b.camera in ("closeup", "front", "low_front") or (sb.theme and sb.theme.style == "voxel"):
+            # 特写（镜头离脸很近，横移会穿过头）只用柔和运镜
+            if b.camera in ("closeup", "front", "low_front"):
                 w = {k: v for k, v in w.items() if k in GENTLE} or {"push_in": 1, "arc_left": 1, "arc_right": 1}
             if b.scene == "globe":
                 w = {k: v for k, v in w.items() if k in ("swoop_in", "swoop_out", "arc_left", "arc_right", "push_in", "pull_out", "spiral", "none")}
@@ -163,7 +141,7 @@ def assign(sb) -> List[Dict[str, Any]]:
             if sb.format == "pov":   # 第一人称：眨眼、转头（甩）、黑场；不用闪白 / 冲推
                 w = {"blink": 4, "cut": 3, "whip": 2, "dip": 1, "glitch": 0.5 if style != "calm" else 0}
             if new_ch:   # 新章节：更重的转场
-                w = {"flash": 2, "dip": 2, "zoom": 1} if style not in ("witness",) else {"dip": 1}
+                w = {"flash": 2, "dip": 2, "zoom": 1}
             tr = _pick(w, _h(sb.title, i, "tr"), avoid=prev_tr if prev_tr != "cut" else None)
             if sb.format == "pov" and not new_ch and i >= 3 and "blink" not in [o["tr"] for o in out[-2:]]:
                 tr = "blink"   # 眨眼是 pov 的标志：至少每三刀一次

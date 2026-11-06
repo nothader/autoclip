@@ -5,9 +5,7 @@
 Compares the new storyboard with the most recent other storyboards in automation/scripts/ on:
   - props    : the set of (object kind, colour) pairs used across all shots
   - skies    : background gradients
-  - cameras  : the sequence of camera angles
   - opening  : first caption's first three words (e.g. "in 3 seconds")
-  - style    : theme.style
   - ending   : end-card lines
 Exits 1 with a list of overlaps if it is too similar to any recent video; fix the script, re-run.
 """
@@ -63,16 +61,12 @@ def main() -> int:
             hits.append(f"props {jac(me['props'], o['props']):.0%} the same")
         if me["skies"] and jac(me["skies"], o["skies"]) > SKIES_MAX:
             hits.append(f"skies {jac(me['skies'], o['skies']):.0%} the same")
-        if seq_sim(me["cams"], o["cams"]) > CAMS_MAX:
-            hits.append(f"camera sequence {seq_sim(me['cams'], o['cams']):.0%} the same")
         if me["opening"] and me["opening"] == o["opening"]:
             hits.append(f'same opening words "{me["opening"]}"')
         if me["end"] and me["end"] == o["end"]:
             hits.append("same end card")
         if hits:
             problems.append(f"{p.stem}: " + "; ".join(hits))
-    if len(others) >= 2 and me["style"] and all(fingerprint(json.loads(p.read_text()))["style"] == me["style"] for p in others[:2]):
-        problems.append(f'style "{me["style"]}" was used by the last two videos too (film is the house look; vary palette, sky and set instead)')
     if problems:
         print("TOO SIMILAR to recent videos:")
         for x in problems:

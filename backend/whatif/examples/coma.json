@@ -1,0 +1,4250 @@
+{
+ "format": "pov",
+ "title": "What if you fell into a coma?",
+ "premise": "First-person coma story: a night dive at summer camp, ICU weeks, a doctor ready to give up, and a brain scan that proves you're still there.",
+ "length": "standard",
+ "intro": {
+  "style": "none",
+  "title": "What if you fell into a *coma*?"
+ },
+ "pov": {
+  "text": "",
+  "skin": "#c68642",
+  "sleeve": "#2b2f36",
+  "hand_style": "block",
+  "open_eyes": false
+ },
+ "theme": {
+  "style": "block",
+  "accent": "#4fd1c5",
+  "music": "tender"
+ },
+ "outro": {
+  "chart": false,
+  "question_duration": 4.0,
+  "end": {
+   "kind": "question",
+   "lines": [
+    "Would you want them to keep trying?"
+   ]
+  }
+ },
+ "thumbnail": "STILL IN THERE",
+ "thumbnail_beat": 16,
+ "beats": [
+  {
+   "duration": 3.8,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "",
+   "env": {
+    "set": {
+     "background": [
+      "#1b2650",
+      "#55688f"
+     ],
+     "sky_detail": "auto",
+     "ground": "none",
+     "focus": [
+      0,
+      1.72,
+      0.4
+     ],
+     "zoom": 1.0,
+     "ambience": "ocean",
+     "light_intensity": 2.3,
+     "ambient": 1.0,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.4,
+        -20
+       ],
+       "scale": [
+        200,
+        0.1,
+        200
+       ],
+       "color": "#12334f",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.03,
+         "speed": 0.6
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.05,
+        2.5
+       ],
+       "scale": [
+        2.2,
+        0.1,
+        8
+       ],
+       "color": "#7a5a3c"
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.0,
+        -0.2,
+        -1.2
+       ],
+       "scale": [
+        0.18,
+        0.8,
+        0.18
+       ],
+       "color": "#5c4430",
+       "count": 4,
+       "seed": 2,
+       "spread": [
+        0,
+        0,
+        6
+       ]
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -60
+       ],
+       "scale": 3.0,
+       "color": "#1f3b2c",
+       "count": 14,
+       "seed": 4,
+       "spread": [
+        140,
+        0,
+        10
+       ]
+      },
+      {
+       "kind": "flame",
+       "at": [
+        -6,
+        0.1,
+        6
+       ],
+       "scale": 0.6,
+       "color": "#ffa94d"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0.05,
+        -9
+       ],
+       "scale": 0.06,
+       "color": "#ffe7a8",
+       "material": "glow",
+       "count": 10,
+       "seed": 5,
+       "spread": [
+        20,
+        0,
+        2
+       ]
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0.1,
+        -2.0
+       ],
+       "scale": 1.0,
+       "color": "#2f9e44",
+       "seed": 101,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        0.9,
+        0.1,
+        -2.3
+       ],
+       "scale": 1.0,
+       "color": "#f76707",
+       "seed": 102,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        160,
+        0
+       ],
+       "animate": [],
+       "color2": "#25324a"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        14,
+        9,
+        -60
+       ],
+       "scale": 2.2,
+       "color": "#fff3d6",
+       "material": "glow"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0.4,
+        -45
+       ],
+       "scale": 0.12,
+       "color": "#ffd98a",
+       "material": "glow",
+       "count": 14,
+       "seed": 8,
+       "spread": [
+        80,
+        0.5,
+        4
+       ]
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "CAMP WILLOW LAKE",
+    "value": "",
+    "sub": "LAST NIGHT OF SUMMER",
+    "alert": false,
+    "big": false,
+    "scramble": false,
+    "clock": "11:16:05 PM",
+    "clock_rate": 1.0
+   },
+   "voices": [
+    {
+     "text": "Dive! Dive! Dive!",
+     "voice": "am_puck",
+     "at": 0.4
+    },
+    {
+     "text": "Do it!",
+     "voice": "af_nicole",
+     "at": 2.2
+    }
+   ],
+   "hands": {
+    "pose": "idle"
+   },
+   "head": "breathe",
+   "gaze": [
+    0,
+    -14
+   ]
+  },
+  {
+   "duration": 3.2,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your friends dare you to dive. In the dark.",
+   "env": {
+    "set": {
+     "background": [
+      "#1b2650",
+      "#55688f"
+     ],
+     "sky_detail": "auto",
+     "ground": "none",
+     "focus": [
+      0,
+      1.72,
+      -0.6
+     ],
+     "zoom": 1.0,
+     "ambience": "ocean",
+     "light_intensity": 2.3,
+     "ambient": 1.0,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.4,
+        -20
+       ],
+       "scale": [
+        200,
+        0.1,
+        200
+       ],
+       "color": "#12334f",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.03,
+         "speed": 0.6
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.05,
+        2.5
+       ],
+       "scale": [
+        2.2,
+        0.1,
+        8
+       ],
+       "color": "#7a5a3c"
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.0,
+        -0.2,
+        -1.2
+       ],
+       "scale": [
+        0.18,
+        0.8,
+        0.18
+       ],
+       "color": "#5c4430",
+       "count": 4,
+       "seed": 2,
+       "spread": [
+        0,
+        0,
+        6
+       ]
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -60
+       ],
+       "scale": 3.0,
+       "color": "#1f3b2c",
+       "count": 14,
+       "seed": 4,
+       "spread": [
+        140,
+        0,
+        10
+       ]
+      },
+      {
+       "kind": "flame",
+       "at": [
+        -6,
+        0.1,
+        6
+       ],
+       "scale": 0.6,
+       "color": "#ffa94d"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0.05,
+        -9
+       ],
+       "scale": 0.06,
+       "color": "#ffe7a8",
+       "material": "glow",
+       "count": 10,
+       "seed": 5,
+       "spread": [
+        20,
+        0,
+        2
+       ]
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0.1,
+        -2.0
+       ],
+       "scale": 1.0,
+       "color": "#2f9e44",
+       "seed": 101,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        0.9,
+        0.1,
+        -2.3
+       ],
+       "scale": 1.0,
+       "color": "#f76707",
+       "seed": 102,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        160,
+        0
+       ],
+       "animate": [],
+       "color2": "#25324a"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        14,
+        9,
+        -60
+       ],
+       "scale": 2.2,
+       "color": "#fff3d6",
+       "material": "glow"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0.4,
+        -45
+       ],
+       "scale": 0.12,
+       "color": "#ffd98a",
+       "material": "glow",
+       "count": 14,
+       "seed": 8,
+       "spread": [
+        80,
+        0.5,
+        4
+       ]
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "reach"
+   },
+   "head": "breathe",
+   "gaze": [
+    0,
+    -30
+   ]
+  },
+  {
+   "duration": 2.8,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "The water is shallower than it looks.",
+   "env": {
+    "set": {
+     "background": [
+      "#1b2650",
+      "#55688f"
+     ],
+     "sky_detail": "auto",
+     "ground": "none",
+     "focus": [
+      0,
+      0.6,
+      -2.5
+     ],
+     "zoom": 1.0,
+     "ambience": "ocean",
+     "light_intensity": 2.3,
+     "ambient": 0.9,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.4,
+        -20
+       ],
+       "scale": [
+        200,
+        0.1,
+        200
+       ],
+       "color": "#12334f",
+       "material": "glossy",
+       "animate": [
+        {
+         "type": "bob",
+         "amount": 0.03,
+         "speed": 0.6
+        }
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.05,
+        2.5
+       ],
+       "scale": [
+        2.2,
+        0.1,
+        8
+       ],
+       "color": "#7a5a3c"
+      },
+      {
+       "kind": "cylinder",
+       "at": [
+        -1.0,
+        -0.2,
+        -1.2
+       ],
+       "scale": [
+        0.18,
+        0.8,
+        0.18
+       ],
+       "color": "#5c4430",
+       "count": 4,
+       "seed": 2,
+       "spread": [
+        0,
+        0,
+        6
+       ]
+      },
+      {
+       "kind": "tree",
+       "at": [
+        0,
+        0,
+        -60
+       ],
+       "scale": 3.0,
+       "color": "#1f3b2c",
+       "count": 14,
+       "seed": 4,
+       "spread": [
+        140,
+        0,
+        10
+       ]
+      },
+      {
+       "kind": "flame",
+       "at": [
+        -6,
+        0.1,
+        6
+       ],
+       "scale": 0.6,
+       "color": "#ffa94d"
+      },
+      {
+       "kind": "sphere",
+       "at": [
+        0,
+        0.05,
+        -9
+       ],
+       "scale": 0.06,
+       "color": "#ffe7a8",
+       "material": "glow",
+       "count": 10,
+       "seed": 5,
+       "spread": [
+        20,
+        0,
+        2
+       ]
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "shield"
+   },
+   "head": "fall",
+   "gaze": [
+    0,
+    -55
+   ],
+   "effects": [
+    "shake"
+   ],
+   "sfx": [
+    {
+     "type": "impact",
+     "at": 1.4,
+     "gain": 1.3
+    }
+   ]
+  },
+  {
+   "duration": 3.0,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your head hits a rock.",
+   "env": {
+    "set": {
+     "background": [
+      "#0a2a40",
+      "#1d5a7a"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      0.2,
+      0
+     ],
+     "zoom": 1.0,
+     "ambience": "ocean",
+     "light_intensity": 2.3,
+     "ambient": 0.8,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -1,
+        -1
+       ],
+       "scale": [
+        8,
+        0.1,
+        8
+       ],
+       "color": "#0b2236"
+      },
+      {
+       "kind": "rock",
+       "at": [
+        0.2,
+        -0.6,
+        -1.4
+       ],
+       "scale": 0.6,
+       "color": "#3d4a40"
+      },
+      {
+       "kind": "particles",
+       "at": [
+        0,
+        -0.2,
+        -1
+       ],
+       "scale": 0.05,
+       "color": "#bfe3ff",
+       "count": 60,
+       "seed": 3,
+       "spread": [
+        3,
+        2,
+        3
+       ]
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    0,
+    -40
+   ],
+   "effects": [
+    "darken",
+    "dizzy"
+   ]
+  },
+  {
+   "duration": 3.0,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Then nothing.",
+   "env": {
+    "set": {
+     "background": [
+      "#000000",
+      "#05080c"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1,
+      0
+     ],
+     "zoom": 1.0,
+     "ambience": "none",
+     "light_intensity": 2.3,
+     "ambient": 1.3,
+     "bounce": "#cfc6b8",
+     "objects": []
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "DAY 1",
+    "sub": "ST. MARY'S · ICU 4",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "effects": [
+    "darken"
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Doctors score you a 3 out of 15. The lowest there is.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        1.1,
+        0,
+        -1.6
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "idle",
+       "expression": "neutral",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      }
+     ]
+    }
+   },
+   "voices": [
+    {
+     "text": "No eye opening. No response to voice. GCS three.",
+     "voice": "am_michael",
+     "at": 0.3
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    8,
+    -6
+   ],
+   "screen": {
+    "kind": "vitals",
+    "title": "GCS 3/15",
+    "rows": [
+     [
+      "HR",
+      "62"
+     ],
+     [
+      "SpO2",
+      "97"
+     ]
+    ]
+   }
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your mom hasn't left the chair.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "DAY 4",
+    "sub": "ST. MARY'S · ICU 4",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "voices": [
+    {
+     "text": "Hey baby. It's Mom. I'm right here.",
+     "voice": "af_heart",
+     "at": 0.4
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -22,
+    6
+   ]
+  },
+  {
+   "duration": 3.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You can hear her. You can't answer.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -22,
+    6
+   ],
+   "effects": [
+    "darken"
+   ]
+  },
+  {
+   "duration": 3.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your phone keeps lighting up. Nobody reads it.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.3,
+        0.7,
+        0.4
+       ],
+       "scale": [
+        0.5,
+        0.05,
+        0.5
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        -1.3,
+        0.73,
+        0.4
+       ],
+       "scale": [
+        0.12,
+        0.22,
+        1
+       ],
+       "color": "#9fd3ff",
+       "material": "glow",
+       "rotate": [
+        -90,
+        0,
+        0
+       ],
+       "animate": [
+        {
+         "type": "pulse",
+         "amount": 0.3
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "WEEK 2",
+    "sub": "47 UNREAD MESSAGES",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -38,
+    -40
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "\"There may be no one in there anymore.\"",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        1.1,
+        0,
+        -1.6
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "idle",
+       "expression": "neutral",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "WEEK 5",
+    "sub": "ST. MARY'S · ICU 4",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "caption_by": "Your doctor",
+   "voices": [
+    {
+     "text": "I'm sorry. There may be no one in there anymore.",
+     "voice": "am_michael",
+     "at": 0.3
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    14,
+    -6
+   ]
+  },
+  {
+   "duration": 3.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "\"She's in there. I know she is.\"",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        1.1,
+        0,
+        -1.6
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "idle",
+       "expression": "neutral",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "caption_by": "Your mom",
+   "voices": [
+    {
+     "text": "No. She's in there. I know she is.",
+     "voice": "af_heart",
+     "at": 0.3
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -24,
+    -6
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "But about 4 in 10 times, that call is wrong.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 1.4400000000000002,
+     "ambient": 1.04,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        1.1,
+        0,
+        -1.6
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "idle",
+       "expression": "neutral",
+       "rotate": [
+        0,
+        200,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "MISDIAGNOSED",
+    "value": "ABOUT 40%",
+    "sub": "OF 'NO AWARENESS' CASES",
+    "alert": true,
+    "big": false,
+    "scramble": false
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    0,
+    0
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Week 7. They slide you into a brain scanner.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.2,
+      1.1
+     ],
+     "zoom": 1.0,
+     "ambience": "lab",
+     "light_intensity": 2.0,
+     "ambient": 1.5,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9ced4"
+      },
+      {
+       "kind": "torus",
+       "at": [
+        0,
+        1.2,
+        -0.4
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        2.4
+       ],
+       "color": "#eef1f4",
+       "material": "glossy",
+       "rotate": [
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.6,
+        0.6
+       ],
+       "scale": [
+        0.9,
+        0.2,
+        3.2
+       ],
+       "color": "#dfe4e8"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.95,
+        -1
+       ],
+       "scale": [
+        1.2,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        1.5,
+        -2.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        5
+       ],
+       "color": "#dfe6ea"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "WEEK 7",
+    "sub": "fMRI · ROOM B",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    0,
+    0
+   ],
+   "sfx": [
+    {
+     "type": "rumble",
+     "at": 0.3,
+     "dur": 3.0,
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "A voice says: \"Imagine walking through your home.\"",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.2,
+      0.6
+     ],
+     "zoom": 1.0,
+     "ambience": "lab",
+     "light_intensity": 1.8,
+     "ambient": 1.3,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1
+       ],
+       "scale": [
+        6,
+        0.04,
+        6
+       ],
+       "color": "#c9ced4"
+      },
+      {
+       "kind": "torus",
+       "at": [
+        0,
+        1.2,
+        -0.4
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        2.4
+       ],
+       "color": "#eef1f4",
+       "material": "glossy",
+       "rotate": [
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.6,
+        0.6
+       ],
+       "scale": [
+        0.9,
+        0.2,
+        3.2
+       ],
+       "color": "#dfe4e8"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.95,
+        -1
+       ],
+       "scale": [
+        1.2,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.5,
+        1.5,
+        -2.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        5
+       ],
+       "color": "#dfe6ea"
+      }
+     ]
+    }
+   },
+   "voices": [
+    {
+     "text": "If you can hear me... imagine walking through your home.",
+     "voice": "bf_emma",
+     "at": 0.3
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe"
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "So you do. Every room. Every door.",
+   "env": {
+    "set": {
+     "background": [
+      "#5c6f9e",
+      "#f4c9a0"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.62,
+      1.0
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 2.4,
+     "ambient": 1.7,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -2
+       ],
+       "scale": [
+        8,
+        0.04,
+        8
+       ],
+       "color": "#8a6a4f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -5.5
+       ],
+       "scale": [
+        8,
+        3,
+        0.1
+       ],
+       "color": "#e9dfcf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.5,
+        -2
+       ],
+       "scale": [
+        0.1,
+        3,
+        8
+       ],
+       "color": "#e9dfcf"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        -5.4
+       ],
+       "scale": [
+        2.2,
+        1.3,
+        0.08
+       ],
+       "color": "#111"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        1.4,
+        -5.35
+       ],
+       "scale": [
+        2.0,
+        1.1,
+        1
+       ],
+       "color": "#2b3a55",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.35,
+        -1.0
+       ],
+       "scale": [
+        2.6,
+        0.7,
+        0.9
+       ],
+       "color": "#748ffc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.4,
+        -4.8
+       ],
+       "scale": [
+        2.4,
+        0.8,
+        0.4
+       ],
+       "color": "#5c3d2e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.8,
+        0.3,
+        -4.5
+       ],
+       "scale": [
+        0.5,
+        0.6,
+        0.5
+       ],
+       "color": "#40c057"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "WEEK 7",
+    "sub": "fMRI · ROOM B",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "hands": {
+    "pose": "idle"
+   },
+   "head": "walk",
+   "effects": [
+    "bloom"
+   ]
+  },
+  {
+   "duration": 3.4,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "Your kitchen. Your bedroom. The squeaky stair.",
+   "env": {
+    "set": {
+     "background": [
+      "#5c6f9e",
+      "#f4c9a0"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      1,
+      1.62,
+      -1.0
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 2.4,
+     "ambient": 1.7,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -2
+       ],
+       "scale": [
+        8,
+        0.04,
+        8
+       ],
+       "color": "#8a6a4f"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -5.5
+       ],
+       "scale": [
+        8,
+        3,
+        0.1
+       ],
+       "color": "#f3e6d2"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -4,
+        1.5,
+        -2
+       ],
+       "scale": [
+        0.1,
+        3,
+        8
+       ],
+       "color": "#f3e6d2"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.4,
+        -5.4
+       ],
+       "scale": [
+        2.2,
+        1.3,
+        0.08
+       ],
+       "color": "#111"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        1.4,
+        -5.35
+       ],
+       "scale": [
+        2.0,
+        1.1,
+        1
+       ],
+       "color": "#ffd8a8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.35,
+        -1.0
+       ],
+       "scale": [
+        2.6,
+        0.7,
+        0.9
+       ],
+       "color": "#748ffc"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.4,
+        -4.8
+       ],
+       "scale": [
+        2.4,
+        0.8,
+        0.4
+       ],
+       "color": "#5c3d2e"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -2.8,
+        0.3,
+        -4.5
+       ],
+       "scale": [
+        0.5,
+        0.6,
+        0.5
+       ],
+       "color": "#40c057"
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "reach"
+   },
+   "head": "walk",
+   "gaze": [
+    -40,
+    0
+   ],
+   "effects": [
+    "bloom"
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "front",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "On the screen, your brain lights up.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.45,
+      -0.4
+     ],
+     "zoom": 0.7,
+     "ambience": "lab",
+     "light_intensity": 2.3,
+     "ambient": 1.4,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1
+       ],
+       "scale": [
+        8,
+        0.04,
+        8
+       ],
+       "color": "#5a6068"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.6,
+        1.0
+       ],
+       "scale": [
+        3.4,
+        1.9,
+        0.1
+       ],
+       "color": "#15181d"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        -0.8,
+        1.6,
+        0.94
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        1
+       ],
+       "color": "#f08c00",
+       "material": "glow",
+       "rotate": [
+        0,
+        180,
+        0
+       ],
+       "animate": [
+        {
+         "type": "pulse",
+         "amount": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0.8,
+        1.6,
+        0.94
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        1
+       ],
+       "color": "#e8590c",
+       "material": "glow",
+       "rotate": [
+        0,
+        180,
+        0
+       ],
+       "animate": [
+        {
+         "type": "pulse",
+         "amount": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        0.75,
+        0,
+        -0.4
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "point",
+       "expression": "shock",
+       "rotate": [
+        0,
+        0,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.75,
+        0,
+        -0.5
+       ],
+       "scale": 1.0,
+       "color": "#7048e8",
+       "seed": 113,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        0,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "RESPONSE",
+    "value": "DETECTED",
+    "sub": "fMRI · ROOM B",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "voices": [
+    {
+     "text": "Wait. Look at this. She's doing it.",
+     "voice": "am_michael",
+     "at": 0.4
+    }
+   ],
+   "effects": [
+    "rays"
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "front",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "About 1 in 4 people who can't move can do this.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.6,
+      0.4
+     ],
+     "zoom": 0.6,
+     "ambience": "lab",
+     "light_intensity": 2.3,
+     "ambient": 1.4,
+     "bounce": "#cfc6b8",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1
+       ],
+       "scale": [
+        8,
+        0.04,
+        8
+       ],
+       "color": "#5a6068"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.6,
+        1.0
+       ],
+       "scale": [
+        3.4,
+        1.9,
+        0.1
+       ],
+       "color": "#15181d"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        -0.8,
+        1.6,
+        0.94
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        1
+       ],
+       "color": "#f08c00",
+       "material": "glow",
+       "rotate": [
+        0,
+        180,
+        0
+       ],
+       "animate": [
+        {
+         "type": "pulse",
+         "amount": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0.8,
+        1.6,
+        0.94
+       ],
+       "scale": [
+        1.4,
+        1.4,
+        1
+       ],
+       "color": "#e8590c",
+       "material": "glow",
+       "rotate": [
+        0,
+        180,
+        0
+       ],
+       "animate": [
+        {
+         "type": "pulse",
+         "amount": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        0.75,
+        0,
+        -0.4
+       ],
+       "scale": 1.0,
+       "color": "#f8f9fa",
+       "seed": 112,
+       "action": "point",
+       "expression": "shock",
+       "rotate": [
+        0,
+        0,
+        0
+       ],
+       "animate": [],
+       "color2": "#495057"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.75,
+        0,
+        -0.5
+       ],
+       "scale": 1.0,
+       "color": "#7048e8",
+       "seed": 113,
+       "action": "cheer",
+       "expression": "smile",
+       "rotate": [
+        0,
+        0,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "HIDDEN AWARENESS",
+    "value": "1 IN 4",
+    "sub": "OF PATIENTS WHO CAN'T RESPOND",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   }
+  },
+  {
+   "duration": 3.8,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "You still can't move. But now they know you're there.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 2.16,
+     "ambient": 1.56,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "tracker": {
+    "label": "IN A COMA",
+    "value": "WEEK 7",
+    "sub": "ST. MARY'S · ICU 4",
+    "alert": false,
+    "big": false,
+    "scramble": false
+   },
+   "voices": [
+    {
+     "text": "We know you're in there. We're not going anywhere.",
+     "voice": "af_heart",
+     "at": 0.5
+    }
+   ],
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -22,
+    6
+   ]
+  },
+  {
+   "duration": 3.6,
+   "scene": "custom",
+   "camera": "eyes",
+   "subject": {
+    "type": "none"
+   },
+   "caption": "And for the first time in weeks, someone talks to you. Not about you.",
+   "env": {
+    "set": {
+     "background": [
+      "#1c1f26",
+      "#3a3f48"
+     ],
+     "sky_detail": "none",
+     "ground": "none",
+     "focus": [
+      0,
+      1.15,
+      1.25
+     ],
+     "zoom": 1.0,
+     "ambience": "room",
+     "light_intensity": 2.3400000000000003,
+     "ambient": 1.6900000000000002,
+     "bounce": "#e7ecef",
+     "objects": [
+      {
+       "kind": "box",
+       "at": [
+        0,
+        -0.02,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.04,
+        7
+       ],
+       "color": "#b9a993"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        1.5,
+        -4.5
+       ],
+       "scale": [
+        6,
+        3,
+        0.1
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        3,
+        1.5,
+        -1.5
+       ],
+       "scale": [
+        0.1,
+        3,
+        7
+       ],
+       "color": "#dfe6ea"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        3.0,
+        -1.5
+       ],
+       "scale": [
+        6,
+        0.05,
+        7
+       ],
+       "color": "#f1f3f5"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        0,
+        2.97,
+        -1.5
+       ],
+       "scale": [
+        1.4,
+        0.6,
+        1
+       ],
+       "color": "#ffffff",
+       "material": "glow",
+       "rotate": [
+        90,
+        0,
+        0
+       ]
+      },
+      {
+       "kind": "plane",
+       "at": [
+        1.2,
+        1.7,
+        -4.44
+       ],
+       "scale": [
+        1.8,
+        1.2,
+        1
+       ],
+       "color": "#a9c8e8",
+       "material": "glow"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -1.6,
+        1.05,
+        -4.42
+       ],
+       "scale": [
+        0.95,
+        2.1,
+        0.05
+       ],
+       "color": "#c4b49c"
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.9,
+        -0.6
+       ],
+       "scale": [
+        0.3,
+        0.4,
+        0.5
+       ],
+       "color": "#2b2f36"
+      },
+      {
+       "kind": "plane",
+       "at": [
+        2.14,
+        1.92,
+        -0.6
+       ],
+       "scale": [
+        0.42,
+        0.3,
+        1
+       ],
+       "color": "#58f08e",
+       "material": "glow",
+       "rotate": [
+        0,
+        -90,
+        0
+       ]
+      },
+      {
+       "kind": "box",
+       "at": [
+        2.3,
+        1.0,
+        -0.6
+       ],
+       "scale": [
+        0.05,
+        1.8,
+        0.05
+       ],
+       "color": "#adb5bd"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0,
+        0.65,
+        -0.4
+       ],
+       "scale": [
+        1.2,
+        0.25,
+        2.4
+       ],
+       "color": "#a5c8e1"
+      },
+      {
+       "kind": "box",
+       "at": [
+        -0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "box",
+       "at": [
+        0.65,
+        0.95,
+        -0.4
+       ],
+       "scale": [
+        0.05,
+        0.3,
+        1.8
+       ],
+       "color": "#ced4da"
+      },
+      {
+       "kind": "block_person",
+       "at": [
+        -0.85,
+        0,
+        -1.3
+       ],
+       "scale": 1.0,
+       "color": "#c2255c",
+       "seed": 111,
+       "action": "idle",
+       "expression": "sad",
+       "rotate": [
+        0,
+        165,
+        0
+       ],
+       "animate": [],
+       "color2": "#3f4a5a"
+      }
+     ]
+    }
+   },
+   "hands": {
+    "pose": "none"
+   },
+   "head": "breathe",
+   "gaze": [
+    -30,
+    -2
+   ],
+   "effects": [
+    "bloom"
+   ]
+  }
+ ]
+}
