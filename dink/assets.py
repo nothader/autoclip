@@ -211,6 +211,48 @@ def pterodactyl(at, color="#e8590c", size=1.0, face_you=True, flying=True):
         _pair("sphere", (x, y + 0.33 * s, z + f * 0.58 * s), 0.09 * s, 0.05 * s, "#ffffff", material="glossy", animate=a)
 
 
+def big_bird(at, color="#4dabf7", belly="#e7f5ff", size=1.0, face_you=True, beak="#ffa94d", crest=None, anim=()):
+    """[12] Standing cartoon bird (pigeon/robin/sparrow sized up): round body, googly eyes on the front of the head, beak, flapping wings, orange legs."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    a = list(anim)
+    o = [O("sphere", (x, y + 0.55 * s, z), [0.42 * s, 0.45 * s, 0.4 * s], color, animate=a),
+         O("sphere", (x, y + 0.5 * s, z + f * 0.2 * s), [0.3 * s, 0.32 * s, 0.24 * s], belly, animate=a),
+         O("sphere", (x, y + 1.08 * s, z + f * 0.04 * s), 0.28 * s, color, animate=a),
+         O("cone", (x, y + 1.02 * s, z + f * 0.36 * s), [0.11 * s, 0.24 * s, 0.11 * s], beak, rotate=[f * 90, 0, 0], animate=a),
+         O("box", (x - 0.42 * s, y + 0.6 * s, z), [0.08 * s, 0.4 * s, 0.32 * s], color, rotate=[0, 0, 18], animate=a + [{"type": "wobble", "axis": "z", "speed": 4, "amount": 0.25}]),
+         O("box", (x + 0.42 * s, y + 0.6 * s, z), [0.08 * s, 0.4 * s, 0.32 * s], color, rotate=[0, 0, -18], animate=a + [{"type": "wobble", "axis": "z", "speed": 4, "amount": 0.25}]),
+         O("cone", (x, y + 0.5 * s, z - f * 0.42 * s), [0.3 * s, 0.3 * s, 0.08 * s], color, rotate=[f * -70, 0, 0])]
+    o += _pair("cylinder", (x, y + 0.08 * s, z), 0.14 * s, [0.04 * s, 0.18 * s, 0.04 * s], beak)
+    o += _pair("box", (x, y + 0.01 * s, z + f * 0.05 * s), 0.14 * s, [0.12 * s, 0.02 * s, 0.16 * s], beak)
+    o += _pair("sphere", (x, y + 1.17 * s, z + f * 0.25 * s), 0.11 * s, 0.085 * s, "#ffffff", material="glossy", animate=a)
+    o += _pair("sphere", (x, y + 1.17 * s, z + f * 0.33 * s), 0.11 * s, 0.04 * s, "#111111", material="glossy", animate=a + [{"type": "orbit", "speed": 3, "amount": 0.012 * s}])
+    if crest:
+        o.append(O("cone", (x, y + 1.42 * s, z), [0.1 * s, 0.22 * s, 0.1 * s], crest, rotate=[f * -20, 0, 0], animate=a))
+    return o
+
+
+def bug(at, color="#2f9e44", size=0.35, face_you=True, anim=()):
+    """[7] Googly-eyed beetle (round shell, head, antennae). Size 0.35 ≈ a tennis ball; scale up for a monster bug."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    a = list(anim)
+    o = [O("sphere", (x, y + 0.35 * s, z), [0.5 * s, 0.32 * s, 0.6 * s], color, material="glossy", animate=a),
+         O("box", (x, y + 0.5 * s, z - f * 0.05 * s), [0.02 * s, 0.14 * s, 1.0 * s], "#111111", animate=a),
+         O("sphere", (x, y + 0.36 * s, z + f * 0.55 * s), 0.24 * s, "#212529", animate=a)]
+    o += _pair("sphere", (x, y + 0.48 * s, z + f * 0.72 * s), 0.11 * s, 0.1 * s, "#ffffff", material="glossy", animate=a)
+    o += _pair("sphere", (x, y + 0.48 * s, z + f * 0.81 * s), 0.11 * s, 0.045 * s, "#111111", material="glossy", animate=a + [{"type": "orbit", "speed": 4, "amount": 0.02 * s}])
+    o += [O("cylinder", (x + sx * 0.12 * s, y + 0.72 * s, z + f * 0.62 * s), [0.015 * s, 0.4 * s, 0.015 * s], "#111111", rotate=[f * 30, 0, -sx * 25],
+            animate=a + [{"type": "wobble", "speed": 5, "amount": 0.2}]) for sx in (-1, 1)]
+    return o
+
+
+def bug_swarm(at=(0, 0.6, -3), count=40, seed=1, spread=(4, 1.2, 3), color="#343a40"):
+    """[1] Cheap swarm of tiny buzzing dots (one object). Mix with a few googly `bug`s up front."""
+    return [O("sphere", at, [0.05, 0.035, 0.06], color, count=count, seed=seed, spread=list(spread),
+              animate=[{"type": "bob", "amount": 0.15, "speed": 3.5}, {"type": "orbit", "speed": 2.5, "amount": 0.12}])]
+
+
 def robot(at, color="#ced4da", eye="#4dabf7", size=1.0, face_you=True):
     """[6] Friendly robot: box body, screen face, antenna."""
     x, y, z = at
@@ -442,6 +484,37 @@ def sign(at, color="#2b8a3e", text_color="#f8f9fa", w=1.6, h=0.6, rot=0):
             O("box", (x, y + 2.6, z + 0.03), [w * 0.7, h * 0.15, 0.01], text_color, rotate=[0, rot, 0])]
 
 
+def picket_sign(at, board="#fff9db", emoji_text="✊", stick="#a0795a", size=1.0, rot=0):
+    """[3] Protest sign on a stick with a big emoji on the board (place it beside or above a creature)."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y + 0.5 * s, z), [0.04 * s, 1.0 * s, 0.04 * s], stick),
+            O("box", (x, y + 1.15 * s, z + 0.03), [0.8 * s, 0.55 * s, 0.04 * s], board, rotate=[0, rot, 0]),
+            O("emoji", (x, y + 1.15 * s, z + 0.08), 0.38 * s, text=emoji_text)]
+
+
+def cat_tower(at, color="#c5a880", pad="#868e96", size=1.0):
+    """[6] Carpeted cat tower: post with three round platforms (the cat's throne)."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y + 0.8 * s, z), [0.16 * s, 1.6 * s, 0.16 * s], color),
+            O("cylinder", (x, y + 0.04 * s, z), [0.9 * s, 0.08 * s, 0.9 * s], pad),
+            O("cylinder", (x, y + 0.7 * s, z), [0.7 * s, 0.07 * s, 0.7 * s], pad),
+            O("cylinder", (x, y + 1.6 * s, z), [0.8 * s, 0.08 * s, 0.8 * s], pad),
+            O("sphere", (x + 0.3 * s, y + 0.5 * s, z + 0.2 * s), 0.07 * s, "#ff6b6b", animate=[{"type": "wobble", "speed": 2, "amount": 0.3}]),
+            O("cylinder", (x + 0.3 * s, y + 0.62 * s, z + 0.2 * s), [0.008, 0.16 * s, 0.008], "#f8f9fa")]
+
+
+def gavel(at, color="#7a4b2a", size=1.0, banging=False):
+    """[3] Judge's gavel + sound block (set banging=True to bob it)."""
+    x, y, z = at
+    s = size
+    a = [{"type": "bob", "amount": 0.05 * s, "speed": 6}] if banging else []
+    return [O("cylinder", (x, y + 0.03 * s, z), [0.2 * s, 0.06 * s, 0.2 * s], "#5c3a21"),
+            O("cylinder", (x, y + 0.16 * s, z), [0.09 * s, 0.24 * s, 0.09 * s], color, rotate=[0, 0, 90], animate=a),
+            O("cylinder", (x + 0.16 * s, y + 0.16 * s, z + 0.08 * s), [0.03 * s, 0.32 * s, 0.03 * s], color, rotate=[60, 0, 0], animate=a)]
+
+
 def desk_row(at=(0, 0, -3), rows=3, cols=3, color="#d9b98c", seed=1):
     """[2] School desks in a grid."""
     return [O("box", (at[0], 0.38, at[2]), [0.9, 0.06, 0.6], color, count=rows * cols, seed=seed, spread=[cols * 1.5, 0, rows * 1.3]),
@@ -612,6 +685,27 @@ def underwater(seed=1, extra=()):
             O("particles", (0, 2, -5), 0.02, "#e3fafc", count=50, seed=seed + 1, spread=[10, 4, 8])] + fish((0, 1.6, -6), count=14, seed=seed + 2, spread=(8, 2, 6)) + list(extra)
 
 
+def living_room(seed=1, wall="#ffe8cc", sofa="#5c7cfa", rug="#e64980", window="#a5d8ff", extra=()):
+    """[10+] Living room: sofa against the back wall, rug, window, lamp, plant. You stand near z=+0.6 facing the sofa (−z)."""
+    return [O("box", (0, -0.02, -2), [9, 0.04, 9], "#b98b5e"), O("box", (0, 1.6, -5.2), [9, 3.2, 0.1], wall),
+            O("box", (-4.5, 1.6, -2), [0.1, 3.2, 9], wall), O("cylinder", (0, 0.01, -2.4), [2.6, 0.02, 1.8], rug),
+            O("box", (0, 0.35, -4.2), [2.8, 0.7, 1.0], sofa), O("box", (0, 0.85, -4.65), [2.8, 0.8, 0.3], sofa),
+            *_pair("box", (0, 0.55, -4.2), 1.45, [0.25, 0.5, 1.0], sofa),
+            O("plane", (2.6, 1.9, -5.13), [1.2, 1.3, 1], window, material="glow"),
+            O("cylinder", (-2.9, 0.75, -4.4), [0.05, 1.5, 0.05], "#495057"), O("cone", (-2.9, 1.6, -4.4), [0.5, 0.4, 0.5], "#fff3bf", material="glow"),
+            O("cylinder", (3.6, 0.3, -4.4), [0.5, 0.6, 0.5], "#e8590c"), O("sphere", (3.6, 0.9, -4.4), 0.45, "#40c057")] + list(extra)
+
+
+def picnic(seed=1, blanket="#ff6b6b", grass="#74b816", extra=()):
+    """[8+] Picnic in the park: checked blanket at (0,0,-1.6), basket, sandwich, juice, trees behind."""
+    return park(seed=seed, grass=grass, trees=7) + [
+        O("box", (0, 0.01, -1.6), [2.2, 0.02, 1.8], "#f8f9fa"),
+        O("box", (0, 0.02, -1.6), [0.36, 0.005, 0.36], blanket, count=12, seed=seed + 5, spread=[1.8, 0, 1.4]),
+        O("box", (0.7, 0.2, -2.1), [0.5, 0.36, 0.34], "#c08a4e"), O("torus", (0.7, 0.42, -2.1), [0.36, 0.3, 0.3], "#8d6e4f", rotate=[0, 90, 0]),
+        O("box", (-0.3, 0.06, -1.3), [0.3, 0.08, 0.22], "#f2c27a"), O("box", (-0.3, 0.1, -1.3), [0.31, 0.02, 0.23], "#69db7c"),
+        O("cylinder", (0.1, 0.12, -1.2), [0.07, 0.22, 0.07], "#ffa94d")] + list(extra)
+
+
 def park(seed=1, grass="#69b34c", trees=9, people=0, extra=()):
     """[6+] Sunny park: path, round trees, benches, flowers."""
     o = [O("box", (0, -0.03, -20), [120, 0.04, 120], grass), O("box", (0, 0.0, -20), [2.6, 0.02, 80], "#e9d8b4"),
@@ -624,8 +718,8 @@ def park(seed=1, grass="#69b34c", trees=9, people=0, extra=()):
     return o + list(extra)
 
 
-ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, fish, shark, dino, sauropod, pterodactyl, robot, alien, ghost]
+ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, big_bird, bug, bug_swarm, fish, shark, dino, sauropod, pterodactyl, robot, alien, ghost]
 ALL_PROPS = [pizza, burger, cake, coffee, phone, money, money_rain, gold_bars, trophy, gift, crown, tv, car, bus, rocket, ufo,
-             balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row]
+             balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row, picket_sign, cat_tower, gavel]
 ALL_PLACES = [forest, den, classroom, cafeteria, kitchen, supermarket, plane_cabin, beach, snowfield, desert, space_station,
-              city_night, stadium, park, bedroom_kid, courtroom, wedding, hospital_hall, underwater]
+              city_night, stadium, park, picnic, living_room, bedroom_kid, courtroom, wedding, hospital_hall, underwater]
