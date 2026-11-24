@@ -6,7 +6,7 @@ Rules: YOU are the main character, one silly-but-true-feeling escalation, one re
 No real tragedies with real victims, no gore.
 
 ## Shorts — animals & creatures
-- [x] What if your *dog* could talk for one day? · first sentence is a complaint about the vet · dogs understand ~89 words (2009 study) · dog, kitchen, park, phone (made 2026-11-24, https://youtu.be/3zh-oLY-jQA)
+- [x] What if your *dog* could talk for one day? · first sentence is a complaint about the vet · dogs know ~89 words (2021 study) · dog, kitchen, park, phone (made 2026-11-24, https://youtu.be/3zh-oLY-jQA)
 - [ ] What if your *cat* was secretly the boss of the house? · cat runs a family meeting · cats ignore owners' voices on purpose (2013 Tokyo study) · cat, living_room, crown, tv
 - [ ] What if *dinosaurs* never went extinct? · T-rex in the school pickup line · asteroid hit 66 million years ago · dino, bus, street, classroom
 - [ ] What if *birds* went on strike? · bugs take over picnics · a swallow eats ~850 insects a day · bird, park, sign, beach
