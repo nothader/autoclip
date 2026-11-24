@@ -479,8 +479,8 @@ window.renderFrame = function (t) {
   if (frozen && fz.label) {
     const k = back((lt - fz.at) / 0.3);
     ctx.save(); ctx.translate(W / 2, H * (V ? 0.44 : 0.42)); ctx.scale(k, k); ctx.rotate(-0.04);
-    ctx.font = `900 ${64 * U}px "Inter", "Noto Color Emoji", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    const w = ctx.measureText(fz.label).width + 60 * U; ctx.fillStyle = '#fff'; roundRect(-w / 2, -55 * U, w, 110 * U, 18 * U); ctx.fill();
+    ctx.font = `900 ${84 * U}px "Inter", "Noto Color Emoji", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const w = ctx.measureText(fz.label).width + 70 * U; ctx.fillStyle = '#fff'; roundRect(-w / 2, -70 * U, w, 140 * U, 22 * U); ctx.fill();
     ctx.fillStyle = '#111'; ctx.fillText(fz.label, 0, 4 * U); ctx.restore();
   }
   progress(t);

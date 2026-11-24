@@ -161,10 +161,54 @@ def dino(at, color="#5c940d", size=2.2, face_you=True):
     return [O("box", (x, y + 1.3 * s, z), [0.7 * s, 0.8 * s, 1.2 * s], color, rotate=[f * -20, 0, 0], animate=[{"type": "bob", "amount": 0.05}]),
             O("box", (x, y + 2.0 * s, z + f * 0.7 * s), [0.6 * s, 0.55 * s, 0.85 * s], color),
             O("box", (x, y + 1.78 * s, z + f * 1.05 * s), [0.56 * s, 0.08 * s, 0.4 * s], "#f8f9fa"),                    # teeth row
-            *_pair("sphere", (x, y + 2.15 * s, z + f * 1.0 * s), 0.22 * s, 0.06 * s, "#ffd43b", material="glow"),
+            *_pair("sphere", (x, y + 2.2 * s, z + f * 1.12 * s), 0.2 * s, 0.11 * s, "#ffffff", material="glossy"),
+            *_pair("sphere", (x, y + 2.2 * s, z + f * 1.21 * s), 0.2 * s, 0.05 * s, "#111111", material="glossy"),
+            O("box", (x, y + 1.95 * s, z + f * 1.13 * s), [0.4 * s, 0.1 * s, 0.03 * s], "#5c1a1a"),
             O("box", (x, y + 1.2 * s, z + f * 0.6 * s), [0.5 * s, 0.08 * s, 0.25 * s], color),                           # tiny arms
             O("box", (x, y + 0.45 * s, z), [0.7 * s, 0.9 * s, 0.3 * s], color),
             O("cone", (x, y + 1.0 * s, z - f * 1.3 * s), [0.35 * s, 1.6 * s, 0.35 * s], color, rotate=[f * -100, 0, 0])]
+
+
+def animate_all(objs, anim):
+    """Give every part of a composite the same animation(s). For moves use RELATIVE offsets: {"type": "move", "to": [dx, dy, dz], "rel": True}
+    (an absolute "to" would pull every part to one point)."""
+    for o in objs:
+        o["animate"] = list(o.get("animate", [])) + list(anim)
+    return objs
+
+
+def sauropod(at, color="#74b816", size=1.0, face_you=True, riders=0, seed=1):
+    """[9+] Long-neck dinosaur (doubles as a school bus: riders=N beans sit on its back)."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    o = [O("capsule", (x, y + 1.9 * s, z), [1.6 * s, 2.2 * s, 1.5 * s], color, rotate=[90, 0, 0]),
+         O("capsule", (x, y + 3.3 * s, z + f * 1.6 * s), [0.45 * s, 2.4 * s, 0.45 * s], color, rotate=[f * 35, 0, 0]),
+         O("sphere", (x, y + 4.4 * s, z + f * 2.35 * s), [0.4 * s, 0.32 * s, 0.5 * s], color),
+         O("cone", (x, y + 1.9 * s, z - f * 2.2 * s), [0.5 * s, 2.4 * s, 0.5 * s], color, rotate=[f * -100, 0, 0],
+           animate=[{"type": "wobble", "axis": "y", "speed": 0.8, "amount": 0.15}])]
+    o += _quad("cylinder", (x, y + 0.6 * s, z), 0.55 * s, 0.75 * s, [0.42 * s, 1.2 * s, 0.42 * s], color)
+    o += _pair("sphere", (x, y + 4.5 * s, z + f * 2.62 * s), 0.16 * s, 0.09 * s, "#ffffff", material="glossy")
+    o += _pair("sphere", (x, y + 4.5 * s, z + f * 2.7 * s), 0.16 * s, 0.045 * s, "#111111", material="glossy")
+    o.append(O("sphere", (x, y + 2.6 * s, z), 0.12 * s, "#ffd43b", count=5, seed=seed, spread=[1.0 * s, 0, 2.0 * s]))   # spots
+    if riders:
+        o.append(O("bean", (x, y + 2.75 * s, z), 1, "#ffa8a8", count=riders, seed=seed + 3, spread=[0.6 * s, 0, 2.0 * s],
+                   act="cheer", rotate=[0, 0 if face_you else 180, 0], size=0.55))
+    return o
+
+
+def pterodactyl(at, color="#e8590c", size=1.0, face_you=True, flying=True):
+    """[7] Pterodactyl: crested head, long beak, flapping leather wings."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    a = [{"type": "bob", "amount": 0.25, "speed": 1.2}] if flying else []
+    flap = [{"type": "wobble", "axis": "z", "speed": 3.5, "amount": 0.45}] if flying else []
+    return [O("capsule", (x, y, z), [0.35 * s, 0.6 * s, 0.35 * s], color, rotate=[90, 0, 0], animate=a),
+            O("sphere", (x, y + 0.25 * s, z + f * 0.45 * s), 0.18 * s, color, animate=a),
+            O("cone", (x, y + 0.22 * s, z + f * 0.8 * s), [0.12 * s, 0.6 * s, 0.12 * s], "#ffd43b", rotate=[f * 90, 0, 0], animate=a),
+            O("cone", (x, y + 0.42 * s, z + f * 0.3 * s), [0.08 * s, 0.4 * s, 0.08 * s], color, rotate=[f * -60, 0, 0], animate=a),
+            O("box", (x - 0.75 * s, y + 0.05 * s, z), [1.3 * s, 0.03 * s, 0.6 * s], "#ff922b", rotate=[0, 0, 8], animate=a + flap),
+            O("box", (x + 0.75 * s, y + 0.05 * s, z), [1.3 * s, 0.03 * s, 0.6 * s], "#ff922b", rotate=[0, 0, -8], animate=a + flap)] + \
+        _pair("sphere", (x, y + 0.33 * s, z + f * 0.58 * s), 0.09 * s, 0.05 * s, "#ffffff", material="glossy", animate=a)
 
 
 def robot(at, color="#ced4da", eye="#4dabf7", size=1.0, face_you=True):
@@ -580,7 +624,7 @@ def park(seed=1, grass="#69b34c", trees=9, people=0, extra=()):
     return o + list(extra)
 
 
-ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, fish, shark, dino, robot, alien, ghost]
+ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, fish, shark, dino, sauropod, pterodactyl, robot, alien, ghost]
 ALL_PROPS = [pizza, burger, cake, coffee, phone, money, money_rain, gold_bars, trophy, gift, crown, tv, car, bus, rocket, ufo,
              balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row]
 ALL_PLACES = [forest, den, classroom, cafeteria, kitchen, supermarket, plane_cabin, beach, snowfield, desert, space_station,
