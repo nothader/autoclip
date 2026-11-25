@@ -253,6 +253,50 @@ def bug_swarm(at=(0, 0.6, -3), count=40, seed=1, spread=(4, 1.2, 3), color="#343
               animate=[{"type": "bob", "amount": 0.15, "speed": 3.5}, {"type": "orbit", "speed": 2.5, "amount": 0.12}])]
 
 
+def land_shark(at, color="#7b8a9a", belly="#f1f3f5", size=1.0, face_you=True, hammer=False, anim=(), grin=True):
+    """[14] Shark that walks on land: upright body on two stubby fin-feet, side fins as arms, dorsal fin, tail on the ground,
+    big googly eyes on the FRONT of the head and a toothy grin. hammer=True gives a hammerhead (eyes on the ends). Height ≈ 1.9*size."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    a = list(anim)
+    o = [O("capsule", (x, y + 1.0 * s, z), [0.62 * s, 1.15 * s, 0.55 * s], color, animate=a),                                   # body
+         O("capsule", (x, y + 0.95 * s, z + f * 0.17 * s), [0.44 * s, 0.9 * s, 0.3 * s], belly, animate=a),                     # belly
+         O("cone", (x, y + 1.25 * s, z - f * 0.3 * s), [0.12 * s, 0.5 * s, 0.38 * s], color, rotate=[f * -25, 0, 0], animate=a),  # dorsal fin
+         O("cone", (x, y + 0.28 * s, z - f * 0.5 * s), [0.12 * s, 0.6 * s, 0.4 * s], color, rotate=[f * -110, 0, 0], animate=a),  # tail
+         O("box", (x, y + 1.42 * s, z + f * 0.31 * s), [0.34 * s, 0.07 * s, 0.03 * s], "#5c1a1a", animate=a)]                  # mouth
+    if grin:
+        o.append(O("box", (x, y + 1.44 * s, z + f * 0.33 * s), [0.3 * s, 0.035 * s, 0.02 * s], "#ffffff", animate=a))           # teeth
+    o += [O("box", (x + sx * 0.36 * s, y + 1.0 * s, z + f * 0.05 * s), [0.32 * s, 0.07 * s, 0.2 * s], color, rotate=[0, 0, sx * -35],
+            animate=a + [{"type": "wobble", "axis": "z", "speed": 2.5, "amount": 0.2}]) for sx in (-1, 1)]                       # arm fins
+    o += _pair("capsule", (x, y + 0.14 * s, z + f * 0.05 * s), 0.15 * s, [0.14 * s, 0.26 * s, 0.14 * s], color, animate=a)      # legs
+    o += _pair("box", (x, y + 0.03 * s, z + f * 0.12 * s), 0.15 * s, [0.2 * s, 0.05 * s, 0.3 * s], belly, animate=a)          # fin feet
+    if hammer:
+        o.append(O("capsule", (x, y + 1.62 * s, z), [0.22 * s, 1.2 * s, 0.22 * s], color, rotate=[0, 0, 90], animate=a))
+        o += _pair("sphere", (x, y + 1.66 * s, z + f * 0.1 * s), 0.55 * s, 0.1 * s, "#ffffff", material="glossy", animate=a)
+        o += _pair("sphere", (x, y + 1.66 * s, z + f * 0.18 * s), 0.55 * s, 0.05 * s, "#111111", material="glossy",
+                   animate=a + [{"type": "orbit", "speed": 3, "amount": 0.012 * s}])
+    else:
+        o += _pair("sphere", (x, y + 1.62 * s, z + f * 0.22 * s), 0.13 * s, 0.1 * s, "#ffffff", material="glossy", animate=a)
+        o += _pair("sphere", (x, y + 1.62 * s, z + f * 0.31 * s), 0.13 * s, 0.048 * s, "#111111", material="glossy",
+                   animate=a + [{"type": "orbit", "speed": 3, "amount": 0.012 * s}])
+    return o
+
+
+def mini_shark(at, color="#d9b26a", size=0.5, face_you=True, anim=()):
+    """[8] Little spotted epaulette shark walking on its fins along the ground (long body lying down, 4 fin-paddles, googly eyes)."""
+    x, y, z = at
+    s, f = size, _f(face_you)
+    a = list(anim)
+    o = [O("capsule", (x, y + 0.14 * s, z), [0.3 * s, 1.4 * s, 0.26 * s], color, rotate=[90, 0, 0], animate=a),
+         O("cone", (x, y + 0.16 * s, z - f * 0.95 * s), [0.06 * s, 0.4 * s, 0.22 * s], color, rotate=[f * -90, 0, 0], animate=a),
+         O("sphere", (x, y + 0.2 * s, z), 0.04 * s, "#5c3a21", count=8, seed=5, spread=[0.18 * s, 0.05 * s, 1.0 * s], animate=a)]
+    o += [O("box", (x + sx * 0.2 * s, y + 0.04 * s, z + dz * s), [0.2 * s, 0.03 * s, 0.12 * s], color,
+            animate=a + [{"type": "wobble", "axis": "y", "speed": 3, "amount": 0.4}]) for sx in (-1, 1) for dz in (0.3, -0.25)]
+    o += _pair("sphere", (x, y + 0.26 * s, z + f * 0.6 * s), 0.07 * s, 0.06 * s, "#ffffff", material="glossy", animate=a)
+    o += _pair("sphere", (x, y + 0.27 * s, z + f * 0.65 * s), 0.07 * s, 0.03 * s, "#111111", material="glossy", animate=a)
+    return o
+
+
 def robot(at, color="#ced4da", eye="#4dabf7", size=1.0, face_you=True):
     """[6] Friendly robot: box body, screen face, antenna."""
     x, y, z = at
@@ -515,6 +559,54 @@ def gavel(at, color="#7a4b2a", size=1.0, banging=False):
             O("cylinder", (x + 0.16 * s, y + 0.16 * s, z + 0.08 * s), [0.03 * s, 0.32 * s, 0.03 * s], color, rotate=[60, 0, 0], animate=a)]
 
 
+def dog_bowl(at, color="#e03131", food="#a0522d", size=1.0):
+    """[3] Dog bowl with a pile of kibble (put on the floor or hold it)."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y + 0.05 * s, z), [0.34 * s, 0.1 * s, 0.34 * s], color, material="glossy"),
+            O("torus", (x, y + 0.1 * s, z), [0.33 * s, 0.33 * s, 0.3 * s], color, material="glossy", rotate=[90, 0, 0]),
+            O("sphere", (x, y + 0.12 * s, z), 0.025 * s, food, count=22, seed=4, spread=[0.24 * s, 0.03 * s, 0.24 * s])]
+
+
+def fire_hydrant(at, color="#e03131", size=1.0):
+    """[5] Red fire hydrant (dog-park landmark)."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y + 0.3 * s, z), [0.22 * s, 0.6 * s, 0.22 * s], color, material="glossy"),
+            O("sphere", (x, y + 0.62 * s, z), [0.13 * s, 0.1 * s, 0.13 * s], color, material="glossy"),
+            O("cylinder", (x, y + 0.04 * s, z), [0.3 * s, 0.08 * s, 0.3 * s], color),
+            *_pair("cylinder", (x, y + 0.4 * s, z), 0.14 * s, [0.08 * s, 0.1 * s, 0.08 * s], "#fcc419", rotate=[0, 0, 90])]
+
+
+def cone_of_shame(cam_at=(0, 0.6, 0.5), color="#e7f5ff", opacity=0.3):
+    """[2] The vet cone, seen from INSIDE: a big translucent funnel whose tip sits behind the camera, so its rim frames the view.
+    Pass the camera position (cam pos); the camera must look roughly toward −z."""
+    x, y, z = cam_at
+    return [O("cone", (x, y, z - 0.05), [1.5, 0.9, 1.5], color, rotate=[-90, 0, 0], opacity=opacity),
+            O("torus", (x, y, z - 0.5), [1.5, 1.5, 0.2], "#a5d8ff", opacity=0.7)]
+
+
+def lifeguard_tower(at, color="#f8f9fa", roof="#e03131", size=1.0):
+    """[8] Lifeguard tower on stilts: platform at y≈1.6*size, little hut, red roof, ladder (seat something on top at y+1.65*size)."""
+    x, y, z = at
+    s = size
+    o = _quad("box", (x, y + 0.8 * s, z), 0.55 * s, 0.45 * s, [0.08 * s, 1.6 * s, 0.08 * s], color)
+    o += [O("box", (x, y + 1.62 * s, z), [1.4 * s, 0.08 * s, 1.2 * s], color),
+          O("box", (x, y + 2.15 * s, z - 0.5 * s), [1.4 * s, 1.0 * s, 0.06 * s], "#ffd43b"),
+          O("box", (x, y + 2.75 * s, z), [1.7 * s, 0.1 * s, 1.5 * s], roof),
+          *_pair("box", (x, y + 2.15 * s, z + 0.6 * s), 0.68 * s, [0.06 * s, 1.1 * s, 0.06 * s], color),
+          O("box", (x, y + 0.8 * s, z + 0.75 * s), [0.5 * s, 1.6 * s, 0.04 * s], "#ced4da", rotate=[20, 0, 0])]
+    return o
+
+
+def camcorder(color="#343a40"):
+    """[4] Handheld documentary camera (use as hold=camcorder()); lens points away from you."""
+    return [O("box", (0, 0.02, -0.05), [0.12, 0.1, 0.22], color, material="glossy"),
+            O("cylinder", (0, 0.02, -0.19), [0.07, 0.08, 0.07], "#111111", rotate=[90, 0, 0]),
+            O("sphere", (0.05, 0.08, 0.02), 0.012, "#ff3b30", material="glow", animate=[{"type": "pulse", "amount": 0.6}]),
+            O("box", (-0.075, 0.03, 0.0), [0.02, 0.07, 0.1], "#495057")]
+
+
 def desk_row(at=(0, 0, -3), rows=3, cols=3, color="#d9b98c", seed=1):
     """[2] School desks in a grid."""
     return [O("box", (at[0], 0.38, at[2]), [0.9, 0.06, 0.6], color, count=rows * cols, seed=seed, spread=[cols * 1.5, 0, rows * 1.3]),
@@ -718,8 +810,8 @@ def park(seed=1, grass="#69b34c", trees=9, people=0, extra=()):
     return o + list(extra)
 
 
-ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, big_bird, bug, bug_swarm, fish, shark, dino, sauropod, pterodactyl, robot, alien, ghost]
+ALL_ANIMALS = [wolf, dog, cat, bear, deer, lion, bird, big_bird, bug, bug_swarm, land_shark, mini_shark, fish, shark, dino, sauropod, pterodactyl, robot, alien, ghost]
 ALL_PROPS = [pizza, burger, cake, coffee, phone, money, money_rain, gold_bars, trophy, gift, crown, tv, car, bus, rocket, ufo,
-             balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row, picket_sign, cat_tower, gavel]
+             balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row, picket_sign, cat_tower, gavel, dog_bowl, fire_hydrant, cone_of_shame, lifeguard_tower, camcorder]
 ALL_PLACES = [forest, den, classroom, cafeteria, kitchen, supermarket, plane_cabin, beach, snowfield, desert, space_station,
               city_night, stadium, park, picnic, living_room, bedroom_kid, courtroom, wedding, hospital_hall, underwater]

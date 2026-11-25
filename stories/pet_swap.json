@@ -1,0 +1,3230 @@
+{
+ "slug": "pet_swap",
+ "title": "What if you swapped bodies with your dog?",
+ "accent": "#3bc9db",
+ "hook": {
+  "lines": [
+   "WHAT IF YOU",
+   "SWAPPED BODIES",
+   "WITH YOUR DOG?"
+  ],
+  "accent": 1
+ },
+ "hookDur": 2.6,
+ "you": {
+  "skin": "#d9a066",
+  "sleeve": "#b07a45"
+ },
+ "width": 1080,
+ "height": 1920,
+ "duration": 29.5,
+ "beats": [
+  {
+   "dur": 3.3,
+   "caption": "",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -2
+      ],
+      "scale": [
+       8,
+       0.04,
+       8
+      ],
+      "color": "#c8b597"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -4.5
+      ],
+      "scale": [
+       8,
+       3,
+       0.1
+      ],
+      "color": "#e3fafc"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       0.45,
+       -4.1
+      ],
+      "scale": [
+       4.0,
+       0.9,
+       0.7
+      ],
+      "color": "#5f7a8a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       0.92,
+       -4.1
+      ],
+      "scale": [
+       4.0,
+       0.05,
+       0.75
+      ],
+      "color": "#e9ecef"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.3,
+       1.0,
+       -4.1
+      ],
+      "scale": [
+       1.0,
+       2.0,
+       0.8
+      ],
+      "color": "#e9ecef",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.4,
+       -1.4
+      ],
+      "scale": [
+       1.8,
+       0.06,
+       1.0
+      ],
+      "color": "#a0795a"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -2.5,
+       0.96,
+       -4.0
+      ],
+      "scale": [
+       0.5,
+       0.5,
+       1
+      ],
+      "color": "#ff6b3d",
+      "material": "glow",
+      "rotate": [
+       -90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -1.5
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "love",
+      "act": "idle",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [
+       [
+        0.3,
+        1.4
+       ]
+      ],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.05,
+       0.56,
+       -1.05
+      ],
+      "scale": [
+       0.40800000000000003,
+       0.12,
+       0.40800000000000003
+      ],
+      "color": "#e03131",
+      "material": "glossy"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.05,
+       0.62,
+       -1.05
+      ],
+      "scale": [
+       0.396,
+       0.396,
+       0.36
+      ],
+      "color": "#e03131",
+      "material": "glossy",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.05,
+       0.644,
+       -1.05
+      ],
+      "scale": 0.03,
+      "color": "#a0522d",
+      "count": 22,
+      "seed": 4,
+      "spread": [
+       0.288,
+       0.036,
+       0.288
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.1,
+       0.7,
+       -0.95
+      ],
+      "scale": 0.03,
+      "color": "#a0522d",
+      "count": 6,
+      "seed": 3,
+      "spread": [
+       0.4,
+       0.2,
+       0.2
+      ],
+      "animate": [
+       {
+        "type": "fall",
+        "floor": 0.02
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#3d8bfd",
+     "#fff1c1"
+    ],
+    "ambient": 1.6,
+    "light": 2.3,
+    "bounce": "#e3fafc",
+    "sunDir": [
+     1,
+     7,
+     9
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.62,
+     0.4
+    ],
+    "look": [
+     0,
+     1.15,
+     -1.5
+    ],
+    "head": "breathe"
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "Mmm! BEST cereal EVER!",
+     "at": 0.3,
+     "dur": 1.6,
+     "voice": "am_puck",
+     "speed": 1.15,
+     "who": [
+      0,
+      1.95,
+      -1.4
+     ],
+     "name": "You??"
+    }
+   ],
+   "stickers": [],
+   "sfx": [
+    {
+     "type": "boing",
+     "at": 0.25
+    }
+   ],
+   "fx": [
+    "punch"
+   ],
+   "t0": 0.0
+  },
+  {
+   "dur": 3.4,
+   "caption": "you woke up as *Noodle*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -1
+      ],
+      "scale": [
+       6,
+       0.04,
+       6
+      ],
+      "color": "#c8b597"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -2.2
+      ],
+      "scale": [
+       6,
+       3,
+       0.1
+      ],
+      "color": "#d0ebff"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.9,
+       -2.12
+      ],
+      "scale": [
+       1.3,
+       1.8,
+       0.05
+      ],
+      "color": "#a0795a"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0,
+       0.9,
+       -2.08
+      ],
+      "scale": [
+       1.15,
+       1.65,
+       1
+      ],
+      "color": "#e7f5ff",
+      "material": "glossy",
+      "opacity": 0.35
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.468,
+       -2.6
+      ],
+      "scale": [
+       0.41400000000000003,
+       0.378,
+       0.9
+      ],
+      "color": "#d9a066",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.648,
+       -2.06
+      ],
+      "scale": [
+       0.36000000000000004,
+       0.342,
+       0.36000000000000004
+      ],
+      "color": "#d9a066",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.5760000000000001,
+       -1.808
+      ],
+      "scale": [
+       0.198,
+       0.162,
+       0.14400000000000002
+      ],
+      "color": "#f3e0c6"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.639,
+       -1.736
+      ],
+      "scale": [
+       0.045000000000000005,
+       0.036000000000000004,
+       0.03150000000000001
+      ],
+      "color": "#1b1b1f",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.162,
+       0.135,
+       -2.294
+      ],
+      "scale": [
+       0.108,
+       0.27,
+       0.108
+      ],
+      "color": "#d9a066"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.162,
+       0.135,
+       -2.294
+      ],
+      "scale": [
+       0.108,
+       0.27,
+       0.108
+      ],
+      "color": "#d9a066"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.135,
+       -2.924
+      ],
+      "scale": [
+       0.432,
+       0.27,
+       0.108
+      ],
+      "color": "#d9a066"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.09000000000000001,
+       0.7200000000000001,
+       -1.88
+      ],
+      "scale": 0.06300000000000001,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.09000000000000001,
+       0.7200000000000001,
+       -1.88
+      ],
+      "scale": 0.06300000000000001,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.09000000000000001,
+       0.7200000000000001,
+       -1.826
+      ],
+      "scale": 0.03150000000000001,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0108
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.09000000000000001,
+       0.7200000000000001,
+       -1.826
+      ],
+      "scale": 0.03150000000000001,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0108
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.20700000000000002,
+       0.63,
+       -2.0780000000000003
+      ],
+      "scale": [
+       0.06300000000000001,
+       0.234,
+       0.14400000000000002
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       -12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.20700000000000002,
+       0.63,
+       -2.0780000000000003
+      ],
+      "scale": [
+       0.06300000000000001,
+       0.234,
+       0.14400000000000002
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.5130000000000001,
+       -1.754
+      ],
+      "scale": [
+       0.07200000000000001,
+       0.027,
+       0.09000000000000001
+      ],
+      "color": "#ff6b8b",
+      "rotate": [
+       25,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "axis": "x",
+        "speed": 3,
+        "amount": 0.15
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       0.54,
+       -3.194
+      ],
+      "scale": [
+       0.12600000000000003,
+       0.36000000000000004,
+       0.12600000000000003
+      ],
+      "color": "#f3e0c6",
+      "rotate": [
+       -120,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.0,
+        "axis": "y",
+        "amount": 0.3
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.7,
+    "light": 2.2,
+    "bounce": "#d0ebff",
+    "sunDir": [
+     0,
+     6,
+     9
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.62,
+     0.3
+    ],
+    "look": [
+     0,
+     0.55,
+     -2.4
+    ],
+    "head": "breathe"
+   },
+   "hands": "shrug",
+   "bubbles": [
+    {
+     "text": "Why am I... FLUFFY?!",
+     "at": 0.2,
+     "dur": 1.2,
+     "voice": "am_eric",
+     "speed": 1.0,
+     "who": [
+      0,
+      1.2,
+      -2.0
+     ],
+     "name": "You"
+    },
+    {
+     "text": "First to ask for a swap back LOSES.",
+     "at": 1.55,
+     "dur": 1.7,
+     "voice": "am_puck",
+     "speed": 1.0,
+     "who": [
+      0.9,
+      1.5,
+      -1.0
+     ],
+     "name": "Noodle"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "label",
+     "text": "you. 🐶",
+     "at": 0.4,
+     "side": "right",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.3,
+     "who": [
+      0.1,
+      0.75,
+      -2.0
+     ]
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 3.3
+  },
+  {
+   "dur": 3.2,
+   "caption": "round 1: Noodle does *your* school day",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -3
+      ],
+      "scale": [
+       9,
+       0.04,
+       9
+      ],
+      "color": "#b08a63"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -6.5
+      ],
+      "scale": [
+       9,
+       3,
+       0.1
+      ],
+      "color": "#fff3bf"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.5,
+       1.5,
+       -3
+      ],
+      "scale": [
+       0.1,
+       3,
+       9
+      ],
+      "color": "#fff3bf"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.6,
+       -6.4
+      ],
+      "scale": [
+       3.6,
+       1.3,
+       0.05
+      ],
+      "color": "#2f4f3a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.6,
+       1.7,
+       -6.4
+      ],
+      "scale": [
+       1.4,
+       1.0,
+       0.05
+      ],
+      "color": "#a5d8ff",
+      "material": "glow"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.38,
+       -2.8
+      ],
+      "scale": [
+       0.9,
+       0.06,
+       0.6
+      ],
+      "color": "#d9b98c",
+      "count": 9,
+      "seed": 2,
+      "spread": [
+       4.5,
+       0,
+       3.9000000000000004
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.2,
+       -2.8
+      ],
+      "scale": [
+       0.06,
+       0.4,
+       0.06
+      ],
+      "color": "#495057",
+      "count": 9,
+      "seed": 2,
+      "spread": [
+       4.5,
+       0,
+       3.9000000000000004
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -2.6
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 6,
+      "seed": 5,
+      "spread": [
+       4.5,
+       0,
+       3.2
+      ],
+      "act": "sit",
+      "rotate": [
+       0,
+       180,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0.3,
+       0,
+       -1.9
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [
+       [
+        0.3,
+        1.5
+       ]
+      ],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.7,
+    "light": 2.1,
+    "bounce": "#fff3bf",
+    "sunDir": [
+     1,
+     8,
+     9
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     -0.1,
+     0.72,
+     0.6
+    ],
+    "look": [
+     0.3,
+     0.9,
+     -1.9
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "I ate the homework. Legally.",
+     "at": 0.3,
+     "dur": 2.18,
+     "voice": "am_puck",
+     "speed": 1.15,
+     "who": [
+      0.3,
+      1.95,
+      -1.7999999999999998
+     ],
+     "name": "Noodle"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "NOODLE 1 – 0 YOU",
+     "at": 1.8,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 1.4
+    },
+    {
+     "kind": "float",
+     "text": "+1 NOODLE",
+     "at": 1.9,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.62,
+     "size": 64,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 6.7
+  },
+  {
+   "dur": 3.1,
+   "caption": "round 2: the dog park *greeting*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#82c91e"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 7,
+      "seed": 3,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 7,
+      "seed": 4,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 6,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.9,
+       0.3,
+       -1.6
+      ],
+      "scale": [
+       0.22,
+       0.6,
+       0.22
+      ],
+      "color": "#e03131",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.9,
+       0.62,
+       -1.6
+      ],
+      "scale": [
+       0.13,
+       0.1,
+       0.13
+      ],
+      "color": "#e03131",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.9,
+       0.04,
+       -1.6
+      ],
+      "scale": [
+       0.3,
+       0.08,
+       0.3
+      ],
+      "color": "#e03131"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.76,
+       0.4,
+       -1.6
+      ],
+      "scale": [
+       0.08,
+       0.1,
+       0.08
+      ],
+      "color": "#fcc419",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       1.04,
+       0.4,
+       -1.6
+      ],
+      "scale": [
+       0.08,
+       0.1,
+       0.08
+      ],
+      "color": "#fcc419",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.35,
+       0.494,
+       -2.4
+      ],
+      "scale": [
+       0.437,
+       0.39899999999999997,
+       0.95
+      ],
+      "color": "#495057",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.35,
+       0.6839999999999999,
+       -1.83
+      ],
+      "scale": [
+       0.38,
+       0.361,
+       0.38
+      ],
+      "color": "#495057",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.35,
+       0.608,
+       -1.564
+      ],
+      "scale": [
+       0.209,
+       0.17099999999999999,
+       0.152
+      ],
+      "color": "#f3e0c6"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.35,
+       0.6745,
+       -1.488
+      ],
+      "scale": [
+       0.0475,
+       0.038,
+       0.03325
+      ],
+      "color": "#1b1b1f",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.5209999999999999,
+       0.1425,
+       -2.077
+      ],
+      "scale": [
+       0.11399999999999999,
+       0.285,
+       0.11399999999999999
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.179,
+       0.1425,
+       -2.077
+      ],
+      "scale": [
+       0.11399999999999999,
+       0.285,
+       0.11399999999999999
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.35,
+       0.1425,
+       -2.742
+      ],
+      "scale": [
+       0.45599999999999996,
+       0.285,
+       0.11399999999999999
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.44499999999999995,
+       0.76,
+       -1.64
+      ],
+      "scale": 0.0665,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.255,
+       0.76,
+       -1.64
+      ],
+      "scale": 0.0665,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.44499999999999995,
+       0.76,
+       -1.583
+      ],
+      "scale": 0.03325,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0114
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.255,
+       0.76,
+       -1.583
+      ],
+      "scale": 0.03325,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0114
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.5685,
+       0.6649999999999999,
+       -1.849
+      ],
+      "scale": [
+       0.0665,
+       0.247,
+       0.152
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       -12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.13149999999999998,
+       0.6649999999999999,
+       -1.849
+      ],
+      "scale": [
+       0.0665,
+       0.247,
+       0.152
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.35,
+       0.5415,
+       -1.507
+      ],
+      "scale": [
+       0.076,
+       0.028499999999999998,
+       0.095
+      ],
+      "color": "#ff6b8b",
+      "rotate": [
+       25,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "axis": "x",
+        "speed": 3,
+        "amount": 0.15
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -0.35,
+       0.57,
+       -3.027
+      ],
+      "scale": [
+       0.133,
+       0.38,
+       0.133
+      ],
+      "color": "#f3e0c6",
+      "rotate": [
+       -120,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.0,
+        "axis": "y",
+        "amount": 0.3
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       0.364,
+       -3.4
+      ],
+      "scale": [
+       0.322,
+       0.294,
+       0.7
+      ],
+      "color": "#f8f9fa",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       0.504,
+       -2.98
+      ],
+      "scale": [
+       0.27999999999999997,
+       0.26599999999999996,
+       0.27999999999999997
+      ],
+      "color": "#f8f9fa",
+      "animate": []
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       0.44799999999999995,
+       -2.784
+      ],
+      "scale": [
+       0.154,
+       0.126,
+       0.11199999999999999
+      ],
+      "color": "#f3e0c6"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       1.8,
+       0.49699999999999994,
+       -2.7279999999999998
+      ],
+      "scale": [
+       0.034999999999999996,
+       0.027999999999999997,
+       0.0245
+      ],
+      "color": "#1b1b1f",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.674,
+       0.105,
+       -3.162
+      ],
+      "scale": [
+       0.08399999999999999,
+       0.21,
+       0.08399999999999999
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.9260000000000002,
+       0.105,
+       -3.162
+      ],
+      "scale": [
+       0.08399999999999999,
+       0.21,
+       0.08399999999999999
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       0.105,
+       -3.652
+      ],
+      "scale": [
+       0.33599999999999997,
+       0.21,
+       0.08399999999999999
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       1.73,
+       0.5599999999999999,
+       -2.84
+      ],
+      "scale": 0.049,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       1.87,
+       0.5599999999999999,
+       -2.84
+      ],
+      "scale": 0.049,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       1.73,
+       0.5599999999999999,
+       -2.798
+      ],
+      "scale": 0.0245,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0084
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       1.87,
+       0.5599999999999999,
+       -2.798
+      ],
+      "scale": 0.0245,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "orbit",
+        "speed": 3,
+        "amount": 0.0084
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.639,
+       0.48999999999999994,
+       -2.9939999999999998
+      ],
+      "scale": [
+       0.049,
+       0.182,
+       0.11199999999999999
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       -12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.961,
+       0.48999999999999994,
+       -2.9939999999999998
+      ],
+      "scale": [
+       0.049,
+       0.182,
+       0.11199999999999999
+      ],
+      "color": "#8a5a2b",
+      "rotate": [
+       0,
+       0,
+       12
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.5,
+        "amount": 0.12
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       0.399,
+       -2.742
+      ],
+      "scale": [
+       0.055999999999999994,
+       0.020999999999999998,
+       0.06999999999999999
+      ],
+      "color": "#ff6b8b",
+      "rotate": [
+       25,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "axis": "x",
+        "speed": 3,
+        "amount": 0.15
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       1.8,
+       0.42,
+       -3.862
+      ],
+      "scale": [
+       0.098,
+       0.27999999999999997,
+       0.098
+      ],
+      "color": "#f3e0c6",
+      "rotate": [
+       -120,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "speed": 2.0,
+        "axis": "y",
+        "amount": 0.3
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.5,
+    "light": 2.5,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     7,
+     9
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.62,
+     0.3
+    ],
+    "look": [
+     0.0,
+     0.5,
+     -2.2
+    ],
+    "head": "breathe"
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "Hey. Butt sniff?",
+     "at": 0.25,
+     "dur": 1.2,
+     "voice": "am_onyx",
+     "speed": 1.0,
+     "who": [
+      -0.35,
+      1.05,
+      -1.8
+     ],
+     "name": "Big Dave"
+    },
+    {
+     "text": "ABSOLUTELY not.",
+     "at": 1.45,
+     "dur": 1.0,
+     "voice": "am_eric",
+     "speed": 1.0,
+     "who": [
+      0.3,
+      1.15,
+      -1.0
+     ],
+     "name": "You"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "AWKWARD",
+     "at": 2.0,
+     "color": "#ffd43b",
+     "x": 0.5,
+     "y": 0.36,
+     "rot": -8,
+     "size": 130,
+     "dur": 1.0
+    },
+    {
+     "kind": "stamp",
+     "text": "NOODLE 2 – 0 YOU",
+     "at": 2.0,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 1.0
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 9.9
+  },
+  {
+   "dur": 3.4,
+   "caption": "round 3: the *nap*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -2
+      ],
+      "scale": [
+       7,
+       0.04,
+       7
+      ],
+      "color": "#c8a27a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -4.8
+      ],
+      "scale": [
+       7,
+       3,
+       0.1
+      ],
+      "color": "#ffe8cc"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.5,
+       1.5,
+       -2
+      ],
+      "scale": [
+       0.1,
+       3,
+       7
+      ],
+      "color": "#ffe8cc"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.2,
+       0.3,
+       -3.4
+      ],
+      "scale": [
+       1.6,
+       0.6,
+       2.4
+      ],
+      "color": "#f783ac"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.2,
+       0.65,
+       -4.3
+      ],
+      "scale": [
+       1.5,
+       0.2,
+       0.5
+      ],
+      "color": "#ffffff"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       1,
+       1.9,
+       -4.74
+      ],
+      "scale": [
+       0.8,
+       1.1,
+       1
+      ],
+      "color": "#ffd43b",
+      "material": "glow",
+      "count": 3,
+      "seed": 4,
+      "spread": [
+       3,
+       0.4,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6,
+       0.9,
+       -4.5
+      ],
+      "scale": [
+       1.2,
+       1.8,
+       0.4
+      ],
+      "color": "#845ef7"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       2.6,
+       1.3,
+       -4.3
+      ],
+      "scale": 0.12,
+      "color": "#ff922b",
+      "count": 6,
+      "seed": 4,
+      "spread": [
+       1.0,
+       1.2,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.08,
+       -0.9
+      ],
+      "scale": [
+       1.3,
+       0.16,
+       1.1
+      ],
+      "color": "#ffa8a8"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0,
+       0.16,
+       -0.9
+      ],
+      "scale": [
+       0.62,
+       0.55,
+       0.6
+      ],
+      "color": "#ff8787",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0.6,
+       0.2,
+       -1.6
+      ],
+      "scale": [
+       1.4,
+       2.4,
+       1
+      ],
+      "color": "#fff3bf",
+      "material": "glow",
+      "opacity": 0.35,
+      "rotate": [
+       -90,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.6,
+       1.0,
+       -1.6
+      ],
+      "scale": 0.3,
+      "color": "#d8d8d8",
+      "text": "💤",
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.08
+       }
+      ]
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.5,
+       1.7,
+       -4.6
+      ],
+      "scale": 0.8,
+      "color": "#d8d8d8",
+      "text": "🕑"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       1.1,
+       0,
+       -3.3
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "sad",
+      "act": "facepalm",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.6,
+    "light": 2.4,
+    "bounce": "#ffe8cc",
+    "sunDir": [
+     3,
+     6,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.42,
+     0.1
+    ],
+    "look": [
+     0.3,
+     0.6,
+     -2.2
+    ],
+    "head": "breathe"
+   },
+   "hands": "idle",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "badge",
+     "text": "Dogs sleep 12–14 hours a day 😴",
+     "title": "REAL FACT",
+     "at": 0.5,
+     "dur": 1.7
+    },
+    {
+     "kind": "float",
+     "text": "+1 YOU (14 HRS!)",
+     "at": 2.0,
+     "color": "#69db7c",
+     "x": 0.5,
+     "y": 0.5,
+     "size": 64,
+     "dur": 1.4
+    },
+    {
+     "kind": "stamp",
+     "text": "NOODLE 2 – 1 YOU",
+     "at": 2.4,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 1.0
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "slowmo"
+   ],
+   "tint": "rgba(255,200,120,0.10)",
+   "t0": 13.0
+  },
+  {
+   "dur": 3.1,
+   "caption": "round 4: Noodle finds your *card*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -10
+      ],
+      "scale": [
+       8,
+       0.04,
+       30
+      ],
+      "color": "#e9ecef"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.8,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.6,
+       2.0,
+       24
+      ],
+      "color": "#ced4da"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.6,
+       2.0,
+       24
+      ],
+      "color": "#ced4da"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.15,
+       0.2,
+       0.15
+      ],
+      "color": "#ff6b6b",
+      "count": 60,
+      "seed": 5,
+      "spread": [
+       0.05,
+       1.6,
+       22
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.5,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.15,
+       0.2,
+       0.15
+      ],
+      "color": "#4dabf7",
+      "count": 60,
+      "seed": 6,
+      "spread": [
+       0.05,
+       1.6,
+       22
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0,
+       3.0,
+       -10
+      ],
+      "scale": [
+       0.4,
+       6,
+       1
+      ],
+      "color": "#ffffff",
+      "material": "glow",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       0,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -12
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 5,
+      "seed": 7,
+      "spread": [
+       1.6,
+       0,
+       14
+      ],
+      "act": "walk",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -2.5
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "love",
+      "act": "cheer",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [
+       [
+        0.3,
+        1.5
+       ]
+      ],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.66,
+       -0.75
+      ],
+      "scale": 0.04,
+      "color": "#c0eb75",
+      "count": 18,
+      "seed": 6,
+      "spread": [
+       0.6,
+       0.12,
+       0.4
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.6,
+       -0.75
+      ],
+      "scale": [
+       0.9,
+       0.4,
+       0.8
+      ],
+      "color": "#adb5bd",
+      "material": "metal",
+      "opacity": 0.6
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.7,
+    "light": 2.2,
+    "bounce": "#e9ecef",
+    "sunDir": [
+     0,
+     8,
+     8
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.05,
+     -0.2
+    ],
+    "look": [
+     0,
+     0.95,
+     -2.0
+    ],
+    "head": "walk"
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "ALL the tennis balls. ALL of them!",
+     "at": 0.3,
+     "dur": 2.57,
+     "voice": "am_puck",
+     "speed": 1.2,
+     "who": [
+      0,
+      1.95,
+      -2.4
+     ],
+     "name": "Noodle"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "-$212 🎾",
+     "at": 1.6,
+     "color": "#ff6b6b",
+     "x": 0.7,
+     "y": 0.55,
+     "size": 64,
+     "dur": 1.4
+    },
+    {
+     "kind": "stamp",
+     "text": "NOODLE 3 – 1 YOU",
+     "at": 2.1,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 1.0
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 16.4
+  },
+  {
+   "dur": 3.3,
+   "caption": "round 5: Noodle books *your* vet visit",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -10
+      ],
+      "scale": [
+       3,
+       0.04,
+       26
+      ],
+      "color": "#cfd8dc"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       1.4,
+       -10
+      ],
+      "scale": [
+       0.06,
+       2.8,
+       26
+      ],
+      "color": "#e3f2ef"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.5,
+       1.4,
+       -10
+      ],
+      "scale": [
+       0.06,
+       2.8,
+       26
+      ],
+      "color": "#e3f2ef"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0,
+       2.78,
+       -10
+      ],
+      "scale": [
+       0.8,
+       0.4,
+       1
+      ],
+      "color": "#ffffff",
+      "material": "glow",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "count": 6,
+      "seed": 6,
+      "spread": [
+       0,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.8,
+       0.5,
+       -5
+      ],
+      "scale": [
+       0.7,
+       0.1,
+       1.9
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       0.62,
+       0.35000000000000003
+      ],
+      "scale": [
+       1.5,
+       0.9,
+       1.5
+      ],
+      "color": "#e7f5ff",
+      "rotate": [
+       -90,
+       0,
+       0
+      ],
+      "opacity": 0.3
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0,
+       0.62,
+       -0.09999999999999998
+      ],
+      "scale": [
+       1.5,
+       1.5,
+       0.2
+      ],
+      "color": "#a5d8ff",
+      "opacity": 0.7
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0.2,
+       0,
+       -1.9
+      ],
+      "scale": 1,
+      "color": "#f8f9fa",
+      "expr": "smirk",
+      "act": "point",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 21,
+      "talk": [
+       [
+        0.2,
+        1.4
+       ]
+      ],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#868e96"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.55,
+       1.05,
+       -1.7
+      ],
+      "scale": [
+       0.05,
+       0.25,
+       0.05
+      ],
+      "color": "#a5d8ff",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       60
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       -0.9,
+       0,
+       -3.2
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "happy",
+      "act": "wave",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.8,
+    "light": 2.2,
+    "bounce": "#e3f2ef",
+    "sunDir": [
+     0,
+     6,
+     9
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.62,
+     0.4
+    ],
+    "look": [
+     0.1,
+     0.95,
+     -1.9
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "Just a tiny little shot!",
+     "at": 0.25,
+     "dur": 1.92,
+     "voice": "af_nicole",
+     "speed": 1.0,
+     "who": [
+      0.2,
+      1.95,
+      -1.7999999999999998
+     ],
+     "name": "Dr. Pat"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "BETRAYED",
+     "at": 1.7,
+     "color": "#ff6b6b",
+     "x": 0.5,
+     "y": 0.34,
+     "rot": 8,
+     "size": 130,
+     "dur": 0.9
+    },
+    {
+     "kind": "stamp",
+     "text": "NOODLE 4 – 1 YOU",
+     "at": 2.4,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 0.9
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "dutch",
+    "punch"
+   ],
+   "t0": 19.5
+  },
+  {
+   "dur": 3.2,
+   "caption": "round 6: *6 years* of training pay off",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#69b34c"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 6,
+      "seed": 7,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 6,
+      "seed": 8,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 9,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 10,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.01,
+       -4
+      ],
+      "scale": [
+       3,
+       0.03,
+       30
+      ],
+      "color": "#adb5bd"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       1.3,
+       0,
+       -4.4
+      ],
+      "scale": 1,
+      "color": "#1c7ed6",
+      "expr": "scared",
+      "act": "run",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 31,
+      "talk": [],
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         -0.4,
+         0,
+         -1.6
+        ],
+        "rel": true
+       }
+      ],
+      "hat": "cap",
+      "hatColor": "#1864ab"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.55,
+       0.75,
+       -4.25
+      ],
+      "scale": [
+       0.35,
+       0.25,
+       0.12
+      ],
+      "color": "#f8f9fa",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         -0.4,
+         0,
+         -1.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       -0.4,
+       0,
+       -2.2
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "happy",
+      "act": "run",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [],
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0.3,
+         0,
+         -1.6
+        ],
+        "rel": true
+       }
+      ],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.5,
+    "light": 2.5,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     0,
+     7,
+     -2
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.0,
+     1.2
+    ],
+    "look": [
+     0.3,
+     1.0,
+     -4.5
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "COME BACK, MAIL GUY!",
+     "at": 0.3,
+     "dur": 1.4,
+     "voice": "am_puck",
+     "speed": 1.2,
+     "who": [
+      -0.2,
+      1.9,
+      -3.0
+     ],
+     "name": "Noodle"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "emoji",
+     "text": "📬",
+     "at": 1.4,
+     "x": 0.8,
+     "y": 0.3,
+     "size": 160,
+     "dur": 1.6
+    },
+    {
+     "kind": "stamp",
+     "text": "NOODLE 5 – 1 YOU",
+     "at": 2.2,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 1.0
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "slowmo"
+   ],
+   "t0": 22.8
+  },
+  {
+   "dur": 3.5,
+   "caption": "and now he wants to keep *the thumbs*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -2
+      ],
+      "scale": [
+       9,
+       0.04,
+       9
+      ],
+      "color": "#b98b5e"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.6,
+       -5.2
+      ],
+      "scale": [
+       9,
+       3.2,
+       0.1
+      ],
+      "color": "#fff4e6"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.5,
+       1.6,
+       -2
+      ],
+      "scale": [
+       0.1,
+       3.2,
+       9
+      ],
+      "color": "#fff4e6"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.01,
+       -2.4
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       1.8
+      ],
+      "color": "#e64980"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.35,
+       -4.2
+      ],
+      "scale": [
+       2.8,
+       0.7,
+       1.0
+      ],
+      "color": "#e8590c"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.85,
+       -4.65
+      ],
+      "scale": [
+       2.8,
+       0.8,
+       0.3
+      ],
+      "color": "#e8590c"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.45,
+       0.55,
+       -4.2
+      ],
+      "scale": [
+       0.25,
+       0.5,
+       1.0
+      ],
+      "color": "#e8590c"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.45,
+       0.55,
+       -4.2
+      ],
+      "scale": [
+       0.25,
+       0.5,
+       1.0
+      ],
+      "color": "#e8590c"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       2.6,
+       1.9,
+       -5.13
+      ],
+      "scale": [
+       1.2,
+       1.3,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "glow"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -2.9,
+       0.75,
+       -4.4
+      ],
+      "scale": [
+       0.05,
+       1.5,
+       0.05
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -2.9,
+       1.6,
+       -4.4
+      ],
+      "scale": [
+       0.5,
+       0.4,
+       0.5
+      ],
+      "color": "#fff3bf",
+      "material": "glow"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       3.6,
+       0.3,
+       -4.4
+      ],
+      "scale": [
+       0.5,
+       0.6,
+       0.5
+      ],
+      "color": "#e8590c"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.6,
+       0.9,
+       -4.4
+      ],
+      "scale": 0.45,
+      "color": "#40c057"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0.3,
+       0.4,
+       -4.1
+      ],
+      "scale": 1,
+      "color": "#4c6ef5",
+      "expr": "smirk",
+      "act": "sit",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 11,
+      "talk": [
+       [
+        0.3,
+        1.6
+       ]
+      ],
+      "animate": [],
+      "hat": "hair",
+      "hatColor": "#5c3a21"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.62,
+       0.95,
+       -3.9
+      ],
+      "scale": [
+       0.08,
+       0.16,
+       0.01
+      ],
+      "color": "#212529",
+      "rotate": [
+       -20,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0.62,
+       0.956,
+       -3.9
+      ],
+      "scale": [
+       0.07,
+       0.14,
+       1
+      ],
+      "color": "#74c0fc",
+      "material": "glow",
+      "rotate": [
+       -20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "pulse",
+        "amount": 0.2
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#3a2d6b",
+     "#ff9a6b"
+    ],
+    "ambient": 1.6,
+    "light": 2.0,
+    "bounce": "#ffc078",
+    "sunDir": [
+     1,
+     6,
+     9
+    ],
+    "sunColor": "#ffd8a8",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     0.62,
+     -1.4
+    ],
+    "look": [
+     0.2,
+     0.95,
+     -4.1
+    ],
+    "head": "breathe"
+   },
+   "hands": "reach",
+   "bubbles": [
+    {
+     "text": "Thumbs are AMAZING. Not swapping.",
+     "at": 0.3,
+     "dur": 1.7,
+     "voice": "am_puck",
+     "speed": 1.0,
+     "who": [
+      0.3,
+      2.3,
+      -4.0
+     ],
+     "name": "Noodle"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "NOODLE 5 – 1 YOU",
+     "at": 0.1,
+     "color": "#3bc9db",
+     "x": 0.5,
+     "y": 0.2,
+     "rot": 0,
+     "size": 74,
+     "dur": 2.0
+    },
+    {
+     "kind": "badge",
+     "text": "Should you ask to swap back? 👇",
+     "title": "WHO WINS?",
+     "at": 2.1,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "zoomin"
+   ],
+   "t0": 26.0
+  }
+ ],
+ "music": {
+  "seed": 867,
+  "mood": "epic"
+ },
+ "meta": {
+  "tags": [
+   "what if you swapped bodies with your dog",
+   "body swap",
+   "what if",
+   "pov",
+   "funny",
+   "funny dogs",
+   "alternative world",
+   "dink dunk",
+   "animation",
+   "dog pov",
+   "shorts"
+  ],
+  "description": "You wake up as your dog. Your dog wakes up as YOU... and he's winning. 🐶🔄\n\nScore's 5–1. Would YOU beg to swap back? 👇\n\n#whatif #dogs #funny",
+  "pinned": "Final score 5–1 for Noodle. Would YOU beg to swap back? 👇"
+ }
+}
