@@ -8,7 +8,7 @@ Rules: YOU are the main character (first-person, your hands in frame), relatable
 a funny or warm ending, a comment-bait question. No real tragedies with real victims, no gore, no real private people.
 
 ## Shorts — real life (active)
-- [x] What if you hosted *Thanksgiving* for the first time? · frozen turkey, early uncle, smoking oven, 24/7 diner · USDA: fridge thaw ≈1 day per 4–5 lb · kitchen_home, front_door, apartment, oven, street, diner (made 2026-11-26, v2-engine demo — rendered, not uploaded)
+- [x] What if you hosted *Thanksgiving* for the first time? · frozen turkey, early uncle, smoking oven, 24/7 diner · USDA: fridge thaw ≈1 day per 4–5 lb · kitchen_home, front_door, apartment, oven, street, diner (made 2026-11-26, https://youtu.be/_HVGnt85jOE)
 - [ ] What if you worked retail on *Black Friday*? · doors open, stampede for one TV · NRF Thanksgiving-weekend shopper count (latest) · grocery, people, cash_register, text("DOORBUSTER")
 - [ ] What if you accidentally hit *reply-all* to the whole company? · CEO replies "who is this" · Microsoft "Bedlam DL3" 1997 reply-all storm (~13,000 people) · office, monitor, meeting_room, laptop
 - [ ] What if you *slept through your alarm* on exam day? · run to school in pyjamas · teens need 8–10 h of sleep (CDC/AASM) · bedroom, alarm_clock, street, classroom_real
