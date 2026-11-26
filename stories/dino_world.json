@@ -1,0 +1,3587 @@
+{
+ "slug": "dino_world",
+ "title": "What if dinosaurs never went extinct?",
+ "accent": "#a9e34b",
+ "hook": {
+  "lines": [
+   "WHAT IF",
+   "DINOSAURS",
+   "NEVER DIED?"
+  ],
+  "accent": 1
+ },
+ "hookDur": 2.6,
+ "you": {
+  "skin": "#c68642",
+  "sleeve": "#845ef7"
+ },
+ "width": 1080,
+ "height": 1920,
+ "duration": 29.0,
+ "beats": [
+  {
+   "dur": 3.7,
+   "caption": "",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#82c91e"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 9,
+      "seed": 3,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 9,
+      "seed": 4,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 6,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.08,
+       9
+      ],
+      "scale": [
+       1.1199999999999999,
+       1.2800000000000002,
+       1.92
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       },
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.2,
+       7.88
+      ],
+      "scale": [
+       0.96,
+       0.8800000000000001,
+       1.36
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8480000000000003,
+       7.32
+      ],
+      "scale": [
+       0.8960000000000001,
+       0.128,
+       0.6400000000000001
+      ],
+      "color": "#f8f9fa",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.32000000000000006,
+       3.5200000000000005,
+       7.208
+      ],
+      "scale": 0.17600000000000002,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.32000000000000006,
+       3.5200000000000005,
+       7.208
+      ],
+      "scale": 0.17600000000000002,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.32000000000000006,
+       3.5200000000000005,
+       7.064
+      ],
+      "scale": 0.08000000000000002,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.32000000000000006,
+       3.5200000000000005,
+       7.064
+      ],
+      "scale": 0.08000000000000002,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.12,
+       7.192
+      ],
+      "scale": [
+       0.6400000000000001,
+       0.16000000000000003,
+       0.048
+      ],
+      "color": "#5c1a1a",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.92,
+       8.04
+      ],
+      "scale": [
+       0.8,
+       0.128,
+       0.4
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7200000000000001,
+       9
+      ],
+      "scale": [
+       1.1199999999999999,
+       1.4400000000000002,
+       0.48
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       1.6,
+       11.08
+      ],
+      "scale": [
+       0.5599999999999999,
+       2.5600000000000005,
+       0.5599999999999999
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       100,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.8
+        ],
+        "rel": true
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#3d8bfd",
+     "#fff1c1"
+    ],
+    "ambient": 1.5,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     3,
+     9,
+     -6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.5,
+     0.5
+    ],
+    "look": [
+     0,
+     2.4,
+     10
+    ],
+    "head": "run"
+   },
+   "hands": "run",
+   "bubbles": [],
+   "stickers": [],
+   "sfx": [
+    {
+     "type": "slam",
+     "at": 0.0,
+     "gain": 0.6
+    }
+   ],
+   "fx": [
+    "shake"
+   ],
+   "freeze": {
+    "at": 2.75,
+    "label": "yep. that's you. 🙃"
+   },
+   "t0": 0.0
+  },
+  {
+   "dur": 3.0,
+   "caption": "let's rewind to *7 AM*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -2
+      ],
+      "scale": [
+       7,
+       0.04,
+       7
+      ],
+      "color": "#c8a27a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -4.8
+      ],
+      "scale": [
+       7,
+       3,
+       0.1
+      ],
+      "color": "#ffe066"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.5,
+       1.5,
+       -2
+      ],
+      "scale": [
+       0.1,
+       3,
+       7
+      ],
+      "color": "#ffe066"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.2,
+       0.3,
+       -3.4
+      ],
+      "scale": [
+       1.6,
+       0.6,
+       2.4
+      ],
+      "color": "#f783ac"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.2,
+       0.65,
+       -4.3
+      ],
+      "scale": [
+       1.5,
+       0.2,
+       0.5
+      ],
+      "color": "#ffffff"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       1,
+       1.9,
+       -4.74
+      ],
+      "scale": [
+       0.8,
+       1.1,
+       1
+      ],
+      "color": "#ffd43b",
+      "material": "glow",
+      "count": 3,
+      "seed": 4,
+      "spread": [
+       3,
+       0.4,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6,
+       0.9,
+       -4.5
+      ],
+      "scale": [
+       1.2,
+       1.8,
+       0.4
+      ],
+      "color": "#845ef7"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       2.6,
+       1.3,
+       -4.3
+      ],
+      "scale": 0.12,
+      "color": "#ff922b",
+      "count": 6,
+      "seed": 4,
+      "spread": [
+       1.0,
+       1.2,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       1.27,
+       -3.0
+      ],
+      "scale": [
+       0.35,
+       0.4,
+       0.6
+      ],
+      "color": "#f76707",
+      "rotate": [
+       -20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       1.62,
+       -2.65
+      ],
+      "scale": [
+       0.3,
+       0.275,
+       0.425
+      ],
+      "color": "#f76707"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       1.51,
+       -2.475
+      ],
+      "scale": [
+       0.28,
+       0.04,
+       0.2
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.5,
+       1.7200000000000002,
+       -2.44
+      ],
+      "scale": 0.055,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.2999999999999998,
+       1.7200000000000002,
+       -2.44
+      ],
+      "scale": 0.055,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.5,
+       1.7200000000000002,
+       -2.395
+      ],
+      "scale": 0.025,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.2999999999999998,
+       1.7200000000000002,
+       -2.395
+      ],
+      "scale": 0.025,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       1.595,
+       -2.435
+      ],
+      "scale": [
+       0.2,
+       0.05,
+       0.015
+      ],
+      "color": "#5c1a1a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       1.22,
+       -2.7
+      ],
+      "scale": [
+       0.25,
+       0.04,
+       0.125
+      ],
+      "color": "#f76707"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.4,
+       0.845,
+       -3.0
+      ],
+      "scale": [
+       0.35,
+       0.45,
+       0.15
+      ],
+      "color": "#f76707"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -1.4,
+       1.12,
+       -3.65
+      ],
+      "scale": [
+       0.175,
+       0.8,
+       0.175
+      ],
+      "color": "#f76707",
+      "rotate": [
+       -100,
+       0,
+       0
+      ]
+     }
+    ],
+    "sky": [
+     "#6b7fd6",
+     "#ffd1a8"
+    ],
+    "ambient": 1.5,
+    "light": 2.2,
+    "bounce": "#ffe066",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.0,
+     0.6
+    ],
+    "look": [
+     -0.8,
+     0.9,
+     -3.0
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "RAWR. (that means get up)",
+     "at": 0.4,
+     "dur": 1.9849999999999999,
+     "voice": "am_puck",
+     "speed": 1.1,
+     "who": [
+      -1.4,
+      1.9,
+      -2.7
+     ],
+     "name": "Alarm"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "⏪ 7:00 AM",
+     "at": 0.1,
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.2,
+     "size": 70,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 3.7
+  },
+  {
+   "dur": 3.2,
+   "caption": "the school bus has a *neck*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#94d82d"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 3,
+      "seed": 6,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 7,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 8,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.8,
+       2.28,
+       -7.5
+      ],
+      "scale": [
+       1.92,
+       2.64,
+       1.7999999999999998
+      ],
+      "color": "#74b816",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.8,
+       3.9599999999999995,
+       -5.58
+      ],
+      "scale": [
+       0.54,
+       2.88,
+       0.54
+      ],
+      "color": "#74b816",
+      "rotate": [
+       35,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.8,
+       5.28,
+       -4.68
+      ],
+      "scale": [
+       0.48,
+       0.384,
+       0.6
+      ],
+      "color": "#74b816"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0.8,
+       2.28,
+       -10.14
+      ],
+      "scale": [
+       0.6,
+       2.88,
+       0.6
+      ],
+      "color": "#74b816",
+      "rotate": [
+       -100,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "wobble",
+        "axis": "y",
+        "speed": 0.8,
+        "amount": 0.15
+       }
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.14,
+       0.72,
+       -8.4
+      ],
+      "scale": [
+       0.504,
+       1.44,
+       0.504
+      ],
+      "color": "#74b816"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.14,
+       0.72,
+       -6.6
+      ],
+      "scale": [
+       0.504,
+       1.44,
+       0.504
+      ],
+      "color": "#74b816"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       1.46,
+       0.72,
+       -8.4
+      ],
+      "scale": [
+       0.504,
+       1.44,
+       0.504
+      ],
+      "color": "#74b816"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       1.46,
+       0.72,
+       -6.6
+      ],
+      "scale": [
+       0.504,
+       1.44,
+       0.504
+      ],
+      "color": "#74b816"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.6080000000000001,
+       5.3999999999999995,
+       -4.356
+      ],
+      "scale": 0.108,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.992,
+       5.3999999999999995,
+       -4.356
+      ],
+      "scale": 0.108,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.6080000000000001,
+       5.3999999999999995,
+       -4.26
+      ],
+      "scale": 0.054,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.992,
+       5.3999999999999995,
+       -4.26
+      ],
+      "scale": 0.054,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.8,
+       3.12,
+       -7.5
+      ],
+      "scale": 0.144,
+      "color": "#ffd43b",
+      "count": 5,
+      "seed": 5,
+      "spread": [
+       1.2,
+       0,
+       2.4
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0.8,
+       3.3,
+       -7.5
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 7,
+      "seed": 8,
+      "spread": [
+       0.72,
+       0,
+       2.4
+      ],
+      "act": "cheer",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 0.55
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.0,
+       1.1,
+       -3.5
+      ],
+      "scale": [
+       0.08,
+       2.2,
+       0.08
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.0,
+       2.3,
+       -3.5
+      ],
+      "scale": [
+       0.7,
+       0.45,
+       0.05
+      ],
+      "color": "#fab005"
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.4,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.5,
+     1.5
+    ],
+    "look": [
+     0.5,
+     3.0,
+     -6
+    ],
+    "head": "breathe"
+   },
+   "hands": "wave",
+   "bubbles": [
+    {
+     "text": "Hop on! Mind the tail.",
+     "at": 0.5,
+     "dur": 1.79,
+     "voice": "am_eric",
+     "speed": 1.0,
+     "who": [
+      0.8,
+      6.4,
+      -5.0
+     ],
+     "name": "Driver"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "label",
+     "text": "🚌 BUS",
+     "at": 1.6,
+     "side": "left",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 2.0,
+     "who": [
+      0.8,
+      3.2,
+      -7.5
+     ]
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 6.7
+  },
+  {
+   "dur": 3.3,
+   "caption": "your teacher drops a *fact*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -3
+      ],
+      "scale": [
+       9,
+       0.04,
+       9
+      ],
+      "color": "#b08a63"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -6.5
+      ],
+      "scale": [
+       9,
+       3,
+       0.1
+      ],
+      "color": "#e7dcc6"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.5,
+       1.5,
+       -3
+      ],
+      "scale": [
+       0.1,
+       3,
+       9
+      ],
+      "color": "#e7dcc6"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.6,
+       -6.4
+      ],
+      "scale": [
+       3.6,
+       1.3,
+       0.05
+      ],
+      "color": "#2f4f3a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.6,
+       1.7,
+       -6.4
+      ],
+      "scale": [
+       1.4,
+       1.0,
+       0.05
+      ],
+      "color": "#a5d8ff",
+      "material": "glow"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.38,
+       -2.8
+      ],
+      "scale": [
+       0.9,
+       0.06,
+       0.6
+      ],
+      "color": "#d9b98c",
+      "count": 9,
+      "seed": 6,
+      "spread": [
+       4.5,
+       0,
+       3.9000000000000004
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.2,
+       -2.8
+      ],
+      "scale": [
+       0.06,
+       0.4,
+       0.06
+      ],
+      "color": "#495057",
+      "count": 9,
+      "seed": 6,
+      "spread": [
+       4.5,
+       0,
+       3.9000000000000004
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -2.6
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 6,
+      "seed": 9,
+      "spread": [
+       4.5,
+       0,
+       3.2
+      ],
+      "act": "sit",
+      "rotate": [
+       0,
+       180,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "bean",
+      "at": [
+       1.6,
+       0,
+       -5.3
+      ],
+      "scale": 1,
+      "color": "#748ffc",
+      "expr": "happy",
+      "act": "point",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "size": 1.0,
+      "seed": 61,
+      "talk": [
+       [
+        0.3,
+        1.8
+       ]
+      ],
+      "animate": [],
+      "hat": "bun"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.2,
+       1.6,
+       -6.3
+      ],
+      "scale": 0.9,
+      "color": "#d8d8d8",
+      "text": "🐔"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.9,
+       1.6,
+       -6.3
+      ],
+      "scale": 0.6,
+      "color": "#d8d8d8",
+      "text": "="
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       1.8,
+       1.65,
+       -6.3
+      ],
+      "scale": 0.9,
+      "color": "#d8d8d8",
+      "text": "🦖"
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.6,
+    "light": 2.0,
+    "bounce": "#e7dcc6",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.3,
+     0.4
+    ],
+    "look": [
+     0.4,
+     1.4,
+     -5.5
+    ],
+    "head": "breathe"
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "Birds ARE dinosaurs. Yes, chickens too.",
+     "at": 0.3,
+     "dur": 2.895,
+     "voice": "af_bella",
+     "speed": 1.0,
+     "who": [
+      1.6,
+      1.9,
+      -5.3
+     ],
+     "name": "Ms. Kim"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "badge",
+     "text": "Birds are living dinosaurs 🐦",
+     "title": "REAL FACT",
+     "at": 1.7,
+     "dur": 1.8
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 9.9
+  },
+  {
+   "dur": 3.1,
+   "caption": "lunch is a *negotiation*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -4
+      ],
+      "scale": [
+       12,
+       0.04,
+       12
+      ],
+      "color": "#d0d4d8"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.6,
+       -9
+      ],
+      "scale": [
+       12,
+       3.2,
+       0.1
+      ],
+      "color": "#f1e3c8"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.4,
+       -2.5
+      ],
+      "scale": [
+       3.6,
+       0.08,
+       0.9
+      ],
+      "color": "#e9ecef",
+      "count": 3,
+      "seed": 7,
+      "spread": [
+       0,
+       0,
+       6
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.46,
+       -2.5
+      ],
+      "scale": [
+       0.4,
+       0.03,
+       0.3
+      ],
+      "color": "#74c0fc",
+      "count": 9,
+      "seed": 8,
+      "spread": [
+       3,
+       0,
+       6
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -3.5
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 10,
+      "seed": 9,
+      "spread": [
+       4,
+       0,
+       6
+      ],
+      "act": "sit",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0,
+       3.1,
+       -4
+      ],
+      "scale": [
+       1.4,
+       0.5,
+       1
+      ],
+      "color": "#ffffff",
+      "material": "glow",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "count": 4,
+      "seed": 7,
+      "spread": [
+       8,
+       0,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.4,
+       -0.6
+      ],
+      "scale": [
+       1.8,
+       0.08,
+       1.1
+      ],
+      "color": "#8d6e57"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.2,
+       0.45,
+       -0.4
+      ],
+      "scale": [
+       0.28,
+       0.02,
+       0.28
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.2,
+       0.47000000000000003,
+       -0.4
+      ],
+      "scale": [
+       0.23800000000000002,
+       0.03,
+       0.23800000000000002
+      ],
+      "color": "#f2a541"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.2,
+       0.49,
+       -0.4
+      ],
+      "scale": [
+       0.033600000000000005,
+       0.01,
+       0.033600000000000005
+      ],
+      "color": "#c92a2a",
+      "count": 7,
+      "seed": 3,
+      "spread": [
+       0.30800000000000005,
+       0,
+       0.30800000000000005
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       0.9079999999999999,
+       -1.2
+      ],
+      "scale": [
+       0.252,
+       0.288,
+       0.432
+      ],
+      "color": "#e64980",
+      "rotate": [
+       -20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       1.16,
+       -0.948
+      ],
+      "scale": [
+       0.216,
+       0.198,
+       0.306
+      ],
+      "color": "#e64980"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       1.0808,
+       -0.822
+      ],
+      "scale": [
+       0.2016,
+       0.0288,
+       0.144
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.02800000000000001,
+       1.232,
+       -0.7968
+      ],
+      "scale": 0.039599999999999996,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.172,
+       1.232,
+       -0.7968
+      ],
+      "scale": 0.039599999999999996,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.02800000000000001,
+       1.232,
+       -0.7644
+      ],
+      "scale": 0.018,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.172,
+       1.232,
+       -0.7644
+      ],
+      "scale": 0.018,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       1.142,
+       -0.7932
+      ],
+      "scale": [
+       0.144,
+       0.036,
+       0.010799999999999999
+      ],
+      "color": "#5c1a1a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       0.872,
+       -0.984
+      ],
+      "scale": [
+       0.18,
+       0.0288,
+       0.09
+      ],
+      "color": "#e64980"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       0.602,
+       -1.2
+      ],
+      "scale": [
+       0.252,
+       0.324,
+       0.108
+      ],
+      "color": "#e64980"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0.1,
+       0.8,
+       -1.668
+      ],
+      "scale": [
+       0.126,
+       0.576,
+       0.126
+      ],
+      "color": "#e64980",
+      "rotate": [
+       -100,
+       0,
+       0
+      ]
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.1,
+    "light": 1.6,
+    "bounce": "#8d6e57",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.15,
+     0.5
+    ],
+    "look": [
+     0,
+     0.7,
+     -1.2
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "This is a pizza tax.",
+     "at": 0.3,
+     "dur": 1.6600000000000001,
+     "voice": "am_puck",
+     "speed": 1.1,
+     "who": [
+      0.1,
+      1.45,
+      -1.0
+     ],
+     "name": "Tiny Rex"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "-1 SLICE",
+     "at": 1.5,
+     "color": "#ff6b6b",
+     "x": 0.5,
+     "y": 0.5,
+     "size": 64,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 13.2
+  },
+  {
+   "dur": 3.1,
+   "caption": "pterodactyls ruin *every* game",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -14
+      ],
+      "scale": [
+       40,
+       0.04,
+       30
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -14
+      ],
+      "scale": [
+       0.2,
+       0.02,
+       30
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       4,
+       -32
+      ],
+      "scale": [
+       60,
+       8,
+       6
+      ],
+      "color": "#495057",
+      "rotate": [
+       -25,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       4,
+       -31
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 60,
+      "seed": 8,
+      "spread": [
+       56,
+       6,
+       3
+      ],
+      "act": "cheer",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       16,
+       -30
+      ],
+      "scale": 0.8,
+      "color": "#ffffff",
+      "material": "glow",
+      "count": 4,
+      "seed": 9,
+      "spread": [
+       56,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.05,
+       -4
+      ],
+      "scale": [
+       0.6,
+       0.6,
+       0.6
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       -1.2,
+       2.9,
+       -3.2
+      ],
+      "scale": [
+       0.5249999999999999,
+       0.8999999999999999,
+       0.5249999999999999
+      ],
+      "color": "#e8590c",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.2,
+       3.275,
+       -2.5250000000000004
+      ],
+      "scale": 0.27,
+      "color": "#e8590c",
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -1.2,
+       3.23,
+       -2.0
+      ],
+      "scale": [
+       0.18,
+       0.8999999999999999,
+       0.18
+      ],
+      "color": "#ffd43b",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -1.2,
+       3.53,
+       -2.75
+      ],
+      "scale": [
+       0.12,
+       0.6000000000000001,
+       0.12
+      ],
+      "color": "#e8590c",
+      "rotate": [
+       -60,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.325,
+       2.975,
+       -3.2
+      ],
+      "scale": [
+       1.9500000000000002,
+       0.045,
+       0.8999999999999999
+      ],
+      "color": "#ff922b",
+      "rotate": [
+       0,
+       0,
+       8
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "wobble",
+        "axis": "z",
+        "speed": 3.5,
+        "amount": 0.45
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.07499999999999996,
+       2.975,
+       -3.2
+      ],
+      "scale": [
+       1.9500000000000002,
+       0.045,
+       0.8999999999999999
+      ],
+      "color": "#ff922b",
+      "rotate": [
+       0,
+       0,
+       -8
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "wobble",
+        "axis": "z",
+        "speed": 3.5,
+        "amount": 0.45
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.335,
+       3.395,
+       -2.33
+      ],
+      "scale": 0.07500000000000001,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.065,
+       3.395,
+       -2.33
+      ],
+      "scale": 0.07500000000000001,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.25,
+        "speed": 1.2
+       },
+       {
+        "type": "move",
+        "to": [
+         2.2,
+         0.4,
+         -0.6
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -1.2,
+       2.5,
+       -2.8
+      ],
+      "scale": 0.22,
+      "color": "#f8f9fa",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         1.0,
+         2.9,
+         -3.4
+        ]
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.5,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.6,
+     2
+    ],
+    "look": [
+     0,
+     2.8,
+     -3.6
+    ],
+    "head": "breathe"
+   },
+   "hands": "cheer",
+   "bubbles": [
+    {
+     "text": "HEY! THAT'S OUR BALL!",
+     "at": 0.9,
+     "dur": 1.725,
+     "voice": "am_adam",
+     "speed": 1.15,
+     "who": [
+      0,
+      3.0,
+      -9
+     ],
+     "name": "Coach"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "FOUL!",
+     "at": 1.9,
+     "color": "#fab005",
+     "x": 0.5,
+     "y": 0.42,
+     "rot": -6,
+     "size": 170,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 16.3
+  },
+  {
+   "dur": 3.2,
+   "caption": "T-rex tries the *self-checkout*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.02,
+       -10
+      ],
+      "scale": [
+       8,
+       0.04,
+       30
+      ],
+      "color": "#e9ecef"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.8,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.6,
+       2.0,
+       24
+      ],
+      "color": "#ced4da"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.8,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.6,
+       2.0,
+       24
+      ],
+      "color": "#ced4da"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.15,
+       0.2,
+       0.15
+      ],
+      "color": "#ff6b6b",
+      "count": 60,
+      "seed": 9,
+      "spread": [
+       0.05,
+       1.6,
+       22
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.5,
+       1.0,
+       -10
+      ],
+      "scale": [
+       0.15,
+       0.2,
+       0.15
+      ],
+      "color": "#4dabf7",
+      "count": 60,
+      "seed": 10,
+      "spread": [
+       0.05,
+       1.6,
+       22
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0,
+       3.0,
+       -10
+      ],
+      "scale": [
+       0.4,
+       6,
+       1
+      ],
+      "color": "#ffffff",
+      "material": "glow",
+      "rotate": [
+       90,
+       0,
+       0
+      ],
+      "count": 3,
+      "seed": 9,
+      "spread": [
+       0,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "bean",
+      "at": [
+       0,
+       0,
+       -12
+      ],
+      "scale": 1,
+      "color": "#ffa8a8",
+      "count": 5,
+      "seed": 11,
+      "spread": [
+       1.6,
+       0,
+       14
+      ],
+      "act": "walk",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "expr": "smile"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.2349999999999999,
+       -4.2
+      ],
+      "scale": [
+       0.6649999999999999,
+       0.76,
+       1.14
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       -20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.9,
+       -3.535
+      ],
+      "scale": [
+       0.57,
+       0.5225,
+       0.8075
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.6909999999999998,
+       -3.2025
+      ],
+      "scale": [
+       0.532,
+       0.076,
+       0.38
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.19,
+       2.09,
+       -3.136
+      ],
+      "scale": 0.1045,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.19,
+       2.09,
+       -3.136
+      ],
+      "scale": 0.1045,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.19,
+       2.09,
+       -3.0505000000000004
+      ],
+      "scale": 0.0475,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.19,
+       2.09,
+       -3.0505000000000004
+      ],
+      "scale": 0.0475,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.8524999999999998,
+       -3.1265
+      ],
+      "scale": [
+       0.38,
+       0.095,
+       0.028499999999999998
+      ],
+      "color": "#5c1a1a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -3.6300000000000003
+      ],
+      "scale": [
+       0.475,
+       0.076,
+       0.2375
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.4275,
+       -4.2
+      ],
+      "scale": [
+       0.6649999999999999,
+       0.855,
+       0.285
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       0.95,
+       -5.4350000000000005
+      ],
+      "scale": [
+       0.33249999999999996,
+       1.52,
+       0.33249999999999996
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       -100,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.1,
+       0.5,
+       -2.7
+      ],
+      "scale": [
+       0.8,
+       1.0,
+       0.6
+      ],
+      "color": "#495057"
+     },
+     {
+      "kind": "plane",
+      "at": [
+       0.1,
+       1.05,
+       -2.39
+      ],
+      "scale": [
+       0.5,
+       0.35,
+       1
+      ],
+      "color": "#74c0fc",
+      "material": "glow"
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.6,
+    "light": 2.2,
+    "bounce": "#e9ecef",
+    "sunDir": [
+     4,
+     9,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.9,
+     1.6,
+     0.4
+    ],
+    "look": [
+     0,
+     1.5,
+     -3.6
+    ],
+    "head": "breathe"
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "Unexpected item... in bagging area.",
+     "at": 0.2,
+     "dur": 1.5,
+     "voice": "af_sky",
+     "speed": 1.0,
+     "who": [
+      0.1,
+      1.3,
+      -2.4
+     ],
+     "name": "Machine"
+    },
+    {
+     "text": "My arms. Are. TINY.",
+     "at": 1.8,
+     "dur": 1.3,
+     "voice": "am_onyx",
+     "speed": 1.0,
+     "who": [
+      0,
+      2.6,
+      -3.6
+     ],
+     "name": "Rex"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "emoji",
+     "text": "😭",
+     "at": 2.2,
+     "x": 0.82,
+     "y": 0.25,
+     "size": 200,
+     "dur": 1.6
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip"
+   ],
+   "t0": 19.4
+  },
+  {
+   "dur": 3.0,
+   "caption": "which brings us *back* here",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#82c91e"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 9,
+      "seed": 3,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 9,
+      "seed": 4,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 6,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.08,
+       7.5
+      ],
+      "scale": [
+       1.1199999999999999,
+       1.2800000000000002,
+       1.92
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       },
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.2,
+       6.38
+      ],
+      "scale": [
+       0.96,
+       0.8800000000000001,
+       1.36
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8480000000000003,
+       5.82
+      ],
+      "scale": [
+       0.8960000000000001,
+       0.128,
+       0.6400000000000001
+      ],
+      "color": "#f8f9fa",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.32000000000000006,
+       3.5200000000000005,
+       5.708
+      ],
+      "scale": 0.17600000000000002,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.32000000000000006,
+       3.5200000000000005,
+       5.708
+      ],
+      "scale": 0.17600000000000002,
+      "color": "#ffffff",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.32000000000000006,
+       3.5200000000000005,
+       5.564
+      ],
+      "scale": 0.08000000000000002,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.32000000000000006,
+       3.5200000000000005,
+       5.564
+      ],
+      "scale": 0.08000000000000002,
+      "color": "#111111",
+      "material": "glossy",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.12,
+       5.692
+      ],
+      "scale": [
+       0.6400000000000001,
+       0.16000000000000003,
+       0.048
+      ],
+      "color": "#5c1a1a",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.92,
+       6.54
+      ],
+      "scale": [
+       0.8,
+       0.128,
+       0.4
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7200000000000001,
+       7.5
+      ],
+      "scale": [
+       1.1199999999999999,
+       1.4400000000000002,
+       0.48
+      ],
+      "color": "#2f9e44",
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       1.6,
+       9.58
+      ],
+      "scale": [
+       0.5599999999999999,
+       2.5600000000000005,
+       0.5599999999999999
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       100,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0,
+         -2.3
+        ],
+        "rel": true
+       }
+      ]
+     }
+    ],
+    "sky": [
+     "#3d8bfd",
+     "#fff1c1"
+    ],
+    "ambient": 1.5,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     3,
+     9,
+     -6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.5,
+     0.5
+    ],
+    "look": [
+     0,
+     2.4,
+     9
+    ],
+    "head": "run",
+    "to": [
+     0,
+     1.5,
+     -0.3
+    ]
+   },
+   "hands": "run",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "meter",
+     "text": "RUN",
+     "from": 0.4,
+     "to": 1.0,
+     "at": 0.2,
+     "y": 0.13,
+     "color": "#ff6b6b"
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "whip",
+    "shake"
+   ],
+   "t0": 22.6
+  },
+  {
+   "dur": 3.4,
+   "caption": "he just wanted to return your *backpack*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -20
+      ],
+      "scale": [
+       120,
+       0.04,
+       120
+      ],
+      "color": "#82c91e"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.0,
+       -20
+      ],
+      "scale": [
+       2.6,
+       0.02,
+       80
+      ],
+      "color": "#e9d8b4"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -14
+      ],
+      "scale": 2.2,
+      "color": "#51cf66",
+      "count": 9,
+      "seed": 3,
+      "spread": [
+       30,
+       0,
+       22
+      ]
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       0,
+       0,
+       -40
+      ],
+      "scale": 3.2,
+      "color": "#2f9e44",
+      "count": 9,
+      "seed": 4,
+      "spread": [
+       80,
+       0,
+       20
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.3,
+       -6
+      ],
+      "scale": [
+       1.8,
+       0.12,
+       0.6
+      ],
+      "color": "#a0522d",
+      "count": 3,
+      "seed": 5,
+      "spread": [
+       0,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0,
+       0.08,
+       -8
+      ],
+      "scale": 0.08,
+      "color": "#ff8787",
+      "count": 24,
+      "seed": 6,
+      "spread": [
+       12,
+       0,
+       14
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.8199999999999998,
+       6.2
+      ],
+      "scale": [
+       0.9799999999999999,
+       1.1199999999999999,
+       1.68
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       20,
+       0,
+       0
+      ],
+      "animate": [
+       {
+        "type": "bob",
+        "amount": 0.05
+       }
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8,
+       5.220000000000001
+      ],
+      "scale": [
+       0.84,
+       0.77,
+       1.19
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.492,
+       4.73
+      ],
+      "scale": [
+       0.784,
+       0.11199999999999999,
+       0.5599999999999999
+      ],
+      "color": "#f8f9fa"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.27999999999999997,
+       3.08,
+       4.632
+      ],
+      "scale": 0.154,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.27999999999999997,
+       3.08,
+       4.632
+      ],
+      "scale": 0.154,
+      "color": "#ffffff",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.27999999999999997,
+       3.08,
+       4.506
+      ],
+      "scale": 0.06999999999999999,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       0.27999999999999997,
+       3.08,
+       4.506
+      ],
+      "scale": 0.06999999999999999,
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.73,
+       4.618
+      ],
+      "scale": [
+       0.5599999999999999,
+       0.13999999999999999,
+       0.041999999999999996
+      ],
+      "color": "#5c1a1a"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.68,
+       5.36
+      ],
+      "scale": [
+       0.7,
+       0.11199999999999999,
+       0.35
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.63,
+       6.2
+      ],
+      "scale": [
+       0.9799999999999999,
+       1.26,
+       0.42
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       0,
+       1.4,
+       8.02
+      ],
+      "scale": [
+       0.48999999999999994,
+       2.2399999999999998,
+       0.48999999999999994
+      ],
+      "color": "#2f9e44",
+      "rotate": [
+       100,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.675,
+       4.9
+      ],
+      "scale": [
+       0.45,
+       0.45,
+       0.45
+      ],
+      "color": "#4c6ef5"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.675,
+       4.9
+      ],
+      "scale": [
+       0.459,
+       0.459,
+       0.0675
+      ],
+      "color": "#ffd43b"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.675,
+       4.9
+      ],
+      "scale": [
+       0.0675,
+       0.459,
+       0.459
+      ],
+      "color": "#ffd43b"
+     }
+    ],
+    "sky": [
+     "#3d8bfd",
+     "#fff1c1"
+    ],
+    "ambient": 1.6,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     3,
+     9,
+     -6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.4,
+     -0.4
+    ],
+    "look": [
+     0,
+     2.3,
+     6.2
+    ],
+    "head": "breathe",
+    "fov": 66
+   },
+   "hands": "reach",
+   "bubbles": [
+    {
+     "text": "You dropped this. Rawr.",
+     "at": 0.3,
+     "dur": 1.855,
+     "voice": "am_onyx",
+     "speed": 0.95,
+     "who": [
+      0,
+      3.6,
+      5.3
+     ],
+     "name": "Rex"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "emoji",
+     "text": "🥹",
+     "at": 1.4,
+     "x": 0.8,
+     "y": 0.3,
+     "size": 200,
+     "dur": 1.6
+    },
+    {
+     "kind": "badge",
+     "text": "Which dinosaur would YOU ride to school? 👇",
+     "title": "COMMENT BELOW",
+     "at": 1.9,
+     "dur": 1.5
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "punch"
+   ],
+   "t0": 25.6
+  }
+ ],
+ "music": {
+  "seed": 76,
+  "mood": "epic"
+ },
+ "meta": {
+  "tags": [
+   "what if dinosaurs never went extinct",
+   "dinosaurs",
+   "t rex",
+   "what if",
+   "pov",
+   "funny",
+   "alternative world",
+   "dink dunk",
+   "animation",
+   "shorts"
+  ],
+  "description": "Dinosaurs never died out. Your alarm clock bites, the school bus has a neck, and a T-rex is chasing you. 🦖\n\nWhich dinosaur would YOU ride to school? 👇\n\n#whatif #dinosaurs #funny",
+  "pinned": "Which dinosaur would YOU ride to school? 👇"
+ }
+}
