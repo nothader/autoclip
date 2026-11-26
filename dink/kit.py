@@ -97,7 +97,7 @@ def meter(text, frm=0.0, to=1.0, at=0.2, color=None, y=0.13, dur=None):
 
 class Story:
     def __init__(self, slug, title="", accent="#ffd43b", hook=(), hook_accent=-1, hook_dur=2.6, skin="#f1c27d", sleeve="#4c6ef5",
-                 landscape=False, music_seed=None, mood="bouncy", look="toy", grade=None, watch=False, render_scale=None):
+                 landscape=False, music_seed=None, mood="bouncy", look="film", grade=None, watch=False, render_scale=None):
         """look="film" = v2 engine: human people, real 5-finger hands, image lighting, AO, bloom, colour grade.
         grade: {"sat","contrast","tint":[r,g,b],"lift":[r,g,b],"grain","vig","bloom","mono"} (per beat override via beat(grade=...))."""
         self.slug, self.title, self.accent = slug, title, accent

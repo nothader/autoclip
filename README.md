@@ -1,4 +1,8 @@
-# DinkCam — first-person toy-world "what if" videos for Dink Dunk
+# DinkCam — first-person "what if" videos for Dink Dunk
+
+> **Direction since 2026-11-26: humans and real-life scenarios only — no animals, creatures or fantasy premises, no bean() people.**
+> New stories use the v2 film look (now the default for `Story`), `person()`/`people()` and the real-life sets — see the v2 section below
+> and `stories/first_thanksgiving.py`. Renders take ~15 min per Short: run them in the background with `--frames-dir` and poll.
 
     npm i                                   # three.js
     python3 -m venv venv && ./venv/bin/pip install numpy playwright kokoro-onnx soundfile
