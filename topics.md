@@ -7,8 +7,8 @@ No real tragedies with real victims, no gore.
 
 ## Shorts — animals & creatures
 - [x] What if your *dog* could talk for one day? · first sentence is a complaint about the vet · dogs know ~89 words (2021 study) · dog, kitchen, park, phone (made 2026-11-24, https://youtu.be/3zh-oLY-jQA)
-- [x] What if your *cat* was secretly the boss of the house? · cat runs a family meeting · cats ignore owners' voices on purpose (2013 Tokyo study) · cat, living_room, crown, tv (made 2026-11-24, upload pending)
-- [x] What if *dinosaurs* never went extinct? · T-rex in the school pickup line · asteroid hit 66 million years ago · dino, bus, street, classroom (made 2026-11-24, upload pending)
+- [x] What if your *cat* was secretly the boss of the house? · cat runs a family meeting · cats ignore owners' voices on purpose (2013 Tokyo study) · cat, living_room, crown, tv (made 2026-11-24, https://youtu.be/gVqPb846oEE)
+- [x] What if *dinosaurs* never went extinct? · T-rex in the school pickup line · asteroid hit 66 million years ago · dino, bus, street, classroom (made 2026-11-24, https://youtu.be/QoR839TaE_w)
 - [x] What if *birds* went on strike? · bugs take over picnics · a swallow eats ~850 insects a day · bird, park, sign, beach (made 2026-11-24, upload pending)
 - [x] What if you could *swap bodies with your pet* for a day? · you get the cone of shame · dogs sleep 12–14 h a day · dog, cat, bedroom_kid, hospital_hall (made 2026-11-25, https://youtu.be/YpOW5LwtxzQ)
 - [x] What if *sharks* could walk on land? · lifeguards now do lunch duty · epaulette sharks really "walk" · shark, beach, supermarket (made 2026-11-25, https://youtu.be/FVD43uWsUWA)
