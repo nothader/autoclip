@@ -17,19 +17,31 @@ DAWN = ["#6b7fd6", "#ffd1a8"]; INDOOR = ["#2a2433", "#4a3f55"]; MINT = ["#7ee8c8
 STORM = ["#3b4252", "#8a94a6"]; SPACE = ["#05030f", "#1b1440"]; DEEP = ["#03243b", "#0a6c8f"]; SNOWY = ["#9fb7d1", "#f3f7fb"]
 
 
-def Set(objects, sky=DAY, ambient=1.3, light=2.4, bounce="#8a7a6a", sun_dir=(4, 9, 5), fog=None, sun_color="#fff3df", sky_light="#ffffff"):
+def Set(objects, sky=DAY, ambient=1.3, light=2.4, bounce="#8a7a6a", sun_dir=(4, 9, 5), fog=None, sun_color="#fff3df", sky_light="#ffffff",
+        env=None, fill=None, fill_color=None, ao=None):
+    """env: image-based light strength (film look, default 0.55); fill: camera-side soft key (default 0.9); ao: occlusion 0..1."""
     objs = [o for o in objects if o]
-    if len(objs) > 60:
-        raise ValueError(f"too many objects in one shot: {len(objs)} (max 60)")
+    if len(objs) > 90:
+        raise ValueError(f"too many objects in one shot: {len(objs)} (max 90)")
     d = {"objects": objs, "sky": list(sky), "ambient": ambient, "light": light, "bounce": bounce, "sunDir": list(sun_dir),
          "sunColor": sun_color, "skyLight": sky_light}
+    for k, v in (("env", env), ("fill", fill), ("fillColor", fill_color), ("ao", ao)):
+        if v is not None:
+            d[k] = v
     if fog:
         d["fog"] = list(fog)
     return d
 
 
-def cam(pos=(0, 1.55, 1.6), look=(0, 1.2, -3), to=None, look_to=None, head="breathe", fov=None):
+def cam(pos=(0, 1.55, 1.6), look=(0, 1.2, -3), to=None, look_to=None, head="breathe", fov=None, dof=None, aperture=None, ease=None):
+    """head: breathe|walk|run|float|shake|still. dof=True focuses on `look` (or a distance in m) with a soft background (film look)."""
     c = {"pos": list(pos), "look": list(look), "head": head}
+    if dof:
+        c["dof"] = dof
+    if aperture:
+        c["aperture"] = aperture
+    if ease:
+        c["ease"] = ease
     if to:
         c["to"] = list(to)
     if look_to:
@@ -85,18 +97,25 @@ def meter(text, frm=0.0, to=1.0, at=0.2, color=None, y=0.13, dur=None):
 
 class Story:
     def __init__(self, slug, title="", accent="#ffd43b", hook=(), hook_accent=-1, hook_dur=2.6, skin="#f1c27d", sleeve="#4c6ef5",
-                 landscape=False, music_seed=None, mood="bouncy"):
+                 landscape=False, music_seed=None, mood="bouncy", look="toy", grade=None, watch=False, render_scale=None):
+        """look="film" = v2 engine: human people, real 5-finger hands, image lighting, AO, bloom, colour grade.
+        grade: {"sat","contrast","tint":[r,g,b],"lift":[r,g,b],"grain","vig","bloom","mono"} (per beat override via beat(grade=...))."""
         self.slug, self.title, self.accent = slug, title, accent
         self.hook = {"lines": list(hook), "accent": hook_accent} if hook else None
         self.hook_dur = hook_dur
-        self.you = {"skin": skin, "sleeve": sleeve}
+        self.you = {"skin": skin, "sleeve": sleeve, "watch": watch}
+        self.look, self.grade = look, grade or {}
+        self.render_scale = render_scale   # film look: 0.75 renders 3D at 75% size (≈1.7x faster, overlays stay sharp) — use for long-form
         self.w, self.h = (1920, 1080) if landscape else (1080, 1920)
         self.beats = []
         self.music_seed = music_seed if music_seed is not None else (sum(map(ord, slug)) % 997)
         self.mood = mood
         self.meta = {}
 
-    def beat(self, dur, caption, set_, cam=None, hands="idle", hold=None, say=(), stickers=(), sfx=(), fx=(), freeze=None, tint=None):
+    def beat(self, dur, caption, set_, cam=None, hands="idle", hold=None, say=(), stickers=(), sfx=(), fx=(), freeze=None, tint=None,
+             screen=None, grade=None):
+        """hands (film look): idle point reach hold wave shrug facepalm shield run cheer thumbsup fist peace stop offer phone wheel type grab
+        count money none. hands="phone" puts a phone in your right hand showing `screen` (see assets.screen_ui)."""
         b = {"dur": dur, "caption": caption, "set": set_, "cam": cam or {}, "hands": hands, "bubbles": list(say),
              "stickers": list(stickers), "sfx": list(sfx), "fx": list(fx)}
         if hold:
@@ -105,6 +124,10 @@ class Story:
             b["freeze"] = freeze
         if tint:
             b["tint"] = tint
+        if screen:
+            b["screen"] = screen
+        if grade:
+            b["grade"] = grade
         self.beats.append(b)
         return b
 
@@ -116,7 +139,7 @@ class Story:
         self.meta.update(meta)
         d = {"slug": self.slug, "title": self.title, "accent": self.accent, "hook": self.hook, "hookDur": self.hook_dur,
              "you": self.you, "width": self.w, "height": self.h, "duration": round(t, 4), "beats": self.beats,
-             "music": {"seed": self.music_seed, "mood": self.mood}, "meta": self.meta}
+             "music": {"seed": self.music_seed, "mood": self.mood}, "meta": self.meta, "look": self.look, "grade": self.grade, "renderScale": self.render_scale}
         out = Path(out_dir or ROOT / "stories") / f"{self.slug}.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(d, indent=1, ensure_ascii=False))

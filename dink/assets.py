@@ -815,3 +815,613 @@ ALL_PROPS = [pizza, burger, cake, coffee, phone, money, money_rain, gold_bars, t
              balloon_cluster, confetti, fire_pit, full_moon, stars_field, snow, rain, fireflies, portal, sign, desk_row, picket_sign, cat_tower, gavel, dog_bowl, fire_hydrant, cone_of_shame, lifeguard_tower, camcorder]
 ALL_PLACES = [forest, den, classroom, cafeteria, kitchen, supermarket, plane_cabin, beach, snowfield, desert, space_station,
               city_night, stadium, park, picnic, living_room, bedroom_kid, courtroom, wedding, hospital_hall, underwater]
+
+
+# ═════════════════════════ v2: HUMANS & REAL LIFE (use with Story(..., look="film")) ═════════════════════════
+# person() = a real-looking stylised human (jointed arms/legs, eyes that blink, hair, outfits, lip-sync).
+# Sets below are built from textured surfaces (tex=planks|tiles|bricks|asphalt|grass|carpet|concrete|marble|stripes|
+# wallpaper|sidewalk|paint) and real light sources (O("lamp")), so they read like real places.
+
+SKIN = {"porcelain": "#f6d9c4", "light": "#efc8a8", "fair": "#e5b48f", "medium": "#d29c74", "olive": "#c08a5e",
+        "tan": "#a8704a", "brown": "#8a5a3b", "deep": "#5e3b26", "ebony": "#46291b"}
+HAIR = {"black": "#141110", "dark": "#2b1d14", "brown": "#5a3a22", "auburn": "#7b3a1e", "ginger": "#b8582a",
+        "blonde": "#d9b26a", "platinum": "#e8e0c8", "grey": "#a9a9a9", "white": "#e9e9e9", "pink": "#f783ac", "blue": "#4c6ef5"}
+ACTS = ("idle talk walk run wave point point_side cheer clap facepalm cry shrug think cross hips angry scared dance jump sit "
+        "sit_type sit_phone sit_talk sit_eat sit_sad type phone text selfie call drink eat carry push bow laugh stretch yawn lie "
+        "sleep kneel lean mic finger_guns thumbs_up flex beg panic shake_head nod").split()
+EXPRS = ("smile happy grin shock surprised sad angry smirk neutral love scared tired cringe laugh sleep confused proud bored "
+         "worried disgust excited").split()
+OUTFITS = "tshirt shirt hoodie suit blazer jacket coat sweater dress apron scrubs tank uniform shorts".split()
+HAIRS = "short side spiky ponytail bun buzz bob long pigtails curly afro bald mohawk".split()
+
+
+def person(at, top="#4c6ef5", bottom="#3b4a5a", skin="medium", hair="short", hair_color="dark", outfit="tshirt", age="adult",
+           expr="smile", act="idle", ry=0, talk=(), seed=1, look="you", shoes="#2b2b2b", glasses=None, sunglasses=False, hat=None,
+           hat_color=None, beard=None, hold=None, hold2=None, tie=None, feminine=False, build=1.0, height=1.0, eye_color=None,
+           chest=None, lanyard=False, watch=False, belly=False, earrings=False, lips=None, apron=False, size=1.0, anim=(), **kw):
+    """[1 object] A human. Faces +z (you) at ry=0. age: kid|teen|adult|elder. look: "you" (head follows the camera), "ahead", or [x,y,z].
+    act: see ACTS (e.g. talk, walk, sit_type, phone, call, facepalm, cheer...). expr: see EXPRS. outfit: see OUTFITS. hair: see HAIRS.
+    hold/hold2 (right/left hand): phone cup coffee paper book bag briefcase card mic money box clipboard keys bottle or "emoji:🍔".
+    talk=[(start, dur)] animates the mouth (match your say() lines). beard: full|stubble|mustache. hat: cap beanie hardhat chef
+    headphones party crown grad santa. skin/hair_color accept SKIN/HAIR names or hex. Feet at y=at[1] (sitting acts sit at seat height ~0.47)."""
+    o = O("person", at, 1, SKIN.get(skin, skin), skin=SKIN.get(skin, skin), top=top, bottom=bottom, hair=hair,
+          hair_color=HAIR.get(hair_color, hair_color), outfit=outfit, age=age, expr=expr, act=act, rotate=[0, ry, 0],
+          talk=[list(t) for t in talk], seed=seed, look=look if isinstance(look, str) else list(look), shoes=shoes, feminine=feminine,
+          build=build, height=height, size=size, animate=list(anim))
+    for k, v in dict(glasses=glasses, sunglasses=sunglasses, hat=hat, hat_color=hat_color, beard=beard, hold=hold, hold2=hold2, tie=tie,
+                     eye_color=eye_color, chest=chest, lanyard=lanyard, watch=watch, belly=belly, earrings=earrings, lips=lips, apron=apron).items():
+        if v:
+            o[k] = v
+    if sunglasses and not glasses:
+        o["glasses"] = "#111111"
+    o.update(kw)
+    return o
+
+
+_TOPS = ["#4c6ef5", "#e03131", "#2f9e44", "#f08c00", "#ae3ec9", "#1098ad", "#495057", "#f1f3f5", "#c2255c", "#364fc7", "#d9480f", "#5c940d", "#343a40", "#e8d5b5"]
+_BOTTOMS = ["#2b3a55", "#343a40", "#495057", "#5c4033", "#1f2a44", "#7a6a55", "#212529"]
+
+
+def people(n, seed, at=(0, 0, -6), spread=(8, 0, 4), act="idle", ry=0, look="ahead", acts=None, age=None, expr=None, outfits=None, ry_jitter=0):
+    """[n objects] A varied, deterministic crowd of humans (different skin, hair, clothes). acts: optional list to cycle through."""
+    r = random.Random(seed * 7919 + 13)
+    skins, hairs, hcols = list(SKIN), ["short", "side", "bob", "long", "ponytail", "curly", "buzz", "bun", "afro", "spiky", "bald"], list(HAIR)[:7]
+    out = []
+    for i in range(n):
+        fem = r.random() < 0.5
+        hs = r.choice(["bob", "long", "ponytail", "bun", "curly", "pigtails"] if fem else ["short", "side", "buzz", "curly", "spiky", "bald", "afro"])
+        a = acts[i % len(acts)] if acts else act
+        p = (at[0] + (r.random() - 0.5) * spread[0], at[1] + (r.random() - 0.5) * spread[1], at[2] + (r.random() - 0.5) * spread[2])
+        ag = age or r.choice(["adult"] * 6 + ["teen", "elder"])
+        out.append(person(p, top=r.choice(_TOPS), bottom=r.choice(_BOTTOMS), skin=r.choice(skins), hair=hs, hair_color=r.choice(hcols),
+                          outfit=r.choice(outfits or ["tshirt", "tshirt", "shirt", "hoodie", "jacket", "sweater"] + (["dress"] if fem else [])),
+                          age=ag, act=a, ry=ry + (r.random() - 0.5) * ry_jitter, seed=seed * 100 + i, look=look, feminine=fem,
+                          expr=expr or r.choice(["smile", "neutral", "smile", "happy"]), glasses=r.random() < 0.2,
+                          beard=(r.choice([None, None, "stubble", "full"]) if not fem and ag != "teen" else None), build=0.9 + r.random() * 0.25))
+    return out
+
+
+def screen_ui(app=None, big=None, sub=None, messages=(), lines=(), button=None, bg="#ffffff", fg="#111111", accent="#228be6", time="9:41", big_color=None):
+    """Spec for phone/TV/laptop screens: Story.beat(hands="phone", screen=screen_ui(...)) or screen_panel(...).
+    messages=[("them", "u up?"), ("me", "no")]; big="$3.12" (balance, score, timer); lines=["Step 1", ...]; button="Pay now"."""
+    d = {"bg": bg, "fg": fg, "accent": accent, "time": time, "messages": [list(m) for m in messages], "lines": list(lines)}
+    for k, v in (("app", app), ("big", big), ("sub", sub), ("button", button), ("bigColor", big_color)):
+        if v:
+            d[k] = v
+    return d
+
+
+def screen_panel(at, w, h, spec, rot=(0, 0, 0)):
+    """[1] A glowing UI screen (TV, monitor, billboard, airport board) showing screen_ui(...) content."""
+    return O("screen", at, [w, h, 1], "#ffffff", screen=spec, rotate=list(rot))
+
+
+def text(at, words, w=1.6, h=0.5, bg="#ffffff", fg="#111111", rot=(0, 0, 0), lit=False, border=None, font=None, weight=900):
+    """[1] A flat sign with real words ("OPEN", "EXIT", store names, menus). Use \\n for lines. lit=True glows."""
+    o = O("text", at, [w, h, 1], bg, text=words, bg=bg, fg=fg, rotate=list(rot), weight=weight)
+    if lit:
+        o["lit"] = lit
+    if border:
+        o["border"] = border
+    if font:
+        o["font"] = font
+    return o
+
+
+def lamp(at, color="#ffe8c2", intensity=6, range_=8, hidden=False):
+    """[1] A real point light (+ visible bulb unless hidden). Max ~3 per shot."""
+    return O("lamp", at, 1, color, intensity=intensity, range=range_, hidden=hidden)
+
+
+def spotlight(at, target, color="#fff4e0", intensity=40, angle=22, shadow=False):
+    """[1] A spotlight from `at` aimed at `target` (stage, interrogation, flashlight)."""
+    return O("spot", at, 1, color, target=list(target), intensity=intensity, angle=angle, shadow=shadow)
+
+
+def room(w=8, d=9, h=2.8, z_back=-5.5, wall="#efe6da", floor="#b48a60", floor_tex="planks", wall_tex="paint", ceiling="#f8f6f2",
+         side_walls=True, panels=2, panel_color="#fff8ec", x=0):
+    """[6-9] Shell of an interior: textured floor, back + side walls, ceiling with light panels. Open toward +z (camera side)."""
+    zc = z_back + d / 2
+    # walls + ceiling don't cast shadows, so the "sun" acts as the room's key light (people still cast floor shadows)
+    o = [O("box", (x, -0.05, zc), [w, 0.1, d], floor, tex=floor_tex, texRep=[w, d]),
+         O("box", (x, h / 2, z_back), [w, h, 0.12], wall, tex=wall_tex, texRep=[w, h], cast=False),
+         O("box", (x, h + 0.05, zc), [w, 0.1, d], ceiling, cast=False),
+         O("box", (x, 0.06, z_back + 0.07), [w, 0.12, 0.03], "#ffffff", material="paint", cast=False)]
+    if side_walls:
+        o += [O("box", (x - w / 2, h / 2, zc), [0.12, h, d], wall, tex=wall_tex, texRep=[d, h], cast=False),
+              O("box", (x + w / 2, h / 2, zc), [0.12, h, d], wall, tex=wall_tex, texRep=[d, h], cast=False)]
+    for i in range(panels):
+        o.append(O("box", (x, h - 0.01, z_back + d * (i + 0.6) / (panels + 0.4)), [1.2, 0.03, 0.6], panel_color, material="emit"))
+    return o
+
+
+# ── real-life props ──
+def table(at, w=1.4, d=0.8, h=0.75, color="#8b6a4a", legs="#3b3b3b", tex="planks"):
+    """[5] Table (top at y=h)."""
+    x, y, z = at
+    return [O("box", (x, y + h - 0.02, z), [w, 0.04, d], color, tex=tex, texRep=[w, d])] + _quad("box", (x, y + (h - 0.04) / 2, z), w / 2 - 0.06, d / 2 - 0.06, [0.05, h - 0.04, 0.05], legs, material="metal")
+
+
+def chair(at, color="#495057", ry=0, seat=0.46):
+    """[3] Simple chair facing +z at ry=0 (seat at 0.46 m: use person(act="sit") at the same spot)."""
+    import math
+    x, y, z = at
+    bx, bz = -math.sin(math.radians(ry)) * 0.22, -math.cos(math.radians(ry)) * 0.22
+    return [O("box", (x, y + seat, z), [0.46, 0.05, 0.44], color, rotate=[0, ry, 0]), O("box", (x + bx, y + seat + 0.3, z + bz), [0.46, 0.55, 0.05], color, rotate=[0, ry, 0]),
+            O("cylinder", (x, y + seat / 2, z), [0.05, seat, 0.05], "#212529", material="metal")]
+
+
+def office_chair(at, color="#212529", ry=0):
+    """[4] Swivel office chair."""
+    import math
+    x, y, z = at
+    bx, bz = -math.sin(math.radians(ry)) * 0.25, -math.cos(math.radians(ry)) * 0.25
+    return [O("box", (x, y + 0.48, z), [0.52, 0.09, 0.5], color, material="fabric", rotate=[0, ry, 0]),
+            O("box", (x + bx, y + 0.86, z + bz), [0.48, 0.66, 0.08], color, material="fabric", rotate=[0, ry, 0]),
+            O("cylinder", (x, y + 0.24, z), [0.05, 0.45, 0.05], "#adb5bd", material="chrome"), O("cylinder", (x, y + 0.04, z), [0.6, 0.04, 0.6], "#343a40", material="plastic")]
+
+
+def laptop(at, ry=0, screen=None, color="#ced4da"):
+    """[3] Open laptop (screen faces +z at ry=0). screen=screen_ui(...) to show content."""
+    import math
+    x, y, z = at
+    sx, sz = -math.sin(math.radians(ry)) * 0.13, -math.cos(math.radians(ry)) * 0.13
+    o = [O("box", (x, y + 0.01, z), [0.34, 0.02, 0.24], color, material="metal", rotate=[0, ry, 0]),
+         O("box", (x + sx, y + 0.13, z + sz), [0.34, 0.23, 0.012], color, material="metal", rotate=[-12, ry, 0])]
+    spec = screen or screen_ui(app="Docs", lines=["Q3 report", "......", "....."], bg="#f8f9fa")
+    o.append(screen_panel((x + sx * 0.92, y + 0.13, z + sz * 0.92), 0.31, 0.2, spec, rot=(-12, ry, 0)))
+    return o
+
+
+def monitor(at, ry=0, screen=None, w=0.6):
+    """[3] Desk monitor on a stand."""
+    x, y, z = at
+    return [O("box", (x, y + 0.36, z - 0.02), [w, w * 0.6, 0.03], "#212529", material="plastic", rotate=[0, ry, 0]),
+            screen_panel((x, y + 0.36, z), w * 0.94, w * 0.55, screen or screen_ui(app="Inbox (4,281)", lines=["RE: RE: RE: urgent", "Meeting moved", "Quick sync?"], bg="#ffffff"), rot=(0, ry, 0)),
+            O("box", (x, y + 0.1, z - 0.04), [0.06, 0.2, 0.04], "#343a40", material="metal"), O("box", (x, y + 0.01, z - 0.04), [0.25, 0.02, 0.18], "#343a40", material="metal")]
+
+
+def desk(at, w=1.4, d=0.7, ry=0, color="#d8c3a5", screen=None, with_monitor=True, clutter=True):
+    """[8-12] Office desk: top, legs, monitor, keyboard, mug, papers."""
+    x, y, z = at
+    o = table(at, w, d, 0.74, color, "#495057", tex="planks")
+    if with_monitor:
+        o += monitor((x, y + 0.75, z - 0.15), ry, screen)
+    o += [O("box", (x, y + 0.765, z + 0.12), [0.42, 0.02, 0.14], "#343a40", material="plastic")]
+    if clutter:
+        o += [O("cylinder", (x + 0.45, y + 0.81, z + 0.05), [0.08, 0.1, 0.08], "#f1f3f5", material="ceramic"),
+              O("box", (x - 0.45, y + 0.765, z + 0.05), [0.22, 0.02, 0.3], "#ffffff", rotate=[0, 12, 0])]
+    return o
+
+
+def plant(at, size=1.0, pot="#d9480f", leaves="#2f9e44"):
+    """[4] Potted plant."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y + 0.2 * s, z), [0.35 * s, 0.4 * s, 0.35 * s], pot, material="ceramic"),
+            O("sphere", (x, y + 0.65 * s, z), [0.32 * s, 0.4 * s, 0.32 * s], leaves),
+            O("sphere", (x - 0.15 * s, y + 0.85 * s, z + 0.05), [0.2 * s, 0.28 * s, 0.2 * s], "#37b24d"),
+            O("sphere", (x + 0.17 * s, y + 0.8 * s, z - 0.05), [0.18 * s, 0.25 * s, 0.18 * s], "#2b8a3e")]
+
+
+def window(at, w=1.6, h=1.4, view="#a5d8ff", frame="#f8f9fa", rot=(0, 0, 0), night=False):
+    """[3] Window with a bright outside view (emits light)."""
+    x, y, z = at
+    return [O("box", (x, y, z), [w + 0.12, h + 0.12, 0.08], frame, rotate=list(rot)),
+            O("plane", (x, y, z + 0.05), [w, h, 1], "#1b2a4a" if night else view, material="emit" if not night else "glow", rotate=list(rot)),
+            O("box", (x, y, z + 0.06), [0.04, h, 0.03], frame, rotate=list(rot))]
+
+
+def door(at, color="#f1f3f5", w=0.95, h=2.1, rot=(0, 0, 0), sign=None):
+    """[3-4] Interior door with handle (optional sign text)."""
+    x, y, z = at
+    o = [O("box", (x, y + h / 2, z), [w, h, 0.05], color, material="paint", rotate=list(rot)),
+         O("box", (x, y + h / 2, z - 0.01), [w + 0.1, h + 0.06, 0.04], "#dee2e6", rotate=list(rot)),
+         O("sphere", (x + w * 0.38, y + 1.0, z + 0.05), 0.035, "#adb5bd", material="chrome")]
+    if sign:
+        o.append(text((x, y + 1.6, z + 0.03), sign, 0.5, 0.18, rot=rot))
+    return o
+
+
+def bookshelf(at, w=1.2, h=1.9, color="#6b4f36", seed=1):
+    """[4+] Shelf with books."""
+    x, y, z = at
+    r = random.Random(seed)
+    o = [O("box", (x, y + h / 2, z), [w, h, 0.32], color, tex="planks")]
+    for k in range(4):
+        yy = y + 0.25 + k * (h - 0.3) / 4
+        o.append(O("box", (x - w * 0.2, yy, z + 0.03), [w * 0.5, 0.26, 0.24], r.choice(["#c92a2a", "#1864ab", "#2b8a3e", "#e67700", "#5f3dc4"])))
+        o.append(O("box", (x + w * 0.25, yy, z + 0.03), [w * 0.35, 0.22, 0.24], r.choice(["#f1f3f5", "#495057", "#a61e4d", "#0b7285"])))
+    return o
+
+
+def fridge(at, color="#e9ecef", ry=0):
+    """[3] Fridge."""
+    x, y, z = at
+    return [O("box", (x, y + 0.95, z), [0.8, 1.9, 0.75], color, material="glossy", rotate=[0, ry, 0]),
+            O("box", (x + 0.3, y + 1.3, z + 0.39), [0.03, 0.4, 0.03], "#adb5bd", material="chrome"), O("box", (x, y + 1.18, z + 0.38), [0.8, 0.01, 0.01], "#adb5bd")]
+
+
+def counter(at, w=3.0, d=0.65, color="#e9ecef", top="#f8f9fa", top_tex="marble"):
+    """[3] Kitchen/shop counter (top at 0.92)."""
+    x, y, z = at
+    return [O("box", (x, y + 0.45, z), [w, 0.9, d], color, material="paint"), O("box", (x, y + 0.92, z), [w + 0.04, 0.05, d + 0.04], top, tex=top_tex, texRep=[w, d]),
+            O("box", (x, y + 0.04, z + d / 2 - 0.04), [w, 0.08, 0.02], "#343a40")]
+
+
+def bed(at, w=1.6, l=2.1, sheets="#e7f5ff", frame="#6b4f36", blanket="#4c6ef5", ry=0):
+    """[5] Adult bed (head toward −z at ry=0)."""
+    x, y, z = at
+    return [O("box", (x, y + 0.2, z), [w + 0.1, 0.4, l + 0.1], frame, rotate=[0, ry, 0]), O("box", (x, y + 0.48, z), [w, 0.18, l], sheets, material="fabric", rotate=[0, ry, 0]),
+            O("box", (x, y + 0.59, z + 0.25), [w + 0.02, 0.06, l * 0.65], blanket, material="fabric", tex="fabric", texRep=[w, l], rotate=[0, ry, 0]),
+            O("box", (x, y + 0.62, z - l / 2 + 0.3), [w * 0.8, 0.15, 0.4], "#ffffff", material="fabric", rotate=[0, ry, 0]),
+            O("box", (x, y + 0.75, z - l / 2 - 0.05), [w + 0.1, 1.1, 0.08], frame, rotate=[0, ry, 0])]
+
+
+def alarm_clock(at, time="6:00", color="#e03131"):
+    """[2] Bedside alarm clock with glowing digits."""
+    x, y, z = at
+    return [O("box", (x, y + 0.06, z), [0.18, 0.12, 0.08], "#212529", material="plastic"), text((x, y + 0.06, z + 0.042), time, 0.15, 0.08, bg="#111111", fg=color, lit=1.6)]
+
+
+def steering_wheel(at=(0, 1.08, 0.95)):
+    """[3] Steering wheel in front of you (for car_inside)."""
+    x, y, z = at
+    return [O("torus", (x, y, z), [0.42, 0.42, 0.5], "#212529", material="leather", rotate=[62, 0, 0]),
+            O("box", (x, y - 0.04, z + 0.02), [0.32, 0.05, 0.03], "#212529", rotate=[62, 0, 0]),
+            O("cylinder", (x, y - 0.03, z + 0.02), [0.12, 0.05, 0.12], "#343a40", material="plastic", rotate=[62, 0, 0])]
+
+
+def shopping_cart(at, ry=0, full=True, seed=1):
+    """[6+] Supermarket trolley."""
+    x, y, z = at
+    o = [O("box", (x, y + 0.75, z), [0.55, 0.45, 0.85], "#adb5bd", material="chrome", opacity=0.55, rotate=[0, ry, 0]),
+         O("cylinder", (x, y + 1.0, z + 0.5), [0.04, 0.6, 0.04], "#e03131", material="plastic", rotate=[0, ry, 90])] + _quad("sphere", (x, y + 0.07, z), 0.22, 0.35, 0.07, "#212529")
+    if full:
+        o += [O("box", (x, y + 0.85, z), [0.12, 0.18, 0.12], "#f59f00", count=6, seed=seed, spread=[0.35, 0.15, 0.6]),
+              O("box", (x, y + 0.85, z), [0.12, 0.2, 0.12], "#40c057", count=5, seed=seed + 1, spread=[0.35, 0.15, 0.6])]
+    return o
+
+
+def car_real(at, color="#1c7ed6", ry=0, moving=None):
+    """[9] A car with real proportions (cabin glass, wheels, lights). moving=[dx,dy,dz] slides it."""
+    x, y, z = at
+    a = [{"type": "move", "to": list(moving), "rel": True}] if moving else []
+    o = [O("box", (x, y + 0.55, z), [1.8, 0.62, 4.3], color, material="glossy", rotate=[0, ry, 0]),
+         O("box", (x, y + 1.08, z - 0.25), [1.62, 0.55, 2.2], "#1d2733", material="glass", opacity=0.9, rotate=[0, ry, 0]),
+         O("box", (x, y + 1.36, z - 0.25), [1.6, 0.04, 2.0], color, material="glossy", rotate=[0, ry, 0]),
+         *_quad("cylinder", (x, y + 0.33, z), 0.88, 1.35, [0.66, 0.24, 0.66], "#1b1b1b", material="rubber", rotate=[0, 0, 90]),
+         *_pair("box", (x, y + 0.66, z + 2.15), 0.62, [0.3, 0.12, 0.04], "#fff9e6", material="emit"),
+         O("box", (x, y + 0.45, z + 2.17), [0.7, 0.18, 0.03], "#212529")]
+    for d in o:
+        if a:
+            d["animate"] = list(a)
+    return o
+
+
+def traffic_light(at, state="red"):
+    """[4] Traffic light pole."""
+    x, y, z = at
+    cols = {"red": "#ff3b30", "yellow": "#ffcc00", "green": "#34c759"}
+    o = [O("cylinder", (x, y + 1.6, z), [0.12, 3.2, 0.12], "#343a40", material="metal"), O("box", (x, y + 3.4, z), [0.35, 0.9, 0.3], "#212529")]
+    for i, k in enumerate(("red", "yellow", "green")):
+        o.append(O("sphere", (x, y + 3.68 - i * 0.28, z + 0.16), 0.09, cols[k] if k == state else "#3b3b3b", material="emit" if k == state else "matte"))
+    return o
+
+
+def street_lamp(at, on=False):
+    """[3] Street lamp."""
+    x, y, z = at
+    o = [O("cylinder", (x, y + 2.2, z), [0.1, 4.4, 0.1], "#343a40", material="metal"), O("box", (x, y + 4.4, z + 0.35), [0.25, 0.1, 0.8], "#343a40")]
+    o.append(O("box", (x, y + 4.34, z + 0.55), [0.18, 0.03, 0.4], "#fff3bf", material="emit" if on else "matte"))
+    return o
+
+
+def building(at, w=8, h=14, d=6, color="#c9b8a0", window_color="#9cc3e6", tex="bricks", sign=None, shop=None, seed=1):
+    """[4-6] A city building front facing +z: textured facade, window grid, optional shop front + sign."""
+    x, y, z = at
+    o = [O("box", (x, y + h / 2, z), [w, h, d], color, tex=tex, texRep=[w, h]),
+         O("plane", (x, y + h * 0.55, z + d / 2 + 0.02), [w * 0.85, h * 0.75, 1], window_color, material="glossy", tex="stripes", texRep=[w * 0.85, h * 0.75], opacity=0.92)]
+    if shop:
+        o += [O("plane", (x, y + 1.4, z + d / 2 + 0.03), [w * 0.8, 2.4, 1], shop, material="emit")]
+    if sign:
+        o.append(text((x, y + 3.1, z + d / 2 + 0.05), sign, min(w * 0.7, 5), 0.8, bg="#212529", fg="#ffffff", lit=0.9))
+    return o
+
+
+def bench(at, ry=0, color="#8b5e3c"):
+    """[3] Park/bus bench."""
+    x, y, z = at
+    return [O("box", (x, y + 0.45, z), [1.6, 0.06, 0.45], color, tex="planks", rotate=[0, ry, 0]), O("box", (x, y + 0.75, z - 0.2), [1.6, 0.4, 0.05], color, tex="planks", rotate=[0, ry, 0]),
+            *_pair("box", (x, y + 0.22, z), 0.7, [0.06, 0.44, 0.4], "#343a40", material="metal")]
+
+
+def locker_row(at, n=8, color="#4263eb", rot=0):
+    """[n+1] School/gym lockers along x."""
+    x, y, z = at
+    o = [O("box", (x + (i - (n - 1) / 2) * 0.42, y + 0.95, z), [0.4, 1.9, 0.5], color, material="metal", rotate=[0, rot, 0]) for i in range(n)]
+    o += [O("box", (x + (i - (n - 1) / 2) * 0.42 + 0.12, y + 1.05, z + 0.26), [0.03, 0.12, 0.02], "#dee2e6", material="chrome") for i in range(0, n, 2)]
+    return o
+
+
+def dumbbell(at, color="#343a40"):
+    """[3] Dumbbell."""
+    x, y, z = at
+    return [O("cylinder", (x, y + 0.08, z), [0.04, 0.4, 0.04], "#adb5bd", material="chrome", rotate=[0, 0, 90]),
+            *_pair("cylinder", (x, y + 0.08, z), 0.16, [0.17, 0.08, 0.17], color, material="rubber", rotate=[0, 0, 90])]
+
+
+def treadmill(at, ry=0):
+    """[3] Treadmill."""
+    x, y, z = at
+    return [O("box", (x, y + 0.12, z), [0.8, 0.22, 1.9], "#212529", rotate=[0, ry, 0]), O("box", (x, y + 0.24, z), [0.62, 0.02, 1.7], "#343a40", material="rubber", rotate=[0, ry, 0]),
+            O("box", (x, y + 1.25, z - 0.85), [0.8, 0.25, 0.12], "#212529", rotate=[-25, ry, 0])]
+
+
+def coffee_machine(at):
+    """[3] Café espresso machine."""
+    x, y, z = at
+    return [O("box", (x, y + 0.25, z), [0.7, 0.5, 0.45], "#adb5bd", material="chrome"), O("box", (x, y + 0.52, z), [0.72, 0.06, 0.47], "#343a40"),
+            O("cylinder", (x - 0.15, y + 0.15, z + 0.25), [0.06, 0.08, 0.06], "#212529", material="metal")]
+
+
+def menu_board(at, items=("LATTE  $6", "FLAT WHITE  $5", "CROISSANT  $4"), w=2.2, h=1.1):
+    """[1] Dark café menu board with real words."""
+    return text(at, "MENU\n" + "\n".join(items), w, h, bg="#1f2421", fg="#f1f3f5", weight=700)
+
+
+def cash_register(at, total="$47.99"):
+    """[3] Checkout register with a customer display."""
+    x, y, z = at
+    return [O("box", (x, y + 0.08, z), [0.4, 0.16, 0.35], "#343a40", material="plastic"),
+            O("box", (x, y + 0.3, z - 0.1), [0.3, 0.2, 0.03], "#212529", rotate=[-15, 0, 0]),
+            text((x, y + 0.3, z - 0.08), total, 0.27, 0.16, bg="#0b3d2e", fg="#69db7c", rot=(-15, 0, 0), lit=1.2)]
+
+
+def elevator_doors(at, open_=False):
+    """[4] Steel elevator doors with floor display."""
+    x, y, z = at
+    g = 0.5 if open_ else 0
+    return [O("box", (x - 0.5 - g, y + 1.05, z), [1.0, 2.1, 0.05], "#ced4da", material="chrome"), O("box", (x + 0.5 + g, y + 1.05, z), [1.0, 2.1, 0.05], "#ced4da", material="chrome"),
+            O("box", (x, y + 1.1, z - 0.03), [2.3, 2.3, 0.04], "#868e96", material="metal"), text((x, y + 2.35, z + 0.03), "▲ 12", 0.4, 0.15, bg="#111111", fg="#ff6b6b", lit=1.4)]
+
+
+# ── real-life places (each is a full set; add people with person()/people() via extra=[...]) ──
+def apartment(seed=1, wall="#ede4d6", sofa="#55657a", rug="#c9b79c", extra=()):
+    """[~30] Modern living room: sofa on the back wall, coffee table, TV on the left wall, window, plant, warm lamp. You stand at z≈+1 facing −z."""
+    return (room(8, 9, 2.8, -4.6, wall, "#a77b52", "planks", "paint", panels=1)
+            + [O("box", (0, 0.01, -2.2), [3.0, 0.02, 2.0], rug, tex="carpet", texRep=[3, 2]),
+               O("box", (0, 0.3, -3.9), [2.6, 0.45, 0.95], sofa, material="fabric", tex="fabric", texRep=[2.6, 1]),
+               O("box", (0, 0.72, -4.32), [2.6, 0.6, 0.25], sofa, material="fabric"),
+               *_pair("box", (0, 0.5, -3.9), 1.38, [0.22, 0.5, 0.95], sofa, material="fabric"),
+               O("box", (-0.8, 0.62, -3.75), [0.42, 0.38, 0.14], "#e8d5b5", material="fabric", rotate=[-10, 10, 0]),
+               O("box", (0, 0.38, -2.3), [1.1, 0.06, 0.6], "#3b2a1a", tex="planks"), O("box", (0, 0.18, -2.3), [1.0, 0.34, 0.5], "#2b1d14"),
+               O("box", (-3.9, 1.35, -2.0), [0.06, 0.85, 1.5], "#111111", material="glossy")]
+            + window((2.4, 1.6, -4.52), 1.6, 1.5) + plant((3.3, 0, -4.0), 1.1)
+            + [O("cylinder", (-2.4, 0.8, -4.1), [0.04, 1.6, 0.04], "#343a40", material="metal"), O("cone", (-2.4, 1.65, -4.1), [0.45, 0.35, 0.45], "#fff3d6", material="emit"),
+               lamp((-2.4, 1.5, -3.8), "#ffd8a8", 4, 6)] + list(extra))
+
+
+def bedroom(seed=1, wall="#dfe7ee", blanket="#4c6ef5", night=False, extra=()):
+    """[~25] Adult bedroom: bed along −z, nightstand + alarm clock, window, wardrobe. Lie-in POV: cam((0,0.9,-2.6),(0,1.2,0))."""
+    o = (room(7, 8, 2.7, -4.6, wall, "#b08a66", "planks", "paint", panels=0 if night else 1)
+         + bed((0, 0, -3.3), blanket=blanket) + [O("box", (1.3, 0.28, -4.1), [0.5, 0.56, 0.45], "#6b4f36", tex="planks")]
+         + alarm_clock((1.3, 0.56, -4.0), "6:00") + window((-2.2, 1.6, -4.52), 1.4, 1.3, night=night)
+         + [O("box", (3.0, 1.0, -2.4), [0.6, 2.0, 1.6], "#e9ecef", material="paint")])
+    if night:
+        o.append(lamp((1.3, 0.85, -4.0), "#ffb86b", 2.5, 4))
+    return o + list(extra)
+
+
+def kitchen_home(seed=1, wall="#f1ece3", cabinets="#5f7a8a", extra=()):
+    """[~28] Home kitchen: counter + upper cabinets on the back wall, fridge, island/table with stools, window over the sink."""
+    return (room(8, 8, 2.8, -4.4, wall, "#d9d4cc", "tiles", "paint", panels=2)
+            + counter((-0.8, 0, -4.0), 4.2, 0.65, cabinets) + [O("box", (-0.8, 2.05, -4.15), [4.2, 0.8, 0.4], cabinets, material="paint")]
+            + fridge((2.4, 0, -3.95)) + window((-0.8, 1.55, -4.32), 1.3, 0.8)
+            + [O("box", (-2.1, 0.96, -3.95), [0.6, 0.03, 0.45], "#212529", material="glossy"), O("cylinder", (0.2, 1.05, -4.05), [0.18, 0.22, 0.18], "#adb5bd", material="chrome")]
+            + table((0, 0, -1.8), 1.6, 0.9, 0.9, "#c9a77c") + list(extra))
+
+
+def office(seed=1, wall="#e9ecef", carpet="#6c7a89", extra=()):
+    """[~45] Open-plan office: desks with monitors in rows going away (−z), glass meeting room, plants, ceiling panels. Aisle at x=0."""
+    o = room(12, 14, 3.0, -10, wall, carpet, "carpet", "paint", panels=4)
+    for i, z in enumerate((-2.2, -5.0)):
+        o += desk((-1.7, 0, z), 1.5, 0.75, screen=screen_ui(app="Slack", messages=[("them", "quick call?"), ("them", "??")]) if i == 0 else None, clutter=i == 0)
+        o += desk((1.7, 0, z), 1.5, 0.75, clutter=False)
+        o += office_chair((-1.7, 0, z + 0.6), ry=180) if i else []
+    o += plant((-5.2, 0, -8.5), 1.3) + plant((5.2, 0, -3.5), 1.2)
+    o += [O("box", (3.5, 1.4, -8.5), [4.5, 2.8, 0.05], "#a5d8ff", material="glass"), text((3.5, 2.2, -8.45), "MEETING ROOM", 1.6, 0.22, bg="#ffffff", fg="#495057", weight=700)]
+    return o + list(extra)
+
+
+def meeting_room(seed=1, wall="#eef1f4", screen=None, extra=()):
+    """[~20] Meeting room: long table pointing away (−z), chairs, big screen on the back wall. Put coworkers at x=±0.9 seated (act="sit_talk")."""
+    o = room(7, 8, 2.8, -5.4, wall, "#7b8794", "carpet", "paint", panels=2) + table((0, 0, -2.6), 1.2, 3.4, 0.75, "#f1f3f5", tex="marble")
+    for z in (-1.6, -2.6, -3.6):
+        o += chair((-0.95, 0, z), "#343a40", ry=90)[:2] + chair((0.95, 0, z), "#343a40", ry=-90)[:2]
+    o.append(screen_panel((0, 1.55, -5.32), 2.6, 1.45, screen or screen_ui(app="Q4 PLANNING", big="📉", sub="revenue (vibes)", bg="#ffffff")))
+    return o + list(extra)
+
+
+def cafe(seed=1, wall="#e8dccb", extra=()):
+    """[~35] Coffee shop: counter with espresso machine + barista spot at (0.6,0,-3.6), menu board, small tables, pendant lights."""
+    o = (room(9, 9, 3.0, -5.0, wall, "#8a6a4f", "planks", "bricks", panels=0)
+         + counter((0.4, 0, -3.1), 4.0, 0.7, "#3b2f2a", "#e9ecef") + coffee_machine((1.4, 0.95, -3.2))
+         + [menu_board((0.4, 2.1, -4.92)), O("box", (-1.0, 1.0, -3.1), [0.4, 0.15, 0.3], "#f2c27a"), O("box", (-0.6, 1.0, -3.1), [0.35, 0.12, 0.3], "#c08a4e")]
+         + table((-2.6, 0, -1.0), 0.8, 0.8, 0.75, "#c9a77c") + chair((-2.6, 0, -0.4), "#3b2f2a", ry=180)
+         + table((2.8, 0, -0.9), 0.8, 0.8, 0.75, "#c9a77c") + plant((-3.8, 0, -4.2), 1.2))
+    for x in (-1.2, 0.4, 2.0):
+        o += [O("cylinder", (x, 2.6, -3.1), [0.01, 0.8, 0.01], "#212529"), O("cone", (x, 2.15, -3.1), [0.32, 0.22, 0.32], "#212529", material="metal")]
+    o += [lamp((0.4, 2.0, -3.0), "#ffc078", 7, 7), lamp((-2.6, 2.2, -1.0), "#ffc078", 3, 5, hidden=True)]
+    return o + list(extra)
+
+
+def street(seed=1, night=False, extra=()):
+    """[~40] City street: road along −z, sidewalks, building fronts both sides with shops, lamps, traffic light, parked car. You stand on the right sidewalk (x≈1.5)."""
+    o = [O("box", (0, -0.05, -20), [60, 0.1, 80], "#3a3d42", tex="asphalt", texRep=[60, 80]),
+         O("box", (-6.5, 0.05, -20), [4, 0.2, 80], "#b7b2a8", tex="sidewalk", texRep=[4, 80]), O("box", (3.2, 0.05, -20), [4, 0.2, 80], "#b7b2a8", tex="sidewalk", texRep=[4, 80]),
+         O("box", (-1.6, 0.003, -20), [0.15, 0.01, 80], "#f8f9fa", material="paint", tex="stripes", texRep=[0.15, 80])]
+    o += [O("box", (-1.6 + dx, 0.004, -6), [0.5, 0.01, 3.0], "#f1f3f5", material="paint") for dx in (-2.4, -1.2, 0, 1.2, 2.4)]
+    o += building((9.2, 0, -6), 8, 14, 8, "#b8a48e", sign="PHARMACY", shop="#fff4d6", seed=seed)
+    o += building((9.2, 0, -16), 8, 22, 8, "#8d99ae", tex="concrete", seed=seed + 1)
+    o += building((-12.5, 0, -8), 8, 16, 8, "#a26b4f", sign="DINER", shop="#ffe3c2", seed=seed + 2)
+    o += building((-12.5, 0, -19), 8, 26, 8, "#ced4da", tex="concrete", seed=seed + 3)
+    o += [O("box", (0, 6, -45), [60, 18, 2], "#9aa7b8", tex="concrete", texRep=[60, 18])]
+    o += street_lamp((4.6, 0, -4), on=night) + street_lamp((4.6, 0, -16), on=night) + traffic_light((4.6, 0, -9.5), "red")
+    o += car_real((-0.2, 0, -12), "#c92a2a") + bench((4.4, 0, -1.5), ry=-90)
+    return o + list(extra)
+
+
+def car_inside(seed=1, outside="street", night=False, speed="62 mph", extra=()):
+    """[~25] Driver's seat POV. Use cam((0, 1.2, 1.6), (0, 1.05, -8)) and hands="wheel". Dashboard top sits below the horizon so the road shows."""
+    o = [O("box", (0, 0.72, 0.72), [1.9, 0.42, 0.62], "#262a30", material="plastic", cast=False),
+         O("box", (0, 0.94, 0.5), [1.9, 0.04, 0.3], "#1b1e22", material="plastic", cast=False),
+         O("box", (0, 0.9, 0.78), [0.26, 0.1, 0.04], "#111111", material="glossy", rotate=[-20, 0, 0], cast=False),
+         text((0, 0.9, 0.805), speed, 0.22, 0.075, bg="#06121f", fg="#4dabf7", lit=1.3, rot=(-20, 0, 0)),
+         O("box", (0, 1.9, 0.9), [1.9, 0.06, 1.5], "#3a3f47", cast=False),
+         O("box", (0.0, 1.78, 0.32), [0.28, 0.08, 0.02], "#1b1b1b", cast=False),
+         O("box", (0.0, 1.78, 0.335), [0.26, 0.065, 0.005], "#cfe3f0", material="chrome", cast=False),
+         *_pair("box", (0, 1.4, 0.45), 0.98, [0.1, 1.05, 0.1], "#2b2f36", rotate=[-30, 0, 0], cast=False)]
+    # wheel: rim + spokes, faces you, tilted back
+    o += [O("torus", (0, 0.86, 1.17), [0.36, 0.36, 0.55], "#1b1b1b", material="leather", rotate=[-25, 0, 0], cast=False),
+          O("cylinder", (0, 0.85, 1.19), [0.1, 0.05, 0.1], "#2b2f36", material="plastic", rotate=[65, 0, 0], cast=False),
+          O("box", (0, 0.85, 1.18), [0.33, 0.035, 0.02], "#2b2f36", rotate=[-25, 0, 0], cast=False)]
+    if outside == "street":
+        o += street(seed)[:16]
+    elif outside == "highway":
+        o += [O("box", (0, -0.05, -40), [80, 0.1, 120], "#3a3d42", tex="asphalt", texRep=[80, 120]), O("box", (-14, 0.02, -40), [20, 0.04, 120], "#6a8f4e", tex="grass", texRep=[20, 120]),
+              O("box", (-1.8, 0.003, -30), [0.15, 0.01, 3], "#f8f9fa", material="paint", count=6, seed=seed, spread=[0, 0, 60])]
+    return o + list(extra)
+
+
+def gym(seed=1, wall="#2b2f36", extra=()):
+    """[~30] Gym: rubber floor, mirror wall at the back, dumbbell rack, treadmills, motivational sign."""
+    o = (room(10, 10, 3.2, -6, wall, "#2c2c2c", "concrete", "concrete", panels=3)
+         + [O("box", (0, 1.4, -5.9), [9.6, 2.4, 0.03], "#cfe3f0", material="chrome"), text((0, 2.9, -5.85), "NO PAIN NO GAIN", 3.6, 0.35, bg="#e03131", fg="#ffffff")]
+         + treadmill((-3.0, 0, -3.5)) + treadmill((-1.8, 0, -3.5)) + [O("box", (2.8, 0.45, -4.8), [2.6, 0.1, 0.5], "#495057", material="metal")]
+         + dumbbell((2.0, 0.5, -4.8)) + dumbbell((2.8, 0.5, -4.8), "#e03131") + dumbbell((3.6, 0.5, -4.8), "#1c7ed6"))
+    return o + list(extra)
+
+
+def elevator(seed=1, extra=()):
+    """[~10] Inside a small lift, facing the closed doors (−z). Fits 2-3 people beside you."""
+    return [O("box", (0, -0.05, -0.6), [2.2, 0.1, 2.6], "#6b6e73", tex="tiles", texRep=[2.2, 2.6]),
+            O("box", (0, 1.25, -1.9), [2.2, 2.5, 0.05], "#ced4da", material="chrome"), O("box", (0, 1.25, -1.88), [0.02, 2.2, 0.02], "#495057"),
+            O("box", (-1.1, 1.25, -0.6), [0.05, 2.5, 2.6], "#b8bec6", material="metal"), O("box", (1.1, 1.25, -0.6), [0.05, 2.5, 2.6], "#b8bec6", material="metal"),
+            O("box", (0, 2.5, -0.6), [2.2, 0.05, 2.6], "#e9ecef"), O("box", (0, 2.47, -0.6), [1.2, 0.02, 1.2], "#fff8ec", material="emit"),
+            O("box", (0.95, 1.2, -1.5), [0.12, 0.5, 0.05], "#212529"), text((0, 2.25, -1.86), "▲ 12", 0.42, 0.16, bg="#111111", fg="#ff6b6b", lit=1.4)] + list(extra)
+
+
+def school_hall(seed=1, extra=()):
+    """[~30] School corridor: lockers both sides running away (−z), tiled floor, posters, clock."""
+    o = room(5, 18, 3.0, -14, "#e6e1d3", "#c8c3b5", "tiles", "paint", panels=4)
+    o += locker_row((-2.25, 0, -6), 10, "#4263eb", rot=90) + locker_row((2.25, 0, -8), 10, "#e8590c", rot=-90)
+    o += [text((0, 2.35, -13.9), "BE KIND", 1.6, 0.4, bg="#ffd43b", fg="#212529"), O("cylinder", (0, 2.6, -13.92), [0.4, 0.03, 0.4], "#ffffff", rotate=[90, 0, 0])]
+    return o + list(extra)
+
+
+def grocery(seed=1, extra=()):
+    """[~30] Supermarket checkout: conveyor counter in front of you, cashier spot at (0.9,0,-2.0), register, aisles behind."""
+    o = (room(12, 14, 3.4, -10, "#f1f3f5", "#e9ecef", "tiles", "paint", panels=4)
+         + counter((0, 0, -1.4), 0.7, 2.6, "#495057", "#212529", None)
+         + cash_register((0.55, 0.95, -2.0))
+         + [O("box", (-4, 1.0, -7), [0.6, 2.0, 6], "#ced4da"), O("box", (-3.7, 1.0, -7), [0.15, 0.2, 0.15], "#ff6b6b", count=24, seed=seed, spread=[0.05, 1.6, 5.5]),
+            O("box", (4, 1.0, -7), [0.6, 2.0, 6], "#ced4da"), O("box", (3.7, 1.0, -7), [0.15, 0.2, 0.15], "#ffd43b", count=24, seed=seed + 1, spread=[0.05, 1.6, 5.5]),
+            text((0, 2.9, -9.9), "FRESH • LOCAL • CHEAP-ISH", 5, 0.5, bg="#2b8a3e", fg="#ffffff")])
+    return o + list(extra)
+
+
+def restaurant(seed=1, wall="#3b2f2a", extra=()):
+    """[~30] Fancy restaurant: dim warm light, round table with white cloth in front of you, candles, other diners behind."""
+    o = (room(10, 10, 3.2, -6, wall, "#5a3e2b", "planks", "wallpaper", panels=0)
+         + [O("cylinder", (0, 0.74, -1.2), [1.2, 0.04, 1.2], "#f8f9fa", material="fabric"), O("cylinder", (0, 0.38, -1.2), [0.12, 0.74, 0.12], "#212529"),
+            O("cylinder", (0, 0.78, -0.75), [0.36, 0.02, 0.36], "#ffffff", material="ceramic"), O("cylinder", (0.15, 0.85, -1.4), [0.04, 0.16, 0.04], "#f8f9fa"),
+            O("cylinder", (0.15, 0.95, -1.4), [0.02, 0.05, 0.02], "#ffb347", material="glow")]
+         + table((-2.8, 0, -4), 1.0, 1.0, 0.75, "#f8f9fa", tex=None) + table((2.8, 0, -4.2), 1.0, 1.0, 0.75, "#f8f9fa", tex=None)
+         + [lamp((0, 1.1, -1.4), "#ffb347", 3, 3.5), lamp((0, 2.6, -3.5), "#ffd8a8", 6, 9)])
+    return o + list(extra)
+
+
+def airport_gate(seed=1, extra=()):
+    """[~30] Airport gate: rows of seats, big window with a plane outside, departures board, gate sign."""
+    o = (room(14, 12, 4.0, -8, "#e9ecef", "#8d99ae", "carpet", "paint", panels=4, side_walls=False)
+         + [O("plane", (0, 2.0, -7.9), [13, 3.6, 1], "#bfe0ff", material="emit"), O("box", (0, 0.2, -12), [80, 0.1, 60], "#6c757d", tex="concrete"),
+            O("box", (2, 2.2, -16), [3, 2.6, 18], "#f1f3f5", material="glossy", rotate=[0, 70, 0]), O("box", (2, 2.4, -16), [18, 0.3, 3], "#f1f3f5", material="glossy", rotate=[0, 70, 0]),
+            screen_panel((-4.0, 2.9, -7.6), 2.4, 0.9, screen_ui(app="DEPARTURES", lines=["NYC  DELAYED", "LAX  DELAYED", "MIA  CANCELLED"], bg="#0b1a33", fg="#ffd43b")),
+            text((4.5, 3.2, -7.6), "GATE B12", 1.6, 0.5, bg="#ffd43b", fg="#111111")])
+    for z in (-2.0, -3.6):
+        o += [O("box", (-2.2, 0.42, z), [3.2, 0.08, 0.5], "#343a40", material="plastic"), O("box", (-2.2, 0.7, z - 0.25), [3.2, 0.5, 0.06], "#343a40", material="plastic"),
+              O("box", (2.2, 0.42, z), [3.2, 0.08, 0.5], "#343a40", material="plastic"), O("box", (2.2, 0.7, z - 0.25), [3.2, 0.5, 0.06], "#343a40", material="plastic")]
+    return o + list(extra)
+
+
+def classroom_real(seed=1, wall="#ece6d6", extra=()):
+    """[~35] Real classroom from a student desk: whiteboard with words, teacher's desk, other students' desks + backs."""
+    o = room(9, 10, 3.0, -7, wall, "#c4a27c", "tiles", "paint", panels=3)
+    o += [O("box", (0, 1.55, -6.92), [3.6, 1.2, 0.04], "#ffffff", material="glossy"), text((0, 1.6, -6.88), "QUIZ TODAY", 2.4, 0.45, bg="#ffffff", fg="#1c7ed6", font='"Comic Sans MS", cursive', weight=700)]
+    o += table((2.4, 0, -5.6), 1.4, 0.7, 0.76, "#8b6a4a")
+    o += table((0, 0, 0.55), 0.7, 0.5, 0.72, "#d9b98c", tex="planks")   # your desk
+    for x in (-1.5, 0, 1.5):
+        for z in (-1.4, -3.2):
+            o += table((x, 0, z), 0.7, 0.5, 0.72, "#d9b98c")[:1]
+    return o + list(extra)
+
+
+# ── holiday / home props (added with the Thanksgiving Short) ──
+def roast_turkey(at, size=1.0, frozen=False, platter=True):
+    """[5-7] Roast turkey on a platter (frozen=True: pale, icy, rock-hard)."""
+    x, y, z = at
+    s = size
+    c = "#e8eef3" if frozen else "#b8652a"
+    m = "glossy" if frozen else "glossy"
+    o = [O("sphere", (x, y + 0.12 * s, z), [0.22 * s, 0.13 * s, 0.17 * s], c, material=m),
+         *_pair("sphere", (x, y + 0.1 * s, z + 0.12 * s), 0.12 * s, [0.07 * s, 0.06 * s, 0.11 * s], c, material=m),
+         *_pair("cylinder", (x, y + 0.12 * s, z + 0.25 * s), 0.12 * s, [0.025 * s, 0.07 * s, 0.025 * s], "#f8f9fa", rotate=[70, 0, 0])]
+    if platter:
+        o.insert(0, O("cylinder", (x, y + 0.01, z), [0.62 * s, 0.025, 0.46 * s], "#f8f9fa", material="ceramic"))
+    if frozen:
+        o.append(O("particles", (x, y + 0.3 * s, z), 0.012, "#e7f5ff", count=12, seed=3, spread=[0.4 * s, 0.25 * s, 0.3 * s]))
+    return o
+
+
+def oven(at, on=False, smoke=False, ry=0):
+    """[4-6] Kitchen oven (glowing window when on, smoke pouring out when smoke=True)."""
+    x, y, z = at
+    o = [O("box", (x, y + 0.45, z), [0.76, 0.9, 0.65], "#ced4da", material="metal", rotate=[0, ry, 0]),
+         O("box", (x, y + 0.42, z + 0.33), [0.56, 0.36, 0.02], "#ff8c2b" if on else "#212529", material="emit" if on else "glossy", rotate=[0, ry, 0]),
+         O("box", (x, y + 0.7, z + 0.36), [0.6, 0.03, 0.03], "#adb5bd", material="chrome"),
+         O("box", (x, y + 0.86, z + 0.3), [0.7, 0.08, 0.05], "#343a40")]
+    if smoke:
+        o += smoke_cloud((x, y + 1.0, z + 0.4))
+    return o
+
+
+def smoke_cloud(at, count=26, seed=5, color="#868e96"):
+    """[1] Rising grey smoke puffs."""
+    x, y, z = at
+    return [O("sphere", (x, y + 0.5, z), 0.18, color, count=count, seed=seed, spread=[1.0, 1.0, 0.8], opacity=0.55,
+              animate=[{"type": "move", "to": [0, 0.8, 0.3], "rel": True}, {"type": "pulse", "amount": 0.3}])]
+
+
+def front_door(at=(0, 0, -2.2), color="#7b2d26", wall="#e9e2d6", night=False):
+    """[~8] Front door seen from inside the hallway, open onto the porch (put the guest at (0,0,at_z-0.6))."""
+    x, y, z = at
+    return [O("box", (x, -0.05, z + 1.5), [4, 0.1, 5], "#a77b52", tex="planks", texRep=[4, 5]),
+            O("box", (x - 1.35, 1.4, z), [1.8, 2.8, 0.15], wall, tex="paint", cast=False), O("box", (x + 1.35, 1.4, z), [1.8, 2.8, 0.15], wall, tex="paint", cast=False),
+            O("box", (x, 2.6, z), [0.9, 0.4, 0.15], wall, cast=False),
+            O("box", (x + 0.75, 1.05, z + 0.4), [0.06, 2.1, 0.9], color, material="paint", rotate=[0, 0, 0]),
+            O("box", (x, -0.03, z - 2), [12, 0.06, 4], "#8d99ae", tex="concrete"),
+            O("box", (x, 3, z - 9), [30, 6, 1], "#9ac0e0" if not night else "#1b2a4a", material="emit" if not night else "matte"),
+            O("blob_tree", (x - 3, 0, z - 6), 1.6, "#5c940d")]
+
+
+def dining_table(at=(0, 0, -1.8), length=2.6, cloth="#f1e3c8", food=True):
+    """[~12] Long dinner table with tablecloth, plates, glasses (runs along −z)."""
+    x, y, z = at
+    o = table(at, 1.1, length, 0.76, "#6b4f36") + [O("box", (x, y + 0.775, z), [1.16, 0.01, length + 0.06], cloth, material="fabric", tex="fabric", texRep=[1.2, length])]
+    for k in range(3):
+        zz = z - length / 2 + 0.45 + k * (length - 0.9) / 2
+        o += [O("cylinder", (x - 0.35, y + 0.79, zz), [0.26, 0.015, 0.26], "#ffffff", material="ceramic"), O("cylinder", (x + 0.35, y + 0.79, zz), [0.26, 0.015, 0.26], "#ffffff", material="ceramic")]
+    if food:
+        o += [O("cylinder", (x, y + 0.82, z - 0.3), [0.22, 0.08, 0.22], "#f08c00", material="ceramic"), O("cylinder", (x, y + 0.82, z + 0.35), [0.2, 0.06, 0.2], "#2f9e44", material="ceramic")]
+    return o

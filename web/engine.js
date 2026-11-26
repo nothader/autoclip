@@ -2,17 +2,32 @@
 // Deterministic: renderFrame(t) draws the frame at time t (seconds) and returns a JPEG data URL.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { initPeople, makePerson, animatePerson, buildRealHands, poseRealHands, phoneScreenTexture } from './person.js';
+import { surface } from './textures.js';
 
 const params = new URLSearchParams(location.search);
 const STORY = await (await fetch(params.get('story'))).json();
 const W = STORY.width, H = STORY.height, V = H > W;     // V = vertical
 const U = Math.min(W, H) / 1080;                          // UI scale
+const FILM = STORY.look === 'film';                       // v2 look: humans, IBL, AO, bloom, grade, real hands
+const RS = FILM ? (STORY.renderScale || 1) : 1;           // 3D render scale (overlays stay full-res)
+const RW = Math.round(W * RS), RH = Math.round(H * RS);
 
 const gl = document.getElementById('gl');
 const renderer = new THREE.WebGLRenderer({ canvas: gl, antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+renderer.setPixelRatio(1); renderer.setSize(RW, RH, false);
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = FILM ? 0.95 : 1.05;
+if (FILM) { renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 const out = document.getElementById('out'); out.width = W; out.height = H;
 const ctx = out.getContext('2d');
@@ -27,14 +42,47 @@ const D = Math.PI / 180;
 const scl = s => Array.isArray(s) ? s : [s, s, s];
 
 const matCache = new Map();
-function mat(color, kind = 'matte', opacity = 1) {
-  const key = color + kind + opacity;
+const ROUGH = { glossy: 0.22, metal: 0.3, matte: 0.78, skin: 0.55, fabric: 0.92, hair: 0.62, plastic: 0.4, wood: 0.6, chrome: 0.1, glass: 0.04, paint: 0.7, rubber: 0.9, screen: 0.3, emit: 0.5, leather: 0.5, ceramic: 0.18 };
+function mat(color, kind = 'matte', opacity = 1, tex = null) {
+  const key = color + kind + opacity + (tex ? tex.kind + tex.rep : '');
   if (matCache.has(key)) return matCache.get(key);
   let m;
   if (kind === 'glow') m = new THREE.MeshBasicMaterial({ color, toneMapped: false, transparent: opacity < 1, opacity });
-  else m = new THREE.MeshStandardMaterial({ color, roughness: kind === 'glossy' ? 0.22 : kind === 'metal' ? 0.3 : 0.78,
-    metalness: kind === 'metal' ? 0.85 : 0, transparent: opacity < 1, opacity, side: THREE.DoubleSide });
+  else {
+    const metal = kind === 'metal' ? 0.85 : kind === 'chrome' ? 1.0 : 0;
+    m = new THREE.MeshStandardMaterial({ color, roughness: ROUGH[kind] ?? 0.78, metalness: metal, transparent: opacity < 1 || kind === 'glass',
+      opacity: kind === 'glass' ? Math.min(opacity, 0.28) : opacity, side: THREE.DoubleSide });
+    if (kind === 'glass') { m.depthWrite = false; m.envMapIntensity = 2.0; }
+    if (kind === 'screen' || kind === 'emit') { m.emissive = new THREE.Color(color); m.emissiveIntensity = kind === 'emit' ? 2.2 : 0.9; m.color.set('#111111'); }
+    if (kind === 'skin' && FILM) { m.emissive = new THREE.Color(color).multiplyScalar(0.06); }   // cheap subsurface warmth
+    if (tex) {
+      const sf = surface(tex.kind, color);
+      m.map = sf.map.clone(); m.map.needsUpdate = true; m.map.repeat.set(tex.rep[0] / sf.tile, tex.rep[1] / sf.tile);
+      m.bumpMap = sf.bump.clone(); m.bumpMap.needsUpdate = true; m.bumpMap.repeat.copy(m.map.repeat); m.bumpScale = 1.2;
+      m.color.set('#ffffff');
+    }
+  }
   matCache.set(key, m); return m;
+}
+const emojiTexCache = new Map();
+function emojiTexture(text) {
+  if (emojiTexCache.has(text)) return emojiTexCache.get(text);
+  const cv = document.createElement('canvas'); cv.width = cv.height = 256;
+  const c2 = cv.getContext('2d'); c2.font = '200px "Noto Color Emoji"'; c2.textAlign = 'center'; c2.textBaseline = 'middle'; c2.fillText(text || '⭐', 128, 140);
+  const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; emojiTexCache.set(text, tx); return tx;
+}
+// flat text panel (signs, store names, menus, screens with words)
+function textTexture(o) {
+  const lines = String(o.text || '').split('\n'); const ar = (o.scale?.[0] || 1) / (o.scale?.[1] || 1);
+  const Wc = 1024, Hc = Math.max(64, Math.round(1024 / ar));
+  const cv = document.createElement('canvas'); cv.width = Wc; cv.height = Hc; const c = cv.getContext('2d');
+  c.fillStyle = o.bg || '#ffffff'; c.fillRect(0, 0, Wc, Hc);
+  if (o.border) { c.strokeStyle = o.border; c.lineWidth = Hc * 0.06; c.strokeRect(0, 0, Wc, Hc); }
+  const fs = Math.min(Hc / (lines.length * 1.25), (o.fontScale || 1) * Wc / Math.max(...lines.map(l => l.length), 1) * 1.6);
+  c.fillStyle = o.fg || '#111111'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.font = `${o.weight || 900} ${fs}px ${o.font || '"Inter", "Noto Color Emoji", sans-serif'}`;
+  lines.forEach((l, i) => c.fillText(l, Wc / 2, Hc / 2 + (i - (lines.length - 1) / 2) * fs * 1.2));
+  const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4; return tx;
 }
 const geoCache = new Map();
 function geo(key, make) { if (!geoCache.has(key)) geoCache.set(key, make()); return geoCache.get(key); }
@@ -44,7 +92,8 @@ function mesh(g, m, shadow = true) { const x = new THREE.Mesh(g, m); x.castShado
 // ───────── primitives ─────────
 function primitive(o) {
   const s = scl(o.scale ?? 1), c = o.color || '#dddddd', mk = o.material || 'matte', op = o.opacity ?? 1;
-  const M = mat(c, mk, op);
+  const texOpt = o.tex ? { kind: o.tex, rep: o.texRep || (o.kind === 'plane' ? [s[0], s[1]] : [Math.max(s[0], s[2]), Math.max(s[1], Math.min(s[0], s[2]))]) } : null;
+  const M = mat(c, mk, op, texOpt);
   let obj;
   switch (o.kind) {
     case 'box': {
@@ -79,6 +128,27 @@ function primitive(o) {
     case 'particles': obj = mesh(geo('sph8', () => new THREE.SphereGeometry(1, 8, 6)), M, false); obj.scale.set(s[0], s[0], s[0]); break;
     case 'ring': obj = mesh(geo('ring', () => new THREE.RingGeometry(0.42, 0.5, 48)), M, false); obj.scale.set(s[0], s[1], 1); break;
     case 'bean': obj = bean(o); break;
+    case 'person': obj = makePerson(o); break;
+    case 'text': {   // sign / label panel with real words
+      const m2 = new THREE.MeshStandardMaterial({ map: textTexture(o), roughness: 0.6, side: THREE.DoubleSide, transparent: !!o.transparent });
+      if (o.lit) { m2.emissive = new THREE.Color('#ffffff'); m2.emissiveMap = m2.map; m2.emissiveIntensity = o.lit === true ? 0.8 : o.lit; }
+      obj = mesh(geo('pl', () => new THREE.PlaneGeometry(1, 1)), m2, false); obj.scale.set(s[0], s[1], 1); break;
+    }
+    case 'screen': {   // phone/TV/laptop UI (same spec as the phone screen)
+      const tx = phoneScreenTexture(o.screen || {});
+      const m2 = new THREE.MeshStandardMaterial({ map: tx, emissive: new THREE.Color('#ffffff'), emissiveMap: tx, emissiveIntensity: 0.85, roughness: 0.3 });
+      obj = mesh(geo('pl', () => new THREE.PlaneGeometry(1, 1)), m2, false); obj.scale.set(s[0], s[1], 1); break;
+    }
+    case 'lamp': {   // real light source (point light + glowing bulb). Keep to 1-3 per shot.
+      obj = new THREE.Group(); const L = new THREE.PointLight(c, o.intensity ?? 6, o.range ?? 8, 2); obj.add(L);
+      if (!o.hidden) { const bulb = mesh(geo('sph', () => new THREE.SphereGeometry(1, 32, 20)), mat(c, 'glow'), false); bulb.scale.setScalar(s[0] * 0.08); obj.add(bulb); }
+      break;
+    }
+    case 'spot': {   // spotlight (stage, interrogation, flashlight)
+      obj = new THREE.Group(); const L = new THREE.SpotLight(c, o.intensity ?? 30, o.range ?? 20, (o.angle ?? 25) * D, 0.4, 1.6);
+      L.castShadow = !!o.shadow; const tg = new THREE.Object3D(); const to = o.target || [0, 0, -3];
+      tg.position.set(to[0] - (o.at?.[0] || 0), to[1] - (o.at?.[1] || 0), to[2] - (o.at?.[2] || 0)); obj.add(L, tg); L.target = tg; break;
+    }
     case 'emoji': obj = emojiSprite(o); break;
     default: obj = new THREE.Group();
   }
@@ -87,9 +157,7 @@ function primitive(o) {
 
 // 3D emoji/text billboard (props drawn with the colour-emoji font: 🐺🍕👑🔥 …)
 function emojiSprite(o) {
-  const cv = document.createElement('canvas'); cv.width = cv.height = 256;
-  const c2 = cv.getContext('2d'); c2.font = '200px "Noto Color Emoji"'; c2.textAlign = 'center'; c2.textBaseline = 'middle'; c2.fillText(o.text || '⭐', 128, 140);
-  const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace;
+  const tx = emojiTexture(o.text || '⭐');
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tx, transparent: true }));
   const s = scl(o.scale ?? 1); sp.scale.set(s[0], s[0], 1); return sp;
 }
@@ -205,7 +273,29 @@ const HAND = {   // [x, y, z, rx, ry, rz] per hand (camera space), right then le
   none: null,
 };
 let heldProp = null;
-function poseHands(pose, t, hold) {
+let phoneObj = null, phoneSpec = null;
+function poseHands(pose, t, hold, screen) {
+  if (handRig.userData.real) {
+    poseRealHands(handRig, pose, t);
+    if (heldProp) { handRig.remove(heldProp); heldProp = null; }
+    if (phoneObj && phoneObj.parent) phoneObj.parent.remove(phoneObj);
+    if (pose === 'phone') {   // phone in the right hand, screen toward you
+      const key = JSON.stringify(screen || {});
+      if (phoneSpec?.key !== key) {
+        phoneSpec = { key }; phoneObj = new THREE.Group();
+        const body = mesh(geo('phbody', () => new RoundedBoxGeometry(0.078, 0.012, 0.16, 4, 0.006)), mat('#1b1b1f', 'glossy')); body.position.y = -0.024; phoneObj.add(body);
+        const sc = new THREE.Mesh(geo('pl', () => new THREE.PlaneGeometry(1, 1)), new THREE.MeshBasicMaterial({ map: phoneScreenTexture(screen || { app: 'Messages' }), toneMapped: false }));
+        sc.scale.set(0.071, 0.148, 1); sc.rotation.set(Math.PI / 2, 0, Math.PI); sc.position.y = -0.0312; phoneObj.add(sc);
+        phoneObj.position.set(0.0, 0, -0.07);
+      }
+      handRig.userData.parts[0].palm.add(phoneObj);
+    }
+    if (hold) {
+      heldProp = new THREE.Group(); for (const o of hold) heldProp.add(place(o));
+      heldProp.position.set(0, -0.15, -0.5); handRig.add(heldProp);
+    }
+    return;
+  }
   const P = HAND[pose] || HAND.idle;
   handRig.visible = !!P; if (!P) return;
   handRig.userData.parts.forEach((p, i) => {
@@ -232,6 +322,43 @@ const hemi = new THREE.HemisphereLight('#ffffff', '#8a7a6a', 1.3); scene.add(hem
 const sun = new THREE.DirectionalLight('#fff3df', 2.4); sun.castShadow = true; sun.shadow.mapSize.set(1536, 1536);
 sun.shadow.camera.left = sun.shadow.camera.bottom = -14; sun.shadow.camera.right = sun.shadow.camera.top = 14; sun.shadow.bias = -0.0008; sun.shadow.radius = 4;
 scene.add(sun, sun.target);
+const fill = new THREE.DirectionalLight('#ffffff', 0); scene.add(fill, fill.target);   // soft key from the camera side (faces read)
+initPeople({ mat, geo, mesh, emojiTexture, rng });
+let composer = null, gtao = null, bloom = null, grade = null, bokeh = null;
+if (FILM) {
+  const pm = new THREE.PMREMGenerator(renderer);
+  scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 5; sun.shadow.normalBias = 0.02; sun.shadow.bias = -0.0004;
+  const MSAA = STORY.msaa ?? 0;   // MSAA is ~2x slower on the CPU renderer; SMAA after tone mapping is the default
+  const rt = new THREE.WebGLRenderTarget(RW, RH, { type: THREE.HalfFloatType, samples: MSAA });
+  composer = new EffectComposer(renderer, rt); composer.setPixelRatio(1); composer.setSize(RW, RH);
+  composer.addPass(new RenderPass(scene, camera));
+  if (STORY.ao !== false) {
+    gtao = new GTAOPass(scene, camera, Math.round(RW / 2), Math.round(RH / 2));
+    gtao.updateGtaoMaterial({ radius: 0.45, distanceExponent: 1.6, thickness: 1.5, scale: 1.0, samples: STORY.aoSamples ?? 8 });
+    gtao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: STORY.aoDenoise ?? 6 });
+    gtao.blendIntensity = 0.9; composer.addPass(gtao);
+  }
+  bokeh = new BokehPass(scene, camera, { focus: 3, aperture: 0.0012, maxblur: 0.006 }); bokeh.enabled = false; composer.addPass(bokeh);
+  bloom = new UnrealBloomPass(new THREE.Vector2(RW / 2, RH / 2), 0.28, 0.5, 0.92); composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+  if (!MSAA) composer.addPass(new SMAAPass(RW, RH));
+  grade = new ShaderPass({
+    uniforms: { tDiffuse: { value: null }, time: { value: 0 }, sat: { value: 1.12 }, contrast: { value: 1.06 }, grain: { value: 0.035 }, vig: { value: 0.55 }, ca: { value: 0.0016 },
+      tint: { value: new THREE.Vector3(1.02, 1.0, 0.97) }, lift: { value: new THREE.Vector3(0.012, 0.01, 0.02) }, res: { value: new THREE.Vector2(RW, RH) }, mono: { value: 0 } },
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: `uniform sampler2D tDiffuse; uniform float time, sat, contrast, grain, vig, ca, mono; uniform vec3 tint, lift; uniform vec2 res; varying vec2 vUv;
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+      void main(){ vec2 d = vUv - 0.5; vec3 c;
+        c.r = texture2D(tDiffuse, vUv + d * ca).r; c.g = texture2D(tDiffuse, vUv).g; c.b = texture2D(tDiffuse, vUv - d * ca).b;
+        float l = dot(c, vec3(0.2126, 0.7152, 0.0722)); c = mix(vec3(l), c, sat * (1.0 - mono));
+        c = (c - 0.5) * contrast + 0.5; c = c * tint + lift * (1.0 - c);
+        c *= 1.0 - vig * dot(d * vec2(0.8, 1.0), d * vec2(0.8, 1.0)) * 1.4;
+        c += (hash(floor(vUv * res) + fract(time * 7.13) * 91.7) - 0.5) * grain;
+        gl_FragColor = vec4(clamp(c, 0.0, 1.0), 1.0); }`,
+  });
+  composer.addPass(grade);
+}
 let world = new THREE.Group(); scene.add(world);
 const extra = new THREE.Group(); scene.add(extra);
 
@@ -251,6 +378,7 @@ function place(o) {
     const rot = o.rotate || [0, 0, 0];
     m.rotation.set(rot[0] * D, (rot[1] + (n > 1 && o.kind === 'bean' ? 0 : 0)) * D, rot[2] * D);
     m.userData.base = { p: m.position.clone(), r: m.rotation.clone(), s: m.scale.clone(), anim: o.animate || [], i, ph: R() * 6.28 };
+    if (o.cast === false) m.traverse(c => { c.castShadow = false; });
     if (o.kind === 'bean' && n > 1) { m.userData.bean.seed = (o.seed || 1) * 31 + i; }
     return m;
   };
@@ -279,6 +407,7 @@ function animateObj(m, t, dur) {
   }
   if (m.userData.flicker) m.scale.y = m.userData.base.s.y * (1 + Math.sin(t * 23) * 0.08 + Math.sin(t * 37) * 0.05);
   if (m.userData.bean) animateBean(m, t);
+  if (m.userData.person) animatePerson(m, t, camera);
   if (m.userData.multi) m.children.forEach(c => animateObj(c, t, dur));
 }
 
@@ -289,18 +418,30 @@ function buildBeat(i) {
   const s = b.set || {};
   scene.background = skyTexture(...(s.sky || ['#8ec5ff', '#e6f4ff']));
   scene.fog = s.fog ? new THREE.Fog(s.fog[0], s.fog[1], s.fog[2]) : null;
-  hemi.intensity = s.ambient ?? 1.3; hemi.color.set(s.skyLight || '#ffffff'); hemi.groundColor.set(s.bounce || '#8a7a6a');
+  hemi.intensity = (s.ambient ?? 1.3) * (FILM ? 0.6 : 1); hemi.color.set(s.skyLight || '#ffffff'); hemi.groundColor.set(s.bounce || '#8a7a6a');
   sun.intensity = s.light ?? 2.4; sun.color.set(s.sunColor || '#fff3df');
   const sd = s.sunDir || [4, 9, 5]; sun.position.set(sd[0], sd[1], sd[2]); sun.target.position.set(0, 0, -3);
+  if (FILM) {
+    scene.environmentIntensity = s.env ?? 0.55;
+    fill.intensity = s.fill ?? 0.9; fill.color.set(s.fillColor || '#fff6ec');
+    const c = b.cam || {}; const lk = c.look || [0, 1.2, -3];
+    sun.target.position.set(lk[0], 0, lk[2]); sun.position.set(lk[0] + sd[0], sd[1], lk[2] + sd[2]);
+    if (bokeh) { bokeh.enabled = !!c.dof; if (c.dof) { const p0 = c.pos || [0, 1.55, 1.6]; bokeh.uniforms.focus.value = typeof c.dof === 'number' ? c.dof : Math.hypot(lk[0] - p0[0], lk[1] - p0[1], lk[2] - p0[2]); bokeh.uniforms.aperture.value = c.aperture ?? 0.0015; } }
+    const gr = Object.assign({}, STORY.grade || {}, b.grade || {});
+    if (grade) { const u = grade.uniforms; u.sat.value = gr.sat ?? 1.12; u.contrast.value = gr.contrast ?? 1.06; u.grain.value = gr.grain ?? 0.035; u.vig.value = gr.vig ?? 0.55;
+      u.mono.value = gr.mono ?? 0; const ti = gr.tint || [1.02, 1.0, 0.97]; u.tint.value.set(ti[0], ti[1], ti[2]); const li = gr.lift || [0.012, 0.01, 0.02]; u.lift.value.set(li[0], li[1], li[2]); }
+    if (bloom) bloom.strength = gr.bloom ?? 0.28;
+    if (gtao) gtao.blendIntensity = s.ao ?? 0.9;
+  }
   for (const o of s.objects || []) world.add(place(o));
-  buildHands(STORY.you.skin, STORY.you.sleeve);
+  if (FILM) buildRealHands(handRig, STORY.you.skin, STORY.you.sleeve, STORY.you); else buildHands(STORY.you.skin, STORY.you.sleeve);
   built = i;
 }
 
 // camera
 function placeCamera(b, lt) {
   const c = b.cam || {}; const dur = b.dur;
-  const k = ease(lt / dur);
+  const k = FILM ? (c.ease === 'out' ? ease(lt / dur) : 0.5 - 0.5 * Math.cos(Math.PI * Math.min(Math.max(lt / dur, 0), 1))) : ease(lt / dur);
   const p0 = c.pos || [0, 1.55, 1.6], p1 = c.to || p0, l0 = c.look || [0, 1.2, -3], l1 = c.lookTo || l0;
   const p = [lerp(p0[0], p1[0], k), lerp(p0[1], p1[1], k), lerp(p0[2], p1[2], k)];
   const l = [lerp(l0[0], l1[0], k), lerp(l0[1], l1[1], k), lerp(l0[2], l1[2], k)];
@@ -310,8 +451,13 @@ function placeCamera(b, lt) {
   if (head === 'walk') { dy = Math.abs(Math.sin(lt * 6)) * 0.05; dx = Math.sin(lt * 3) * 0.03; }
   if (head === 'run') { dy = Math.abs(Math.sin(lt * 11)) * 0.09; dx = Math.sin(lt * 5.5) * 0.05; roll = Math.sin(lt * 5.5) * 0.03; }
   if (head === 'float') { dy = Math.sin(lt * 1.2) * 0.08; roll = Math.sin(lt * 0.9) * 0.08; }
+  if (FILM && head !== 'still') {   // gentle handheld drift
+    dx += (Math.sin(lt * 1.13) * 0.6 + Math.sin(lt * 2.71) * 0.4) * 0.006; dy += (Math.sin(lt * 1.37 + 1) * 0.6 + Math.sin(lt * 3.1) * 0.4) * 0.005;
+    roll += Math.sin(lt * 0.83 + 2) * 0.004;
+  }
   camera.position.set(p[0] + dx, p[1] + dy, p[2]);
   camera.up.set(0, 1, 0); camera.lookAt(l[0], l[1], l[2]);
+  if (FILM) { fill.position.set(p[0] + 1.2, p[1] + 1.6, p[2] + 1.5); fill.target.position.set(l[0], l[1], l[2]); }
   const fx = b.fx || [];
   if (fx.includes('shake') || head === 'shake') { camera.rotation.z += Math.sin(lt * 47) * 0.02; camera.rotation.x += Math.sin(lt * 39) * 0.012; }
   if (fx.includes('whip') && lt < 0.22) camera.rotateY((1 - ease(lt / 0.22)) * 0.6);
@@ -460,15 +606,17 @@ window.renderFrame = function (t) {
   if (fz && lt >= fz.at) { frozen = true; }
   const st = frozen ? fz.at : (b.fx || []).includes('slowmo') ? lt * 0.35 : lt;
   placeCamera(b, st);
-  poseHands(b.hands || 'idle', st, b.hold);
+  poseHands(b.hands || 'idle', st, b.hold, b.screen);
   world.children.forEach(m => animateObj(m, st, b.dur));
-  renderer.render(scene, camera);
+  if (composer) { grade.uniforms.time.value = t; composer.render(); } else renderer.render(scene, camera);
   ctx.save();
   if (frozen) ctx.filter = 'grayscale(0.85) contrast(1.15) brightness(0.9)';
-  ctx.drawImage(gl, 0, 0); ctx.filter = 'none';
+  ctx.drawImage(gl, 0, 0, W, H); ctx.filter = 'none';
   // vignette
-  const vg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
-  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.38)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  if (!FILM) {
+    const vg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.38)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  }
   if ((b.fx || []).includes('flash') && lt < 0.25) { ctx.fillStyle = `rgba(255,255,255,${1 - lt / 0.25})`; ctx.fillRect(0, 0, W, H); }
   if (b.tint) { ctx.fillStyle = b.tint; ctx.fillRect(0, 0, W, H); }
   ctx.restore();

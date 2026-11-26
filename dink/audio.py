@@ -129,6 +129,21 @@ def sfx_riser(d=1.2):
     return (np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.15 + _lp(_noise(len(t), 8), 0.3) * 0.25) * (t / d)
 
 
+def sfx_alarm(d=1.2):   # smoke-alarm beeps
+    t = _t(d); gate = (np.floor(t * 6) % 2 == 0).astype(float)
+    return np.sign(np.sin(2 * np.pi * 3100 * t)) * gate * 0.12
+
+
+def sfx_doorbell(d=1.2):   # ding-dong
+    t = _t(d); a = np.sin(2 * np.pi * 659 * t) * np.exp(-t * 3) * (t < 0.6)
+    t2 = np.clip(t - 0.45, 0, None); b2 = np.sin(2 * np.pi * 523 * t2) * np.exp(-t2 * 3) * (t >= 0.45)
+    return (a + b2) * 0.35
+
+
+def sfx_notify(d=0.3):   # phone message ping
+    t = _t(d); return (np.sin(2 * np.pi * 1320 * t) * (t < 0.12) + np.sin(2 * np.pi * 1760 * t) * (t >= 0.12)) * np.exp(-t * 9) * 0.35
+
+
 SFX = {k[4:]: v for k, v in globals().items() if k.startswith("sfx_")}
 
 

@@ -1,0 +1,5879 @@
+{
+ "slug": "first_thanksgiving",
+ "title": "What if you hosted Thanksgiving for the first time?",
+ "accent": "#ff922b",
+ "hook": {
+  "lines": [
+   "WHAT IF YOU",
+   "HOSTED",
+   "THANKSGIVING?"
+  ],
+  "accent": 1
+ },
+ "hookDur": 2.6,
+ "you": {
+  "skin": "#c08a5e",
+  "sleeve": "#2b8a3e",
+  "watch": true
+ },
+ "width": 1080,
+ "height": 1920,
+ "duration": 29.3,
+ "beats": [
+  {
+   "dur": 3.4,
+   "caption": "your *first* time hosting",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#d9d4cc",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.4
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.33
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -2.4000000000000004
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       0.9333333333333336
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.45,
+       -4.0
+      ],
+      "scale": [
+       4.2,
+       0.9,
+       0.65
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.92,
+       -4.0
+      ],
+      "scale": [
+       4.24,
+       0.05,
+       0.6900000000000001
+      ],
+      "color": "#f8f9fa",
+      "tex": "marble",
+      "texRep": [
+       4.2,
+       0.65
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.04,
+       -3.715
+      ],
+      "scale": [
+       4.2,
+       0.08,
+       0.02
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       2.05,
+       -4.15
+      ],
+      "scale": [
+       4.2,
+       0.8,
+       0.4
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.95,
+       -3.95
+      ],
+      "scale": [
+       0.8,
+       1.9,
+       0.75
+      ],
+      "color": "#e9ecef",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6999999999999997,
+       1.3,
+       -3.56
+      ],
+      "scale": [
+       0.03,
+       0.4,
+       0.03
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.18,
+       -3.5700000000000003
+      ],
+      "scale": [
+       0.8,
+       0.01,
+       0.01
+      ],
+      "color": "#adb5bd"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.32
+      ],
+      "scale": [
+       1.42,
+       0.92,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -0.8,
+       1.55,
+       -4.2700000000000005
+      ],
+      "scale": [
+       1.3,
+       0.8,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.260000000000001
+      ],
+      "scale": [
+       0.04,
+       0.8,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.1,
+       0.96,
+       -3.95
+      ],
+      "scale": [
+       0.6,
+       0.03,
+       0.45
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.2,
+       1.05,
+       -4.05
+      ],
+      "scale": [
+       0.18,
+       0.22,
+       0.18
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.88,
+       -1.8
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       0.9
+      ],
+      "color": "#c9a77c",
+      "tex": "planks",
+      "texRep": [
+       1.6,
+       0.9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.2,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.3,
+     1.6,
+     0.4
+    ],
+    "look": [
+     -0.5,
+     1.1,
+     -3.8
+    ],
+    "head": "breathe"
+   },
+   "hands": "phone",
+   "bubbles": [
+    {
+     "text": "You thawed the turkey... right?",
+     "at": 0.45,
+     "dur": 2.6,
+     "voice": "af_bella",
+     "speed": 1.0,
+     "name": "MOM 📱",
+     "x": 0.5,
+     "y": 0.56
+    }
+   ],
+   "stickers": [],
+   "sfx": [
+    {
+     "type": "notify",
+     "at": 0.2
+    },
+    {
+     "type": "notify",
+     "at": 0.9
+    }
+   ],
+   "fx": [],
+   "screen": {
+    "bg": "#ffffff",
+    "fg": "#111111",
+    "accent": "#228be6",
+    "time": "6:00",
+    "messages": [
+     [
+      "them",
+      "How big is the turkey?"
+     ],
+     [
+      "me",
+      "22 lb 💪"
+     ],
+     [
+      "them",
+      "Did you thaw it??"
+     ]
+    ],
+    "lines": [],
+    "app": "Mom ❤️"
+   },
+   "t0": 0.0
+  },
+  {
+   "dur": 3.0,
+   "caption": "the turkey is a *rock*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#d9d4cc",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.4
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.33
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -2.4000000000000004
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       0.9333333333333336
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.45,
+       -4.0
+      ],
+      "scale": [
+       4.2,
+       0.9,
+       0.65
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.92,
+       -4.0
+      ],
+      "scale": [
+       4.24,
+       0.05,
+       0.6900000000000001
+      ],
+      "color": "#f8f9fa",
+      "tex": "marble",
+      "texRep": [
+       4.2,
+       0.65
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.04,
+       -3.715
+      ],
+      "scale": [
+       4.2,
+       0.08,
+       0.02
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       2.05,
+       -4.15
+      ],
+      "scale": [
+       4.2,
+       0.8,
+       0.4
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.95,
+       -3.95
+      ],
+      "scale": [
+       0.8,
+       1.9,
+       0.75
+      ],
+      "color": "#e9ecef",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6999999999999997,
+       1.3,
+       -3.56
+      ],
+      "scale": [
+       0.03,
+       0.4,
+       0.03
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.18,
+       -3.5700000000000003
+      ],
+      "scale": [
+       0.8,
+       0.01,
+       0.01
+      ],
+      "color": "#adb5bd"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.32
+      ],
+      "scale": [
+       1.42,
+       0.92,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -0.8,
+       1.55,
+       -4.2700000000000005
+      ],
+      "scale": [
+       1.3,
+       0.8,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.260000000000001
+      ],
+      "scale": [
+       0.04,
+       0.8,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.1,
+       0.96,
+       -3.95
+      ],
+      "scale": [
+       0.6,
+       0.03,
+       0.45
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.2,
+       1.05,
+       -4.05
+      ],
+      "scale": [
+       0.18,
+       0.22,
+       0.18
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.88,
+       -1.8
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       0.9
+      ],
+      "color": "#c9a77c",
+      "tex": "planks",
+      "texRep": [
+       1.6,
+       0.9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.8,
+       0.96,
+       -3.85
+      ],
+      "scale": [
+       0.682,
+       0.025,
+       0.5060000000000001
+      ],
+      "color": "#f8f9fa",
+      "material": "ceramic"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.8,
+       1.0819999999999999,
+       -3.85
+      ],
+      "scale": [
+       0.24200000000000002,
+       0.14300000000000002,
+       0.18700000000000003
+      ],
+      "color": "#e8eef3",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.932,
+       1.06,
+       -3.718
+      ],
+      "scale": [
+       0.07700000000000001,
+       0.066,
+       0.12100000000000001
+      ],
+      "color": "#e8eef3",
+      "material": "glossy"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.668,
+       1.06,
+       -3.718
+      ],
+      "scale": [
+       0.07700000000000001,
+       0.066,
+       0.12100000000000001
+      ],
+      "color": "#e8eef3",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.932,
+       1.0819999999999999,
+       -3.575
+      ],
+      "scale": [
+       0.027500000000000004,
+       0.07700000000000001,
+       0.027500000000000004
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       70,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.668,
+       1.0819999999999999,
+       -3.575
+      ],
+      "scale": [
+       0.027500000000000004,
+       0.07700000000000001,
+       0.027500000000000004
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       70,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "particles",
+      "at": [
+       -0.8,
+       1.28,
+       -3.85
+      ],
+      "scale": 0.012,
+      "color": "#e7f5ff",
+      "count": 12,
+      "seed": 3,
+      "spread": [
+       0.44000000000000006,
+       0.275,
+       0.33
+      ]
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     7,
+     8
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     -0.75,
+     1.5,
+     -2.7
+    ],
+    "look": [
+     -0.8,
+     1.0,
+     -3.85
+    ],
+    "head": "breathe",
+    "dof": true
+   },
+   "hands": "fist",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "6:01 AM",
+     "at": 0.1,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "stamp",
+     "text": "FROZEN SOLID",
+     "at": 1.2,
+     "color": "#74c0fc",
+     "x": 0.5,
+     "y": 0.36,
+     "rot": -10,
+     "size": 130,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [
+    {
+     "type": "bonk",
+     "at": 0.55
+    },
+    {
+     "type": "bonk",
+     "at": 0.85
+    },
+    {
+     "type": "bonk",
+     "at": 1.15
+    }
+   ],
+   "fx": [
+    "punch"
+   ],
+   "t0": 3.4
+  },
+  {
+   "dur": 3.4,
+   "caption": "google says *five days*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#a77b52",
+      "tex": "planks",
+      "texRep": [
+       8,
+       9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.6
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.529999999999999
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -0.7428571428571424
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.01,
+       -2.2
+      ],
+      "scale": [
+       3.0,
+       0.02,
+       2.0
+      ],
+      "color": "#c9b79c",
+      "tex": "carpet",
+      "texRep": [
+       3,
+       2
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.3,
+       -3.9
+      ],
+      "scale": [
+       2.6,
+       0.45,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric",
+      "tex": "fabric",
+      "texRep": [
+       2.6,
+       1
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.72,
+       -4.32
+      ],
+      "scale": [
+       2.6,
+       0.6,
+       0.25
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.62,
+       -3.75
+      ],
+      "scale": [
+       0.42,
+       0.38,
+       0.14
+      ],
+      "color": "#e8d5b5",
+      "material": "fabric",
+      "rotate": [
+       -10,
+       10,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.38,
+       -2.3
+      ],
+      "scale": [
+       1.1,
+       0.06,
+       0.6
+      ],
+      "color": "#3b2a1a",
+      "tex": "planks"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.18,
+       -2.3
+      ],
+      "scale": [
+       1.0,
+       0.34,
+       0.5
+      ],
+      "color": "#2b1d14"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.9,
+       1.35,
+       -2.0
+      ],
+      "scale": [
+       0.06,
+       0.85,
+       1.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.52
+      ],
+      "scale": [
+       1.7200000000000002,
+       1.62,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       2.4,
+       1.6,
+       -4.47
+      ],
+      "scale": [
+       1.6,
+       1.5,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.46
+      ],
+      "scale": [
+       0.04,
+       1.5,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       3.3,
+       0.22000000000000003,
+       -4.0
+      ],
+      "scale": [
+       0.385,
+       0.44000000000000006,
+       0.385
+      ],
+      "color": "#d9480f",
+      "material": "ceramic"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.3,
+       0.7150000000000001,
+       -4.0
+      ],
+      "scale": [
+       0.35200000000000004,
+       0.44000000000000006,
+       0.35200000000000004
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.135,
+       0.935,
+       -3.95
+      ],
+      "scale": [
+       0.22000000000000003,
+       0.30800000000000005,
+       0.22000000000000003
+      ],
+      "color": "#37b24d"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.4869999999999997,
+       0.8800000000000001,
+       -4.05
+      ],
+      "scale": [
+       0.198,
+       0.275,
+       0.198
+      ],
+      "color": "#2b8a3e"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -2.4,
+       0.8,
+       -4.1
+      ],
+      "scale": [
+       0.04,
+       1.6,
+       0.04
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -2.4,
+       1.65,
+       -4.1
+      ],
+      "scale": [
+       0.45,
+       0.35,
+       0.45
+      ],
+      "color": "#fff3d6",
+      "material": "emit"
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       -2.4,
+       1.5,
+       -3.8
+      ],
+      "scale": 1,
+      "color": "#ffd8a8",
+      "intensity": 4,
+      "range": 6,
+      "hidden": false
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     3,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.3,
+     1.2,
+     -3.5
+    ],
+    "look": [
+     -3.9,
+     1.3,
+     -2.0
+    ],
+    "head": "breathe"
+   },
+   "hands": "phone",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "8:00 AM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "badge",
+     "text": "Fridge thaw: 1 day per 4–5 lb 🦃",
+     "title": "REAL FACT · USDA",
+     "at": 1.2,
+     "dur": 2.0
+    }
+   ],
+   "sfx": [],
+   "fx": [],
+   "screen": {
+    "bg": "#ffffff",
+    "fg": "#111111",
+    "accent": "#e03131",
+    "time": "9:41",
+    "messages": [],
+    "lines": [
+     "(it's Thursday)"
+    ],
+    "app": "🔍 thaw turkey fast",
+    "big": "5 DAYS",
+    "sub": "22 lb turkey, in the fridge"
+   },
+   "t0": 6.4
+  },
+  {
+   "dur": 3.3,
+   "caption": "uncle Ray is *three hours* early",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.7000000000000002
+      ],
+      "scale": [
+       4,
+       0.1,
+       5
+      ],
+      "color": "#a77b52",
+      "tex": "planks",
+      "texRep": [
+       4,
+       5
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.35,
+       1.4,
+       -2.2
+      ],
+      "scale": [
+       1.8,
+       2.8,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "tex": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.35,
+       1.4,
+       -2.2
+      ],
+      "scale": [
+       1.8,
+       2.8,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "tex": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6,
+       -2.2
+      ],
+      "scale": [
+       0.9,
+       0.4,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.75,
+       1.05,
+       -1.8000000000000003
+      ],
+      "scale": [
+       0.06,
+       2.1,
+       0.9
+      ],
+      "color": "#7b2d26",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -4.2
+      ],
+      "scale": [
+       12,
+       0.06,
+       4
+      ],
+      "color": "#8d99ae",
+      "tex": "concrete"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3,
+       -11.2
+      ],
+      "scale": [
+       30,
+       6,
+       1
+      ],
+      "color": "#9ac0e0",
+      "material": "emit"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       -3,
+       0,
+       -8.2
+      ],
+      "scale": 1.6,
+      "color": "#5c940d"
+     },
+     {
+      "kind": "person",
+      "at": [
+       0,
+       0,
+       -2.9
+      ],
+      "scale": 1,
+      "color": "#a8704a",
+      "skin": "#a8704a",
+      "top": "#a61e4d",
+      "bottom": "#3b4a5a",
+      "hair": "buzz",
+      "hair_color": "#a9a9a9",
+      "outfit": "jacket",
+      "age": "adult",
+      "expr": "excited",
+      "act": "wave",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "talk": [
+       [
+        0.7,
+        1.7
+       ]
+      ],
+      "seed": 21,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.25,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "beard": "full",
+      "hold2": "emoji:🥧",
+      "belly": true,
+      "shirt": "#e9ecef",
+      "beard_color": "#868e96"
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.6,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     -2,
+     6,
+     8
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.6,
+     -0.6
+    ],
+    "look": [
+     0,
+     1.5,
+     -2.9
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "I'm early! Where's the turkey?",
+     "at": 0.65,
+     "dur": 2.31,
+     "voice": "am_onyx",
+     "speed": 1.0,
+     "who": [
+      0,
+      2.05,
+      -2.9
+     ],
+     "name": "UNCLE RAY"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "11:00 AM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    }
+   ],
+   "sfx": [
+    {
+     "type": "doorbell",
+     "at": 0.0
+    }
+   ],
+   "fx": [],
+   "t0": 9.8
+  },
+  {
+   "dur": 3.2,
+   "caption": "13 hungry relatives. *0* turkey.",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#a77b52",
+      "tex": "planks",
+      "texRep": [
+       8,
+       9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.6
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.529999999999999
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -0.7428571428571424
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.01,
+       -2.2
+      ],
+      "scale": [
+       3.0,
+       0.02,
+       2.0
+      ],
+      "color": "#c9b79c",
+      "tex": "carpet",
+      "texRep": [
+       3,
+       2
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.3,
+       -3.9
+      ],
+      "scale": [
+       2.6,
+       0.45,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric",
+      "tex": "fabric",
+      "texRep": [
+       2.6,
+       1
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.72,
+       -4.32
+      ],
+      "scale": [
+       2.6,
+       0.6,
+       0.25
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.62,
+       -3.75
+      ],
+      "scale": [
+       0.42,
+       0.38,
+       0.14
+      ],
+      "color": "#e8d5b5",
+      "material": "fabric",
+      "rotate": [
+       -10,
+       10,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.38,
+       -2.3
+      ],
+      "scale": [
+       1.1,
+       0.06,
+       0.6
+      ],
+      "color": "#3b2a1a",
+      "tex": "planks"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.18,
+       -2.3
+      ],
+      "scale": [
+       1.0,
+       0.34,
+       0.5
+      ],
+      "color": "#2b1d14"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.9,
+       1.35,
+       -2.0
+      ],
+      "scale": [
+       0.06,
+       0.85,
+       1.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.52
+      ],
+      "scale": [
+       1.7200000000000002,
+       1.62,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       2.4,
+       1.6,
+       -4.47
+      ],
+      "scale": [
+       1.6,
+       1.5,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.46
+      ],
+      "scale": [
+       0.04,
+       1.5,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       3.3,
+       0.22000000000000003,
+       -4.0
+      ],
+      "scale": [
+       0.385,
+       0.44000000000000006,
+       0.385
+      ],
+      "color": "#d9480f",
+      "material": "ceramic"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.3,
+       0.7150000000000001,
+       -4.0
+      ],
+      "scale": [
+       0.35200000000000004,
+       0.44000000000000006,
+       0.35200000000000004
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.135,
+       0.935,
+       -3.95
+      ],
+      "scale": [
+       0.22000000000000003,
+       0.30800000000000005,
+       0.22000000000000003
+      ],
+      "color": "#37b24d"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.4869999999999997,
+       0.8800000000000001,
+       -4.05
+      ],
+      "scale": [
+       0.198,
+       0.275,
+       0.198
+      ],
+      "color": "#2b8a3e"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -2.4,
+       0.8,
+       -4.1
+      ],
+      "scale": [
+       0.04,
+       1.6,
+       0.04
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -2.4,
+       1.65,
+       -4.1
+      ],
+      "scale": [
+       0.45,
+       0.35,
+       0.45
+      ],
+      "color": "#fff3d6",
+      "material": "emit"
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       -2.4,
+       1.5,
+       -3.8
+      ],
+      "scale": 1,
+      "color": "#ffd8a8",
+      "intensity": 4,
+      "range": 6,
+      "hidden": false
+     },
+     {
+      "kind": "person",
+      "at": [
+       -1.5315130483067703,
+       0.0,
+       -3.3259605560123013
+      ],
+      "scale": 1,
+      "color": "#a8704a",
+      "skin": "#a8704a",
+      "top": "#e8d5b5",
+      "bottom": "#212529",
+      "hair": "bun",
+      "hair_color": "#e8e0c8",
+      "outfit": "dress",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "idle",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7700,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.118331928703354,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.72407736260375,
+       0.0,
+       -2.515805188666112
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#2f9e44",
+      "bottom": "#7a6a55",
+      "hair": "short",
+      "hair_color": "#5a3a22",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "cross",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7701,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0703519694943455,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       1.7973808584947453,
+       0.0,
+       -2.581614898519803
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#e03131",
+      "bottom": "#2b3a55",
+      "hair": "buzz",
+      "hair_color": "#e8e0c8",
+      "outfit": "hoodie",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "hips",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7702,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.078353717297068,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -1.676842603693509,
+       0.0,
+       -3.123954471001348
+      ],
+      "scale": 1,
+      "color": "#d29c74",
+      "skin": "#d29c74",
+      "top": "#c2255c",
+      "bottom": "#2b3a55",
+      "hair": "spiky",
+      "hair_color": "#2b1d14",
+      "outfit": "hoodie",
+      "age": "elder",
+      "expr": "neutral",
+      "act": "idle",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7703,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 0.955223179317103,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.6300491581828941,
+       0.0,
+       -2.6453578466667036
+      ],
+      "scale": 1,
+      "color": "#46291b",
+      "skin": "#46291b",
+      "top": "#d9480f",
+      "bottom": "#212529",
+      "hair": "bun",
+      "hair_color": "#2b1d14",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "phone",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7704,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0638324639566317,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -1.633581843329517,
+       0.0,
+       -2.8249923571913094
+      ],
+      "scale": 1,
+      "color": "#46291b",
+      "skin": "#46291b",
+      "top": "#e8d5b5",
+      "bottom": "#1f2a44",
+      "hair": "curly",
+      "hair_color": "#b8582a",
+      "outfit": "hoodie",
+      "age": "teen",
+      "expr": "neutral",
+      "act": "cross",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7705,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.080451337659818,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.36176879175443755,
+       0.0,
+       -2.818245874931652
+      ],
+      "scale": 1,
+      "color": "#c08a5e",
+      "skin": "#c08a5e",
+      "top": "#ae3ec9",
+      "bottom": "#5c4033",
+      "hair": "pigtails",
+      "hair_color": "#5a3a22",
+      "outfit": "hoodie",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "idle",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7706,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0240959049753773,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       1.1001715221099628,
+       0.0,
+       -2.833929840034138
+      ],
+      "scale": 1,
+      "color": "#f6d9c4",
+      "skin": "#f6d9c4",
+      "top": "#f08c00",
+      "bottom": "#212529",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "shirt",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "hips",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7707,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 0.9688230401671064,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.557969838559274,
+       0.0,
+       -3.5167701578959027
+      ],
+      "scale": 1,
+      "color": "#46291b",
+      "skin": "#46291b",
+      "top": "#343a40",
+      "bottom": "#7a6a55",
+      "hair": "side",
+      "hair_color": "#141110",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "neutral",
+      "act": "idle",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 7708,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.1072833050215627,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.62,
+     0.6
+    ],
+    "look": [
+     0,
+     1.25,
+     -3.0
+    ],
+    "head": "breathe",
+    "to": [
+     0,
+     1.62,
+     0.1
+    ]
+   },
+   "hands": "shrug",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "1:00 PM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "meter",
+     "text": "HANGER LEVEL",
+     "from": 0.35,
+     "to": 0.97,
+     "at": 0.6,
+     "y": 0.2,
+     "color": "#e03131"
+    }
+   ],
+   "sfx": [
+    {
+     "type": "tick",
+     "at": 0.8
+    },
+    {
+     "type": "tick",
+     "at": 1.1
+    },
+    {
+     "type": "tick",
+     "at": 1.4
+    },
+    {
+     "type": "tick",
+     "at": 1.7
+    },
+    {
+     "type": "tick",
+     "at": 2.0
+    },
+    {
+     "type": "tick",
+     "at": 2.3
+    },
+    {
+     "type": "tick",
+     "at": 2.6
+    },
+    {
+     "type": "tick",
+     "at": 2.9
+    }
+   ],
+   "fx": [],
+   "t0": 13.1
+  },
+  {
+   "dur": 3.2,
+   "caption": "plan B: cook it *frozen*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#d9d4cc",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.4
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.33
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -2.4000000000000004
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       0.9333333333333336
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.45,
+       -4.0
+      ],
+      "scale": [
+       4.2,
+       0.9,
+       0.65
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.92,
+       -4.0
+      ],
+      "scale": [
+       4.24,
+       0.05,
+       0.6900000000000001
+      ],
+      "color": "#f8f9fa",
+      "tex": "marble",
+      "texRep": [
+       4.2,
+       0.65
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.04,
+       -3.715
+      ],
+      "scale": [
+       4.2,
+       0.08,
+       0.02
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       2.05,
+       -4.15
+      ],
+      "scale": [
+       4.2,
+       0.8,
+       0.4
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.95,
+       -3.95
+      ],
+      "scale": [
+       0.8,
+       1.9,
+       0.75
+      ],
+      "color": "#e9ecef",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6999999999999997,
+       1.3,
+       -3.56
+      ],
+      "scale": [
+       0.03,
+       0.4,
+       0.03
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.18,
+       -3.5700000000000003
+      ],
+      "scale": [
+       0.8,
+       0.01,
+       0.01
+      ],
+      "color": "#adb5bd"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.32
+      ],
+      "scale": [
+       1.42,
+       0.92,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -0.8,
+       1.55,
+       -4.2700000000000005
+      ],
+      "scale": [
+       1.3,
+       0.8,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.260000000000001
+      ],
+      "scale": [
+       0.04,
+       0.8,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.1,
+       0.96,
+       -3.95
+      ],
+      "scale": [
+       0.6,
+       0.03,
+       0.45
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.2,
+       1.05,
+       -4.05
+      ],
+      "scale": [
+       0.18,
+       0.22,
+       0.18
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.88,
+       -1.8
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       0.9
+      ],
+      "color": "#c9a77c",
+      "tex": "planks",
+      "texRep": [
+       1.6,
+       0.9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.45,
+       0.45,
+       -3.1
+      ],
+      "scale": [
+       0.76,
+       0.9,
+       0.65
+      ],
+      "color": "#ced4da",
+      "material": "metal",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.45,
+       0.42,
+       -2.77
+      ],
+      "scale": [
+       0.56,
+       0.36,
+       0.02
+      ],
+      "color": "#ff8c2b",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.45,
+       0.7,
+       -2.74
+      ],
+      "scale": [
+       0.6,
+       0.03,
+       0.03
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.45,
+       0.86,
+       -2.8000000000000003
+      ],
+      "scale": [
+       0.7,
+       0.08,
+       0.05
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       -0.45,
+       1.5,
+       -2.7
+      ],
+      "scale": 0.18,
+      "color": "#868e96",
+      "count": 26,
+      "seed": 5,
+      "spread": [
+       1.0,
+       1.0,
+       0.8
+      ],
+      "opacity": 0.55,
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         0,
+         0.8,
+         0.3
+        ],
+        "rel": true
+       },
+       {
+        "type": "pulse",
+        "amount": 0.3
+       }
+      ]
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.5,
+       0,
+       -2.5
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#1864ab",
+      "bottom": "#3b4a5a",
+      "hair": "side",
+      "hair_color": "#5a3a22",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "scared",
+      "act": "panic",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "talk": [],
+      "seed": 31,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       -0.45,
+       0.6,
+       -2.6
+      ],
+      "scale": 1,
+      "color": "#ff6b3d",
+      "intensity": 5,
+      "range": 4,
+      "hidden": true
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 2.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.05,
+     1.6,
+     -0.9
+    ],
+    "look": [
+     0.0,
+     1.15,
+     -2.8
+    ],
+    "head": "shake"
+   },
+   "hands": "point",
+   "bubbles": [
+    {
+     "text": "WHY IS IT SMOKING?!",
+     "at": 0.5,
+     "dur": 1.5950000000000002,
+     "voice": "am_michael",
+     "speed": 1.15,
+     "who": [
+      0.5,
+      2.0,
+      -2.5
+     ],
+     "name": "DAD"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "2:00 PM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "stamp",
+     "text": "NOPE",
+     "at": 1.8,
+     "color": "#ff6b6b",
+     "x": 0.33,
+     "y": 0.4,
+     "rot": -10,
+     "size": 170,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [
+    {
+     "type": "alarm",
+     "at": 0.1
+    },
+    {
+     "type": "alarm",
+     "at": 1.4
+    }
+   ],
+   "fx": [
+    "shake"
+   ],
+   "grade": {
+    "tint": [
+     1.12,
+     0.94,
+     0.9
+    ]
+   },
+   "t0": 16.3
+  },
+  {
+   "dur": 3.2,
+   "caption": "every store: *closed*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -20
+      ],
+      "scale": [
+       60,
+       0.1,
+       80
+      ],
+      "color": "#3a3d42",
+      "tex": "asphalt",
+      "texRep": [
+       60,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -6.5,
+       0.05,
+       -20
+      ],
+      "scale": [
+       4,
+       0.2,
+       80
+      ],
+      "color": "#b7b2a8",
+      "tex": "sidewalk",
+      "texRep": [
+       4,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.2,
+       0.05,
+       -20
+      ],
+      "scale": [
+       4,
+       0.2,
+       80
+      ],
+      "color": "#b7b2a8",
+      "tex": "sidewalk",
+      "texRep": [
+       4,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.6,
+       0.003,
+       -20
+      ],
+      "scale": [
+       0.15,
+       0.01,
+       80
+      ],
+      "color": "#f8f9fa",
+      "material": "paint",
+      "tex": "stripes",
+      "texRep": [
+       0.15,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.8,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.6,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.40000000000000013,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.7999999999999998,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       9.2,
+       7.0,
+       -6
+      ],
+      "scale": [
+       8,
+       14,
+       8
+      ],
+      "color": "#b8a48e",
+      "tex": "bricks",
+      "texRep": [
+       8,
+       14
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       7.700000000000001,
+       -1.98
+      ],
+      "scale": [
+       6.8,
+       10.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       10.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       1.4,
+       -1.97
+      ],
+      "scale": [
+       6.4,
+       2.4,
+       1
+      ],
+      "color": "#fff4d6",
+      "material": "emit"
+     },
+     {
+      "kind": "text",
+      "at": [
+       9.2,
+       3.1,
+       -1.95
+      ],
+      "scale": [
+       5,
+       0.8,
+       1
+      ],
+      "color": "#212529",
+      "text": "PHARMACY",
+      "bg": "#212529",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 0.9
+     },
+     {
+      "kind": "box",
+      "at": [
+       9.2,
+       11.0,
+       -16
+      ],
+      "scale": [
+       8,
+       22,
+       8
+      ],
+      "color": "#8d99ae",
+      "tex": "concrete",
+      "texRep": [
+       8,
+       22
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       12.100000000000001,
+       -11.98
+      ],
+      "scale": [
+       6.8,
+       16.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       16.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "box",
+      "at": [
+       -12.5,
+       8.0,
+       -8
+      ],
+      "scale": [
+       8,
+       16,
+       8
+      ],
+      "color": "#a26b4f",
+      "tex": "bricks",
+      "texRep": [
+       8,
+       16
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       8.8,
+       -3.98
+      ],
+      "scale": [
+       6.8,
+       12.0,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       12.0
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       1.4,
+       -3.97
+      ],
+      "scale": [
+       6.4,
+       2.4,
+       1
+      ],
+      "color": "#ffe3c2",
+      "material": "emit"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -12.5,
+       3.1,
+       -3.95
+      ],
+      "scale": [
+       5,
+       0.8,
+       1
+      ],
+      "color": "#212529",
+      "text": "DINER",
+      "bg": "#212529",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 0.9
+     },
+     {
+      "kind": "box",
+      "at": [
+       -12.5,
+       13.0,
+       -19
+      ],
+      "scale": [
+       8,
+       26,
+       8
+      ],
+      "color": "#ced4da",
+      "tex": "concrete",
+      "texRep": [
+       8,
+       26
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       14.3,
+       -14.98
+      ],
+      "scale": [
+       6.8,
+       19.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       19.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       6,
+       -45
+      ],
+      "scale": [
+       60,
+       18,
+       2
+      ],
+      "color": "#9aa7b8",
+      "tex": "concrete",
+      "texRep": [
+       60,
+       18
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       2.2,
+       -4
+      ],
+      "scale": [
+       0.1,
+       4.4,
+       0.1
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.4,
+       -3.65
+      ],
+      "scale": [
+       0.25,
+       0.1,
+       0.8
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.34,
+       -3.45
+      ],
+      "scale": [
+       0.18,
+       0.03,
+       0.4
+      ],
+      "color": "#fff3bf",
+      "material": "matte"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       2.2,
+       -16
+      ],
+      "scale": [
+       0.1,
+       4.4,
+       0.1
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.4,
+       -15.65
+      ],
+      "scale": [
+       0.25,
+       0.1,
+       0.8
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.34,
+       -15.45
+      ],
+      "scale": [
+       0.18,
+       0.03,
+       0.4
+      ],
+      "color": "#fff3bf",
+      "material": "matte"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       1.6,
+       -9.5
+      ],
+      "scale": [
+       0.12,
+       3.2,
+       0.12
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       3.4,
+       -9.5
+      ],
+      "scale": [
+       0.35,
+       0.9,
+       0.3
+      ],
+      "color": "#212529"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.68,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#ff3b30",
+      "material": "emit"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.4000000000000004,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#3b3b3b",
+      "material": "matte"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.12,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#3b3b3b",
+      "material": "matte"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       0.55,
+       -12
+      ],
+      "scale": [
+       1.8,
+       0.62,
+       4.3
+      ],
+      "color": "#c92a2a",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       1.08,
+       -12.25
+      ],
+      "scale": [
+       1.62,
+       0.55,
+       2.2
+      ],
+      "color": "#1d2733",
+      "material": "glass",
+      "opacity": 0.9,
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       1.36,
+       -12.25
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       2.0
+      ],
+      "color": "#c92a2a",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -1.08,
+       0.33,
+       -13.35
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -1.08,
+       0.33,
+       -10.65
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.6799999999999999,
+       0.33,
+       -13.35
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.6799999999999999,
+       0.33,
+       -10.65
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8200000000000001,
+       0.66,
+       -9.85
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       0.04
+      ],
+      "color": "#fff9e6",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.42,
+       0.66,
+       -9.85
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       0.04
+      ],
+      "color": "#fff9e6",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       0.45,
+       -9.83
+      ],
+      "scale": [
+       0.7,
+       0.18,
+       0.03
+      ],
+      "color": "#212529"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.4,
+       0.45,
+       -1.5
+      ],
+      "scale": [
+       1.6,
+       0.06,
+       0.45
+      ],
+      "color": "#8b5e3c",
+      "tex": "planks",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.4,
+       0.75,
+       -1.7
+      ],
+      "scale": [
+       1.6,
+       0.4,
+       0.05
+      ],
+      "color": "#8b5e3c",
+      "tex": "planks",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.7,
+       0.22,
+       -1.5
+      ],
+      "scale": [
+       0.06,
+       0.44,
+       0.4
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       5.1000000000000005,
+       0.22,
+       -1.5
+      ],
+      "scale": [
+       0.06,
+       0.44,
+       0.4
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "text",
+      "at": [
+       3.7,
+       0.75,
+       -3.6
+      ],
+      "scale": [
+       0.9,
+       0.45,
+       1
+      ],
+      "color": "#e03131",
+      "text": "CLOSED",
+      "bg": "#e03131",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       -20,
+       0
+      ],
+      "weight": 900
+     },
+     {
+      "kind": "text",
+      "at": [
+       2.3,
+       0.75,
+       -7.2
+      ],
+      "scale": [
+       0.9,
+       0.45,
+       1
+      ],
+      "color": "#e03131",
+      "text": "CLOSED",
+      "bg": "#e03131",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       -10,
+       0
+      ],
+      "weight": 900
+     },
+     {
+      "kind": "text",
+      "at": [
+       -5.2,
+       1.4,
+       -9.5
+      ],
+      "scale": [
+       1.8,
+       0.9,
+       1
+      ],
+      "color": "#212529",
+      "text": "DINER\nOPEN 24/7",
+      "bg": "#212529",
+      "fg": "#ffd43b",
+      "rotate": [
+       0,
+       30,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.4
+     }
+    ],
+    "sky": [
+     "#3a2d6b",
+     "#ff9a6b"
+    ],
+    "ambient": 1.3,
+    "light": 1.8,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     -6,
+     4,
+     -4
+    ],
+    "sunColor": "#ffb38a",
+    "skyLight": "#ffffff",
+    "env": 0.45
+   },
+   "cam": {
+    "pos": [
+     3.2,
+     1.6,
+     1.0
+    ],
+    "look": [
+     2.8,
+     1.1,
+     -8
+    ],
+    "head": "breathe",
+    "lookTo": [
+     -2.6,
+     1.4,
+     -9
+    ]
+   },
+   "hands": "shrug",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "3:00 PM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "label",
+     "text": "closed",
+     "at": 0.4,
+     "side": "left",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.2,
+     "who": [
+      3.7,
+      1.0,
+      -3.6
+     ]
+    },
+    {
+     "kind": "label",
+     "text": "ALSO closed",
+     "at": 0.9,
+     "side": "left",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.2,
+     "who": [
+      2.3,
+      1.0,
+      -7.2
+     ]
+    },
+    {
+     "kind": "label",
+     "text": "...wait 👀",
+     "at": 2.0,
+     "side": "right",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.2,
+     "who": [
+      -5.2,
+      1.6,
+      -9.5
+     ]
+    }
+   ],
+   "sfx": [],
+   "fx": [],
+   "t0": 19.5
+  },
+  {
+   "dur": 3.3,
+   "caption": "Thanksgiving at the *diner*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -1.0
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#e9ecef",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -5.0
+      ],
+      "scale": [
+       8,
+       3.0,
+       0.12
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.05,
+       -1.0
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.93
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.5,
+       -1.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       8
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.5,
+       -1.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       8
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       -3.0
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       0.3333333333333339
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.74,
+       -2.4
+      ],
+      "scale": [
+       1.1,
+       0.04,
+       3.0
+      ],
+      "color": "#6b4f36",
+      "tex": "planks",
+      "texRep": [
+       1.1,
+       3.0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.49000000000000005,
+       0.36,
+       -3.84
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.49000000000000005,
+       0.36,
+       -0.96
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.49000000000000005,
+       0.36,
+       -3.84
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.49000000000000005,
+       0.36,
+       -0.96
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.775,
+       -2.4
+      ],
+      "scale": [
+       1.16,
+       0.01,
+       3.06
+      ],
+      "color": "#ffffff",
+      "material": "fabric",
+      "tex": "fabric",
+      "texRep": [
+       1.2,
+       3.0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -3.4499999999999997
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -3.4499999999999997
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -2.3999999999999995
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -2.3999999999999995
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -1.3499999999999996
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -1.3499999999999996
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.82,
+       -2.6999999999999997
+      ],
+      "scale": [
+       0.22,
+       0.08,
+       0.22
+      ],
+      "color": "#f08c00",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.82,
+       -2.05
+      ],
+      "scale": [
+       0.2,
+       0.06,
+       0.2
+      ],
+      "color": "#2f9e44",
+      "material": "ceramic"
+     },
+     {
+      "kind": "text",
+      "at": [
+       0,
+       2.1,
+       -4.92
+      ],
+      "scale": [
+       2.6,
+       1.2,
+       1
+      ],
+      "color": "#1f2421",
+      "text": "MENU\nTURKEY PLATE  $12\nPANCAKES  $8\nPIE (ALL OF IT)  $6",
+      "bg": "#1f2421",
+      "fg": "#f1f3f5",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 700
+     },
+     {
+      "kind": "text",
+      "at": [
+       2.8,
+       2.2,
+       -4.9
+      ],
+      "scale": [
+       1.4,
+       0.4,
+       1
+      ],
+      "color": "#212529",
+      "text": "OPEN 24/7",
+      "bg": "#212529",
+      "fg": "#ff6b9d",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.6
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -2.4
+      ],
+      "scale": 1,
+      "color": "#ffe3bf",
+      "intensity": 5,
+      "range": 6,
+      "hidden": true
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.35,
+       0.92,
+       -1.55
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🥞"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.35,
+       0.92,
+       -2.3
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🦃"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.35,
+       0.92,
+       -3.05
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🥧"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.35,
+       0.92,
+       -1.55
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🍟"
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.82,
+       0,
+       -1.55
+      ],
+      "scale": 1,
+      "color": "#e5b48f",
+      "skin": "#e5b48f",
+      "top": "#e64980",
+      "bottom": "#3b4a5a",
+      "hair": "bob",
+      "hair_color": "#d9b26a",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "talk": [],
+      "seed": 40,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -1.55
+      ],
+      "scale": 1,
+      "color": "#a8704a",
+      "skin": "#a8704a",
+      "top": "#a61e4d",
+      "bottom": "#3b4a5a",
+      "hair": "buzz",
+      "hair_color": "#a9a9a9",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 41,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.82,
+       0,
+       -2.3
+      ],
+      "scale": 1,
+      "color": "#5e3b26",
+      "skin": "#5e3b26",
+      "top": "#f08c00",
+      "bottom": "#3b4a5a",
+      "hair": "curly",
+      "hair_color": "#141110",
+      "outfit": "tshirt",
+      "age": "teen",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "talk": [],
+      "seed": 42,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -2.3
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#1864ab",
+      "bottom": "#3b4a5a",
+      "hair": "side",
+      "hair_color": "#5a3a22",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 43,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.82,
+       0,
+       -3.05
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#5c940d",
+      "bottom": "#3b4a5a",
+      "hair": "ponytail",
+      "hair_color": "#2b1d14",
+      "outfit": "tshirt",
+      "age": "kid",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "talk": [],
+      "seed": 44,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -3.05
+      ],
+      "scale": 1,
+      "color": "#d29c74",
+      "skin": "#d29c74",
+      "top": "#862e9c",
+      "bottom": "#3b4a5a",
+      "hair": "bun",
+      "hair_color": "#a9a9a9",
+      "outfit": "tshirt",
+      "age": "elder",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 45,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.3,
+    "light": 2.0,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.75,
+     1.8
+    ],
+    "look": [
+     0,
+     1.0,
+     -2.4
+    ],
+    "head": "breathe"
+   },
+   "hands": "thumbsup",
+   "bubbles": [],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "4:30 PM",
+     "at": 0.05,
+     "color": "#ffd8a8",
+     "x": 0.5,
+     "y": 0.12,
+     "size": 60,
+     "dur": 2.6
+    },
+    {
+     "kind": "badge",
+     "text": "Everyone got fed 🙌",
+     "title": "ACHIEVEMENT UNLOCKED",
+     "at": 1.0,
+     "dur": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "type": "crowd",
+     "at": 0.3
+    }
+   ],
+   "fx": [],
+   "t0": 22.7
+  },
+  {
+   "dur": 3.3,
+   "caption": "",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -1.0
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#e9ecef",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -5.0
+      ],
+      "scale": [
+       8,
+       3.0,
+       0.12
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.05,
+       -1.0
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.93
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.5,
+       -1.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       8
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.5,
+       -1.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       8
+      ],
+      "color": "#f3e9dc",
+      "tex": "paint",
+      "texRep": [
+       8,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       -3.0
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       0.3333333333333339
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.74,
+       -2.4
+      ],
+      "scale": [
+       1.1,
+       0.04,
+       3.0
+      ],
+      "color": "#6b4f36",
+      "tex": "planks",
+      "texRep": [
+       1.1,
+       3.0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.49000000000000005,
+       0.36,
+       -3.84
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.49000000000000005,
+       0.36,
+       -0.96
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.49000000000000005,
+       0.36,
+       -3.84
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.49000000000000005,
+       0.36,
+       -0.96
+      ],
+      "scale": [
+       0.05,
+       0.72,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.775,
+       -2.4
+      ],
+      "scale": [
+       1.16,
+       0.01,
+       3.06
+      ],
+      "color": "#ffffff",
+      "material": "fabric",
+      "tex": "fabric",
+      "texRep": [
+       1.2,
+       3.0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -3.4499999999999997
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -3.4499999999999997
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -2.3999999999999995
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -2.3999999999999995
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.35,
+       0.79,
+       -1.3499999999999996
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.35,
+       0.79,
+       -1.3499999999999996
+      ],
+      "scale": [
+       0.26,
+       0.015,
+       0.26
+      ],
+      "color": "#ffffff",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.82,
+       -2.6999999999999997
+      ],
+      "scale": [
+       0.22,
+       0.08,
+       0.22
+      ],
+      "color": "#f08c00",
+      "material": "ceramic"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       0.82,
+       -2.05
+      ],
+      "scale": [
+       0.2,
+       0.06,
+       0.2
+      ],
+      "color": "#2f9e44",
+      "material": "ceramic"
+     },
+     {
+      "kind": "text",
+      "at": [
+       0,
+       2.1,
+       -4.92
+      ],
+      "scale": [
+       2.6,
+       1.2,
+       1
+      ],
+      "color": "#1f2421",
+      "text": "MENU\nTURKEY PLATE  $12\nPANCAKES  $8\nPIE (ALL OF IT)  $6",
+      "bg": "#1f2421",
+      "fg": "#f1f3f5",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 700
+     },
+     {
+      "kind": "text",
+      "at": [
+       2.8,
+       2.2,
+       -4.9
+      ],
+      "scale": [
+       1.4,
+       0.4,
+       1
+      ],
+      "color": "#212529",
+      "text": "OPEN 24/7",
+      "bg": "#212529",
+      "fg": "#ff6b9d",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.6
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -2.4
+      ],
+      "scale": 1,
+      "color": "#ffe3bf",
+      "intensity": 5,
+      "range": 6,
+      "hidden": true
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.35,
+       0.92,
+       -1.55
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🥞"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.35,
+       0.92,
+       -2.3
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🦃"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       -0.35,
+       0.92,
+       -3.05
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🥧"
+     },
+     {
+      "kind": "emoji",
+      "at": [
+       0.35,
+       0.92,
+       -1.55
+      ],
+      "scale": 0.22,
+      "color": "#d8d8d8",
+      "text": "🍟"
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -1.55
+      ],
+      "scale": 1,
+      "color": "#a8704a",
+      "skin": "#a8704a",
+      "top": "#a61e4d",
+      "bottom": "#3b4a5a",
+      "hair": "buzz",
+      "hair_color": "#a9a9a9",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 41,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.82,
+       0,
+       -2.3
+      ],
+      "scale": 1,
+      "color": "#5e3b26",
+      "skin": "#5e3b26",
+      "top": "#f08c00",
+      "bottom": "#3b4a5a",
+      "hair": "curly",
+      "hair_color": "#141110",
+      "outfit": "tshirt",
+      "age": "teen",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "talk": [],
+      "seed": 42,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -2.3
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#1864ab",
+      "bottom": "#3b4a5a",
+      "hair": "side",
+      "hair_color": "#5a3a22",
+      "outfit": "tshirt",
+      "age": "adult",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 43,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.82,
+       0,
+       -3.05
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#5c940d",
+      "bottom": "#3b4a5a",
+      "hair": "ponytail",
+      "hair_color": "#2b1d14",
+      "outfit": "tshirt",
+      "age": "kid",
+      "expr": "happy",
+      "act": "cheer",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "talk": [],
+      "seed": 44,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.82,
+       0,
+       -3.05
+      ],
+      "scale": 1,
+      "color": "#d29c74",
+      "skin": "#d29c74",
+      "top": "#862e9c",
+      "bottom": "#3b4a5a",
+      "hair": "bun",
+      "hair_color": "#a9a9a9",
+      "outfit": "tshirt",
+      "age": "elder",
+      "expr": "happy",
+      "act": "sit_eat",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [],
+      "seed": 45,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.55,
+       0,
+       -1.25
+      ],
+      "scale": 1,
+      "color": "#c08a5e",
+      "skin": "#c08a5e",
+      "top": "#c2255c",
+      "bottom": "#3b4a5a",
+      "hair": "bob",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "happy",
+      "act": "sit_talk",
+      "rotate": [
+       0,
+       -90,
+       0
+      ],
+      "talk": [
+       [
+        0.3,
+        1.9
+       ]
+      ],
+      "seed": 51,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "earrings": true
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.82,
+       0.46,
+       -1.25
+      ],
+      "scale": [
+       0.46,
+       0.05,
+       0.44
+      ],
+      "color": "#343a40",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.04,
+       0.76,
+       -1.25
+      ],
+      "scale": [
+       0.46,
+       0.55,
+       0.05
+      ],
+      "color": "#343a40",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.3,
+    "light": 2.0,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     -0.1,
+     1.45,
+     -0.3
+    ],
+    "look": [
+     0.55,
+     1.35,
+     -1.25
+    ],
+    "head": "breathe",
+    "dof": true
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "Great job, honey! Same time next year?",
+     "at": 0.3,
+     "dur": 2.0,
+     "voice": "af_bella",
+     "speed": 1.0,
+     "who": [
+      0.55,
+      1.6,
+      -1.25
+     ],
+     "name": "MOM"
+    }
+   ],
+   "stickers": [],
+   "sfx": [],
+   "fx": [],
+   "freeze": {
+    "at": 2.3,
+    "label": "you're hosting again."
+   },
+   "t0": 26.0
+  }
+ ],
+ "music": {
+  "seed": 943,
+  "mood": "bouncy"
+ },
+ "meta": {
+  "tags": [
+   "what if you hosted thanksgiving",
+   "thanksgiving",
+   "first thanksgiving",
+   "what if",
+   "pov",
+   "funny",
+   "alternative world",
+   "dink dunk",
+   "animation",
+   "family"
+  ],
+  "description": "Your first Thanksgiving as host. The turkey is a rock, Uncle Ray is 3 hours early and the oven is on fire.\nPlan Z: the 24/7 diner. 🦃\n\nWho ALWAYS ruins Thanksgiving in your family? 👇\n\n#whatif #thanksgiving #funny",
+  "pinned": "Who ALWAYS ruins Thanksgiving in your family? 👇"
+ },
+ "look": "film",
+ "grade": {
+  "tint": [
+   1.05,
+   1.0,
+   0.93
+  ],
+  "sat": 1.1
+ }
+}
