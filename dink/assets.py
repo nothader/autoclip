@@ -1512,3 +1512,46 @@ def bathroom_stall(extra=()):
             O("cylinder", (0.66, 0.75, -0.6), [0.12, 0.11, 0.12], "#ffffff", rotate=[0, 0, 90]),
             text((0, 1.45, -1.22), "PLEASE DO NOT\nHIDE IN HERE ALL DAY", 0.7, 0.3, bg="#ffffff", fg="#212529", weight=700),
             O("box", (0, 2.6, -0.5), [1.6, 0.04, 2.4], "#f8f9fa", material="emit")] + list(extra)
+
+
+# ── school-run props (added with the slept-through-the-alarm Short) ──
+def school_bus(at, ry=0, moving=None, sign="SCHOOL BUS"):
+    """[~16] Yellow US school bus seen from behind (rear faces +z at ry=0): body, black stripes, rear windows,
+    red stop lights, emergency door, wheels, rooftop sign. moving=[dx,dy,dz] drives it away (relative move)."""
+    x, y, z = at
+    a = [{"type": "move", "to": list(moving), "rel": True}] if moving else []
+    Y = "#f4b400"
+    o = [O("box", (x, y + 1.55, z - 4.5), [2.4, 2.3, 9.0], Y, material="glossy", rotate=[0, ry, 0]),
+         O("box", (x, y + 2.75, z - 4.5), [2.3, 0.12, 8.9], Y, material="glossy", rotate=[0, ry, 0]),
+         *[O("box", (x, y + yy, z + 0.01), [2.42, 0.06, 0.03], "#111111", rotate=[0, ry, 0]) for yy in (1.05, 1.3)],
+         *_pair("box", (x, y + 2.05, z + 0.02), 0.62, [0.85, 0.6, 0.02], "#1d2733", material="glass", opacity=0.95),
+         O("box", (x, y + 1.35, z + 0.03), [0.7, 1.6, 0.02], "#e0a200", material="paint"),
+         O("box", (x, y + 2.05, z + 0.04), [0.5, 0.55, 0.02], "#1d2733", material="glass"),
+         *_pair("sphere", (x, y + 2.55, z + 0.05), 0.95, 0.09, "#ff3b30", material="emit"),
+         *_pair("box", (x, y + 0.85, z + 0.04), 0.95, [0.2, 0.14, 0.02], "#ff3b30", material="emit"),
+         O("box", (x, y + 0.55, z + 0.06), [2.5, 0.22, 0.12], "#212529", material="plastic"),
+         *_pair("cylinder", (x, y + 0.45, z - 1.4), 1.15, [0.9, 0.3, 0.9], "#1b1b1b", material="rubber", rotate=[0, 0, 90]),
+         *_pair("cylinder", (x, y + 0.45, z - 7.2), 1.15, [0.9, 0.3, 0.9], "#1b1b1b", material="rubber", rotate=[0, 0, 90]),
+         text((x, y + 2.62, z + 0.05), sign, 1.5, 0.22, bg="#111111", fg=Y, weight=900)]
+    if a:
+        for d in o:
+            d["animate"] = list(a)
+    return o
+
+
+def stop_paddle(at, size=1.0):
+    """[3] Crossing-guard hand-held STOP paddle (red octagon on a pole). Put it next to a person's raised hand."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y - 0.45 * s, z), [0.03, 0.9 * s, 0.03], "#adb5bd", material="metal"),
+            O("cylinder", (x, y, z), [0.46 * s, 0.03, 0.46 * s], "#e03131", material="paint", rotate=[90, 22.5, 0], segments=8),
+            text((x, y, z + 0.025), "STOP", 0.36 * s, 0.14 * s, bg="#e03131", fg="#ffffff", weight=900)]
+
+
+def wall_clock(at, time="7:59", size=1.0):
+    """[3] Round school wall clock (white face, black rim) with a digital time label on the face."""
+    x, y, z = at
+    s = size
+    return [O("cylinder", (x, y, z), [0.42 * s, 0.05, 0.42 * s], "#212529", material="plastic", rotate=[90, 0, 0]),
+            O("cylinder", (x, y, z + 0.02), [0.38 * s, 0.03, 0.38 * s], "#f8f9fa", material="paint", rotate=[90, 0, 0]),
+            text((x, y, z + 0.04), time, 0.3 * s, 0.12 * s, bg="#f8f9fa", fg="#c92a2a", weight=900)]
