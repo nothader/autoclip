@@ -1425,3 +1425,90 @@ def dining_table(at=(0, 0, -1.8), length=2.6, cloth="#f1e3c8", food=True):
     if food:
         o += [O("cylinder", (x, y + 0.82, z - 0.3), [0.22, 0.08, 0.22], "#f08c00", material="ceramic"), O("cylinder", (x, y + 0.82, z + 0.35), [0.2, 0.06, 0.2], "#2f9e44", material="ceramic")]
     return o
+
+
+# ── retail props/places (added with the Black Friday Short) ──
+def glass_doors(at=(0, 0, -2.6), sign="DOORBUSTER 5 AM", open_=0.0, night=True):
+    """[~9] Store entrance seen from inside: two sliding glass doors in a glass front, red sale banner above, dark car park outside.
+    open_=0..1 slides the doors apart over the beat (crowd outside at z≈at_z-0.6)."""
+    x, y, z = at
+    mv = lambda dx: [{"type": "move", "to": [dx, 0, 0], "rel": True, "delay": 0.15, "dur": 0.9}] if open_ else []
+    o = [O("box", (x, -0.05, z + 2.0), [8, 0.1, 5], "#d6d3cc", tex="tiles", texRep=[8, 5]),
+         O("box", (x, -0.04, z - 4.0), [30, 0.08, 8], "#2f3237", tex="asphalt", texRep=[30, 8]),
+         O("box", (x - 2.6, 1.4, z), [3.2, 2.8, 0.06], "#cfe3f0", material="glass", opacity=0.12, cast=False),
+         O("box", (x + 2.6, 1.4, z), [3.2, 2.8, 0.06], "#cfe3f0", material="glass", opacity=0.12, cast=False),
+         O("box", (x - 0.5, 1.15, z + 0.05), [1.0, 2.3, 0.04], "#cfe3f0", material="glass", opacity=0.1, cast=False, animate=mv(-0.95 * open_)),
+         O("box", (x + 0.5, 1.15, z + 0.05), [1.0, 2.3, 0.04], "#cfe3f0", material="glass", opacity=0.1, cast=False, animate=mv(0.95 * open_)),
+         O("box", (x, 2.55, z + 0.02), [8, 0.5, 0.14], "#343a40", material="metal"),
+         text((x, 2.55, z + 0.11), sign, 2.6, 0.42, bg="#e03131", fg="#ffffff", lit=1.2),
+         O("box", (x, 3, z - 12), [40, 6, 1], "#16203a" if night else "#9ac0e0", material="matte" if night else "emit")]
+    if night:
+        o.append(lamp((x, 2.2, z - 1.6), "#ffd8a8", 5, 6, hidden=True))
+    return o
+
+
+def tv_wall(at=(0, 0, -3.4), cols=4, rows=2, empty=None, seed=1):
+    """[~12] Electronics-aisle display wall: grid of glowing TVs on a dark wall. empty=[(c, r), ...] leaves gaps (sold out)."""
+    x, y, z = at
+    r = random.Random(seed)
+    o = [O("box", (x, 1.5, z - 0.05), [cols * 1.15 + 0.4, 3.0, 0.1], "#212529", material="paint")]
+    pics = [("📺", "#1c7ed6"), ("⚽", "#2b8a3e"), ("🦖", "#e8590c"), ("🎮", "#7048e8"), ("🌋", "#c92a2a"), ("🐧", "#1098ad")]
+    for c in range(cols):
+        for rw in range(rows):
+            if empty and (c, rw) in empty:
+                o.append(text((x + (c - (cols - 1) / 2) * 1.15, 0.95 + rw * 0.75, z + 0.01), "SOLD OUT", 0.8, 0.2, bg="#fff3bf", fg="#c92a2a"))
+                continue
+            em, col = pics[r.randrange(len(pics))]
+            o.append(screen_panel((x + (c - (cols - 1) / 2) * 1.15, 0.95 + rw * 0.75, z + 0.01), 1.0, 0.58, screen_ui(big=em, bg=col, fg="#ffffff")))
+    return o
+
+
+def box_stack(at, n=6, seed=1, color="#c8a27a"):
+    """[n+1] Stockroom pile of cardboard boxes (deterministic) + a metal shelf behind."""
+    x, y, z = at
+    r = random.Random(seed * 31 + 5)
+    o = [O("box", (x, 1.1, z - 0.45), [2.2, 2.2, 0.08], "#868e96", material="metal")]
+    for i in range(n):
+        w, h = 0.45 + r.random() * 0.3, 0.32 + r.random() * 0.2
+        col, row = i % 3, i // 3
+        o.append(O("box", (x + (col - 1) * 0.72 + (r.random() - 0.5) * 0.08, y + h / 2 + row * 0.55, z + (r.random() - 0.5) * 0.15), [w, h, 0.5], color,
+                   material="matte", rotate=[0, (r.random() - 0.5) * 14, 0]))
+    return o
+
+
+def parking_lot(seed=1, extra=()):
+    """[~40] Store car park at dusk: striped bays, parked cars, stray shopping carts, store front with a lit sign behind (−z)."""
+    o = [O("box", (0, -0.05, -10), [40, 0.1, 40], "#3a3d42", tex="asphalt", texRep=[40, 40])]
+    o += [O("box", (x, 0.004, -5.5), [0.12, 0.01, 4.5], "#f8f9fa", material="paint") for x in (-4.5, -2.0, 0.5, 3.0, 5.5)]
+    o += building((0, 0, -17), 22, 7, 6, "#d8d0c2", tex="concrete", shop="#fff4d6", seed=seed)
+    o += [text((0, 5.2, -13.9), "MEGAMART", 5.0, 1.1, bg="#c92a2a", fg="#ffffff", lit=1.5)]
+    o += car_real((-3.25, 0, -6), "#adb5bd") + car_real((4.25, 0, -6.5), "#1c7ed6")
+    o += shopping_cart((1.8, 0, -2.6), ry=35, full=False) + shopping_cart((-1.6, 0, -9.5), ry=-60, full=False)
+    o += street_lamp((-6, 0, -3), on=True)
+    return o + list(extra)
+
+
+# ── office extras (added with the reply-all Short) ──
+def server_rack(at, ry=0, units=8):
+    """[~units+2] IT-department server rack with blinking green/blue LEDs."""
+    x, y, z = at
+    o = [O("box", (x, y + 1.0, z), [0.65, 2.0, 0.8], "#1b1e22", material="metal", rotate=[0, ry, 0])]
+    for i in range(units):
+        o.append(O("box", (x, y + 0.25 + i * 0.22, z + 0.41), [0.56, 0.16, 0.02], "#343a40", material="plastic", rotate=[0, ry, 0]))
+        o.append(O("sphere", (x + 0.2, y + 0.25 + i * 0.22, z + 0.43), 0.018, "#51cf66" if i % 3 else "#4dabf7", material="emit",
+                   animate=[{"type": "pulse", "amount": 0.6, "speed": 3 + i}]))
+    return o
+
+
+def bathroom_stall(extra=()):
+    """[~12] Inside an office bathroom stall, facing the closed door (−z): tiled floor/walls, toilet-roll holder, coat hook, a door sign."""
+    return [O("box", (0, -0.05, -0.4), [1.6, 0.1, 2.4], "#dee2e6", tex="tiles", texRep=[1.6, 2.4]),
+            O("box", (0, 1.05, -1.25), [1.05, 1.9, 0.04], "#748ffc", material="paint"),
+            O("box", (-0.72, 1.05, -0.5), [0.04, 1.9, 1.6], "#748ffc", material="paint"),
+            O("box", (0.72, 1.05, -0.5), [0.04, 1.9, 1.6], "#748ffc", material="paint"),
+            O("box", (0, 1.4, -1.6), [3, 2.8, 0.05], "#f1f3f5", tex="tiles", texRep=[3, 2.8], cast=False),
+            O("box", (0.38, 1.0, -1.22), [0.06, 0.12, 0.04], "#adb5bd", material="chrome"),
+            O("cylinder", (0, 1.75, -1.2), [0.03, 0.08, 0.03], "#adb5bd", material="chrome", rotate=[90, 0, 0]),
+            O("cylinder", (0.66, 0.75, -0.6), [0.12, 0.11, 0.12], "#ffffff", rotate=[0, 0, 90]),
+            text((0, 1.45, -1.22), "PLEASE DO NOT\nHIDE IN HERE ALL DAY", 0.7, 0.3, bg="#ffffff", fg="#212529", weight=700),
+            O("box", (0, 2.6, -0.5), [1.6, 0.04, 2.4], "#f8f9fa", material="emit")] + list(extra)

@@ -9,8 +9,8 @@ a funny or warm ending, a comment-bait question. No real tragedies with real vic
 
 ## Shorts — real life (active)
 - [x] What if you hosted *Thanksgiving* for the first time? · frozen turkey, early uncle, smoking oven, 24/7 diner · USDA: fridge thaw ≈1 day per 4–5 lb · kitchen_home, front_door, apartment, oven, street, diner (made 2026-11-26, https://youtu.be/_HVGnt85jOE)
-- [ ] What if you worked retail on *Black Friday*? · doors open, stampede for one TV · NRF Thanksgiving-weekend shopper count (latest) · grocery, people, cash_register, text("DOORBUSTER")
-- [ ] What if you accidentally hit *reply-all* to the whole company? · CEO replies "who is this" · Microsoft "Bedlam DL3" 1997 reply-all storm (~13,000 people) · office, monitor, meeting_room, laptop
+- [x] What if you worked retail on *Black Friday*? · doors open, stampede for one TV · NRF Thanksgiving-weekend shopper count (latest) · grocery, people, cash_register, text("DOORBUSTER") (made 2026-11-27, https://youtu.be/saPI39QNxf0)
+- [x] What if you accidentally hit *reply-all* to the whole company? · CEO replies "who is this" · Microsoft "Bedlam DL3" 1997 reply-all storm (~13,000 people) · office, monitor, meeting_room, laptop (made 2026-11-27, https://youtu.be/mVUph_ZLVnY)
 - [ ] What if you *slept through your alarm* on exam day? · run to school in pyjamas · teens need 8–10 h of sleep (CDC/AASM) · bedroom, alarm_clock, street, classroom_real
 - [ ] What if your *phone died* in a city you don't know? · asking strangers for directions like it's 1995 · avg American checks phone ~144×/day (Reviews.org 2023) · street, cafe, people, text
 - [ ] What if you *won the lottery* but lost the ticket? · tearing the house apart · Powerball jackpot odds 1 in 292.2 million · apartment, bedroom, kitchen_home, screen_ui
