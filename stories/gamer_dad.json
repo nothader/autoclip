@@ -1,0 +1,6088 @@
+{
+ "slug": "gamer_dad",
+ "title": "What if your dad joined your online game squad?",
+ "accent": "#a9e34b",
+ "hook": {
+  "lines": [
+   "WHAT IF YOUR",
+   "DAD",
+   "JOINED YOUR SQUAD?"
+  ],
+  "accent": 1
+ },
+ "hookDur": 2.6,
+ "you": {
+  "skin": "#8a5a3b",
+  "sleeve": "#ffa94d",
+  "watch": false
+ },
+ "width": 1080,
+ "height": 1920,
+ "duration": 30.1,
+ "beats": [
+  {
+   "dur": 3.4,
+   "caption": "Dad *joined* your squad",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#3b3f4a",
+      "tex": "carpet",
+      "texRep": [
+       6,
+       6
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.35,
+       -2.4
+      ],
+      "scale": [
+       6,
+       2.7,
+       0.12
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.75,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -2.33
+      ],
+      "scale": [
+       6,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6900000000000004,
+       0.17142857142857126
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#c5f6fa",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.73,
+       -1.4
+      ],
+      "scale": [
+       1.6,
+       0.05,
+       0.75
+      ],
+      "color": "#16181c",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7,
+       -1.025
+      ],
+      "scale": [
+       1.6,
+       0.025,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.66
+      ],
+      "scale": [
+       1.3,
+       0.62,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.55,
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.6199999999999999
+      ],
+      "scale": [
+       1.12,
+       0.58,
+       0.04
+      ],
+      "color": "#0d0f12",
+      "material": "plastic"
+     },
+     {
+      "kind": "screen",
+      "at": [
+       0,
+       1.14,
+       -1.595
+      ],
+      "scale": [
+       1.06,
+       0.53,
+       1
+      ],
+      "color": "#ffffff",
+      "screen": {
+       "bg": "#0d1117",
+       "fg": "#e9ecef",
+       "accent": "#20c997",
+       "time": "9:41",
+       "messages": [],
+       "lines": [],
+       "app": "🎮 SQUAD 4/4",
+       "big": "DAD_1974",
+       "sub": "has joined the squad",
+       "bigColor": "#a9e34b"
+      },
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.82,
+       -1.63
+      ],
+      "scale": [
+       0.08,
+       0.16,
+       0.06
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.765,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.48,
+       0.02,
+       0.15
+      ],
+      "color": "#111111",
+      "material": "plastic"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.777,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.46,
+       0.005,
+       0.13
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.5,
+      "cast": false
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.42,
+       0.77,
+       -1.2599999999999998
+      ],
+      "scale": [
+       0.06,
+       0.035,
+       0.1
+      ],
+      "color": "#111111",
+      "material": "plastic",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.1,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.24,
+       0.9,
+       0.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.977,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.01,
+       0.8,
+       0.44
+      ],
+      "color": "#1b2430",
+      "material": "glass",
+      "opacity": 0.7,
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.25,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.5,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.75,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.62,
+       0.9,
+       -1.5
+      ],
+      "scale": [
+       0.02,
+       0.3,
+       0.02
+      ],
+      "color": "#495057",
+      "material": "metal"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       -0.62,
+       1.06,
+       -1.5
+      ],
+      "scale": [
+       0.1,
+       0.1,
+       0.25
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -1.6,
+       1.9,
+       -2.32
+      ],
+      "scale": [
+       0.9,
+       0.3,
+       1
+      ],
+      "color": "#111111",
+      "text": "GG ONLY",
+      "bg": "#111111",
+      "fg": "#a9e34b",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.3
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -0.4
+      ],
+      "scale": 1,
+      "color": "#e3fafc",
+      "intensity": 3,
+      "range": 5,
+      "hidden": true
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.75,
+       0,
+       -1.25
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#c92a2a",
+      "bottom": "#364fc7",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "excited",
+      "act": "wave",
+      "rotate": [
+       0,
+       -25,
+       0
+      ],
+      "talk": [
+       [
+        0.35,
+        1.9
+       ]
+      ],
+      "seed": 7,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true,
+      "hat": "headphones",
+      "hat_color": "#20c997",
+      "beard": "stubble",
+      "belly": true
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.5,
+    "light": 1.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     -0.45,
+     1.4,
+     1.5
+    ],
+    "look": [
+     0.15,
+     1.25,
+     -1.3
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "Hey team! Dad's in the game!",
+     "at": 0.35,
+     "dur": 2.18,
+     "voice": "am_adam",
+     "speed": 1.0,
+     "name": "DAD",
+     "x": 0.5,
+     "y": 0.43
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "emoji",
+     "text": "💀",
+     "at": 2.4,
+     "x": 0.2,
+     "y": 0.32,
+     "size": 170,
+     "dur": 1.6
+    }
+   ],
+   "sfx": [
+    {
+     "type": "notify",
+     "at": 0.1
+    }
+   ],
+   "fx": [
+    "punch"
+   ],
+   "t0": 0.0
+  },
+  {
+   "dur": 3.2,
+   "caption": "your squad heard *everything*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#3b3f4a",
+      "tex": "carpet",
+      "texRep": [
+       6,
+       6
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.35,
+       -2.4
+      ],
+      "scale": [
+       6,
+       2.7,
+       0.12
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.75,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -2.33
+      ],
+      "scale": [
+       6,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6900000000000004,
+       0.17142857142857126
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#c5f6fa",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.73,
+       -1.4
+      ],
+      "scale": [
+       1.6,
+       0.05,
+       0.75
+      ],
+      "color": "#16181c",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7,
+       -1.025
+      ],
+      "scale": [
+       1.6,
+       0.025,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.66
+      ],
+      "scale": [
+       1.3,
+       0.62,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.55,
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.6199999999999999
+      ],
+      "scale": [
+       1.12,
+       0.58,
+       0.04
+      ],
+      "color": "#0d0f12",
+      "material": "plastic"
+     },
+     {
+      "kind": "screen",
+      "at": [
+       0,
+       1.14,
+       -1.595
+      ],
+      "scale": [
+       1.06,
+       0.53,
+       1
+      ],
+      "color": "#ffffff",
+      "screen": {
+       "bg": "#0d1117",
+       "fg": "#e9ecef",
+       "accent": "#20c997",
+       "time": "9:41",
+       "messages": [],
+       "lines": [
+        "JAYDEN: who is DAD_1974 💀",
+        "MAYA: is that your DAD??",
+        "YOU: no",
+        "DAD_1974: hi kids!! 👋"
+       ],
+       "app": "💬 SQUAD CHAT",
+       "big": "👀"
+      },
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.82,
+       -1.63
+      ],
+      "scale": [
+       0.08,
+       0.16,
+       0.06
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.765,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.48,
+       0.02,
+       0.15
+      ],
+      "color": "#111111",
+      "material": "plastic"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.777,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.46,
+       0.005,
+       0.13
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.5,
+      "cast": false
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.42,
+       0.77,
+       -1.2599999999999998
+      ],
+      "scale": [
+       0.06,
+       0.035,
+       0.1
+      ],
+      "color": "#111111",
+      "material": "plastic",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.1,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.24,
+       0.9,
+       0.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.977,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.01,
+       0.8,
+       0.44
+      ],
+      "color": "#1b2430",
+      "material": "glass",
+      "opacity": 0.7,
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.25,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.5,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.75,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.62,
+       0.9,
+       -1.5
+      ],
+      "scale": [
+       0.02,
+       0.3,
+       0.02
+      ],
+      "color": "#495057",
+      "material": "metal"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       -0.62,
+       1.06,
+       -1.5
+      ],
+      "scale": [
+       0.1,
+       0.1,
+       0.25
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -1.6,
+       1.9,
+       -2.32
+      ],
+      "scale": [
+       0.9,
+       0.3,
+       1
+      ],
+      "color": "#111111",
+      "text": "GG ONLY",
+      "bg": "#111111",
+      "fg": "#a9e34b",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.3
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -0.4
+      ],
+      "scale": 1,
+      "color": "#e3fafc",
+      "intensity": 3,
+      "range": 5,
+      "hidden": true
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.5,
+    "light": 1.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.25,
+     0.75
+    ],
+    "look": [
+     0,
+     1.14,
+     -1.6
+    ],
+    "head": "breathe"
+   },
+   "hands": "type",
+   "bubbles": [
+    {
+     "text": "Bro... is that your DAD?",
+     "at": 0.5,
+     "dur": 1.92,
+     "voice": "am_puck",
+     "speed": 1.0,
+     "name": "JAYDEN (squad)",
+     "x": 0.5,
+     "y": 0.22
+    }
+   ],
+   "stickers": [],
+   "sfx": [
+    {
+     "type": "notify",
+     "at": 0.3
+    },
+    {
+     "type": "notify",
+     "at": 1.1
+    }
+   ],
+   "fx": [
+    "zoomin"
+   ],
+   "t0": 3.4
+  },
+  {
+   "dur": 3.4,
+   "caption": "he uses voice chat for *chores*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#d9d4cc",
+      "tex": "tiles",
+      "texRep": [
+       8,
+       8
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.4
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.40000000000000036
+      ],
+      "scale": [
+       8,
+       0.1,
+       8
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.33
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.40000000000000036
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       8
+      ],
+      "color": "#f1ece3",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -2.4000000000000004
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       0.9333333333333336
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.45,
+       -4.0
+      ],
+      "scale": [
+       4.2,
+       0.9,
+       0.65
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.92,
+       -4.0
+      ],
+      "scale": [
+       4.24,
+       0.05,
+       0.6900000000000001
+      ],
+      "color": "#f8f9fa",
+      "tex": "marble",
+      "texRep": [
+       4.2,
+       0.65
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.04,
+       -3.715
+      ],
+      "scale": [
+       4.2,
+       0.08,
+       0.02
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       2.05,
+       -4.15
+      ],
+      "scale": [
+       4.2,
+       0.8,
+       0.4
+      ],
+      "color": "#5f7a8a",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       0.95,
+       -3.95
+      ],
+      "scale": [
+       0.8,
+       1.9,
+       0.75
+      ],
+      "color": "#e9ecef",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.6999999999999997,
+       1.3,
+       -3.56
+      ],
+      "scale": [
+       0.03,
+       0.4,
+       0.03
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.18,
+       -3.5700000000000003
+      ],
+      "scale": [
+       0.8,
+       0.01,
+       0.01
+      ],
+      "color": "#adb5bd"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.32
+      ],
+      "scale": [
+       1.42,
+       0.92,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -0.8,
+       1.55,
+       -4.2700000000000005
+      ],
+      "scale": [
+       1.3,
+       0.8,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       1.55,
+       -4.260000000000001
+      ],
+      "scale": [
+       0.04,
+       0.8,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.1,
+       0.96,
+       -3.95
+      ],
+      "scale": [
+       0.6,
+       0.03,
+       0.45
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.2,
+       1.05,
+       -4.05
+      ],
+      "scale": [
+       0.18,
+       0.22,
+       0.18
+      ],
+      "color": "#adb5bd",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.88,
+       -1.8
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       0.9
+      ],
+      "color": "#c9a77c",
+      "tex": "planks",
+      "texRep": [
+       1.6,
+       0.9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -2.19
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.43,
+       -1.4100000000000001
+      ],
+      "scale": [
+       0.05,
+       0.86,
+       0.05
+      ],
+      "color": "#3b3b3b",
+      "material": "metal"
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.5,
+       0,
+       -3.3
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#c92a2a",
+      "bottom": "#364fc7",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "smirk",
+      "act": "talk",
+      "rotate": [
+       0,
+       15,
+       0
+      ],
+      "talk": [
+       [
+        0.4,
+        2.2
+       ]
+      ],
+      "seed": 7,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true,
+      "hat": "headphones",
+      "hat_color": "#20c997",
+      "beard": "stubble",
+      "belly": true
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 1.7,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.1,
+     1.55,
+     -0.4
+    ],
+    "look": [
+     -0.45,
+     1.4,
+     -3.2
+    ],
+    "head": "breathe"
+   },
+   "hands": "shrug",
+   "bubbles": [
+    {
+     "text": "Team, quick update: who left a bowl in the sink?",
+     "at": 0.4,
+     "dur": 3.48,
+     "voice": "am_adam",
+     "speed": 1.0,
+     "who": [
+      -0.5,
+      2.1,
+      -3.3
+     ],
+     "name": "DAD"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "-100 AURA",
+     "at": 2.4,
+     "color": "#ff6b6b",
+     "x": 0.62,
+     "y": 0.36,
+     "size": 64,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [],
+   "fx": [],
+   "t0": 6.6
+  },
+  {
+   "dur": 3.2,
+   "caption": "he holds it *upside down*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#a77b52",
+      "tex": "planks",
+      "texRep": [
+       8,
+       9
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.4,
+       -4.6
+      ],
+      "scale": [
+       8,
+       2.8,
+       0.12
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       8,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.8499999999999996,
+       -0.09999999999999964
+      ],
+      "scale": [
+       8,
+       0.1,
+       9
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -4.529999999999999
+      ],
+      "scale": [
+       8,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.0,
+       1.4,
+       -0.09999999999999964
+      ],
+      "scale": [
+       0.12,
+       2.8,
+       9
+      ],
+      "color": "#ede4d6",
+      "tex": "paint",
+      "texRep": [
+       9,
+       2.8
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.79,
+       -0.7428571428571424
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.01,
+       -2.2
+      ],
+      "scale": [
+       3.0,
+       0.02,
+       2.0
+      ],
+      "color": "#c9b79c",
+      "tex": "carpet",
+      "texRep": [
+       3,
+       2
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.3,
+       -3.9
+      ],
+      "scale": [
+       2.6,
+       0.45,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric",
+      "tex": "fabric",
+      "texRep": [
+       2.6,
+       1
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.72,
+       -4.32
+      ],
+      "scale": [
+       2.6,
+       0.6,
+       0.25
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.38,
+       0.5,
+       -3.9
+      ],
+      "scale": [
+       0.22,
+       0.5,
+       0.95
+      ],
+      "color": "#55657a",
+      "material": "fabric"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8,
+       0.62,
+       -3.75
+      ],
+      "scale": [
+       0.42,
+       0.38,
+       0.14
+      ],
+      "color": "#e8d5b5",
+      "material": "fabric",
+      "rotate": [
+       -10,
+       10,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.38,
+       -2.3
+      ],
+      "scale": [
+       1.1,
+       0.06,
+       0.6
+      ],
+      "color": "#3b2a1a",
+      "tex": "planks"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.18,
+       -2.3
+      ],
+      "scale": [
+       1.0,
+       0.34,
+       0.5
+      ],
+      "color": "#2b1d14"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.9,
+       1.35,
+       -2.0
+      ],
+      "scale": [
+       0.06,
+       0.85,
+       1.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.52
+      ],
+      "scale": [
+       1.7200000000000002,
+       1.62,
+       0.08
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       2.4,
+       1.6,
+       -4.47
+      ],
+      "scale": [
+       1.6,
+       1.5,
+       1
+      ],
+      "color": "#a5d8ff",
+      "material": "emit",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.4,
+       1.6,
+       -4.46
+      ],
+      "scale": [
+       0.04,
+       1.5,
+       0.03
+      ],
+      "color": "#f8f9fa",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       3.3,
+       0.22000000000000003,
+       -4.0
+      ],
+      "scale": [
+       0.385,
+       0.44000000000000006,
+       0.385
+      ],
+      "color": "#d9480f",
+      "material": "ceramic"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.3,
+       0.7150000000000001,
+       -4.0
+      ],
+      "scale": [
+       0.35200000000000004,
+       0.44000000000000006,
+       0.35200000000000004
+      ],
+      "color": "#2f9e44"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.135,
+       0.935,
+       -3.95
+      ],
+      "scale": [
+       0.22000000000000003,
+       0.30800000000000005,
+       0.22000000000000003
+      ],
+      "color": "#37b24d"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       3.4869999999999997,
+       0.8800000000000001,
+       -4.05
+      ],
+      "scale": [
+       0.198,
+       0.275,
+       0.198
+      ],
+      "color": "#2b8a3e"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -2.4,
+       0.8,
+       -4.1
+      ],
+      "scale": [
+       0.04,
+       1.6,
+       0.04
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "cone",
+      "at": [
+       -2.4,
+       1.65,
+       -4.1
+      ],
+      "scale": [
+       0.45,
+       0.35,
+       0.45
+      ],
+      "color": "#fff3d6",
+      "material": "emit"
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       -2.4,
+       1.5,
+       -3.8
+      ],
+      "scale": 1,
+      "color": "#ffd8a8",
+      "intensity": 4,
+      "range": 6,
+      "hidden": false
+     },
+     {
+      "kind": "person",
+      "at": [
+       0,
+       0,
+       -3.85
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#c92a2a",
+      "bottom": "#364fc7",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "confused",
+      "act": "sit",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "talk": [
+       [
+        0.5,
+        1.6
+       ]
+      ],
+      "seed": 7,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true,
+      "hat": "headphones",
+      "hat_color": "#20c997",
+      "beard": "stubble",
+      "hold": "emoji:🎮",
+      "belly": true
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 1.7,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.4,
+     1.45,
+     -0.6
+    ],
+    "look": [
+     0,
+     0.95,
+     -3.8
+    ],
+    "head": "breathe"
+   },
+   "hands": "shrug",
+   "bubbles": [
+    {
+     "text": "Which one is jump? The triangle?",
+     "at": 0.5,
+     "dur": 2.44,
+     "voice": "am_adam",
+     "speed": 1.0,
+     "who": [
+      0,
+      1.75,
+      -3.85
+     ],
+     "name": "DAD"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "label",
+     "text": "upside down 🙃",
+     "at": 1.4,
+     "side": "right",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.7,
+     "who": [
+      0.15,
+      1.0,
+      -3.6
+     ]
+    }
+   ],
+   "sfx": [],
+   "fx": [
+    "dutch"
+   ],
+   "t0": 10.0
+  },
+  {
+   "dur": 3.3,
+   "caption": "he thinks 'flank' means *outside*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -20
+      ],
+      "scale": [
+       60,
+       0.1,
+       80
+      ],
+      "color": "#3a3d42",
+      "tex": "asphalt",
+      "texRep": [
+       60,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -6.5,
+       0.05,
+       -20
+      ],
+      "scale": [
+       4,
+       0.2,
+       80
+      ],
+      "color": "#b7b2a8",
+      "tex": "sidewalk",
+      "texRep": [
+       4,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.2,
+       0.05,
+       -20
+      ],
+      "scale": [
+       4,
+       0.2,
+       80
+      ],
+      "color": "#b7b2a8",
+      "tex": "sidewalk",
+      "texRep": [
+       4,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.6,
+       0.003,
+       -20
+      ],
+      "scale": [
+       0.15,
+       0.01,
+       80
+      ],
+      "color": "#f8f9fa",
+      "material": "paint",
+      "tex": "stripes",
+      "texRep": [
+       0.15,
+       80
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.0,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.8,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.6,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.40000000000000013,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.7999999999999998,
+       0.004,
+       -6
+      ],
+      "scale": [
+       0.5,
+       0.01,
+       3.0
+      ],
+      "color": "#f1f3f5",
+      "material": "paint"
+     },
+     {
+      "kind": "box",
+      "at": [
+       9.2,
+       7.0,
+       -6
+      ],
+      "scale": [
+       8,
+       14,
+       8
+      ],
+      "color": "#b8a48e",
+      "tex": "bricks",
+      "texRep": [
+       8,
+       14
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       7.700000000000001,
+       -1.98
+      ],
+      "scale": [
+       6.8,
+       10.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       10.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       1.4,
+       -1.97
+      ],
+      "scale": [
+       6.4,
+       2.4,
+       1
+      ],
+      "color": "#fff4d6",
+      "material": "emit"
+     },
+     {
+      "kind": "text",
+      "at": [
+       9.2,
+       3.1,
+       -1.95
+      ],
+      "scale": [
+       5,
+       0.8,
+       1
+      ],
+      "color": "#212529",
+      "text": "PHARMACY",
+      "bg": "#212529",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 0.9
+     },
+     {
+      "kind": "box",
+      "at": [
+       9.2,
+       11.0,
+       -16
+      ],
+      "scale": [
+       8,
+       22,
+       8
+      ],
+      "color": "#8d99ae",
+      "tex": "concrete",
+      "texRep": [
+       8,
+       22
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       9.2,
+       12.100000000000001,
+       -11.98
+      ],
+      "scale": [
+       6.8,
+       16.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       16.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "box",
+      "at": [
+       -12.5,
+       8.0,
+       -8
+      ],
+      "scale": [
+       8,
+       16,
+       8
+      ],
+      "color": "#a26b4f",
+      "tex": "bricks",
+      "texRep": [
+       8,
+       16
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       8.8,
+       -3.98
+      ],
+      "scale": [
+       6.8,
+       12.0,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       12.0
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       1.4,
+       -3.97
+      ],
+      "scale": [
+       6.4,
+       2.4,
+       1
+      ],
+      "color": "#ffe3c2",
+      "material": "emit"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -12.5,
+       3.1,
+       -3.95
+      ],
+      "scale": [
+       5,
+       0.8,
+       1
+      ],
+      "color": "#212529",
+      "text": "DINER",
+      "bg": "#212529",
+      "fg": "#ffffff",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 0.9
+     },
+     {
+      "kind": "box",
+      "at": [
+       -12.5,
+       13.0,
+       -19
+      ],
+      "scale": [
+       8,
+       26,
+       8
+      ],
+      "color": "#ced4da",
+      "tex": "concrete",
+      "texRep": [
+       8,
+       26
+      ]
+     },
+     {
+      "kind": "plane",
+      "at": [
+       -12.5,
+       14.3,
+       -14.98
+      ],
+      "scale": [
+       6.8,
+       19.5,
+       1
+      ],
+      "color": "#9cc3e6",
+      "material": "glossy",
+      "tex": "stripes",
+      "texRep": [
+       6.8,
+       19.5
+      ],
+      "opacity": 0.92
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       6,
+       -45
+      ],
+      "scale": [
+       60,
+       18,
+       2
+      ],
+      "color": "#9aa7b8",
+      "tex": "concrete",
+      "texRep": [
+       60,
+       18
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       2.2,
+       -4
+      ],
+      "scale": [
+       0.1,
+       4.4,
+       0.1
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.4,
+       -3.65
+      ],
+      "scale": [
+       0.25,
+       0.1,
+       0.8
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.34,
+       -3.45
+      ],
+      "scale": [
+       0.18,
+       0.03,
+       0.4
+      ],
+      "color": "#fff3bf",
+      "material": "matte"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       2.2,
+       -16
+      ],
+      "scale": [
+       0.1,
+       4.4,
+       0.1
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.4,
+       -15.65
+      ],
+      "scale": [
+       0.25,
+       0.1,
+       0.8
+      ],
+      "color": "#343a40"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       4.34,
+       -15.45
+      ],
+      "scale": [
+       0.18,
+       0.03,
+       0.4
+      ],
+      "color": "#fff3bf",
+      "material": "matte"
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       4.6,
+       1.6,
+       -9.5
+      ],
+      "scale": [
+       0.12,
+       3.2,
+       0.12
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.6,
+       3.4,
+       -9.5
+      ],
+      "scale": [
+       0.35,
+       0.9,
+       0.3
+      ],
+      "color": "#212529"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.68,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#ff3b30",
+      "material": "emit"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.4000000000000004,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#3b3b3b",
+      "material": "matte"
+     },
+     {
+      "kind": "sphere",
+      "at": [
+       4.6,
+       3.12,
+       -9.34
+      ],
+      "scale": 0.09,
+      "color": "#3b3b3b",
+      "material": "matte"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       0.55,
+       -12
+      ],
+      "scale": [
+       1.8,
+       0.62,
+       4.3
+      ],
+      "color": "#c92a2a",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       1.08,
+       -12.25
+      ],
+      "scale": [
+       1.62,
+       0.55,
+       2.2
+      ],
+      "color": "#1d2733",
+      "material": "glass",
+      "opacity": 0.9,
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       1.36,
+       -12.25
+      ],
+      "scale": [
+       1.6,
+       0.04,
+       2.0
+      ],
+      "color": "#c92a2a",
+      "material": "glossy",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -1.08,
+       0.33,
+       -13.35
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -1.08,
+       0.33,
+       -10.65
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.6799999999999999,
+       0.33,
+       -13.35
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0.6799999999999999,
+       0.33,
+       -10.65
+      ],
+      "scale": [
+       0.66,
+       0.24,
+       0.66
+      ],
+      "color": "#1b1b1b",
+      "material": "rubber",
+      "rotate": [
+       0,
+       0,
+       90
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.8200000000000001,
+       0.66,
+       -9.85
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       0.04
+      ],
+      "color": "#fff9e6",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.42,
+       0.66,
+       -9.85
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       0.04
+      ],
+      "color": "#fff9e6",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.2,
+       0.45,
+       -9.83
+      ],
+      "scale": [
+       0.7,
+       0.18,
+       0.03
+      ],
+      "color": "#212529"
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.4,
+       0.45,
+       -1.5
+      ],
+      "scale": [
+       1.6,
+       0.06,
+       0.45
+      ],
+      "color": "#8b5e3c",
+      "tex": "planks",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.4,
+       0.75,
+       -1.7
+      ],
+      "scale": [
+       1.6,
+       0.4,
+       0.05
+      ],
+      "color": "#8b5e3c",
+      "tex": "planks",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.7,
+       0.22,
+       -1.5
+      ],
+      "scale": [
+       0.06,
+       0.44,
+       0.4
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       5.1000000000000005,
+       0.22,
+       -1.5
+      ],
+      "scale": [
+       0.06,
+       0.44,
+       0.4
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "person",
+      "at": [
+       1.3,
+       0,
+       -3.6
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#c92a2a",
+      "bottom": "#364fc7",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "excited",
+      "act": "run",
+      "rotate": [
+       0,
+       -80,
+       0
+      ],
+      "talk": [
+       [
+        0.2,
+        1.6
+       ]
+      ],
+      "seed": 7,
+      "look": "ahead",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [
+       {
+        "type": "move",
+        "to": [
+         -2.2,
+         0,
+         0
+        ],
+        "rel": true
+       }
+      ],
+      "glasses": true,
+      "hat": "headphones",
+      "hat_color": "#20c997",
+      "beard": "stubble",
+      "belly": true
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.9,
+       0,
+       -5.6
+      ],
+      "scale": 1,
+      "color": "#efc8a8",
+      "skin": "#efc8a8",
+      "top": "#e8d5b5",
+      "bottom": "#3b4a5a",
+      "hair": "bald",
+      "hair_color": "#2b1d14",
+      "outfit": "shirt",
+      "age": "elder",
+      "expr": "shock",
+      "act": "idle",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "talk": [],
+      "seed": 44,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     }
+    ],
+    "sky": [
+     "#3d8bfd",
+     "#fff1c1"
+    ],
+    "ambient": 1.3,
+    "light": 2.1,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     3,
+     8,
+     5
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0.3,
+     1.6,
+     0.8
+    ],
+    "look": [
+     0.1,
+     1.2,
+     -4.0
+    ],
+    "head": "breathe"
+   },
+   "hands": "shrug",
+   "bubbles": [
+    {
+     "text": "I'M FLANKING LEFT!",
+     "at": 0.2,
+     "dur": 1.5299999999999998,
+     "voice": "am_adam",
+     "speed": 1.15,
+     "who": [
+      0.2,
+      2.2,
+      -3.6
+     ],
+     "name": "DAD"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "label",
+     "text": "the neighbor",
+     "at": 1.8,
+     "side": "right",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.5,
+     "dur": 1.4,
+     "who": [
+      -0.9,
+      1.8,
+      -5.6
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "type": "whoosh",
+     "at": 0.1
+    }
+   ],
+   "fx": [
+    "whip"
+   ],
+   "t0": 13.2
+  },
+  {
+   "dur": 3.6,
+   "caption": "the clip is *all over school*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -5.0
+      ],
+      "scale": [
+       5,
+       0.1,
+       18
+      ],
+      "color": "#c8c3b5",
+      "tex": "tiles",
+      "texRep": [
+       5,
+       18
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.5,
+       -14
+      ],
+      "scale": [
+       5,
+       3.0,
+       0.12
+      ],
+      "color": "#e6e1d3",
+      "tex": "paint",
+      "texRep": [
+       5,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3.05,
+       -5.0
+      ],
+      "scale": [
+       5,
+       0.1,
+       18
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -13.93
+      ],
+      "scale": [
+       5,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.5,
+       1.5,
+       -5.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       18
+      ],
+      "color": "#e6e1d3",
+      "tex": "paint",
+      "texRep": [
+       18,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.5,
+       1.5,
+       -5.0
+      ],
+      "scale": [
+       0.12,
+       3.0,
+       18
+      ],
+      "color": "#e6e1d3",
+      "tex": "paint",
+      "texRep": [
+       18,
+       3.0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       -11.545454545454547
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       -7.454545454545455
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       -3.3636363636363633
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.99,
+       0.7272727272727249
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#fff8ec",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.14,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.7199999999999998,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.3,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.88,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.46,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.04,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.62,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.2,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.78,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.3600000000000001,
+       0.95,
+       -6
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#4263eb",
+      "material": "metal",
+      "rotate": [
+       0,
+       90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -4.02,
+       1.05,
+       -5.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.1799999999999997,
+       1.05,
+       -5.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -2.34,
+       1.05,
+       -5.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.5,
+       1.05,
+       -5.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.66,
+       1.05,
+       -5.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.3600000000000001,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.78,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.2,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.62,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.04,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.46,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.88,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.3,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.7199999999999998,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       4.14,
+       0.95,
+       -8
+      ],
+      "scale": [
+       0.4,
+       1.9,
+       0.5
+      ],
+      "color": "#e8590c",
+      "material": "metal",
+      "rotate": [
+       0,
+       -90,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.4800000000000001,
+       1.05,
+       -7.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.3199999999999998,
+       1.05,
+       -7.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       2.16,
+       1.05,
+       -7.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.0,
+       1.05,
+       -7.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.84,
+       1.05,
+       -7.74
+      ],
+      "scale": [
+       0.03,
+       0.12,
+       0.02
+      ],
+      "color": "#dee2e6",
+      "material": "chrome"
+     },
+     {
+      "kind": "text",
+      "at": [
+       0,
+       2.35,
+       -13.9
+      ],
+      "scale": [
+       1.6,
+       0.4,
+       1
+      ],
+      "color": "#ffd43b",
+      "text": "BE KIND",
+      "bg": "#ffd43b",
+      "fg": "#212529",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       0,
+       2.6,
+       -13.92
+      ],
+      "scale": [
+       0.4,
+       0.03,
+       0.4
+      ],
+      "color": "#ffffff",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "person",
+      "at": [
+       -1.3912294072583102,
+       0.0,
+       -5.974201831496742
+      ],
+      "scale": 1,
+      "color": "#a8704a",
+      "skin": "#a8704a",
+      "top": "#f1f3f5",
+      "bottom": "#2b3a55",
+      "hair": "bob",
+      "hair_color": "#2b1d14",
+      "outfit": "jacket",
+      "age": "teen",
+      "expr": "laugh",
+      "act": "phone",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 6100,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": true,
+      "build": 1.050360678293044,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       1.1689295809125784,
+       0.0,
+       -3.7755224819473012
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#4c6ef5",
+      "bottom": "#2b3a55",
+      "hair": "side",
+      "hair_color": "#d9b26a",
+      "outfit": "tshirt",
+      "age": "teen",
+      "expr": "laugh",
+      "act": "laugh",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 6101,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 0.9725399508644608,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.5242452322899032,
+       0.0,
+       -4.8481328241013815
+      ],
+      "scale": 1,
+      "color": "#d29c74",
+      "skin": "#d29c74",
+      "top": "#d9480f",
+      "bottom": "#212529",
+      "hair": "afro",
+      "hair_color": "#141110",
+      "outfit": "tshirt",
+      "age": "teen",
+      "expr": "grin",
+      "act": "point",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 6102,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 0.9483642288423888,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     },
+     {
+      "kind": "person",
+      "at": [
+       -0.9535757244936577,
+       0.0,
+       -5.523692456227426
+      ],
+      "scale": 1,
+      "color": "#c08a5e",
+      "skin": "#c08a5e",
+      "top": "#f08c00",
+      "bottom": "#212529",
+      "hair": "side",
+      "hair_color": "#e8e0c8",
+      "outfit": "shirt",
+      "age": "teen",
+      "expr": "excited",
+      "act": "selfie",
+      "rotate": [
+       0,
+       0.0,
+       0
+      ],
+      "talk": [],
+      "seed": 6103,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 0.9243983593018731,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": []
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.5,
+    "light": 1.7,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.6,
+     0.8
+    ],
+    "look": [
+     0,
+     1.35,
+     -5.0
+    ],
+    "head": "walk",
+    "to": [
+     0,
+     1.6,
+     0.0
+    ]
+   },
+   "hands": "idle",
+   "bubbles": [
+    {
+     "text": "FLANKING LEFT!",
+     "at": 0.4,
+     "dur": 1.4,
+     "voice": "am_puck",
+     "speed": 1.1,
+     "who": [
+      0.3,
+      1.9,
+      -4.4
+     ],
+     "name": "JAYDEN"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "badge",
+     "text": "85% of US teens play video games 🎮",
+     "title": "REAL FACT · PEW 2024",
+     "at": 1.3,
+     "dur": 2.1
+    }
+   ],
+   "sfx": [
+    {
+     "type": "crowd",
+     "at": 0.3
+    }
+   ],
+   "fx": [],
+   "t0": 16.5
+  },
+  {
+   "dur": 3.3,
+   "caption": "he ordered pizza for *the whole lobby*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       -0.7000000000000002
+      ],
+      "scale": [
+       4,
+       0.1,
+       5
+      ],
+      "color": "#a77b52",
+      "tex": "planks",
+      "texRep": [
+       4,
+       5
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -1.35,
+       1.4,
+       -2.2
+      ],
+      "scale": [
+       1.8,
+       2.8,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "tex": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.35,
+       1.4,
+       -2.2
+      ],
+      "scale": [
+       1.8,
+       2.8,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "tex": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6,
+       -2.2
+      ],
+      "scale": [
+       0.9,
+       0.4,
+       0.15
+      ],
+      "color": "#e9e2d6",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.75,
+       1.05,
+       -1.8000000000000003
+      ],
+      "scale": [
+       0.06,
+       2.1,
+       0.9
+      ],
+      "color": "#7b2d26",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.03,
+       -4.2
+      ],
+      "scale": [
+       12,
+       0.06,
+       4
+      ],
+      "color": "#8d99ae",
+      "tex": "concrete"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       3,
+       -11.2
+      ],
+      "scale": [
+       30,
+       6,
+       1
+      ],
+      "color": "#9ac0e0",
+      "material": "emit"
+     },
+     {
+      "kind": "blob_tree",
+      "at": [
+       -3,
+       0,
+       -8.2
+      ],
+      "scale": 1.6,
+      "color": "#5c940d"
+     },
+     {
+      "kind": "person",
+      "at": [
+       0,
+       0,
+       -2.85
+      ],
+      "scale": 1,
+      "color": "#c08a5e",
+      "skin": "#c08a5e",
+      "top": "#e03131",
+      "bottom": "#343a40",
+      "hair": "curly",
+      "hair_color": "#141110",
+      "outfit": "uniform",
+      "age": "adult",
+      "expr": "bored",
+      "act": "idle",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "talk": [
+       [
+        0.4,
+        1.9
+       ]
+      ],
+      "seed": 73,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "hat": "cap",
+      "hat_color": "#e03131",
+      "hold": "box"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.025,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.077,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.129,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.181,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.23299999999999998,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.28500000000000003,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.337,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.389,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.441,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.493,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.545,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.55,
+       0.597,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "text",
+      "at": [
+       0.55,
+       0.627,
+       -2.5
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       1
+      ],
+      "color": "#e03131",
+      "text": "PIZZA",
+      "bg": "#e03131",
+      "fg": "#ffffff",
+      "rotate": [
+       -90,
+       0,
+       0
+      ],
+      "weight": 900
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.025,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.077,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.129,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.181,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.23299999999999998,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.28500000000000003,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.337,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.389,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.441,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.55,
+       0.493,
+       -2.5
+      ],
+      "scale": [
+       0.42,
+       0.048,
+       0.42
+      ],
+      "color": "#f1e3c8",
+      "material": "paint",
+      "rotate": [
+       0,
+       3,
+       0
+      ]
+     },
+     {
+      "kind": "text",
+      "at": [
+       -0.55,
+       0.523,
+       -2.5
+      ],
+      "scale": [
+       0.3,
+       0.12,
+       1
+      ],
+      "color": "#e03131",
+      "text": "PIZZA",
+      "bg": "#e03131",
+      "fg": "#ffffff",
+      "rotate": [
+       -90,
+       0,
+       0
+      ],
+      "weight": 900
+     }
+    ],
+    "sky": [
+     "#5aa9ff",
+     "#d8efff"
+    ],
+    "ambient": 1.3,
+    "light": 1.8,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     2,
+     8,
+     6
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.6,
+     0.6
+    ],
+    "look": [
+     0,
+     1.15,
+     -2.8
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "Pizza for... xX_DadBod_Xx?",
+     "at": 0.4,
+     "dur": 2.05,
+     "voice": "bm_george",
+     "speed": 1.0,
+     "who": [
+      0,
+      2.0,
+      -2.85
+     ],
+     "name": "DELIVERY"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "float",
+     "text": "-$84 🍕",
+     "at": 2.2,
+     "color": "#ff6b6b",
+     "x": 0.5,
+     "y": 0.33,
+     "size": 80,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [
+    {
+     "type": "doorbell",
+     "at": 0.05
+    }
+   ],
+   "fx": [],
+   "t0": 20.1
+  },
+  {
+   "dur": 3.3,
+   "caption": "plot twist: he's *really good*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#3b3f4a",
+      "tex": "carpet",
+      "texRep": [
+       6,
+       6
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.35,
+       -2.4
+      ],
+      "scale": [
+       6,
+       2.7,
+       0.12
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.75,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -2.33
+      ],
+      "scale": [
+       6,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6900000000000004,
+       0.17142857142857126
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#c5f6fa",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.73,
+       -1.4
+      ],
+      "scale": [
+       1.6,
+       0.05,
+       0.75
+      ],
+      "color": "#16181c",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7,
+       -1.025
+      ],
+      "scale": [
+       1.6,
+       0.025,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.66
+      ],
+      "scale": [
+       1.3,
+       0.62,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.55,
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.6199999999999999
+      ],
+      "scale": [
+       1.12,
+       0.58,
+       0.04
+      ],
+      "color": "#0d0f12",
+      "material": "plastic"
+     },
+     {
+      "kind": "screen",
+      "at": [
+       0,
+       1.14,
+       -1.595
+      ],
+      "scale": [
+       1.06,
+       0.53,
+       1
+      ],
+      "color": "#ffffff",
+      "screen": {
+       "bg": "#0d1117",
+       "fg": "#e9ecef",
+       "accent": "#20c997",
+       "time": "9:41",
+       "messages": [],
+       "lines": [
+        "",
+        "you: 0 eliminations 💀"
+       ],
+       "app": "🏆 VICTORY",
+       "big": "#1",
+       "sub": "MVP: DAD_1974 · 23 eliminations",
+       "bigColor": "#ffd43b"
+      },
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.82,
+       -1.63
+      ],
+      "scale": [
+       0.08,
+       0.16,
+       0.06
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.765,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.48,
+       0.02,
+       0.15
+      ],
+      "color": "#111111",
+      "material": "plastic"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.777,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.46,
+       0.005,
+       0.13
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.5,
+      "cast": false
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.42,
+       0.77,
+       -1.2599999999999998
+      ],
+      "scale": [
+       0.06,
+       0.035,
+       0.1
+      ],
+      "color": "#111111",
+      "material": "plastic",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.1,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.24,
+       0.9,
+       0.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.977,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.01,
+       0.8,
+       0.44
+      ],
+      "color": "#1b2430",
+      "material": "glass",
+      "opacity": 0.7,
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.25,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.5,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.75,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.62,
+       0.9,
+       -1.5
+      ],
+      "scale": [
+       0.02,
+       0.3,
+       0.02
+      ],
+      "color": "#495057",
+      "material": "metal"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       -0.62,
+       1.06,
+       -1.5
+      ],
+      "scale": [
+       0.1,
+       0.1,
+       0.25
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -1.6,
+       1.9,
+       -2.32
+      ],
+      "scale": [
+       0.9,
+       0.3,
+       1
+      ],
+      "color": "#111111",
+      "text": "GG ONLY",
+      "bg": "#111111",
+      "fg": "#a9e34b",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.3
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -0.4
+      ],
+      "scale": 1,
+      "color": "#e3fafc",
+      "intensity": 3,
+      "range": 5,
+      "hidden": true
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.5,
+    "light": 1.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     0,
+     1.25,
+     0.75
+    ],
+    "look": [
+     0,
+     1.14,
+     -1.6
+    ],
+    "head": "breathe"
+   },
+   "hands": "type",
+   "bubbles": [
+    {
+     "text": "Your dad is a LEGEND!",
+     "at": 0.6,
+     "dur": 1.725,
+     "voice": "af_sky",
+     "speed": 1.0,
+     "name": "MAYA (squad)",
+     "x": 0.5,
+     "y": 0.22
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "CARRIED 🏆",
+     "at": 1.7,
+     "color": "#ffd43b",
+     "x": 0.5,
+     "y": 0.62,
+     "rot": -10,
+     "size": 140,
+     "dur": 1.4
+    }
+   ],
+   "sfx": [
+    {
+     "type": "achievement",
+     "at": 0.2
+    }
+   ],
+   "fx": [
+    "punch"
+   ],
+   "t0": 23.4
+  },
+  {
+   "dur": 3.4,
+   "caption": "your squad *picked Dad*",
+   "set": {
+    "objects": [
+     {
+      "kind": "box",
+      "at": [
+       0,
+       -0.05,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#3b3f4a",
+      "tex": "carpet",
+      "texRep": [
+       6,
+       6
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.35,
+       -2.4
+      ],
+      "scale": [
+       6,
+       2.7,
+       0.12
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.75,
+       0.6000000000000001
+      ],
+      "scale": [
+       6,
+       0.1,
+       6
+      ],
+      "color": "#f8f6f2",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.06,
+       -2.33
+      ],
+      "scale": [
+       6,
+       0.12,
+       0.03
+      ],
+      "color": "#ffffff",
+      "material": "paint",
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       -3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       3.0,
+       1.35,
+       0.6000000000000001
+      ],
+      "scale": [
+       0.12,
+       2.7,
+       6
+      ],
+      "color": "#2b3040",
+      "tex": "paint",
+      "texRep": [
+       6,
+       2.7
+      ],
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       2.6900000000000004,
+       0.17142857142857126
+      ],
+      "scale": [
+       1.2,
+       0.03,
+       0.6
+      ],
+      "color": "#c5f6fa",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.73,
+       -1.4
+      ],
+      "scale": [
+       1.6,
+       0.05,
+       0.75
+      ],
+      "color": "#16181c",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       -0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.74,
+       0.36,
+       -1.4
+      ],
+      "scale": [
+       0.06,
+       0.72,
+       0.65
+      ],
+      "color": "#212529",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.7,
+       -1.025
+      ],
+      "scale": [
+       1.6,
+       0.025,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.66
+      ],
+      "scale": [
+       1.3,
+       0.62,
+       0.01
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.55,
+      "cast": false
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       1.14,
+       -1.6199999999999999
+      ],
+      "scale": [
+       1.12,
+       0.58,
+       0.04
+      ],
+      "color": "#0d0f12",
+      "material": "plastic"
+     },
+     {
+      "kind": "screen",
+      "at": [
+       0,
+       1.14,
+       -1.595
+      ],
+      "scale": [
+       1.06,
+       0.53,
+       1
+      ],
+      "color": "#ffffff",
+      "screen": {
+       "bg": "#0d1117",
+       "fg": "#e9ecef",
+       "accent": "#20c997",
+       "time": "9:41",
+       "messages": [],
+       "lines": [
+        "",
+        "DAD_1974 stays 🎮"
+       ],
+       "app": "🗳️ SQUAD VOTE",
+       "big": "KICK YOU",
+       "sub": "squad vote: ✅ 3   ❌ 0",
+       "bigColor": "#ff6b6b"
+      },
+      "rotate": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.82,
+       -1.63
+      ],
+      "scale": [
+       0.08,
+       0.16,
+       0.06
+      ],
+      "color": "#343a40",
+      "material": "metal"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.765,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.48,
+       0.02,
+       0.15
+      ],
+      "color": "#111111",
+      "material": "plastic"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0,
+       0.777,
+       -1.2799999999999998
+      ],
+      "scale": [
+       0.46,
+       0.005,
+       0.13
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "opacity": 0.5,
+      "cast": false
+     },
+     {
+      "kind": "capsule",
+      "at": [
+       0.42,
+       0.77,
+       -1.2599999999999998
+      ],
+      "scale": [
+       0.06,
+       0.035,
+       0.1
+      ],
+      "color": "#111111",
+      "material": "plastic",
+      "rotate": [
+       90,
+       0,
+       0
+      ]
+     },
+     {
+      "kind": "box",
+      "at": [
+       1.1,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.24,
+       0.9,
+       0.5
+      ],
+      "color": "#111111",
+      "material": "glossy"
+     },
+     {
+      "kind": "box",
+      "at": [
+       0.977,
+       0.45,
+       -1.45
+      ],
+      "scale": [
+       0.01,
+       0.8,
+       0.44
+      ],
+      "color": "#1b2430",
+      "material": "glass",
+      "opacity": 0.7,
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.25,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.5,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "torus",
+      "at": [
+       0.97,
+       0.75,
+       -1.45
+      ],
+      "scale": [
+       0.09,
+       0.09,
+       0.2
+      ],
+      "color": "#20c997",
+      "material": "emit",
+      "rotate": [
+       0,
+       90,
+       0
+      ],
+      "cast": false
+     },
+     {
+      "kind": "cylinder",
+      "at": [
+       -0.62,
+       0.9,
+       -1.5
+      ],
+      "scale": [
+       0.02,
+       0.3,
+       0.02
+      ],
+      "color": "#495057",
+      "material": "metal"
+     },
+     {
+      "kind": "torus",
+      "at": [
+       -0.62,
+       1.06,
+       -1.5
+      ],
+      "scale": [
+       0.1,
+       0.1,
+       0.25
+      ],
+      "color": "#212529",
+      "material": "glossy"
+     },
+     {
+      "kind": "text",
+      "at": [
+       -1.6,
+       1.9,
+       -2.32
+      ],
+      "scale": [
+       0.9,
+       0.3,
+       1
+      ],
+      "color": "#111111",
+      "text": "GG ONLY",
+      "bg": "#111111",
+      "fg": "#a9e34b",
+      "rotate": [
+       0,
+       0,
+       0
+      ],
+      "weight": 900,
+      "lit": 1.3
+     },
+     {
+      "kind": "lamp",
+      "at": [
+       0,
+       2.2,
+       -0.4
+      ],
+      "scale": 1,
+      "color": "#e3fafc",
+      "intensity": 3,
+      "range": 5,
+      "hidden": true
+     },
+     {
+      "kind": "person",
+      "at": [
+       0.75,
+       0,
+       -1.25
+      ],
+      "scale": 1,
+      "color": "#8a5a3b",
+      "skin": "#8a5a3b",
+      "top": "#c92a2a",
+      "bottom": "#364fc7",
+      "hair": "short",
+      "hair_color": "#2b1d14",
+      "outfit": "sweater",
+      "age": "adult",
+      "expr": "grin",
+      "act": "shrug",
+      "rotate": [
+       0,
+       -25,
+       0
+      ],
+      "talk": [
+       [
+        0.4,
+        1.7
+       ]
+      ],
+      "seed": 7,
+      "look": "you",
+      "shoes": "#2b2b2b",
+      "feminine": false,
+      "build": 1.0,
+      "height": 1.0,
+      "size": 1.0,
+      "animate": [],
+      "glasses": true,
+      "hat": "headphones",
+      "hat_color": "#20c997",
+      "beard": "stubble",
+      "belly": true
+     }
+    ],
+    "sky": [
+     "#2a2433",
+     "#4a3f55"
+    ],
+    "ambient": 1.5,
+    "light": 1.4,
+    "bounce": "#8a7a6a",
+    "sunDir": [
+     1,
+     8,
+     7
+    ],
+    "sunColor": "#fff3df",
+    "skyLight": "#ffffff"
+   },
+   "cam": {
+    "pos": [
+     -0.45,
+     1.4,
+     1.5
+    ],
+    "look": [
+     0.15,
+     1.25,
+     -1.3
+    ],
+    "head": "breathe"
+   },
+   "hands": "none",
+   "bubbles": [
+    {
+     "text": "Sorry, champ. Dishes first.",
+     "at": 0.4,
+     "dur": 2.115,
+     "voice": "am_adam",
+     "speed": 1.0,
+     "who": [
+      0.75,
+      2.0,
+      -1.25
+     ],
+     "name": "DAD"
+    }
+   ],
+   "stickers": [
+    {
+     "kind": "stamp",
+     "text": "KICKED 😭",
+     "at": 1.9,
+     "color": "#a9e34b",
+     "x": 0.5,
+     "y": 0.3,
+     "rot": -8,
+     "size": 150,
+     "dur": 1.4
+    },
+    {
+     "kind": "label",
+     "text": "Gamer Dad will return 🎮",
+     "at": 2.3,
+     "side": "right",
+     "color": "#ffffff",
+     "x": 0.5,
+     "y": 0.8,
+     "dur": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "type": "fail",
+     "at": 1.9
+    }
+   ],
+   "fx": [],
+   "t0": 26.7
+  }
+ ],
+ "music": {
+  "seed": 916,
+  "mood": "bouncy"
+ },
+ "meta": {
+  "tags": [
+   "what if your dad joined your game squad",
+   "gamer dad",
+   "what if",
+   "pov",
+   "funny",
+   "alternative world",
+   "dink dunk",
+   "animation",
+   "gaming",
+   "dad"
+  ],
+  "description": "Your dad joined your online squad. On voice chat. With a giant green headset. 🎮💀\nChores over the mic, pizza for the whole lobby... and then the squad votes.\n\nWould YOU let your dad join your squad? 👇\n\n#gaming #whatif #funny",
+  "pinned": "Would YOU let your dad join your squad? 👇 (Gamer Dad will return...)"
+ },
+ "look": "film",
+ "grade": {
+  "tint": [
+   0.98,
+   1.02,
+   1.0
+  ],
+  "sat": 1.1,
+  "contrast": 1.05
+ },
+ "renderScale": null
+}

@@ -1555,3 +1555,38 @@ def wall_clock(at, time="7:59", size=1.0):
     return [O("cylinder", (x, y, z), [0.42 * s, 0.05, 0.42 * s], "#212529", material="plastic", rotate=[90, 0, 0]),
             O("cylinder", (x, y, z + 0.02), [0.38 * s, 0.03, 0.38 * s], "#f8f9fa", material="paint", rotate=[90, 0, 0]),
             text((x, y, z + 0.04), time, 0.3 * s, 0.12 * s, bg="#f8f9fa", fg="#c92a2a", weight=900)]
+
+
+# ── gamer props (added with the dad-joined-your-squad Short) ──
+def gaming_desk(at=(0, 0, -1.2), screen=None, rgb="#20c997", chair=True, ry=0):
+    """[~16] Gamer battle station: black desk, big curved-ish monitor (screen=screen_ui(...), use a DARK bg), glowing RGB strip
+    under the desk edge and behind the monitor, PC tower with RGB fans, keyboard, mouse, headset stand, gaming chair in front.
+    Monitor centre ≈ (x, y+1.14, z-0.2). POV: cam((x, 1.25, z+1.25), (x, 1.1, z-0.2))."""
+    x, y, z = at
+    o = [O("box", (x, y + 0.73, z), [1.6, 0.05, 0.75], "#16181c", material="glossy"),
+         *_pair("box", (x, y + 0.36, z), 0.74, [0.06, 0.72, 0.65], "#212529", material="metal"),
+         O("box", (x, y + 0.7, z + 0.375), [1.6, 0.025, 0.01], rgb, material="emit"),
+         O("box", (x, y + 1.14, z - 0.26), [1.3, 0.62, 0.01], rgb, material="emit", opacity=0.55, cast=False),
+         O("box", (x, y + 1.14, z - 0.22), [1.12, 0.58, 0.04], "#0d0f12", material="plastic"),
+         screen_panel((x, y + 1.14, z - 0.195), 1.06, 0.53, screen or screen_ui(app="MATCH", big="SQUAD 4/4", bg="#0d1117", fg="#e9ecef", accent=rgb)),
+         O("box", (x, y + 0.82, z - 0.23), [0.08, 0.16, 0.06], "#343a40", material="metal"),
+         O("box", (x, y + 0.765, z + 0.12), [0.48, 0.02, 0.15], "#111111", material="plastic"),
+         O("box", (x, y + 0.777, z + 0.12), [0.46, 0.005, 0.13], rgb, material="emit", opacity=0.5, cast=False),
+         O("capsule", (x + 0.42, y + 0.77, z + 0.14), [0.06, 0.035, 0.1], "#111111", material="plastic", rotate=[90, 0, 0]),
+         O("box", (x + 1.1, y + 0.45, z - 0.05), [0.24, 0.9, 0.5], "#111111", material="glossy"),
+         O("box", (x + 0.977, y + 0.45, z - 0.05), [0.01, 0.8, 0.44], "#1b2430", material="glass", opacity=0.7, cast=False),
+         *[O("torus", (x + 0.97, y + yy, z - 0.05), [0.09, 0.09, 0.2], rgb, material="emit", rotate=[0, 90, 0], cast=False) for yy in (0.25, 0.5, 0.75)],
+         O("cylinder", (x - 0.62, y + 0.9, z - 0.1), [0.02, 0.3, 0.02], "#495057", material="metal"),
+         O("torus", (x - 0.62, y + 1.06, z - 0.1), [0.1, 0.1, 0.25], "#212529", material="glossy")]
+    if chair:
+        o += [O("box", (x, y + 0.5, z + 0.95), [0.55, 0.1, 0.52], "#111111", material="leather"),
+              O("box", (x, y + 0.5, z + 0.95), [0.15, 0.105, 0.5], rgb, material="paint")]
+    return o
+
+
+def pizza_box(at, n=1, color="#f1e3c8", logo="PIZZA", ry=0):
+    """[2 per box] Stack of flat cardboard pizza boxes with a red logo label on the top lid."""
+    x, y, z = at
+    o = [O("box", (x, y + 0.025 + i * 0.052, z), [0.42, 0.048, 0.42], color, material="paint", rotate=[0, ry + (i % 2) * 3, 0]) for i in range(n)]
+    o.append(text((x, y + n * 0.052 + 0.003, z), logo, 0.3, 0.12, bg="#e03131", fg="#ffffff", rot=(-90, ry, 0)))
+    return o
