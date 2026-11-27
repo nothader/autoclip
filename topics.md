@@ -3,36 +3,54 @@
 Owner direction (2026-11-26): **no more animals.** Every video is about people in real-life situations, rendered with the
 film look (`Story(..., look="film")`, `person()` / `people()`, real-life sets like `office()`, `street()`, `cafe()`, `car_inside()`).
 Each line: **title** · comedic angle · real anchor to look up · main sets/props.
-Daily runs take the first two unchecked Shorts (≈30 s). Weekly run takes the first unchecked long-form (5 min, landscape).
+Each Shorts run takes the first unchecked Short (≈30 s; two runs a day, ≈3:15 PM and ≈6:15 PM ET). Weekly run takes the first unchecked long-form (5 min, landscape).
 Rules: YOU are the main character (first-person, your hands in frame), relatable escalation, one real checkable fact,
 a funny or warm ending, a comment-bait question. No real tragedies with real victims, no gore, no real private people.
+
+## Audience (YouTube Studio, last 28 days, checked 2026-11-27) — write for THEM
+- 68% US (then Philippines 5%, Indonesia 2%): US settings, dollars, US school/holiday life; simple English captions (many non-native viewers).
+- Age: **13–17 = 37%**, 25–44 = 47%. Best topics hit BOTH: teens vs parents, school, phones, gaming, food, family chaos. Keep everything teen-safe (no dating/ex jokes, no drinking, no swearing).
+- 65% male: sports, gaming, gym and competition gags land well.
+- 99.7% of watch time is from NON-subscribers: every Short must hook strangers in 1 s and give a reason to follow (series, "part 2", a recurring character).
+- 98% watch without CC: the burned-in captions are the subtitles — keep them big, short and simple.
+- Peak viewing: 5–10 PM US Eastern every day (weekends also from ~11 AM ET). Shorts publish ≈3:50 PM and ≈6:50 PM ET; long-form Saturday ≈4–5 PM ET.
 
 ## Shorts — real life (active)
 - [x] What if you hosted *Thanksgiving* for the first time? · frozen turkey, early uncle, smoking oven, 24/7 diner · USDA: fridge thaw ≈1 day per 4–5 lb · kitchen_home, front_door, apartment, oven, street, diner (made 2026-11-26, https://youtu.be/_HVGnt85jOE)
 - [x] What if you worked retail on *Black Friday*? · doors open, stampede for one TV · NRF Thanksgiving-weekend shopper count (latest) · grocery, people, cash_register, text("DOORBUSTER") (made 2026-11-27, https://youtu.be/saPI39QNxf0)
 - [x] What if you accidentally hit *reply-all* to the whole company? · CEO replies "who is this" · Microsoft "Bedlam DL3" 1997 reply-all storm (~13,000 people) · office, monitor, meeting_room, laptop (made 2026-11-27, https://youtu.be/mVUph_ZLVnY)
 - [ ] What if you *slept through your alarm* on exam day? · run to school in pyjamas · teens need 8–10 h of sleep (CDC/AASM) · bedroom, alarm_clock, street, classroom_real
-- [ ] What if your *phone died* in a city you don't know? · asking strangers for directions like it's 1995 · avg American checks phone ~144×/day (Reviews.org 2023) · street, cafe, people, text
-- [ ] What if you *won the lottery* but lost the ticket? · tearing the house apart · Powerball jackpot odds 1 in 292.2 million · apartment, bedroom, kitchen_home, screen_ui
+- [ ] What if your *dad joined your online game squad*? · he uses voice chat to remind you about the dishes · Pew 2024: ~85% of US teens play video games · bedroom, monitor, kitchen_home, screen_panel
 - [ ] What if your *mom joined* your group chat? · she replies-all with 14 emojis · ~ texting stats (Pew) · hands="phone" + screen_ui messages, kitchen_home, school_hall
-- [ ] What if you got stuck in an *elevator* with your boss? · forced small talk for 2 hours · elevators are ~ one of the safest ways to travel (stat) · elevator, office
-- [ ] What if you told the *truth* in a job interview? · "biggest weakness: mornings" · avg corporate job gets ~250 résumés (Glassdoor) · meeting_room, office, laptop
+- [ ] What if your *parents took your phone* for a week? · you discover the family has a landline and a board game shelf · teens' daily screen time (Common Sense Media, latest) · bedroom, kitchen_home, apartment, screen_ui
+- [ ] What if you *sneezed* during a silent exam? · the whole room turns · a sneeze cloud can travel up to ~8 m (MIT, Bourouiba 2020) · classroom_real
+- [ ] What if your *mom posted your baby photos* on your birthday? · 47 aunts comment "so cute" · Facebook/Instagram user stats for parents (Pew) · hands="phone" + screen_ui, school_hall, kitchen_home
+- [ ] What if your *phone died* in a city you don't know? · asking strangers for directions like it's 1995 · avg American checks phone ~144×/day (Reviews.org 2023) · street, cafe, people, text
+- [ ] What if your *little brother learned your phone password*? · he orders 40 pizzas on your account · average US kid gets a phone at ~11–12 (Common Sense) · bedroom, front_door, apartment
+- [ ] What if *PE was graded like the Olympics*? · judges with 7.2 scorecards for one dodgeball throw · real Olympic judging/scoring fact · gym, school_hall, people, text
+- [ ] What if you *won the lottery* but lost the ticket? · tearing the house apart · Powerball jackpot odds 1 in 292.2 million · apartment, bedroom, kitchen_home, screen_ui
+- [ ] What if your *dad tried to be cool* in front of your friends? · "no cap, this pizza is bussin" · real slang/word-of-the-year fact (Merriam-Webster/Oxford) · car_inside, street, cafe
+- [ ] What if your *Uber driver* was your teacher? · pop quiz at a red light · ~ Uber trips per day (latest) · car_inside, street
+- [ ] What if the *school cafeteria* hired a 5-star chef? · lunch line becomes a tasting menu · ~30 million US kids eat school lunch daily (USDA NSLP) · cafeteria-style set, restaurant, classroom_real
+- [ ] What if you were stuck in a *drive-thru* line for 3 hours? · you meet your best friend in the car behind · avg drive-thru time (QSR study, latest) · car_inside, street, text("ORDER HERE")
+- [ ] What if you had to explain your *missing homework* live in front of the class? · the excuses escalate to aliens · real homework-time study (e.g. teens' avg homework hours, Pew) · classroom_real, school_hall, bedroom
+- [ ] What if the *strongest guy at the gym* caught you lifting the 2 kg weights? · you pretend it's a warm-up for 40 minutes · ~ gym membership stats · gym, dumbbell, treadmill
+- [ ] What if the *Wi-Fi died* during the championship game? · you watch it on the neighbour's TV through the window · Super Bowl viewership record (Nielsen, latest) · apartment, street, front_door, screen_panel
+- [ ] What if you said *"you too"* when the waiter said "enjoy your meal"? · spiral of cringe for 10 years · we replay embarrassing moments (spotlight effect, Gilovich 2000) · restaurant, bedroom, street
+- [ ] What if your *mom picked you up* from school in a bathrobe? · whole school watches the car pull up · US school-bus/car pickup stat · street, car_real, school_hall, people
 - [ ] What if you *missed your flight* by one minute? · watching the plane taxi away · gates usually close 10–15 min before departure · airport_gate, people, screen_panel
 - [ ] What if you had to live on *$10 for a week*? · instant-noodle tier list · USDA "thrifty" food plan cost (latest) · grocery, kitchen_home, cash_register
-- [ ] What if you *liked your ex's photo* from 3 years ago? · unlike won't save you · Instagram notifies on likes (how it works) · hands="phone", bedroom, cafe
-- [ ] What if you said *"you too"* when the waiter said "enjoy your meal"? · spiral of cringe for 10 years · we replay embarrassing moments (spotlight effect, Gilovich 2000) · restaurant, bedroom, street
-- [ ] What if you *sneezed* during a silent exam? · the whole room turns · a sneeze cloud can travel up to ~8 m (MIT, Bourouiba 2020) · classroom_real
-- [ ] What if you were the *only one who showed up* to work on a holiday? · you're CEO now · US federal holidays count (11) · office, meeting_room, elevator
+- [ ] What if you got stuck in an *elevator* with your boss? · forced small talk for 2 hours · elevators are ~ one of the safest ways to travel (stat) · elevator, office
 - [ ] What if you got a *parking ticket* every day for a month? · you start a friendship with the officer · NYC issues ~ millions of parking tickets a year (NYC Open Data) · street, car_real, car_inside
+- [ ] What if you were the *only one who showed up* to work on a holiday? · you're CEO now · US federal holidays count (11) · office, meeting_room, elevator
+- [ ] What if you told the *truth* in a job interview? · "biggest weakness: mornings" · avg corporate job gets ~250 résumés (Glassdoor) · meeting_room, office, laptop
 - [ ] What if your *landlord* moved in with you? · he rates your dishes · median US rent (latest) · apartment, kitchen_home, bedroom
-- [ ] What if your *Uber driver* was your teacher? · pop quiz at a red light · ~ Uber trips per day (latest) · car_inside, street
+- [ ] What if you *liked your ex's photo* from 3 years ago? · unlike won't save you · Instagram notifies on likes (how it works) · hands="phone", bedroom, cafe
 - [ ] What if you had to give a *wedding speech* with no prep? · it's your ex's wedding · fear of public speaking (glossophobia ~ % of people) · restaurant, people, mic
-- [ ] What if you were stuck in a *drive-thru* line for 3 hours? · you meet your best friend in the car behind · avg drive-thru time (QSR study, latest) · car_inside, street, text("ORDER HERE")
-- [ ] What if your *gym crush* caught you lifting the 2 kg weights? · you pretend it's a warm-up for 40 minutes · ~ gym membership stats · gym, dumbbell, treadmill
 
 ## Long-form (5 min, weekly) — real life
-- [ ] What if you *worked every job* in a mall for one day? · 12 jobs, 12 disasters · real: retail turnover rates · grocery, cafe, gym, restaurant, office, street
 - [ ] What if you *swapped lives with your parents* for a week? · you pay bills, they do homework · real: cost of raising a kid (USDA) · apartment, office, classroom_real, kitchen_home
+- [ ] What if you *worked every job* in a mall for one day? · 12 jobs, 12 disasters · real: retail turnover rates · grocery, cafe, gym, restaurant, office, street
 - [ ] What if you *lived without money* for 30 days? · bartering your way through the city · real: share of Americans living paycheck to paycheck · street, cafe, grocery, apartment
 - [ ] What if you *moved to a new country* alone? · airport → wrong train → new best friends · real: ~280 million international migrants (UN) · airport_gate, street, cafe, apartment
 - [ ] What if you *quit your job* to become a YouTuber? · 4 views, 3 are your mom · real: creator income stats · office, bedroom, apartment, meeting_room
